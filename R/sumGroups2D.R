@@ -23,6 +23,8 @@
 #'
 #' @export sumGroups2D
 #'
+#' @seealso Please see \code{\link{Esters}} for examples.
+#'
 sumGroups2D <- function(spectra){
 		
 	chkSpectra2D(spectra)

@@ -48,4 +48,8 @@
 #' @references \url{https://github.com/bryanhanson/ChemoSpec2D}
 #'
 #' @keywords classes
+#'
+#' @seealso Please see \code{\link{Esters}} for examples.
+#'
+
 NULL

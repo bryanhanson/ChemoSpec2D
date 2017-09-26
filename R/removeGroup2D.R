@@ -31,9 +31,11 @@
 #'
 #' @keywords utilities manip
 #'
-#' @export removeGroup2D removeSample2D
+#' @export removeGroup2D
 #'
 #' @describeIn removeGroup2D Remove groups from a \code{Spectra} object
+#'
+#' @seealso Please see \code{\link{Esters}} for examples.
 #'
 removeGroup2D <- function(spectra, rem.group) {
 	

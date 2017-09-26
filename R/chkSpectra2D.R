@@ -34,6 +34,8 @@
 #'
 #' @importFrom utils str
 #'
+#' @seealso Please see \code{\link{Esters}} for examples.
+#'
 chkSpectra2D <- function(spectra, confirm = FALSE) {
 	
 	# Check classes of each element

@@ -49,6 +49,8 @@ elements and an attribute as follows:
 \code{\link{sumGroups2D}} to summarize group membership of a \code{Spectra2D}
 object. \code{\link{chkSpectra2D}} to verify the integrity of a
 \code{Spectra2D} object.
+
+Please see \code{\link{Esters}} for examples.
 }
 \author{
 Bryan A. Hanson, DePauw University.

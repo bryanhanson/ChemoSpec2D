@@ -29,6 +29,9 @@ console.
 \references{
 \url{https://github.com/bryanhanson/ChemoSpec2D}
 }
+\seealso{
+Please see \code{\link{Esters}} for examples.
+}
 \author{
 Bryan A. Hanson, DePauw University.
 }

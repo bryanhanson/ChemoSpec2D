@@ -15,6 +15,9 @@ Tools to plot 2D spectra and carry out PARAFAC are the main features.
 \references{
 \url{https://github.com/bryanhanson/ChemoSpec2D}
 }
+\seealso{
+Please see \code{\link{Esters}} for examples.
+}
 \author{
 Bryan A. Hanson.
 

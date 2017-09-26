@@ -22,6 +22,9 @@
 #' @references \url{https://github.com/bryanhanson/ChemoSpec2D}
 #' 
 #' @keywords package multivariate
+#'
+#' @seealso Please see \code{\link{Esters}} for examples.
+#'
 NULL
 
 
