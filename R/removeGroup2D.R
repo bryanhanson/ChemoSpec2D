@@ -35,7 +35,7 @@
 #'
 #' @describeIn removeGroup2D Remove groups from a \code{Spectra} object
 #'
-#' @seealso Please see \code{\link{Esters}} for examples.
+#' @seealso Please see \code{\link{ChemoSpec2D-package}} for examples.
 #'
 removeGroup2D <- function(spectra, rem.group) {
 	

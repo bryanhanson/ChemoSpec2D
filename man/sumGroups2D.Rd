@@ -26,7 +26,7 @@ a \code{\link{Spectra2D}} object.
 \seealso{
 To summarize the entire object, \code{\link{sumSpectra2D}}.
 
-Please see \code{\link{Esters}} for examples.
+Please see \code{\link{ChemoSpec2D-package}} for examples.
 }
 \author{
 Bryan A. Hanson, DePauw University.

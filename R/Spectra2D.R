@@ -49,7 +49,6 @@
 #'
 #' @keywords classes
 #'
-#' @seealso Please see \code{\link{Esters}} for examples.
 #'
 
 NULL

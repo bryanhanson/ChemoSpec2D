@@ -23,7 +23,7 @@
 #'
 #' @export sumGroups2D
 #'
-#' @seealso Please see \code{\link{Esters}} for examples.
+#' @seealso Please see \code{\link{ChemoSpec2D-package}} for examples.
 #'
 sumGroups2D <- function(spectra){
 		

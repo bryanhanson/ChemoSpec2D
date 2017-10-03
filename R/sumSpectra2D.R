@@ -26,7 +26,7 @@
 #' 
 #' @export sumSpectra2D
 #'
-#' @seealso Please see \code{\link{Esters}} for examples.
+#' @seealso Please see \code{\link{ChemoSpec2D-package}} for examples.
 #'
 sumSpectra2D <- function(spectra, ...){
 	

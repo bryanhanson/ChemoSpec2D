@@ -1,8 +1,8 @@
 Package: ChemoSpec2D
 Type: Package
 Title: Exploratory Chemometrics for 2D Spectroscopy
-Version: 0.0.51
-Date: 2017-09-25
+Version: 0.0.52
+Date: 2017-09-26
 Authors@R: c(person("Bryan A.", "Hanson", role = c("aut", "cre"), email =
     "hanson@depauw.edu"))
 Description: A collection of functions for working with 2D spectra, developed with NMR in mind, but other types of 2D spectroscopy may also be analyzed. ChemoSpec2D takes many of its cues from ChemoSpec and tries to create consistent graphical output and be very user friendly.  Tools to plot 2D spectra and carry out PARAFAC are the main features.
@@ -10,6 +10,8 @@ License: GPL-3
 Depends:
     R (>= 3.1)
 Imports: R.utils, tools, utils
+Suggests: ChemoSpec2Ddata
+Additional_repositories: https://github.com/bryanhanson/ChemoSpec2Ddata
 URL: https://github.com/bryanhanson/ChemoSpec2D
 ByteCompile: TRUE
 BugReports: https://github.com/bryanhanson/ChemoSpec2D/issues

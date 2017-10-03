@@ -34,7 +34,7 @@
 #'
 #' @importFrom utils str
 #'
-#' @seealso Please see \code{\link{Esters}} for examples.
+#' @seealso Please see \code{\link{ChemoSpec2D-package}} for examples.
 #'
 chkSpectra2D <- function(spectra, confirm = FALSE) {
 	

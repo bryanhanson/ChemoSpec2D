@@ -23,7 +23,24 @@
 #' 
 #' @keywords package multivariate
 #'
-#' @seealso Please see \code{\link{Esters}} for examples.
+#' @examples
+#' if (!requireNamespace("ChemoSpec2Ddata", quietly = TRUE)) {
+#'   stop("You must install ChemoSpec2Ddata to run this example")
+#' }
+#'
+#' # ChemoSpec2Ddata can be installed following the directions here:
+#' # https://github.com/bryanhanson/ChemoSpec2Ddata
+#'
+#' data("Esters", package = "ChemoSpec2Ddata")
+#' sumSpectra2D(Esters)
+#' sumGroups2D(Esters)
+#' chkSpectra2D(Esters, confirm = TRUE)
+#'
+#' Esters2 <- removeGroup2D(Esters, "butyl") # remove the butyl esters
+#' sumGroups2D(Esters2)
+#'
+#' Esters3 <- removeSample2D(Esters, "Pro") # remove the propanoates
+#' sumSpectra2D(Esters3)
 #'
 NULL
 

@@ -12,11 +12,25 @@ be analyzed. ChemoSpec2D takes many of its cues from ChemoSpec
 and tries to create consistent graphical output and be very user friendly.
 Tools to plot 2D spectra and carry out PARAFAC are the main features.
 }
+\examples{
+if (!requireNamespace("ChemoSpec2Ddata", quietly = TRUE)) {
+  stop("You must install ChemoSpec2Ddata to run this example")
+}
+
+data("Esters", package = "ChemoSpec2Ddata")
+sumSpectra2D(Esters)
+sumGroups2D(Esters)
+chkSpectra2D(Esters, confirm = TRUE)
+
+Esters2 <- removeGroup2D(Esters, "butyl") # remove the butyl esters
+sumGroups2D(Esters2)
+
+Esters3 <- removeSample2D(Esters, "Pro") # remove the propanoates
+sumSpectra2D(Esters3)
+
+}
 \references{
 \url{https://github.com/bryanhanson/ChemoSpec2D}
-}
-\seealso{
-Please see \code{\link{Esters}} for examples.
 }
 \author{
 Bryan A. Hanson.

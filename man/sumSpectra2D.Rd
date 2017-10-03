@@ -30,7 +30,7 @@ console.
 \url{https://github.com/bryanhanson/ChemoSpec2D}
 }
 \seealso{
-Please see \code{\link{Esters}} for examples.
+Please see \code{\link{ChemoSpec2D-package}} for examples.
 }
 \author{
 Bryan A. Hanson, DePauw University.
