@@ -4,9 +4,7 @@
 
 `ChemoSpec2D` is  collection of functions for working with 2D spectra.  It has been developed with NMR in mind, but other types of 2D spectroscopy may also be analyzed. `ChemoSpec2D` takes many of its cues from `ChemoSpec` and tries to create consistent graphical output and be very user friendly.  Tools to plot 2D spectra and carry out PARAFAC are the main features.
 
-## How to install ChemoSpec2D
-
-### To install from Github using R:
+## How to install ChemoSpec2D from Github Using R:
 
 ````r
 install.packages("devtools")
@@ -14,7 +12,8 @@ library("devtools")
 install_github(repo = "bryanhanson/ChemoSpec2D@master")
 library("ChemoSpec2D")
 ````
-If you use `@some_other_branch` you can get other branches that might be available.  They may or may not pass CRAN checks and thus may not install automatically using the method above.  Check the NEWS file to see what's up.
+
+`ChemoSpec2D` has a companion package containing test data called `ChemoSpec2Ddata`.  Click [here](https://github.com/bryanhanson/ChemoSpec2Ddata) for installation instructions.
 
 ### License Information
 
