@@ -52,5 +52,4 @@ Please see \code{\link{ChemoSpec2D-package}} for examples.
 \author{
 Bryan A. Hanson, DePauw University.
 }
-\keyword{manip}
 \keyword{utilities}

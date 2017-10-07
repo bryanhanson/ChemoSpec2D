@@ -22,7 +22,7 @@
 #'
 #' @references \url{https://github.com/bryanhanson/ChemoSpec2D}
 #'
-#' @keywords utilities
+#' @keywords import
 #' 
 #' @importFrom utils read.table
 #'

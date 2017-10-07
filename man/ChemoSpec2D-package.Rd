@@ -31,6 +31,8 @@ sumGroups2D(Esters2)
 Esters3 <- removeSample2D(Esters, "Pro") # remove the propanoates
 sumSpectra2D(Esters3)
 
+plotSpectra2D(Esters)
+
 }
 \references{
 \url{https://github.com/bryanhanson/ChemoSpec2D}
@@ -40,5 +42,4 @@ Bryan A. Hanson.
 
 Maintainer: Bryan A. Hanson \email{hanson@depauw.edu}
 }
-\keyword{multivariate}
 \keyword{package}

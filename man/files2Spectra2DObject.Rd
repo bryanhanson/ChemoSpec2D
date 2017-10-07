@@ -122,5 +122,4 @@ once the data is imported.
 \author{
 Bryan A. Hanson, DePauw University.
 }
-\keyword{file}
 \keyword{import}

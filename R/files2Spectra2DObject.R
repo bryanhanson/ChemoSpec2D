@@ -105,7 +105,6 @@
 #' 
 #' @references \url{https://github.com/bryanhanson/ChemoSpec2D}
 #' 
-#' @keywords file
 #' @keywords import
 #' 
 #' @export files2Spectra2DObject

@@ -29,7 +29,7 @@
 #'
 #' @references \url{https://github.com/bryanhanson/ChemoSpec2D}
 #'
-#' @keywords utilities manip
+#' @keywords utilities
 #'
 #' @export removeGroup2D
 #'

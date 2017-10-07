@@ -21,7 +21,7 @@
 #' 
 #' @references \url{https://github.com/bryanhanson/ChemoSpec2D}
 #' 
-#' @keywords package multivariate
+#' @keywords package
 #'
 #' @examples
 #' if (!requireNamespace("ChemoSpec2Ddata", quietly = TRUE)) {
@@ -41,6 +41,8 @@
 #'
 #' Esters3 <- removeSample2D(Esters, "Pro") # remove the propanoates
 #' sumSpectra2D(Esters3)
+#'
+#' plotSpectra2D(Esters)
 #'
 NULL
 
