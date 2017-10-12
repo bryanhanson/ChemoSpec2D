@@ -59,6 +59,7 @@ removeGroup2D <- function(spectra, rem.group) {
 	
 	spectra$data <- spectra$data[-rem.group]
 	spectra$names <- spectra$names[-rem.group]
+	spectra$colors <- spectra$colors[-rem.group]
 	spectra$groups <- spectra$groups[-rem.group, drop = TRUE]
 
 	sn <- names(spectra)

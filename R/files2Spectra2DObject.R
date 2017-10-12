@@ -19,6 +19,8 @@
 #' names that don't match entries in \code{gr.crit} or there are entries in
 #' \code{gr.crit} that don't match any file names.
 #' 
+#' @param gr.cols A character vector, giving one color per group.
+#' 
 #' @param x.unit A character string giving the units for the F2 dimension
 #' (frequency or wavelength corresponding to the x dimension).
 #' 
@@ -114,7 +116,7 @@
 #' @importFrom R.utils saveObject
 #'
 
-files2Spectra2DObject <- function(gr.crit = NULL,
+files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto", 
 	fmt = "YXZ", npx, 
 	x.unit = "no frequency unit provided",
 	y.unit = "no frequency unit provided",
@@ -169,9 +171,9 @@ files2Spectra2DObject <- function(gr.crit = NULL,
 			
 		}
 	
-	# Assign groups
+	# Assign groups & colors
 
-	spectra <- assign2Dgroups(spectra, gr.crit)
+	spectra <- groupNcolor2D(spectra, gr.crit, gr.cols)
 	
 	# Wrap up
 	

@@ -23,7 +23,7 @@
 #' @importFrom parallel makeCluster clusterEvalQ stopCluster detectCores
 #'
 
-parafacSpectra2D <- function(spectra, parallel = TRUE, ...) {
+pfacSpectra2D <- function(spectra, parallel = TRUE, ...) {
 
   if (!requireNamespace("multiway", quietly = TRUE)) {
     stop("You must install package multiway to use this functoin")

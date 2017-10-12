@@ -50,6 +50,7 @@ chkSpectra2D <- function(spectra, confirm = FALSE) {
 	if (!class(spectra$unit) == "character") { warning("The units are not character type"); trouble <- TRUE }
 	if (!class(spectra$desc) == "character") { warning("The description is not character type"); trouble <- TRUE }
 	if (!class(spectra$groups) == "factor") { warning("The assigned groups are not factor type"); trouble <- TRUE }
+	if (!class(spectra$colors) == "character") { warning("The assigned colors are not character type"); trouble <- TRUE }
 	
 	# Check to make sure that data is a list of matrices and all matrices have the same dim
 	
@@ -81,11 +82,13 @@ chkSpectra2D <- function(spectra, confirm = FALSE) {
 	F1 <- length(spectra$F1)
 	dd <- dim(spectra$data[[1]])
 	g <- length(spectra$groups)
+	nc <- length(spectra$colors)
 	# ns prevously defined as length(spectra$names)
 	
 	if (!identical(F1, dd[1])) { warning("The dimensions don't make sense (F1, data)"); trouble <- TRUE }
 	if (!identical(F2, dd[2])) { warning("The dimensions don't make sense (F2, data)"); trouble <- TRUE }
 	if (!identical(ns, g)) { warning("The dimensions don't make sense (names, group)"); trouble <- TRUE }
+	if (!identical(ns, nc)) { warning("The dimensions don't make sense (names, colors)"); trouble <- TRUE }
 	
 		
 	# Check for extra list elements and report

@@ -31,6 +31,9 @@ elements and an attribute as follows:
   $groups \tab factor \tab The group classification of the
   samples; length must be no. samples.\cr
 
+  $colors \tab character \tab Colors for plotting;
+  length must be no. samples.\cr
+
   $unit \tab chr \tab Three entries, the
   first giving the F2 (x) axis unit, the second the\cr \tab \tab F1 (y) axis unit,
   and the third the z axis unit,\cr \tab \tab usually some kind of intensity.\cr

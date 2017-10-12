@@ -4,7 +4,7 @@
 \alias{files2Spectra2DObject}
 \title{Import Data into a Spectra2D Object}
 \usage{
-files2Spectra2DObject(gr.crit = NULL, fmt = "YXZ", npx,
+files2Spectra2DObject(gr.crit = NULL, gr.cols = "auto", fmt = "YXZ", npx,
   x.unit = "no frequency unit provided",
   y.unit = "no frequency unit provided",
   z.unit = "no intensity unit provided",
@@ -19,6 +19,8 @@ like "." (period/dot) do not have their literal meaning (see below).
 Warnings are issued if there are file/sample
 names that don't match entries in \code{gr.crit} or there are entries in
 \code{gr.crit} that don't match any file names.}
+
+\item{gr.cols}{A character vector, giving one color per group.}
 
 \item{fmt}{A character string giving the format of the data.}
 

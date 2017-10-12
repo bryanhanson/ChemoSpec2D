@@ -31,13 +31,14 @@ sumGroups2D <- function(spectra){
 
 	gr.l <- levels(spectra$group)
 	count <- length(gr.l)
-	g.sum <- data.frame(group = NA, no. = NA)
+	g.sum <- data.frame(group = NA, no. = NA, color = NA)
 	
 	for (n in 1:count) {
 		gi <- match(gr.l[n], spectra$groups) # find index 1st instance
 		gr <- gr.l[n] # value of group
+		gc <- spectra$colors[gi]
 		no. <- length(which(gr == spectra$groups))
-		g.sum <- rbind(g.sum, data.frame(group = gr, no. = no.))
+		g.sum <- rbind(g.sum, data.frame(group = gr, no. = no., color = gc))
 		}
 	g.sum <- g.sum[-1,]
 	g.sum <- subset(g.sum, no. > 0)

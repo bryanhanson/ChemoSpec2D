@@ -26,6 +26,7 @@ removeSample2D <- function(spectra, rem.sam) {
 
 	spectra$data <- spectra$data[-rem.sam]
 	spectra$names <- spectra$names[-rem.sam]
+	spectra$colors <- spectra$colors[-rem.sam]
 	spectra$groups <- spectra$groups[-rem.sam, drop = TRUE]
 	
 	sn <- names(spectra)

@@ -1,6 +1,4 @@
 #'
-#'
-#'
 #' Plot Spectra2D Object
 #' 
 #' Plots a 2D spectrum stored in a \code{\link{Spectra2D}} object.
