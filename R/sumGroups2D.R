@@ -11,13 +11,11 @@
 #' @return A data frame as follows.  Note that if there are groups with no
 #' members (due to previous use of \code{\link{removeSample2D}}), these are
 #' dropped.  \item{group}{The name of the group.} \item{no.}{The number in the
-#' group.}
+#' group.} \item{color}{The color assigned to the group.}
 #'
 #' @author Bryan A. Hanson, DePauw University.
 #'
 #' @seealso To summarize the entire object, \code{\link{sumSpectra2D}}.
-#'
-#' @references \url{https://github.com/bryanhanson/ChemoSpec2D}
 #'
 #' @keywords utilities
 #'

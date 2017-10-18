@@ -43,9 +43,6 @@ Unused levels in \code{$groups} are dropped.
 \item \code{removeSample2D}: Remove samples from a \code{Spectra} object
 }}
 
-\references{
-\url{https://github.com/bryanhanson/ChemoSpec2D}
-}
 \seealso{
 Please see \code{\link{ChemoSpec2D-package}} for examples.
 }

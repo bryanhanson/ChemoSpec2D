@@ -9,7 +9,7 @@ pfacScores(spectra, pfac, which = c(1, 2), ...)
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
 
-\item{pfac}{An An object of class \code{parafac}.}
+\item{pfac}{An object of class \code{parafac}.}
 
 \item{which}{An integer specifying the scores to plot.}
 
@@ -19,10 +19,9 @@ pfacScores(spectra, pfac, which = c(1, 2), ...)
 None.  Side effect is a plot.
 }
 \description{
-Plots a 2D spectrum stored in a \code{\link{Spectra2D}} object. UPDATE
-}
-\references{
-\url{https://github.com/bryanhanson/ChemoSpec2D}
+Plots scores from the PARAFAC analysis of a \code{\link{Spectra2D}} object.
+The scores are the values returned in matrix \code{C} in the \code{parafac}
+object.  This matrix has dimensions no. samples x no. of requested components.
 }
 \seealso{
 Please see \code{\link{pfacSpectra2D}} for examples.

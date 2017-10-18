@@ -25,8 +25,6 @@
 #' @seealso \code{\link{files2Spectra2DObject}} for details;
 #' \code{\link{sumGroups2D}} to see the outcome.
 #' 
-#' @references \url{https://github.com/bryanhanson/ChemoSpec2D}
-#' 
 #' @keywords utilities
 #' 
 #' @export

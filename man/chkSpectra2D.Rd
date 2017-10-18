@@ -32,9 +32,6 @@ problem, messages are issued regardless of the value of \code{confirm}.
 When used in a function, this function is silent (assuming \code{confirm =
 FALSE}) unless there is a problem.
 }
-\references{
-\url{https://github.com/bryanhanson/ChemoSpec2D}
-}
 \seealso{
 Please see \code{\link{ChemoSpec2D-package}} for examples.
 }

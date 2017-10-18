@@ -14,14 +14,11 @@ membership information is desired.}
 A data frame as follows.  Note that if there are groups with no
 members (due to previous use of \code{\link{removeSample2D}}), these are
 dropped.  \item{group}{The name of the group.} \item{no.}{The number in the
-group.}
+group.} \item{color}{The color assigned to the group.}
 }
 \description{
 This function summarizes the group membership and descriptive parameters of
 a \code{\link{Spectra2D}} object.
-}
-\references{
-\url{https://github.com/bryanhanson/ChemoSpec2D}
 }
 \seealso{
 To summarize the entire object, \code{\link{sumSpectra2D}}.

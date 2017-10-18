@@ -9,18 +9,22 @@ pfacSpectra2D(spectra, parallel = TRUE, ...)
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
 
-\item{parallel}{Logical.  Should parallel processing be used?}
+\item{parallel}{Logical.  Should parallel processing be used?
+Unless you love waiting, you should use parallel processing.}
 
-\item{\dots}{Additional parameters to be passed to function parafac.}
+\item{\dots}{Additional parameters to be passed to function \code{\link[multiway]{parafac}}.}
 }
 \value{
 An object of class \code{parafac}.
 }
 \description{
 Carry out PARAFAC analysis of a \code{\link{Spectra2D}} object.
+Function \code{\link[multiway]{parafac}} from \pkg{multiway} is used.
+Because computation is slow, it is advisable to run this in batch
+mode from the command line.
 }
 \references{
-\url{https://github.com/bryanhanson/ChemoSpec2D}
+NEED to cite articles
 }
 \author{
 Bryan A. Hanson, DePauw University.

@@ -19,8 +19,6 @@
 #' 
 #' Maintainer: Bryan A. Hanson \email{hanson@@depauw.edu}
 #' 
-#' @references \url{https://github.com/bryanhanson/ChemoSpec2D}
-#' 
 #' @keywords package
 #'
 #' @examples
@@ -41,6 +39,8 @@
 #'
 #' Esters3 <- removeSample2D(Esters, "Pro") # remove the propanoates
 #' sumSpectra2D(Esters3)
+#'
+#' Esters4 <- normSpectra2D(Esters)
 #'
 #' plotSpectra2D(Esters)
 #'

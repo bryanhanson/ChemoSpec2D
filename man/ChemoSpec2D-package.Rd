@@ -31,11 +31,10 @@ sumGroups2D(Esters2)
 Esters3 <- removeSample2D(Esters, "Pro") # remove the propanoates
 sumSpectra2D(Esters3)
 
+Esters4 <- normSpectra2D(Esters)
+
 plotSpectra2D(Esters)
 
-}
-\references{
-\url{https://github.com/bryanhanson/ChemoSpec2D}
 }
 \author{
 Bryan A. Hanson.

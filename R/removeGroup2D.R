@@ -27,8 +27,6 @@
 #'
 #' @author Bryan A. Hanson, DePauw University.
 #'
-#' @references \url{https://github.com/bryanhanson/ChemoSpec2D}
-#'
 #' @keywords utilities
 #'
 #' @export removeGroup2D

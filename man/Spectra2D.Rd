@@ -44,9 +44,6 @@ elements and an attribute as follows:
 }
 }
 
-\references{
-\url{https://github.com/bryanhanson/ChemoSpec2D}
-}
 \seealso{
 \code{\link{sumSpectra2D}} to summarize a \code{Spectra2D} object.
 \code{\link{sumGroups2D}} to summarize group membership of a \code{Spectra2D}

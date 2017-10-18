@@ -12,7 +12,7 @@ plotSpectra2D(spectra, which = 1, lvls = NULL, ...)
 \item{which}{An integer specifying which spectrum to plot.}
 
 \item{lvls}{An integer specifying the levels at which to compute contours.
-If \code{NULL}, values are computed.}
+If \code{NULL}, values are computed using \code{chooseLvls}.}
 
 \item{\dots}{Additional parameters to be passed to plotting functions.}
 }
@@ -21,9 +21,9 @@ None.  Side effect is a plot.
 }
 \description{
 Plots a 2D spectrum stored in a \code{\link{Spectra2D}} object.
-}
-\references{
-\url{https://github.com/bryanhanson/ChemoSpec2D}
+This is primarily for checking and for preparation of final plots.
+If you need to do extensive exploration, you should probably go back
+to the spectrometer.
 }
 \seealso{
 Please see \code{\link{ChemoSpec2D-package}} for examples.

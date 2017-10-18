@@ -2,20 +2,24 @@
 #' PARAFAC Analysis of a Spectra2D Object
 #' 
 #' Carry out PARAFAC analysis of a \code{\link{Spectra2D}} object.
-#' 
+#' Function \code{\link[multiway]{parafac}} from \pkg{multiway} is used.
+#' Because computation is slow, it is advisable to run this in batch
+#' mode from the command line.
+#'
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'
 #' @param parallel Logical.  Should parallel processing be used?
+#'        Unless you love waiting, you should use parallel processing.
 #'
-#' @param \dots Additional parameters to be passed to function parafac.
+#' @param \dots Additional parameters to be passed to function \code{\link[multiway]{parafac}}.
 #'
 #' @return An object of class \code{parafac}.
 #'
 #' @author Bryan A. Hanson, DePauw University.
 #'
-#' @references \url{https://github.com/bryanhanson/ChemoSpec2D}
-#'
 #' @keywords multivariate
+#'
+#' @references NEED to cite articles
 #'
 #' @export
 #'
@@ -25,6 +29,8 @@
 
 pfacSpectra2D <- function(spectra, parallel = TRUE, ...) {
 
+  chkSpectra2D(spectra)
+  
   if (!requireNamespace("multiway", quietly = TRUE)) {
     stop("You must install package multiway to use this functoin")
   }

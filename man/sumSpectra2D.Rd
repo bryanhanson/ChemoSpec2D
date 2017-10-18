@@ -26,9 +26,6 @@ not done.  The
 beyond what is required.  If so, these extra elements are reported to the
 console.
 }
-\references{
-\url{https://github.com/bryanhanson/ChemoSpec2D}
-}
 \seealso{
 Please see \code{\link{ChemoSpec2D-package}} for examples.
 }

@@ -26,9 +26,6 @@ spectroscopic data set.
 If \code{fmt = "YXZ"} it is assumed that the columns contain Y, X and Z
 values.
 }
-\references{
-\url{https://github.com/bryanhanson/ChemoSpec2D}
-}
 \author{
 Bryan A. Hanson, DePauw University.
 }

@@ -20,13 +20,11 @@
 #'
 #' @author Bryan A. Hanson, DePauw University.
 #'
-#' @references \url{https://github.com/bryanhanson/ChemoSpec2D}
-#'
 #' @keywords import
 #' 
 #' @importFrom utils read.table
 #'
-#' @export import2Dspectra
+#' @export
 #'
 import2Dspectra <- function(file, fmt, npx, ...) {
 	

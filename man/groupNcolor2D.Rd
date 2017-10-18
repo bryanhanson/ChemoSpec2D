@@ -28,9 +28,6 @@ that don't match entries in \code{gr.crit} or there are entries in
 Colors are also assigned.  An internal function, not
 generally called by the user.
 }
-\references{
-\url{https://github.com/bryanhanson/ChemoSpec2D}
-}
 \seealso{
 \code{\link{files2Spectra2DObject}} for details;
 \code{\link{sumGroups2D}} to see the outcome.

@@ -48,8 +48,6 @@
 #'
 #' @name Spectra2D
 #'
-#' @references \url{https://github.com/bryanhanson/ChemoSpec2D}
-#'
 #' @keywords classes
 #'
 #'

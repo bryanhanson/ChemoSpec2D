@@ -118,9 +118,6 @@ All these problems can generally be identified by running \code{\link{sumSpectra
 once the data is imported.
 }
 
-\references{
-\url{https://github.com/bryanhanson/ChemoSpec2D}
-}
 \author{
 Bryan A. Hanson, DePauw University.
 }
