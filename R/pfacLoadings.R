@@ -12,7 +12,14 @@
 #'
 #' @param which An integer specifying the loading to plot.
 #'
-#' @param lvls An integer specifying the levels at which to compute contours.
+#' @param lvls A vector specifying the levels at which to compute contours.
+#'        If \code{NULL}, values are computed using \code{chooseLvls}.
+#'
+#' @param ref An integer giving the spectrum in \code{spectra} to use
+#'        as a reference spectrum, which is plotted behind the loadings in gray.
+#'
+#' @param reflvls A vector specifying the levels at which to compute contours
+#'        for the reference spectrum.
 #'        If \code{NULL}, values are computed using \code{chooseLvls}.
 #'
 #' @param \dots Additional parameters to be passed to plotting functions.
@@ -29,7 +36,8 @@
 #'
 #' @importFrom graphics abline contour rect
 #'
-pfacLoadings <- function(spectra, pfac, which = 1, lvls = NULL, ...) {
+pfacLoadings <- function(spectra, pfac, which = 1, lvls = NULL,
+  ref = NULL, reflvls = NULL, ...) {
 	
   if (missing(spectra)) stop("No spectral data provided")
   if (length(which) != 1L) stop("Please supply a single loading")
@@ -42,8 +50,18 @@ pfacLoadings <- function(spectra, pfac, which = 1, lvls = NULL, ...) {
   	lvls <- lvls[-1]
   }
   
-  contour(x = spectra$F2, y = spectra$F1, z = M,
-    levels = lvls, drawlabels = FALSE,...)
-    
+  if (is.null(ref)) contour(x = spectra$F2, y = spectra$F1, z = M, levels = lvls, drawlabels = FALSE,...)
+
+  if (!is.null(ref)) {
+    if (is.null(reflvls)) {
+  	  reflvls <- chooseLvls(spectra$data[[ref]], n = 10, mode = "poslog", lambda = 0.2)
+  	  reflvls <- reflvls[-1]
+    }
+  	contour(x = spectra$F2, y = spectra$F1, z = spectra$data[[ref]], levels = reflvls,
+  	  drawlabels = FALSE, col = "gray", ...)
+  	contour(x = spectra$F2, y = spectra$F1, z = M, levels = lvls,
+  	  drawlabels = FALSE, col = "red", add = TRUE, ...)
+  }
+  
   # return(M)
 }

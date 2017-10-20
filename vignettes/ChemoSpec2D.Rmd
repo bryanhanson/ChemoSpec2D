@@ -1,0 +1,139 @@
+---
+title: An Introduction to ChemoSpec2D
+
+# Use letters for affiliations
+author:
+  - name: Bryan A. Hanson
+    affiliation: a
+
+address:
+  - code: a
+    address: Dept. of Chemistry \& Biochemistry, DePauw University; \url{hanson@depauw.edu}
+
+# Place DOI URL or CRAN Package URL here
+doi: "https://github.com/bryanhanson/ChemoSpec2D"
+
+# Abstract
+abstract: A collection of functions for working with 2D spectra, developed with NMR in mind, but other types of 2D spectroscopy may also be analyzed. ChemoSpec2D takes many of its cues from ChemoSpec and tries to create consistent graphical output and be very user friendly.  Tools to plot 2D spectra and carry out PARAFAC are the main features.
+
+# Font size of the document, values of 9pt (default), 10pt, 11pt and 12pt
+fontsize: 10pt
+
+# Optional: Force one-column layout, default is two-column
+#one_column: true
+
+# Optional: Enable one-sided layout, default is two-sided
+#one_sided: true
+
+# Optional: Enable section numbering, default is unnumbered
+#numbersections: true
+
+# Optional: Specify the depth of section number, default is 5
+#secnumdepth: 5
+
+# Optional: Bibliography
+bibliography: ChemoSpec2D
+
+# Optional: Enable a 'Draft' watermark on the document
+watermark: true
+
+# Customize footer, eg by referencing the vignette
+footer_contents: "ChemoSpec2D"
+
+# Produce a pinp document
+output: pinp::pinp
+
+# Required: Vignette metadata for inclusion in a package.
+vignette: >
+  %\VignetteIndexEntry{ChemoSpec2D}
+  %\VignetteKeywords{ChemoSpec2D,vignette}
+  %\VignettePackage{ChemoSpec2D}
+  %\VignetteEngine{knitr::rmarkdown}
+
+---
+\newcommand{\ubar}[1]{\text{\b{$#1$}}}
+
+**This package is under heavy development and the basic structures and functions may change a lot**
+
+# Terminology
+
+`ChemoSpec2D` is designed to analyze 2D spectroscopic data such as COSY and HSQC NMR spectra using appropriate chemometric techniques.  It deploys methods aimed primarily at classification of samples and the identification of spectral features which are important in distinguishing samples from each other.  `ChemoSpec2D` stores and manipulates each spectrum as a matrix of data, and hence a data set is a collection of 2D spectra.  Thus the data is naturally visualized as a 3D array with dimensions:
+
+\[
+F2 \times F1 \times \mathrm{no. \ samples}
+\]
+
+or
+
+\[
+\mathrm{2D \ Spectrum} \times \mathrm{no. \ samples}
+\]
+
+where F2 and F1 are NMR-speak for the x- and y-axes/dimensions.  See Figure \ref{3Darray}.
+
+\begin{figure}
+\begin{center}
+  \includegraphics[scale = 0.6]{3Darray.pdf}
+  \caption{\label{3Darray}Data set configuration. $I$, $J$ and $K$ are array indices; F2 and F1 are standard terms for NMR dimensions.}
+\end{center}
+\end{figure}
+
+`ChemoSpec2D` treats each spectrum/matrix as the unit of observation, and thus the sample that went into the spectrometer corresponds to the data that is the sample from the statistical perspective.  This approach is referred to as a *strong* multi-way analysis in that the data are analyzed using a trilinear model. In a weak analysis, the 3D data set is unfolded into a 2D matrix and analyzed using methods suitable for any 2D data set (which are fundamentally bilinear).\cite{Huang2003}  In the weak approach, each slice of a 2D spectrum becomes just another 1D spectrum, and the relationship between the slices in a single 2D spectrum is lost.  Oddly enough, the trilinear/strong analysis has fewer parameters to estimate so it is simpler, but computationally more demanding.  The interpretation is also more straight-forward.
+
+The literature on this topic unfortunately uses a wide variety of terminology to describe the nature of the analysis, and the same mathematical analysis is found under different names in different fields.  Here are some terms used to describe the analysis process:
+
+* Multivariate Image Analysis (MIA).  This term is typically used when the "images" are photographs for example.  While 2D NMR spectra are typically plotted as contours, there is no reason why they cannot be plotted as an image or heat plot, which shows the connection to photographic images.
+* $N$-way Image Analysis.  In the case of 2D NMR spectra $N$ would be three.
+* Principal Tensor Analysis.  Tensor is just another term for an array of any dimension, so in the case of 2D NMR the data is a 3-way tensor.
+
+Finally, Keirs provides discussion and suggestions on terminology best practices.\cite{Kiers2000}
+
+# PARAFAC
+
+PARAFAC is "parallel factor analysis."  This is a statistical technique that is rather analogous to PCA.  However, PCA decomposes a 2D data set into scores and loadings, so it is bilinear:
+
+\[
+\mathbf{X}^{(n \ \times \ p)} = \mathbf{C}^{(n \ \times \ R)} \times \mathbf{S}^{(R \ \times \ p)} + \epsilon
+\]
+
+Where $\mathbf{X}$ is the raw data, composed of $n$ samples $\times$ $p$ frequencies, $\mathbf{C}$ are the scores, and $\mathbf{S}$ are the loadings.  $R$ is the number of components selected.  $R$ is very much smaller than $p$, as noise and correlating variables have been eliminated.  Matrix $\mathbf{C}$ can be thought of as "concentrations" or weights.  Matrix $\mathbf{S}$ is composed of "spectra" which serve as loadings.  $\epsilon$ consists of residuals.
+
+PARAFAC decomposes a 3D data set into three matrices, so it is trilinear:
+
+\[
+\ubar{\mathbf{X}} = \mathbf{A}(\mathbf{C} \odot \mathbf{B})^T + \ubar{\mathbf{E}}
+\]
+
+Here, $\ubar{\mathbf{X}}$ represents the 3D array of raw data. $\odot$ represents the column-wise Kronecker product, a matrix multiplication variant needed in this situation.  $\mathbf{A}$, $\mathbf{B}$ and $\mathbf{C}$ are the component matrices.  If $\mathbf{X}$ has dimensions $I \ \times \ J \ \times \ K$, then $\mathbf{A}$ has dimensions $I \ \times \ R$, $\mathbf{B}$ has dimensions $J \ \times \ R$ and $\mathbf{C}$ has dimensions $K \ \times \ R$.\cite{Bro2003b}
+
+Interpretation of the component matrices depends upon how $\ubar{\mathbf{X}}$ was constructed (i.e. which dimension represents the samples).  In the case of `ChemoSpec2D` $\mathbf{C}$ contains values analogous to scores in that they can be used to see how samples cluster (this is because the samples are in the third dimension of $\ubar{\mathbf{X}}$).  Standard matrix multiplication of $\mathbf{A} \ \times \ \mathbf{B^T}$ for a particular column (component) gives a 2D loading plot (essentially a pseudo-spectrum) showing the contributions of each peak to the component.
+
+PARAFAC is also known by other terms:
+
+* Tensor rank decomposition.
+* Canonical polyadic decomposition.
+* CANDECOMP (cannonical decomposition); PARAFAC and CANDECOMP are the same thing but were reported at about the same time and given different names by the discoverers.
+
+
+# Functions
+
+The list below gives each user-facing function and a brief description of what it does.  Full information is of course available via the help function, e.g. `?sumSpectra2D`.
+
+* Utility Functions
+    * **files2Spectra2DObject** Imports 2D data sets.  The format options are currently rather limited!
+    * **chkSpectra2D** Checks the integrity of a Spectra2D object.  This can be used directly and is also called by nearly every other function.
+    * **sumSpectra2D** Prints a short summary of the Spectra2D object.
+    * **sumGroups2D** Prints a short summary of the group membership of the spectra in a Spectra2D object.
+    * **removeGroup2D** Remove an entire group from a Spectra2D object.
+    * **removeSample2D** Remove one or more samples from a Spectra2D object.
+    * **plotSpectra2D** Plots one 2D spectrum stored in a Spectra2D object, as a contour plot.  Serious plotting and exploration is probably better done on the spectrometer.  This function is for quick checks and also publication-quality plots.
+    * **normSpectra2D** Normalizes the 2D spectra stored in a Spectra2D object.
+* PARAFAC-Related Functions
+    * **pfacSpectra2D** Carries out PARAFAC analysis of the Spectra2D object.
+    * **pfacScores**  Plots the scores from a PARAFAC analysis.  Useful for looking at how the samples cluster.
+    * **pfacLoadings** Plots a 2D pseudo-spectrum showing which peaks contribute to each component.
+
+<!-- local tweak to the pnasbreak command -->
+\renewcommand{\pnasbreak}{\begin{strip}\vskip0pt\end{strip}}
+
+\phantom{xxx} <!-- if this isn't here the next para runs in-->

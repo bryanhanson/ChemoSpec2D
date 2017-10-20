@@ -4,7 +4,8 @@
 \alias{pfacLoadings}
 \title{Plot Loadings from a PARAFAC Analysis of a Spectra2D Object}
 \usage{
-pfacLoadings(spectra, pfac, which = 1, lvls = NULL, ...)
+pfacLoadings(spectra, pfac, which = 1, lvls = NULL, ref = NULL,
+  reflvls = NULL, ...)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
@@ -13,7 +14,14 @@ pfacLoadings(spectra, pfac, which = 1, lvls = NULL, ...)
 
 \item{which}{An integer specifying the loading to plot.}
 
-\item{lvls}{An integer specifying the levels at which to compute contours.
+\item{lvls}{A vector specifying the levels at which to compute contours.
+If \code{NULL}, values are computed using \code{chooseLvls}.}
+
+\item{ref}{An integer giving the spectrum in \code{spectra} to use
+as a reference spectrum, which is plotted behind the loadings in gray.}
+
+\item{reflvls}{A vector specifying the levels at which to compute contours
+for the reference spectrum.
 If \code{NULL}, values are computed using \code{chooseLvls}.}
 
 \item{\dots}{Additional parameters to be passed to plotting functions.}
