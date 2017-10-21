@@ -4,8 +4,8 @@
 \alias{pfacLoadings}
 \title{Plot Loadings from a PARAFAC Analysis of a Spectra2D Object}
 \usage{
-pfacLoadings(spectra, pfac, which = 1, lvls = NULL, ref = NULL,
-  reflvls = NULL, ...)
+pfacLoadings(spectra, pfac, which = 1, ref = NULL, plvls = NULL,
+  nlvls = NULL, rlvls = NULL, colors = c("red", "blue", "grey"), ...)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
@@ -14,20 +14,29 @@ pfacLoadings(spectra, pfac, which = 1, lvls = NULL, ref = NULL,
 
 \item{which}{An integer specifying the loading to plot.}
 
-\item{lvls}{A vector specifying the levels at which to compute contours.
+\item{ref}{An integer giving the spectrum in \code{spectra} to use
+as a reference spectrum, which is plotted behind the loadings.}
+
+\item{plvls}{A vector specifying the positive contour levels
+for the loadings pseudo-spectrum.
 If \code{NULL}, values are computed using \code{chooseLvls}.}
 
-\item{ref}{An integer giving the spectrum in \code{spectra} to use
-as a reference spectrum, which is plotted behind the loadings in gray.}
+\item{nlvls}{A vector specifying the negative contour levels
+for the loadings pseudo-spectrum.
+If \code{NULL}, values are computed using \code{chooseLvls}.}
 
-\item{reflvls}{A vector specifying the levels at which to compute contours
+\item{rlvls}{A vector specifying the levels at which to compute contours
 for the reference spectrum.
 If \code{NULL}, values are computed using \code{chooseLvls}.}
+
+\item{colors}{A vector of 2-3 colors.  The first and second colors will be used for
+the positive and negative loading contours.  The third color will be used
+for the reference spectrum, if requested.}
 
 \item{\dots}{Additional parameters to be passed to plotting functions.}
 }
 \value{
-None.  Side effect is a plot.
+The loadings matrix.  Side effect is a plot.
 }
 \description{
 Plots loadings from the PARAFAC analysis of a \code{\link{Spectra2D}} object.

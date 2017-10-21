@@ -50,10 +50,14 @@ vignette: >
   %\VignettePackage{ChemoSpec2D}
   %\VignetteEngine{knitr::rmarkdown}
 
+header-includes:
+  - \usepackage{stackengine}
 ---
-\newcommand{\ubar}[1]{\text{\b{$#1$}}}
 
-**This package is under heavy development and the basic structures and functions may change a lot**
+ <!-- \newcommand{\ubar}[1]{\text{\b{$#1$}}} -->
+\newcommand\ubar[1]{\stackunder[1.2pt]{$#1$}{\rule{1.2ex}{.075ex}}}
+
+**This package is under heavy development and the basic structures and functions may change a lot!**
 
 # Terminology
 
