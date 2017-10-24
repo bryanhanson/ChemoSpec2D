@@ -18,7 +18,7 @@ removeSample2D(spectra, rem.sam)
 removed, or a character vector giving the sample names to be removed.}
 }
 \value{
-A modified object of S3 class \code{\link{Spectra2D}}.
+An object of S3 class \code{\link{Spectra2D}}.
 }
 \description{
 Removes specified groups or samples from a \code{\link{Spectra2D}} object.
@@ -38,9 +38,9 @@ Unused levels in \code{$groups} are dropped.
 }
 \section{Functions}{
 \itemize{
-\item \code{removeGroup2D}: Remove groups from a \code{Spectra} object
+\item \code{removeGroup2D}: Remove groups from a \code{Spectra2D} object
 
-\item \code{removeSample2D}: Remove samples from a \code{Spectra} object
+\item \code{removeSample2D}: Remove samples from a \code{Spectra2D} object
 }}
 
 \seealso{

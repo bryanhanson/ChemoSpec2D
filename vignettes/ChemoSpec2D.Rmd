@@ -61,10 +61,10 @@ header-includes:
 
 # Terminology
 
-`ChemoSpec2D` is designed to analyze 2D spectroscopic data such as COSY and HSQC NMR spectra using appropriate chemometric techniques.  It deploys methods aimed primarily at classification of samples and the identification of spectral features which are important in distinguishing samples from each other.  `ChemoSpec2D` stores and manipulates each spectrum as a matrix of data, and hence a data set is a collection of 2D spectra.  Thus the data is naturally visualized as a 3D array with dimensions:
+`ChemoSpec2D` is designed to analyze 2D spectroscopic data such as COSY and HSQC NMR spectra using appropriate chemometric techniques.  It deploys methods aimed primarily at classification of samples and the identification of spectral features which are important in distinguishing samples from each other.  `ChemoSpec2D` stores and manipulates each spectrum as a matrix of data, and hence a data set is a collection of 2D spectra.  Thus the entire data set is naturally visualized as a 3D array with dimensions:
 
 \[
-F2 \times F1 \times \mathrm{no. \ samples}
+\mathrm{F2} \times \mathrm{F1} \times \mathrm{no. \ samples}
 \]
 
 or
@@ -73,44 +73,56 @@ or
 \mathrm{2D \ Spectrum} \times \mathrm{no. \ samples}
 \]
 
-where F2 and F1 are NMR-speak for the x- and y-axes/dimensions.  See Figure \ref{3Darray}.
+where F2 and F1 are NMR-speak for the x- and y-axes/dimensions.  We will refer to this array as $\ubar{\mathbf{X}}$.  See Figure \ref{3Darray}.
 
 \begin{figure}
 \begin{center}
   \includegraphics[scale = 0.6]{3Darray.pdf}
-  \caption{\label{3Darray}Data set configuration. $I$, $J$ and $K$ are array indices; F2 and F1 are standard terms for NMR dimensions.}
+  \caption{\label{3Darray}Configuration of data array $\ubar{\mathbf{X}}$. $I$, $J$ and $K$ are array indices; F2 and F1 are standard terms for NMR dimensions.}
 \end{center}
 \end{figure}
 
-`ChemoSpec2D` treats each spectrum/matrix as the unit of observation, and thus the sample that went into the spectrometer corresponds to the data that is the sample from the statistical perspective.  This approach is referred to as a *strong* multi-way analysis in that the data are analyzed using a trilinear model. In a weak analysis, the 3D data set is unfolded into a 2D matrix and analyzed using methods suitable for any 2D data set (which are fundamentally bilinear).\cite{Huang2003}  In the weak approach, each slice of a 2D spectrum becomes just another 1D spectrum, and the relationship between the slices in a single 2D spectrum is lost.  Oddly enough, the trilinear/strong analysis has fewer parameters to estimate so it is simpler, but computationally more demanding.  The interpretation is also more straight-forward.
+`ChemoSpec2D` treats each spectrum/matrix as the unit of observation, and thus the sample that went into the spectrometer corresponds to the data that is also the sample from the statistical perspective.  This approach is referred to as a *strong* multi-way analysis in that the data are analyzed using a trilinear model. In a weak analysis, the 3D data set is unfolded into a series of contiguous 2D matrices and analyzed using methods suitable for any 2D data set (which are fundamentally bilinear).\cite{Huang2003}  In the weak approach, each slice of a 2D spectrum becomes just another 1D spectrum, and the relationship between the slices in a single 2D spectrum is lost.  Oddly enough, the trilinear/strong analysis has fewer parameters to estimate so it is simpler, but computationally more demanding.  The interpretation is also more straight-forward.
 
 The literature on this topic unfortunately uses a wide variety of terminology to describe the nature of the analysis, and the same mathematical analysis is found under different names in different fields.  Here are some terms used to describe the analysis process:
 
-* Multivariate Image Analysis (MIA).  This term is typically used when the "images" are photographs for example.  While 2D NMR spectra are typically plotted as contours, there is no reason why they cannot be plotted as an image or heat plot, which shows the connection to photographic images.
+* Multivariate Image Analysis (MIA).  This term is typically used when the "images" are photographs for example.  While 2D NMR spectra are typically plotted as contours, there is no reason why they cannot be plotted as an image or heat plot, which is essentially a photographic image.
 * $N$-way Image Analysis.  In the case of 2D NMR spectra $N$ would be three.
-* Principal Tensor Analysis.  Tensor is just another term for an array of any dimension, so in the case of 2D NMR the data is a 3-way tensor.
+* Principal Tensor Analysis.  Tensor is just another term for an array of any dimension, so in the case of a collection of 2D NMR the data is a 3-way tensor.
 
-Finally, Keirs provides discussion and suggestions on terminology best practices.\cite{Kiers2000}
+Keirs provides discussion and suggestions on terminology best practices.\cite{Kiers2000}
 
 # PARAFAC
 
-PARAFAC is "parallel factor analysis."  This is a statistical technique that is rather analogous to PCA.  However, PCA decomposes a 2D data set into scores and loadings, so it is bilinear:
+## Theory (Light)
+
+PARAFAC is "parallel factor analysis."  This is a statistical technique that is somewhat analogous to PCA.  PCA decomposes a 2D data set into scores and loadings, and is bilinear:
 
 \[
-\mathbf{X}^{(n \ \times \ p)} = \mathbf{C}^{(n \ \times \ R)} \times \mathbf{S}^{(R \ \times \ p)} + \epsilon
+\mathbf{X}^{(n \ \times \ p)} = \mathbf{C}^{(n \ \times \ R)} \times \mathbf{S}^{(R \ \times \ p)} + \mathbf{E}
 \]
 
-Where $\mathbf{X}$ is the raw data, composed of $n$ samples $\times$ $p$ frequencies, $\mathbf{C}$ are the scores, and $\mathbf{S}$ are the loadings.  $R$ is the number of components selected.  $R$ is very much smaller than $p$, as noise and correlating variables have been eliminated.  Matrix $\mathbf{C}$ can be thought of as "concentrations" or weights.  Matrix $\mathbf{S}$ is composed of "spectra" which serve as loadings.  $\epsilon$ consists of residuals.
+Where $\mathbf{X}$ is the raw data, composed of $n$ samples $\times$ $p$ frequencies, $\mathbf{C}$ are the scores, and $\mathbf{S}$ are the loadings.  $R$ is the number of components selected.  $R$ is very much smaller than $p$, as noise and correlating variables have been eliminated.  Matrix $\mathbf{C}$ can be thought of as "concentrations" or weights.  Matrix $\mathbf{S}$ is composed of "spectra" which serve as loadings.  $\mathbf{E}$ consists of residuals.  The goal of the PCA algorithm is to solve this equation and return $\mathbf{C}$ and $\mathbf{S}$.
 
-PARAFAC decomposes a 3D data set into three matrices, so it is trilinear:
+PARAFAC decomposes a 3D data set into three matrices, and is trilinear.  Because the data is 3D, standard matrix algebra cannot be applied.  However, the math can be expressed as a summation:
 
 \[
-\ubar{\mathbf{X}} = \mathbf{A}(\mathbf{C} \odot \mathbf{B})^T + \ubar{\mathbf{E}}
+x_{ijk} = \sum_{r = 1}^{R} a_{ir}b_{jr}c_{kr} + \epsilon_{ijk}
 \]
 
-Here, $\ubar{\mathbf{X}}$ represents the 3D array of raw data. $\odot$ represents the column-wise Kronecker product, a matrix multiplication variant needed in this situation.  $\mathbf{A}$, $\mathbf{B}$ and $\mathbf{C}$ are the component matrices.  If $\mathbf{X}$ has dimensions $I \ \times \ J \ \times \ K$, then $\mathbf{A}$ has dimensions $I \ \times \ R$, $\mathbf{B}$ has dimensions $J \ \times \ R$ and $\mathbf{C}$ has dimensions $K \ \times \ R$.\cite{Bro2003b}
+Where $x_{ijk}$ is an element of the 3D data array $\ubar{\mathbf{X}}$. $a_{ir}$ is an element of the matrix $\mathbf{A}$, and so forth for $b$/$\mathbf{B}$ and $c$/$\mathbf{C}$.  $\epsilon$ is an error term.
 
-Interpretation of the component matrices depends upon how $\ubar{\mathbf{X}}$ was constructed (i.e. which dimension represents the samples).  In the case of `ChemoSpec2D` $\mathbf{C}$ contains values analogous to scores in that they can be used to see how samples cluster (this is because the samples are in the third dimension of $\ubar{\mathbf{X}}$).  Standard matrix multiplication of $\mathbf{A} \ \times \ \mathbf{B^T}$ for a particular column (component) gives a 2D loading plot (essentially a pseudo-spectrum) showing the contributions of each peak to the component.
+If $\ubar{\mathbf{X}}$ is flattened appropriately to a matrix $\mathbf{X}$, then 2D matrix operations *can* provide a solution:
+
+\[
+\mathbf{X} = \mathbf{A}(\mathbf{C} \odot \mathbf{B})^T + \mathbf{E}
+\]
+
+Here, $\odot$ represents the column-wise Kronecker product, a matrix multiplication variant needed in this situation.  $\mathbf{A}$, $\mathbf{B}$ and $\mathbf{C}$ are the component matrices as above.\cite{Bro2003b}
+
+## Interpretation
+
+Regardless of the mathematical representation, the algorithm provides $\mathbf{A}$, $\mathbf{B}$ and $\mathbf{C}$.  Interpretation of the component matrices depends upon how $\ubar{\mathbf{X}}$ was constructed (i.e. which dimension represents the samples).  In the case of `ChemoSpec2D` $\mathbf{C}$ contains values analogous to scores in that they can be used to see how samples cluster (this is because the samples are in the third dimension of $\ubar{\mathbf{X}}$).  Standard matrix multiplication of $\mathbf{A} \ \times \ \mathbf{B^T}$ for a particular column (component) gives a 2D loading plot (a pseudo-spectrum) showing the contributions (loadings) of each peak to the component. `ChemoSpec2D` uses the `R` package `multiway` to carry out PARAFAC.\cite{Helwig2017}
 
 PARAFAC is also known by other terms:
 

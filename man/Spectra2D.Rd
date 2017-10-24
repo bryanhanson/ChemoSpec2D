@@ -10,7 +10,7 @@ spectra themselves.  \code{Spectra2D} objects are created by
 \code{\link{files2Spectra2DObject}}.
 }
 \section{Structure}{
- The structure of a \code{Spectra2D} object is a list of seven
+ The structure of a \code{Spectra2D} object is a list of eight
 elements and an attribute as follows:
 
 \tabular{lll}{
@@ -33,6 +33,7 @@ elements and an attribute as follows:
 
   $colors \tab character \tab Colors for plotting;
   length must be no. samples.\cr
+  Colors correspond to groups.\cr
 
   $unit \tab chr \tab Three entries, the
   first giving the F2 (x) axis unit, the second the\cr \tab \tab F1 (y) axis unit,

@@ -8,7 +8,7 @@
 #' Colors are also assigned.  An internal function, not
 #' generally called by the user.
 #' 
-#' @param spectra An object of S3 class \code{\link{Spectra2D}} missing \code{spectra$groups}.
+#' @param spectra An \emph{incomplete} object of S3 class \code{\link{Spectra2D}} which is missing \code{spectra$groups} and \code{spectra$colors}.
 #' 
 #' @param gr.crit As per \code{\link{files2Spectra2DObject}}.
 #' 

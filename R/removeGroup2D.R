@@ -23,7 +23,7 @@
 #' @param rem.sam Either an integer vector specifying the samples to be
 #' removed, or a character vector giving the sample names to be removed.
 #' 
-#' @return A modified object of S3 class \code{\link{Spectra2D}}.
+#' @return An object of S3 class \code{\link{Spectra2D}}.
 #'
 #' @author Bryan A. Hanson, DePauw University.
 #'
@@ -31,7 +31,7 @@
 #'
 #' @export removeGroup2D
 #'
-#' @describeIn removeGroup2D Remove groups from a \code{Spectra} object
+#' @describeIn removeGroup2D Remove groups from a \code{Spectra2D} object
 #'
 #' @seealso Please see \code{\link{ChemoSpec2D-package}} for examples.
 #'

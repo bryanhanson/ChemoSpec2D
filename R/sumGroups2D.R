@@ -6,12 +6,12 @@
 #' a \code{\link{Spectra2D}} object.
 #' 
 #' @param spectra An object of S3 class \code{\link{Spectra2D}} whose group
-#' membership information is desired.
+#' membership summary is desired.
 #'
-#' @return A data frame as follows.  Note that if there are groups with no
-#' members (due to previous use of \code{\link{removeSample2D}}), these are
-#' dropped.  \item{group}{The name of the group.} \item{no.}{The number in the
-#' group.} \item{color}{The color assigned to the group.}
+#' @return A data frame as follows.
+#'         \item{group}{The name of the group.}
+#'         \item{no.}{The number in the group.}
+#'         \item{color}{The color assigned to the group.}
 #'
 #' @author Bryan A. Hanson, DePauw University.
 #'

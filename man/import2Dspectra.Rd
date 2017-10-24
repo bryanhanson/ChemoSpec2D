@@ -9,22 +9,29 @@ import2Dspectra(file, fmt, npx, ...)
 \arguments{
 \item{file}{Character string giving the path to a file containing a 2D spectrum.}
 
-\item{fmt}{Character string giving the format to use (currently limited).}
+\item{fmt}{Character string giving the format to use (currently limited to \code{"YXZ"}).}
 
 \item{npx}{Integer giving the number of data points in the F2 (x) dimension.}
 
 \item{...}{Parameters to be passed to \code{\link{read.table}}.}
 }
 \value{
-A numeric matrix.
+A list with 3 elements:
+\itemize{
+  \item A matrix of the z values.  The no. of rows = \code{npx} and the no. of columns
+        follows from the size of the imported data.
+  \item A vector giving the F2 (x) values.
+  \item A vector giving the F1 (y) values.
+ }
 }
 \description{
-This function imports a single matrix representing a 2D
-spectroscopic data set.
+This function imports a single file (for instance, a csv) containing a 2D
+spectroscopic data set.  An internal function, not
+generally called by the user.
 }
 \details{
 If \code{fmt = "YXZ"} it is assumed that the columns contain Y, X and Z
-values.
+values describing the data.
 }
 \author{
 Bryan A. Hanson, DePauw University.

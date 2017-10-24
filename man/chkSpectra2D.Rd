@@ -18,7 +18,7 @@ None; messages will be printed at the console if there is a problem.
 \description{
 Utility function to verify that the structure of a \code{\link{Spectra2D}}
 object (an S3 object) is internally consistent. This function can be used
-after manual editting of a \code{\link{Spectra2D}} object.  However,
+after manual editing of a \code{\link{Spectra2D}} object.  However,
 in most cases rather than
 directly manipulating a \code{\link{Spectra2D}} object, one should manipulate
 it via \code{\link{removeGroup2D}}
@@ -33,7 +33,7 @@ When used in a function, this function is silent (assuming \code{confirm =
 FALSE}) unless there is a problem.
 }
 \seealso{
-Please see \code{\link{ChemoSpec2D-package}} for examples.
+Please see \code{\link{ChemoSpec2D-package}} for use examples.
 }
 \author{
 Bryan A. Hanson, DePauw University.

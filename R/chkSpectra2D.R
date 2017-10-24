@@ -4,7 +4,7 @@
 #' 
 #' Utility function to verify that the structure of a \code{\link{Spectra2D}}
 #' object (an S3 object) is internally consistent. This function can be used
-#' after manual editting of a \code{\link{Spectra2D}} object.  However,
+#' after manual editing of a \code{\link{Spectra2D}} object.  However,
 #' in most cases rather than
 #' directly manipulating a \code{\link{Spectra2D}} object, one should manipulate
 #' it via \code{\link{removeGroup2D}}
@@ -32,7 +32,7 @@
 #'
 #' @importFrom utils str
 #'
-#' @seealso Please see \code{\link{ChemoSpec2D-package}} for examples.
+#' @seealso Please see \code{\link{ChemoSpec2D-package}} for use examples.
 #'
 chkSpectra2D <- function(spectra, confirm = FALSE) {
 	

@@ -7,7 +7,7 @@
 groupNcolor2D(spectra, gr.crit = NULL, gr.cols = "auto")
 }
 \arguments{
-\item{spectra}{An object of S3 class \code{\link{Spectra2D}} missing \code{spectra$groups}.}
+\item{spectra}{An \emph{incomplete} object of S3 class \code{\link{Spectra2D}} which is missing \code{spectra$groups} and \code{spectra$colors}.}
 
 \item{gr.crit}{As per \code{\link{files2Spectra2DObject}}.}
 

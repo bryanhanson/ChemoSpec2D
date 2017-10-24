@@ -4,16 +4,17 @@
 #' Plots loadings from the PARAFAC analysis of a \code{\link{Spectra2D}} object.
 #' The loadings are computed by multipling matrix \code{A} by matrix \code{B}
 #' in the \code{parafac} object, for a given component.  This matrix has dimensions
-#' F2 x F1.
+#' F2 x F1 and is a 2D pseudo-spectrum.
 #' 
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'
-#' @param pfac An object of class \code{parafac}.
+#' @param pfac An object of class \code{parafac} obtained by running \code{\link{pfacSpectra2D}}.
 #'
 #' @param which An integer specifying the loading to plot.
 #'
 #' @param ref An integer giving the spectrum in \code{spectra} to use
 #'        as a reference spectrum, which is plotted behind the loadings.
+#'        Defaults to \code{NULL} which does not plot a reference spectrum.
 #'
 #' @param rlvls A vector specifying the levels at which to compute contours
 #'        for the reference spectrum.
@@ -33,7 +34,7 @@
 #'
 #' @param \dots Additional parameters to be passed to plotting functions.
 #'
-#' @return The loadings matrix.  Side effect is a plot.
+#' @return The loadings matrix (pseudo-spectrum).  Side effect is a plot.
 #'
 #' @author Bryan A. Hanson, DePauw University.
 #'

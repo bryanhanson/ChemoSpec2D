@@ -9,21 +9,21 @@ normSpectra2D(spectra, method = "zero2one")
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}} to be normalized.}
 
-\item{method}{One of \code{"zero2one"} giving
-the method for normalization.  Other methods will likely be added in the future.}
+\item{method}{One of \code{"TotInt"} or \code{"zero2one"} giving
+the method for normalization.  Other methods may be added in the future.}
 }
 \value{
 An object of S3 class \code{\link{Spectra2D}}.
 }
 \description{
 This function carries out normalization of the spectra in a
-\code{\link{Spectra2D}} object.  There is currently only a single option:
+\code{\link{Spectra2D}} object.  There are currently two options:
 \itemize{
   \item \code{"zero2one"} scales each 2D spectrum separately to a [0 \ldots{} 1] scale.
+  \item \code{"TotInt"} scales each 2D spectrum separately so that the total area is one.
 }
 }
 \author{
 Bryan A. Hanson, DePauw University.
 }
-\keyword{manip}
 \keyword{utilities}

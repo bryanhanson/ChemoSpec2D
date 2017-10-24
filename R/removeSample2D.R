@@ -1,6 +1,6 @@
 
 #'
-#' @describeIn removeGroup2D Remove samples from a \code{Spectra} object
+#' @describeIn removeGroup2D Remove samples from a \code{Spectra2D} object
 #'
 #' @export removeSample2D
 #'

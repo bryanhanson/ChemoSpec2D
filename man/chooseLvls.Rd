@@ -16,8 +16,9 @@ the interval (0...1).  For instance, a value of 0.6 corresponds to a single
 level in which 60 percent of the matrix values are below, and 40 percent
 above.}
 
-\item{mode}{Character.  One of \code{c("even", "log", "exp", "ecdf",
-"posexp", "negexp", "poslog", "neglog")}. \code{"even"} will create evenly
+\item{mode}{Character.  One of \code{"even"}, \code{"log"}, \code{"exp"},
+\code{"ecdf"}, \code{"posexp"}, \code{"negexp"}, \code{"poslog"}, \code{"neglog"}.
+\code{"even"} will create evenly
 spaced levels.  \code{"log"} will create levels which are more closely
 spaced at the high values, while \code{"exp"} does the opposite.  The pos- or
 neg- versions select just the positive or negative values.  \code{"ecdf"}

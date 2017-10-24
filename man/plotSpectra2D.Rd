@@ -21,7 +21,7 @@ None.  Side effect is a plot.
 }
 \description{
 Plots a 2D spectrum stored in a \code{\link{Spectra2D}} object.
-This is primarily for checking and for preparation of final plots.
+This is primarily for inspection and for preparation of final plots.
 If you need to do extensive exploration, you should probably go back
 to the spectrometer.
 }

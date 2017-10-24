@@ -10,12 +10,13 @@ pfacLoadings(spectra, pfac, which = 1, ref = NULL, plvls = NULL,
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
 
-\item{pfac}{An object of class \code{parafac}.}
+\item{pfac}{An object of class \code{parafac} obtained by running \code{\link{pfacSpectra2D}}.}
 
 \item{which}{An integer specifying the loading to plot.}
 
 \item{ref}{An integer giving the spectrum in \code{spectra} to use
-as a reference spectrum, which is plotted behind the loadings.}
+as a reference spectrum, which is plotted behind the loadings.
+Defaults to \code{NULL} which does not plot a reference spectrum.}
 
 \item{plvls}{A vector specifying the positive contour levels
 for the loadings pseudo-spectrum.
@@ -36,13 +37,13 @@ for the reference spectrum, if requested.}
 \item{\dots}{Additional parameters to be passed to plotting functions.}
 }
 \value{
-The loadings matrix.  Side effect is a plot.
+The loadings matrix (pseudo-spectrum).  Side effect is a plot.
 }
 \description{
 Plots loadings from the PARAFAC analysis of a \code{\link{Spectra2D}} object.
 The loadings are computed by multipling matrix \code{A} by matrix \code{B}
 in the \code{parafac} object, for a given component.  This matrix has dimensions
-F2 x F1.
+F2 x F1 and is a 2D pseudo-spectrum.
 }
 \seealso{
 Please see \code{\link{pfacSpectra2D}} for examples.
