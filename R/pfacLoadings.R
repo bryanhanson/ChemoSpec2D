@@ -18,15 +18,15 @@
 #'
 #' @param rlvls A vector specifying the levels at which to compute contours
 #'        for the reference spectrum.
-#'        If \code{NULL}, values are computed using \code{chooseLvls}.
+#'        If \code{NULL}, values are computed using \code{guessLvls}.
 #'
 #' @param plvls A vector specifying the positive contour levels
 #'        for the loadings pseudo-spectrum.
-#'        If \code{NULL}, values are computed using \code{chooseLvls}.
+#'        If \code{NULL}, values are computed using \code{guessLvls}.
 #'
 #' @param nlvls A vector specifying the negative contour levels
 #'        for the loadings pseudo-spectrum.
-#'        If \code{NULL}, values are computed using \code{chooseLvls}.
+#'        If \code{NULL}, values are computed using \code{guessLvls}.
 #'
 #' @param colors A vector of 2-3 colors.  The first and second colors will be used for
 #'        the positive and negative loading contours.  The third color will be used
@@ -118,22 +118,19 @@ pfacLoadings <- function(spectra, pfac, which = 1, ref = NULL,
   
   # Compute levels for each loadings matrix (where not provided)
   if (is.null(plvls)) {
-  	plvls <- chooseLvls(MP, n = 10, mode = "poslog", lambda = 0.2)
-  	plvls <- plvls[-1]
+  	plvls <- guessLvls(MP)
   	if (length(plvls) > 0L) PLVLS <- TRUE
   }
 
   if (is.null(nlvls)) {
-  	nlvls <- chooseLvls(MN, n = 10, mode = "neglog", lambda = 0.2)
-  	nlvls <- nlvls[-1]
+  	nlvls <- guessLvls(MN)
   	if (length(nlvls) > 0L) NLVLS <- TRUE
   }
   
   if (!is.null(ref)) {
   	if (length(colors) != 3L) stop("Please provide 3 colors for plotting")
     if (is.null(rlvls)) {
-  	  rlvls <- chooseLvls(spectra$data[[ref]], n = 10, mode = "log", lambda = 0.2)
-  	  #rlvls <- rlvls[-1]
+  	  rlvls <- guessLvls(spectra$data[[ref]])
   	  if (length(rlvls) > 0L) RLVLS <- TRUE
     }
   }

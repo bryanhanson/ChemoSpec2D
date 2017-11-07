@@ -17,7 +17,8 @@ If \code{NULL}, values are computed using \code{chooseLvls}.}
 \item{\dots}{Additional parameters to be passed to plotting functions.}
 }
 \value{
-None.  Side effect is a plot.
+The chosen levels are returned invisibly, to aid in fine-tuning them.
+        Side effect is a plot.
 }
 \description{
 Plots a 2D spectrum stored in a \code{\link{Spectra2D}} object.

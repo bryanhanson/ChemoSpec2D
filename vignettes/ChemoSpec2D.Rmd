@@ -14,7 +14,8 @@ address:
 doi: "https://github.com/bryanhanson/ChemoSpec2D"
 
 # Abstract
-abstract: A collection of functions for working with 2D spectra, developed with NMR in mind, but other types of 2D spectroscopy may also be analyzed. ChemoSpec2D takes many of its cues from ChemoSpec and tries to create consistent graphical output and be very user friendly.  Tools to plot 2D spectra and carry out PARAFAC are the main features.
+abstract: A collection of functions for working with 2D spectroscopic data such as COSY and HSQC NMR spectra using appropriate chemometric techniques. `ChemoSpec2D` deploys methods aimed primarily at classification of samples and the identification of spectral features which are important in distinguishing samples from each other. Each 2D spectrum (a matrix) is treated as the unit of observation, and thus the physical sample that went into the spectrometer corresponds to the  sample from a statistical perspective.  `ChemoSpec2D` takes many of its cues from `ChemoSpec' and tries to create consistent graphical output and to be very user friendly.  Tools to plot 2D spectra and carry out PARAFAC are the main features.
+
 
 # Font size of the document, values of 9pt (default), 10pt, 11pt and 12pt
 fontsize: 10pt
@@ -82,7 +83,7 @@ where F2 and F1 are NMR-speak for the x- and y-axes/dimensions.  We will refer t
 \end{center}
 \end{figure}
 
-`ChemoSpec2D` treats each spectrum/matrix as the unit of observation, and thus the sample that went into the spectrometer corresponds to the data that is also the sample from the statistical perspective.  This approach is referred to as a *strong* multi-way analysis in that the data are analyzed using a trilinear model. In a weak analysis, the 3D data set is unfolded into a series of contiguous 2D matrices and analyzed using methods suitable for any 2D data set (which are fundamentally bilinear).\cite{Huang2003}  In the weak approach, each slice of a 2D spectrum becomes just another 1D spectrum, and the relationship between the slices in a single 2D spectrum is lost.  Oddly enough, the trilinear/strong analysis has fewer parameters to estimate so it is simpler, but computationally more demanding.  The interpretation is also more straight-forward.
+`ChemoSpec2D` treats each spectrum/matrix as the unit of observation, and thus the physical sample that went into the spectrometer corresponds to the sample from a statistical perspective.  Keeping this natural unit intact during analysis is referred to as a *strong* multi-way analysis. In a weak analysis, the 3D data set is unfolded into a series of contiguous 2D matrices and analyzed using methods suitable for any 2D data set (which are fundamentally bilinear).\cite{Huang2003}  In the weak approach, each slice of a 2D spectrum becomes just another 1D spectrum, and the relationship between the slices in a single 2D spectrum is lost.  Oddly enough, the trilinear/strong analysis has fewer parameters to estimate so it is simpler, but computationally more demanding.  The interpretation is also more straight-forward.
 
 The literature on this topic unfortunately uses a wide variety of terminology to describe the nature of the analysis, and the same mathematical analysis is found under different names in different fields.  Here are some terms used to describe the analysis process:
 
@@ -112,13 +113,13 @@ x_{ijk} = \sum_{r = 1}^{R} a_{ir}b_{jr}c_{kr} + \epsilon_{ijk}
 
 Where $x_{ijk}$ is an element of the 3D data array $\ubar{\mathbf{X}}$. $a_{ir}$ is an element of the matrix $\mathbf{A}$, and so forth for $b$/$\mathbf{B}$ and $c$/$\mathbf{C}$.  $\epsilon$ is an error term.
 
-If $\ubar{\mathbf{X}}$ is flattened appropriately to a matrix $\mathbf{X}$, then 2D matrix operations *can* provide a solution:
+If $\ubar{\mathbf{X}}$ is flattened by taking the $Kth$-dimension slices and concatenating them left-to-right to give a matrix $\mathbf{X}$, then 2D matrix operations *can* provide a solution:
 
 \[
 \mathbf{X} = \mathbf{A}(\mathbf{C} \odot \mathbf{B})^T + \mathbf{E}
 \]
 
-Here, $\odot$ represents the column-wise Kronecker product, a matrix multiplication variant needed in this situation.  $\mathbf{A}$, $\mathbf{B}$ and $\mathbf{C}$ are the component matrices as above.\cite{Bro2003b}
+Here, $\odot$ represents the column-wise Kronecker product, a matrix multiplication variant needed in this situation.  $\mathbf{A}$, $\mathbf{B}$ and $\mathbf{C}$ are the component matrices as above.\cite{Bro2003b, Smilde2004}
 
 ## Interpretation
 

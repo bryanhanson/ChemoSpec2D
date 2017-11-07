@@ -24,7 +24,9 @@ Because computation is slow, it is advisable to run this in batch
 mode from the command line.
 }
 \references{
-NEED to cite articles
+R. Bro "PARAFAC. Tutorial and applications" \emph{Chemometrics and Intelligent
+Laboratory Systems} vol. 38 pgs. 149-171 (1997).  A. Smilde, R. Bro and P. Geladi
+"Multi-way Analysis: Applications in the Chemical Sciences" Wiley (2004).
 }
 \author{
 Bryan A. Hanson, DePauw University.

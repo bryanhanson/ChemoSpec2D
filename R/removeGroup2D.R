@@ -61,15 +61,14 @@ removeGroup2D <- function(spectra, rem.group) {
 	spectra$groups <- spectra$groups[-rem.group, drop = TRUE]
 
 	sn <- names(spectra)
-	tn <- c("F2", "F1", "data", "names", "groups", "unit", "desc")
+	tn <- c("F2", "F1", "data", "names", "groups", "unit", "colors", "desc")
 	extra <- setdiff(sn, tn)
 	if (length(extra) > 0) {
-		msg <- paste("Additional data was found:", extra, "and not modified\n", sep = " ")
+		msg <- paste("Additional data was found:", extra, "-- but not modified\n", sep = " ")
 		message(msg)
 		message("If these are per sample data, you may have to manually edit them")
-		msg <- paste("The removal indices are:", rem.group, sep = " ")
-		message(msg)
-		
+		message("The removal indices are:")
+		print(rem.group)
 		}
 	
 	if (length(spectra$groups) == 0) warning("You have removed all your samples!")

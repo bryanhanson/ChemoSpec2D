@@ -15,7 +15,8 @@
 #'
 #' @param \dots Additional parameters to be passed to plotting functions.
 #'
-#' @return None.  Side effect is a plot.
+#' @return The chosen levels are returned invisibly, to aid in fine-tuning them.
+#'         Side effect is a plot.
 #'
 #' @author Bryan A. Hanson, DePauw University.
 #'
@@ -35,11 +36,10 @@ plotSpectra2D <- function(spectra, which = 1, lvls = NULL, ...) {
 
   M <- spectra$data[[which]]
   
-  if (is.null(lvls)) {
-  	lvls <- chooseLvls(M, n = 10, mode = "poslog", lambda = 0.2)
-  	lvls <- lvls[-1]
-  }
-  
+  if (is.null(lvls)) lvls <- guessLvls(M)
+    
   contour(x = spectra$F2, y = spectra$F1, z = M,
     levels = lvls, drawlabels = FALSE,...)
+    
+  invisible(lvls)
 }

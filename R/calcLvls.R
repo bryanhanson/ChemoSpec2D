@@ -1,9 +1,9 @@
-#' Select Levels for Contour and Image Type Plots
+#'
+#' Calculate Levels for Contour and Image Type Plots
 #' 
 #' Given a matrix, this function will assist in selecting levels for preparing
 #' contour and image type plots.  For instance, levels can be spaced evenly,
-#' logrithmically, or exponentially.
-#' 
+#' logrithmically, exponentially or using a cumulative distribution function.
 #' 
 #' @param M A numeric matrix.
 #'
@@ -40,6 +40,8 @@
 #' @importFrom grDevices rainbow
 #' @importFrom stats ecdf
 #'
+#' @seealso \code{\link{guessLvls}} which uses this function.
+#'
 #' @export
 #'
 #' @keywords utilities
@@ -52,11 +54,12 @@
 #' for (i in 1:length(tsts)) {
 #' 	nl <- 10
 #' 	if(tsts[i] == "ecdf")  nl <- seq(0.1, 0.9, 0.1)
-#' 	levels <- chooseLvls(M = MM, n = nl, mode = tsts[i], showHist = TRUE)
+#' 	levels <- calcLvls(M = MM, n = nl, mode = tsts[i],
+#'    showHist = TRUE, main = tsts[i])
 #' 	}
 #' 
 #' 
-chooseLvls <- function(M, n = 10, mode = "even",
+calcLvls <- function(M, n = 10, mode = "even",
 	lambda = 1.0, base = 2,
 	showHist = FALSE, ...) {
 
@@ -72,7 +75,7 @@ chooseLvls <- function(M, n = 10, mode = "even",
 		nf <- layout(mat = matrix(c(1, 2), 2, 1, byrow = TRUE), heights = c(6 , 1))
 		par(mar = c(3.1, 3.1, 1.1, 2.1))
 
-		hist(M, breaks = 50, main = "",
+		hist(M, breaks = 50,
 			xlab = "", ylab = "", xlim = lim.x,
 			col = "black", ...)
 		abline(v = lvs, col = "pink", lty = 2)
@@ -135,7 +138,7 @@ chooseLvls <- function(M, n = 10, mode = "even",
 		
 		if (lambda == 0.0) stop("lambda cannot be zero")
 		
-		# Compute levels (only working with positive values)
+		# Compute levels (only using positive values)
 				
 		ref <- findExtreme(M)
 		lower <- 0.00001 # just above zero to avoid Inf
@@ -156,7 +159,7 @@ chooseLvls <- function(M, n = 10, mode = "even",
 	if (mode == "log") { # For use when the range is [-Inf...Inf]
 		n <- as.integer(n)
 		if (base <= 0L) stop("base must be > 0")
-		# Compute levels (only working with positive values)
+		# Compute levels (only using positive values)
 
 		ref <- findExtreme(M)				
 		X <- getPN(M)
@@ -191,7 +194,7 @@ chooseLvls <- function(M, n = 10, mode = "even",
 		}
 
 	if (mode == "posexp") { # For use when you just want (+)-ive
-		lvs <- chooseLvls(M = M, n = n, mode = "exp", lambda = lambda, base = base, ...)
+		lvs <- calcLvls(M = M, n = n, mode = "exp", lambda = lambda, base = base, ...)
 		lvs <- lvs[lvs > 0]
 		if (showHist) sH(M, lvs, ...)
 		return(lvs)
@@ -199,14 +202,14 @@ chooseLvls <- function(M, n = 10, mode = "even",
 
 
 	if (mode == "negexp") { # For use when you just want (-)-ive
-		lvs <- chooseLvls(M = M, n = n, mode = "exp", lambda = lambda, base = base, ...)
+		lvs <- calcLvls(M = M, n = n, mode = "exp", lambda = lambda, base = base, ...)
 		lvs <- lvs[lvs < 0]
 		if (showHist) sH(M, lvs, ...)
 		return(lvs)
 		}
 
 	if (mode == "poslog") { # For use when you just want (+)-ive
-		lvs <- chooseLvls(M = M, n = n, mode = "log", lambda = lambda, base = base, ...)
+		lvs <- calcLvls(M = M, n = n, mode = "log", lambda = lambda, base = base, ...)
 		lvs <- lvs[lvs > 0]
 		if (showHist) sH(M, lvs, ...)
 		return(lvs)
@@ -214,7 +217,7 @@ chooseLvls <- function(M, n = 10, mode = "even",
 
 
 	if (mode == "neglog") { # For use when you just want (-)-ive
-		lvs <- chooseLvls(M = M, n = n, mode = "log", lambda = lambda, base = base, ...)
+		lvs <- calcLvls(M = M, n = n, mode = "log", lambda = lambda, base = base, ...)
 		lvs <- lvs[lvs < 0]
 		if (showHist) sH(M, lvs, ...)
 		return(lvs)

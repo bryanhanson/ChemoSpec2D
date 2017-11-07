@@ -19,7 +19,9 @@
 #'
 #' @keywords multivariate
 #'
-#' @references NEED to cite articles
+#' @references R. Bro "PARAFAC. Tutorial and applications" \emph{Chemometrics and Intelligent
+#' Laboratory Systems} vol. 38 pgs. 149-171 (1997).  A. Smilde, R. Bro and P. Geladi
+#' "Multi-way Analysis: Applications in the Chemical Sciences" Wiley (2004).
 #'
 #' @export
 #'
