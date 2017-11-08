@@ -7,7 +7,7 @@
 #' after manual editing of a \code{\link{Spectra2D}} object.  However,
 #' in most cases rather than
 #' directly manipulating a \code{\link{Spectra2D}} object, one should manipulate
-#' it via \code{\link{removeGroup2D}}
+#' it via \code{\link{removeGroup2D}}, \code{\link{removeFreq2D}},
 #' or \code{\link{removeSample2D}}.
 #' 
 #' This function is similar in spirit to \code{\link{validObject}} in the S4
@@ -50,23 +50,28 @@ chkSpectra2D <- function(spectra, confirm = FALSE) {
 	if (!class(spectra$groups) == "factor") { warning("The assigned groups are not factor type"); trouble <- TRUE }
 	if (!class(spectra$colors) == "character") { warning("The assigned colors are not character type"); trouble <- TRUE }
 	
-	# Check to make sure that data is a list of matrices and all matrices have the same dim
+	# Check that F2 and F1 are sorted ascending
+
+	if (is.unsorted(spectra$F2)) {warning("F2 frequency data are not sorted ascending"); trouble <- TRUE }
+	if (is.unsorted(spectra$F1)) {warning("F1 frequency data are not sorted ascending"); trouble <- TRUE }
+
+	# Check to make sure that data matrices have the same dim
 	
 	ns <- length(spectra$names)
 	dims <- matrix(NA_integer_, ncol = 2, nrow = ns)
+	rownames(dims) <- spectra$names
+	colnames(dims) <- c("F2", "F1")
 	for (i in 1:ns) {
 		if (!is.matrix(spectra$data[[i]])) stop("spectra$data entries should be matrices")
 		if (!is.numeric(spectra$data[[i]])) stop("spectra$data entries should be numeric matrices")
-		dims[i,] <- c(nrow(spectra$data[[i]]), ncol(spectra$data[[i]]))
+		dims[i,] <- c(ncol(spectra$data[[i]]), nrow(spectra$data[[i]]))
 	}
 	
-	Ucol1 <- length(unique(dims[,1])) == 1L
+	Ucol1 <- length(unique(dims[,1])) == 1L # TRUE/FALSE
 	Ucol2 <- length(unique(dims[,2])) == 1L
 	
 	if (!Ucol1 | !Ucol2) {
 		message("Data matrices do not have the same dimensions.")
-		rownames(dims) <- spectra$names
-		colnames(dims) <- c("F2", "F1")
 		print(dims)
 	}
 	
@@ -81,18 +86,18 @@ chkSpectra2D <- function(spectra, confirm = FALSE) {
 	dd <- dim(spectra$data[[1]])
 	g <- length(spectra$groups)
 	nc <- length(spectra$colors)
-	# ns prevously defined as length(spectra$names)
+	# note: ns was prevously defined as length(spectra$names)
 	
-	if (!identical(F1, dd[1])) { warning("The dimensions don't make sense (F1, data)"); trouble <- TRUE }
-	if (!identical(F2, dd[2])) { warning("The dimensions don't make sense (F2, data)"); trouble <- TRUE }
+	if (!identical(F1, dd[1])) { warning("Length(F1) != nrow(data)"); trouble <- TRUE }
+	if (!identical(F2, dd[2])) { warning("Length(F2) != ncol(data)"); trouble <- TRUE }
 	if (!identical(ns, g)) { warning("The dimensions don't make sense (names, group)"); trouble <- TRUE }
 	if (!identical(ns, nc)) { warning("The dimensions don't make sense (names, colors)"); trouble <- TRUE }
 	
 		
 	# Check for extra list elements and report
 
-	if ((length(spectra) > 7 ) && (confirm)) {
-		reqd <- c("F2", "F1", "data", "names", "groups", "unit", "desc")
+	if ((length(spectra) > 8 ) && (confirm)) {
+		reqd <- c("F2", "F1", "data", "names", "groups", "colors", "unit", "desc")
 		spc <- spectra[!names(spectra) %in% reqd]
 		message(">>> Extra data was found in the spectra object:")
 		str(spc)
