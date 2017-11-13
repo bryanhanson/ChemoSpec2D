@@ -22,9 +22,13 @@
 #'
 #' @export
 #'
-#' @importFrom stats median
+#' @examples
 #'
-normSpectra2D <- function(spectra, method = "zero2one") {
+#' data(MUD1)
+#'
+#' nMUD <- normSpectra2D(MUD1)
+#'
+normSpectra2D <- function(spectra, method = "TotInt") {
 	
 	if (missing(spectra)) stop("No spectral data provided")
 	chkSpectra2D(spectra)

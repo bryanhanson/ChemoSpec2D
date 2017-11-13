@@ -26,8 +26,12 @@ not done.  The
 beyond what is required.  If so, these extra elements are reported to the
 console.
 }
-\seealso{
-Please see \code{\link{ChemoSpec2D-package}} for examples.
+\examples{
+
+data(MUD1)
+
+sumSpectra2D(MUD1)
+
 }
 \author{
 Bryan A. Hanson, DePauw University.

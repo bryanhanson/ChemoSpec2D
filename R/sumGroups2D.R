@@ -21,7 +21,11 @@
 #'
 #' @export sumGroups2D
 #'
-#' @seealso Please see \code{\link{ChemoSpec2D-package}} for examples.
+#' @examples
+#'
+#' data(MUD1)
+#'
+#' sumGroups2D(MUD1)
 #'
 sumGroups2D <- function(spectra){
 		

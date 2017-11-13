@@ -49,6 +49,13 @@ elements and an attribute as follows:
 }
 }
 
+\examples{
+
+data(MUD1)
+
+str(MUD1)
+
+}
 \seealso{
 \code{\link{sumSpectra2D}} to summarize a \code{Spectra2D} object.
 \code{\link{sumGroups2D}} to summarize group membership of a \code{Spectra2D}

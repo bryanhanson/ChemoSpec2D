@@ -17,8 +17,7 @@ If \code{NULL}, values are computed using \code{chooseLvls}.}
 \item{\dots}{Additional parameters to be passed to plotting functions.}
 }
 \value{
-The chosen levels are returned invisibly, to aid in fine-tuning them.
-        Side effect is a plot.
+Side effect is a plot.
 }
 \description{
 Plots a 2D spectrum stored in a \code{\link{Spectra2D}} object.
@@ -26,8 +25,12 @@ This is primarily for inspection and for preparation of final plots.
 If you need to do extensive exploration, you should probably go back
 to the spectrometer.
 }
-\seealso{
-Please see \code{\link{ChemoSpec2D-package}} for examples.
+\examples{
+
+data(MUD1)
+
+plotSpectra2D(MUD1)
+
 }
 \author{
 Bryan A. Hanson, DePauw University.

@@ -1,5 +1,5 @@
 #'
-#' Automatically Select Contour Levels 2D NMR
+#' Automatically Select Contour Levels for 2D NMR
 #' 
 #' Given a matrix for which one wants to make a contour plot, this
 #' function will propose levels that are likely to work well

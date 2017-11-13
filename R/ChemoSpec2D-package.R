@@ -21,7 +21,7 @@
 #'
 #' @keywords package
 #'
-#' @examples
+# @examples
 # \dontrun{
 # if (!requireNamespace("ChemoSpec2Ddata", quietly = TRUE)) {
 #   stop("You must install ChemoSpec2Ddata to run this example")
@@ -44,21 +44,4 @@
 #
 # plotSpectra2D(Esters)
 # }
-#
-#' data(MUD1)
-#' sumSpectra2D(MUD1)
-#' sumGroups2D(MUD1)
-#' chkSpectra2D(MUD1, confirm = TRUE)
-#'
-#' mud2 <- removeGroup2D(MUD1, "GroupA")
-#' sumGroups2D(mud2)
-#'
-#' mud3 <- removeSample2D(MUD1, "Sample1")
-#' sumSpectra2D(mud3)
-#'
-#' mud4 <- normSpectra2D(MUD1)
-#'
-#' plotSpectra2D(MUD1)
-#' }
-
 NULL

@@ -20,10 +20,15 @@ A data frame as follows.
 This function summarizes the group membership and descriptive parameters of
 a \code{\link{Spectra2D}} object.
 }
+\examples{
+
+data(MUD1)
+
+sumGroups2D(MUD1)
+
+}
 \seealso{
 To summarize the entire object, \code{\link{sumSpectra2D}}.
-
-Please see \code{\link{ChemoSpec2D-package}} for examples.
 }
 \author{
 Bryan A. Hanson, DePauw University.

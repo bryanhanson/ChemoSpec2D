@@ -19,13 +19,19 @@ See the examples at \code{\link{ChemoSpec2D-package}}.}
 An object of S3 class \code{\link{Spectra2D}}.
 }
 \description{
-This function removes specified frequencies from a \code{\link{Spectra2D}}
-object.  For instance, one might want to remove regions lacking any useful
+This function sets the specified frequencies from a \code{\link{Spectra2D}}
+object to \code{NA}.  For instance, one might want to remove
+regions lacking any useful
 information (to reduce the data size), or remove regions with large
 interfering peaks (e.g. the water peak in 1H NMR).
 }
-\seealso{
-Please see \code{\link{ChemoSpec2D-package}} for examples.
+\examples{
+
+data(MUD1)
+
+MUD1a <- removeFreq2D(MUD1, remF2 = 3 ~ 5)
+MUD1b <- removeFreq2D(MUD1, remF2 = low ~ 5)
+
 }
 \author{
 Bryan A. Hanson, DePauw University.

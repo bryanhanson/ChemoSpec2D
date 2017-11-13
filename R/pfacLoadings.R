@@ -137,5 +137,5 @@ pfacLoadings <- function(spectra, pfac, which = 1, ref = NULL,
   # Plot
   plotContours(spectra, MP, MN, PLVLS, NLVLS, RLVLS, plvls, nlvls, rlvls, ref)
   
-  return(M)
+  invisible(M)
 }

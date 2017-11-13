@@ -2,7 +2,7 @@
 % Please edit documentation in R/guessLvls.R
 \name{guessLvls}
 \alias{guessLvls}
-\title{Automatically Select Contour Levels 2D NMR}
+\title{Automatically Select Contour Levels for 2D NMR}
 \usage{
 guessLvls(M)
 }

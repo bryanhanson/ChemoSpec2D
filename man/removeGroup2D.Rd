@@ -43,8 +43,16 @@ Unused levels in \code{$groups} are dropped.
 \item \code{removeSample2D}: Remove samples from a \code{Spectra2D} object
 }}
 
-\seealso{
-Please see \code{\link{ChemoSpec2D-package}} for examples.
+\examples{
+
+data(MUD1)
+
+mud2 <- removeGroup2D(MUD1, "GroupA")
+sumGroups2D(mud2)
+
+mud3 <- removeSample2D(MUD1, "Sample1")
+sumSpectra2D(mud3)
+
 }
 \author{
 Bryan A. Hanson, DePauw University.

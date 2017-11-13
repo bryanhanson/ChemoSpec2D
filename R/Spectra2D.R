@@ -55,6 +55,11 @@
 #'
 #' @keywords classes
 #'
+#' @examples
+#'
+#' data(MUD1)
+#'
+#' str(MUD1)
 #'
 
 NULL

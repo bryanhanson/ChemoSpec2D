@@ -4,7 +4,7 @@
 \alias{normSpectra2D}
 \title{Normalize a Spectra2D Object}
 \usage{
-normSpectra2D(spectra, method = "zero2one")
+normSpectra2D(spectra, method = "TotInt")
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}} to be normalized.}
@@ -22,6 +22,13 @@ This function carries out normalization of the spectra in a
   \item \code{"zero2one"} scales each 2D spectrum separately to a [0 \ldots{} 1] scale.
   \item \code{"TotInt"} scales each 2D spectrum separately so that the total area is one.
 }
+}
+\examples{
+
+data(MUD1)
+
+nMUD <- normSpectra2D(MUD1)
+
 }
 \author{
 Bryan A. Hanson, DePauw University.

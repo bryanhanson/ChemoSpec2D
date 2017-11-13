@@ -32,7 +32,11 @@
 #'
 #' @importFrom utils str
 #'
-#' @seealso Please see \code{\link{ChemoSpec2D-package}} for use examples.
+#' @examples
+#'
+#' data(MUD1)
+#'
+#' chkSpectra2D(MUD1, confirm = TRUE)
 #'
 chkSpectra2D <- function(spectra, confirm = FALSE) {
 	
@@ -75,10 +79,6 @@ chkSpectra2D <- function(spectra, confirm = FALSE) {
 		print(dims)
 	}
 	
-	# Check for NA's in the data (saves some grief and questions later)
-	
-	if (anyNA(spectra$data, recursive = TRUE)) stop("NA was found in the data matrices, please inspect")
-
 	# Check that the relationships of each element are correct
 		
 	F2 <- length(spectra$F2)

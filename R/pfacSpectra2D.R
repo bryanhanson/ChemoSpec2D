@@ -12,6 +12,7 @@
 #'        Unless you love waiting, you should use parallel processing.
 #'
 #' @param \dots Additional parameters to be passed to function \code{\link[multiway]{parafac}}.
+#'        At the minimum, you'll need to specify \code{nfac}.
 #'
 #' @return An object of class \code{parafac}.
 #'
@@ -27,6 +28,13 @@
 #'
 #' @importFrom multiway parafac
 #' @importFrom parallel makeCluster clusterEvalQ stopCluster detectCores
+#'
+#' @examples
+#'
+#' data(MUD1)
+#' res <- pfacSpectra2D(MUD1, parallel = FALSE, nfac = 2)
+#' pfacScores(MUD1, res)
+#' pfacLoadings(MUD1, res)
 #'
 
 pfacSpectra2D <- function(spectra, parallel = TRUE, ...) {

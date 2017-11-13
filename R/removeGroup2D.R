@@ -29,11 +29,19 @@
 #'
 #' @keywords utilities
 #'
-#' @export removeGroup2D
+#' @export
 #'
 #' @describeIn removeGroup2D Remove groups from a \code{Spectra2D} object
 #'
-#' @seealso Please see \code{\link{ChemoSpec2D-package}} for examples.
+#' @examples
+#'
+#' data(MUD1)
+#'
+#' mud2 <- removeGroup2D(MUD1, "GroupA")
+#' sumGroups2D(mud2)
+#'
+#' mud3 <- removeSample2D(MUD1, "Sample1")
+#' sumSpectra2D(mud3)
 #'
 removeGroup2D <- function(spectra, rem.group) {
 	

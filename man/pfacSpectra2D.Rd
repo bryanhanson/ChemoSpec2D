@@ -12,7 +12,8 @@ pfacSpectra2D(spectra, parallel = TRUE, ...)
 \item{parallel}{Logical.  Should parallel processing be used?
 Unless you love waiting, you should use parallel processing.}
 
-\item{\dots}{Additional parameters to be passed to function \code{\link[multiway]{parafac}}.}
+\item{\dots}{Additional parameters to be passed to function \code{\link[multiway]{parafac}}.
+At the minimum, you'll need to specify \code{nfac}.}
 }
 \value{
 An object of class \code{parafac}.
@@ -22,6 +23,14 @@ Carry out PARAFAC analysis of a \code{\link{Spectra2D}} object.
 Function \code{\link[multiway]{parafac}} from \pkg{multiway} is used.
 Because computation is slow, it is advisable to run this in batch
 mode from the command line.
+}
+\examples{
+
+data(MUD1)
+res <- pfacSpectra2D(MUD1, parallel = FALSE, nfac = 2)
+pfacScores(MUD1, res)
+pfacLoadings(MUD1, res)
+
 }
 \references{
 R. Bro "PARAFAC. Tutorial and applications" \emph{Chemometrics and Intelligent

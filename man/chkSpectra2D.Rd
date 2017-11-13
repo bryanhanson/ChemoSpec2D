@@ -32,8 +32,12 @@ problem, messages are issued regardless of the value of \code{confirm}.
 When used in a function, this function is silent (assuming \code{confirm =
 FALSE}) unless there is a problem.
 }
-\seealso{
-Please see \code{\link{ChemoSpec2D-package}} for use examples.
+\examples{
+
+data(MUD1)
+
+chkSpectra2D(MUD1, confirm = TRUE)
+
 }
 \author{
 Bryan A. Hanson, DePauw University.

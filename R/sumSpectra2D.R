@@ -23,7 +23,11 @@
 #'
 #' @export
 #'
-#' @seealso Please see \code{\link{ChemoSpec2D-package}} for examples.
+#' @examples
+#'
+#' data(MUD1)
+#'
+#' sumSpectra2D(MUD1)
 #'
 sumSpectra2D <- function(spectra, ...){
 	
