@@ -31,6 +31,8 @@ elements and an attribute as follows:
         \tab \tab as typically displayed).  The low end of the F1 dimension\cr
         \tab \tab is the last column of the first row (upper right hand corner).\cr
         \tab \tab In other words, the spectrum is stored as typically displayed.\cr
+        \tab \tab The list of matrices, if named, should have the same names as\cr
+        \tab \tab \code{names}.  However, this is not currently enforced.\cr
 
   $names \tab chr \tab The sample names for the spectra; length must be no. samples.\cr
 
@@ -39,7 +41,7 @@ elements and an attribute as follows:
   $colors \tab character \tab Colors for plotting; length must be no. samples.\cr
           \tab \tab Colors correspond to groups.\cr
 
-  $unit \tab chr \tab Three entries, the first giving the F2 (x) axis unit, the\cr
+  $units \tab chr \tab Three entries, the first giving the F2 (x) axis unit, the\cr
         \tab \tab second the F1 (y) axis unit, and the third the z axis unit,\cr
         \tab \tab usually some kind of intensity.\cr
 
@@ -52,8 +54,8 @@ elements and an attribute as follows:
 \examples{
 
 data(MUD1)
-
 str(MUD1)
+sumSpectra2D(MUD1)
 
 }
 \seealso{

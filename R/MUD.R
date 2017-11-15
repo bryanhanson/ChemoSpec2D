@@ -16,7 +16,6 @@
 #'
 #' @format The data are stored as a \code{\link{Spectra2D}} object.
 #'
-#'
 #' @source Created from scratch. Contact the author for a script if interested.
 #'
 #' @keywords datasets

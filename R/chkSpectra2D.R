@@ -7,7 +7,7 @@
 #' after manual editing of a \code{\link{Spectra2D}} object.  However,
 #' in most cases rather than
 #' directly manipulating a \code{\link{Spectra2D}} object, one should manipulate
-#' it via \code{\link{removeGroup2D}}, \code{\link{removeFreq2D}},
+#' it via \code{\link{removeGroup2D}}, \code{\link{blankPeaks2D}},
 #' or \code{\link{removeSample2D}}.
 #' 
 #' This function is similar in spirit to \code{\link{validObject}} in the S4
@@ -49,7 +49,7 @@ chkSpectra2D <- function(spectra, confirm = FALSE) {
 	if (!class(spectra$F1) == "numeric") { warning("The F1 frequency data are not numeric"); trouble <- TRUE }
 	if (!class(spectra$data) == "list") { warning("Data is not a list"); trouble <- TRUE }
 	if (!class(spectra$names) == "character") { warning("The sample names are not character type"); trouble <- TRUE }
-	if (!class(spectra$unit) == "character") { warning("The units are not character type"); trouble <- TRUE }
+	if (!class(spectra$units) == "character") { warning("The units are not character type"); trouble <- TRUE }
 	if (!class(spectra$desc) == "character") { warning("The description is not character type"); trouble <- TRUE }
 	if (!class(spectra$groups) == "factor") { warning("The assigned groups are not factor type"); trouble <- TRUE }
 	if (!class(spectra$colors) == "character") { warning("The assigned colors are not character type"); trouble <- TRUE }
@@ -79,14 +79,14 @@ chkSpectra2D <- function(spectra, confirm = FALSE) {
 		print(dims)
 	}
 	
-	# Check that the relationships of each element are correct
+	# Check that the relationships between each element are correct
 		
 	F2 <- length(spectra$F2)
 	F1 <- length(spectra$F1)
 	dd <- dim(spectra$data[[1]])
 	g <- length(spectra$groups)
 	nc <- length(spectra$colors)
-	# note: ns was prevously defined as length(spectra$names)
+	# note: ns was defined earlier as length(spectra$names)
 	
 	if (!identical(F1, dd[1])) { warning("Length(F1) != nrow(data)"); trouble <- TRUE }
 	if (!identical(F2, dd[2])) { warning("Length(F2) != ncol(data)"); trouble <- TRUE }

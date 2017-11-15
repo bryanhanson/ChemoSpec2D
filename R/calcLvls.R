@@ -4,6 +4,7 @@
 #' Given a matrix, this function will assist in selecting levels for preparing
 #' contour and image type plots.  For instance, levels can be spaced evenly,
 #' logrithmically, exponentially or using a cumulative distribution function.
+#' \code{NA} values are ignored.
 #' 
 #' @param M A numeric matrix.
 #'
@@ -50,12 +51,12 @@
 #' 
 #' set.seed(9)
 #' MM <- matrix(runif(100, -1, 1), nrow = 10) # test data
-#' tsts <- c("even", "log", "exp", "ecdf", "poslog", "posexp")
+#' tsts <- c("even", "log", "poslog", "exp", "posexp", "ecdf")
 #' for (i in 1:length(tsts)) {
 #' 	nl <- 10
 #' 	if(tsts[i] == "ecdf")  nl <- seq(0.1, 0.9, 0.1)
 #' 	levels <- calcLvls(M = MM, n = nl, mode = tsts[i],
-#'    showHist = TRUE, main = tsts[i])
+#'  showHist = TRUE, main = tsts[i])
 #' 	}
 #' 
 #' 
@@ -98,7 +99,8 @@ calcLvls <- function(M, n = 10, mode = "even",
 	findExtreme <- function(M) {
 		# Find the most extreme value in a numerical object (matrix)
 		# and return the absolute value of that extreme
-		
+		# Must handle NAs
+		M <- M[!is.na(M)]
 		ex <- abs(range(M))
 		ex <- ex[which.max(ex)]
 		return(ex)
@@ -109,8 +111,12 @@ calcLvls <- function(M, n = 10, mode = "even",
 		# depending upon which is most extreme in absolute terms,
 		# and return them as a vector of positive values
 		
-		neg <- M[M <= 0] # these are vectors
+		# Be sure to weed out NA's
+		
+		neg <- M[M < 0] # these are vectors
+		neg <- neg[!is.na(neg)]
 		pos <- M[M > 0]
+		pos <- pos[!is.na(pos)]
 		if (length(pos) == 0) return(neg) # no + values
 		if (length(neg) == 0) return(pos) # no - values
 		exP <- findExtreme(pos)		

@@ -1,5 +1,5 @@
 #'
-#' Plot Spectra2D Object
+#' Plot a Spectra2D Object
 #' 
 #' Plots a 2D spectrum stored in a \code{\link{Spectra2D}} object.
 #' This is primarily for inspection and for preparation of final plots.
@@ -23,13 +23,11 @@
 #'
 #' @export
 #'
-#' @importFrom graphics axis box mtext
-#'
 #' @examples
 #'
 #' data(MUD1)
 #'
-#' plotSpectra2D(MUD1)
+#' plotSpectra2D(MUD1, main = "MUD1", lvls = c(0.25, 0.5, 0.75))
 #'
 plotSpectra2D <- function(spectra, which = 1, lvls = NULL, ...) {
 	

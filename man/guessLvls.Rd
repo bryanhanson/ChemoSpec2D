@@ -4,10 +4,12 @@
 \alias{guessLvls}
 \title{Automatically Select Contour Levels for 2D NMR}
 \usage{
-guessLvls(M)
+guessLvls(M, ...)
 }
 \arguments{
 \item{M}{A matrix.}
+
+\item{\dots}{Additional parameters to be passed to \code{\link{calcLvls}}.}
 }
 \value{
 A vector of the suggested contour levels (invisibly).
@@ -16,15 +18,15 @@ A vector of the suggested contour levels (invisibly).
 Given a matrix for which one wants to make a contour plot, this
 function will propose levels that are likely to work well
 for 2D NMR data.  Uses \code{\link{calcLvls}} but makes
-adjustments given the nature of 2D NMR data.
+adjustments given the nature of 2D NMR data (i.e. this function
+uses \code{mode = "log"} and removes the lowest contour level).
 }
 \examples{
 
 set.seed(9)
-MM <- matrix(runif(100, -1, 1), nrow = 10) # test data
-print(guessLvls(MM))
-print(guessLvls(abs(MM)))
-print(guessLvls(-1*abs(MM)))
+MM <- matrix(rnorm(100, sd = 2), nrow = 10) # test data
+guessLvls(MM, showHist = TRUE) # showHist passes through to calcLvls
+guessLvls(abs(MM), showHist = TRUE)
 
 }
 \seealso{

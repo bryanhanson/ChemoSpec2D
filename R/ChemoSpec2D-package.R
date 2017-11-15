@@ -3,11 +3,14 @@
 #'
 #' Exploratory Chemometrics for 2D Spectroscopy
 #'
-#' A collection of functions for working with 2D spectra,
-#' developed with NMR in mind, but other types of 2D spectroscopy may also
-#' be analyzed. ChemoSpec2D takes many of its cues from ChemoSpec
-#' and tries to create consistent graphical output and be very user friendly.
-#' Tools to plot 2D spectra and carry out PARAFAC are the main features.
+#' A collection of functions for working with 2D spectroscopic data such as COSY and HSQC NMR 
+#' spectra using appropriate chemometric techniques. ChemoSpec2D deploys methods aimed primarily
+#' at classification of samples and the identification of spectral features which are important
+#' in distinguishing samples from each other. Each 2D spectrum (a matrix) is treated as the unit of
+#' observation, and thus the physical sample that went into the spectrometer corresponds to the
+#' sample from a statistical perspective.  ChemoSpec2D takes many of its cues from ChemoSpec
+#' and tries to create consistent graphical output and to be very user friendly.  Tools to
+#' manipulate and plot 2D spectra and carry out PARAFAC are the main features.
 #'
 #' @name ChemoSpec2D-package
 #'
@@ -21,27 +24,4 @@
 #'
 #' @keywords package
 #'
-# @examples
-# \dontrun{
-# if (!requireNamespace("ChemoSpec2Ddata", quietly = TRUE)) {
-#   stop("You must install ChemoSpec2Ddata to run this example")
-# }
-#
-# # ChemoSpec2Ddata can be installed following the directions here:
-# # https://github.com/bryanhanson/ChemoSpec2Ddata
-# data("Esters", package = "ChemoSpec2Ddata")
-# sumSpectra2D(Esters)
-# sumGroups2D(Esters)
-# chkSpectra2D(Esters, confirm = TRUE)
-#
-# Esters2 <- removeGroup2D(Esters, "butyl") # remove the butyl esters
-# sumGroups2D(Esters2)
-#
-# Esters3 <- removeSample2D(Esters, "Pro") # remove the propanoates
-# sumSpectra2D(Esters3)
-#
-# Esters4 <- normSpectra2D(Esters)
-#
-# plotSpectra2D(Esters)
-# }
 NULL

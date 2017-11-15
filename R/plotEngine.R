@@ -27,7 +27,7 @@
 #'
 #' @export
 #'
-#' @importFrom lattice contourplot lattice.getOption
+#' @importFrom graphics axis box mtext
 #'
 #' @examples
 #'

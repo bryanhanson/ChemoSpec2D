@@ -36,6 +36,7 @@
 #' @examples
 #'
 #' data(MUD1)
+#' sumSpectra2D(MUD1)
 #'
 #' mud2 <- removeGroup2D(MUD1, "GroupA")
 #' sumGroups2D(mud2)
@@ -72,12 +73,14 @@ removeGroup2D <- function(spectra, rem.group) {
 	tn <- c("F2", "F1", "data", "names", "groups", "unit", "colors", "desc")
 	extra <- setdiff(sn, tn)
 	if (length(extra) > 0) {
-		msg <- paste("Additional data was found:", extra, "-- but not modified\n", sep = " ")
-		message(msg)
+		for (i in 1:length(extra)) {
+			msg <- paste("\n\tAdditional data was found:", extra[i], "\n", sep = " ")
+			message(msg)			
+		}
 		message("If these are per sample data, you may have to manually edit them")
 		message("The removal indices are:")
-		print(rem.group)
-		}
+		print(rem.group)		
+	}
 	
 	if (length(spectra$groups) == 0) warning("You have removed all your samples!")
 

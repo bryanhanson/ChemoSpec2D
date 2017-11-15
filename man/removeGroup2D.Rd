@@ -46,6 +46,7 @@ Unused levels in \code{$groups} are dropped.
 \examples{
 
 data(MUD1)
+sumSpectra2D(MUD1)
 
 mud2 <- removeGroup2D(MUD1, "GroupA")
 sumGroups2D(mud2)

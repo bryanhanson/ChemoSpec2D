@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotSpectra2D.R
 \name{plotSpectra2D}
 \alias{plotSpectra2D}
-\title{Plot Spectra2D Object}
+\title{Plot a Spectra2D Object}
 \usage{
 plotSpectra2D(spectra, which = 1, lvls = NULL, ...)
 }
@@ -29,7 +29,7 @@ to the spectrometer.
 
 data(MUD1)
 
-plotSpectra2D(MUD1)
+plotSpectra2D(MUD1, main = "MUD1", lvls = c(0.25, 0.5, 0.75))
 
 }
 \author{

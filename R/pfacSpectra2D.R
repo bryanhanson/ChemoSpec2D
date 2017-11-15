@@ -56,7 +56,8 @@ pfacSpectra2D <- function(spectra, parallel = TRUE, ...) {
   # Set up data array (frontal slices)
   DA <- array(unlist(spectra$data), dim = c(length(spectra$F2), length(spectra$F1), length(spectra$names)))
   dimnames(DA) <- list(A = NULL, B = NULL, C = spectra$names)
-
+  if (any(is.na(DA))) stop("Data for parafac cannot have NA")
+  
   # Run it
   if (!parallel) pfac <- parafac(DA, const = c(2, 2, 2), ...)
   if (parallel) pfac <- parafac(DA, const = c(2, 2, 2), parallel = TRUE, cl = cl, ...)

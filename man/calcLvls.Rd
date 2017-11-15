@@ -42,17 +42,18 @@ A numeric vector giving the levels.
 Given a matrix, this function will assist in selecting levels for preparing
 contour and image type plots.  For instance, levels can be spaced evenly,
 logrithmically, exponentially or using a cumulative distribution function.
+\code{NA} values are ignored.
 }
 \examples{
 
 set.seed(9)
 MM <- matrix(runif(100, -1, 1), nrow = 10) # test data
-tsts <- c("even", "log", "exp", "ecdf", "poslog", "posexp")
+tsts <- c("even", "log", "poslog", "exp", "posexp", "ecdf")
 for (i in 1:length(tsts)) {
 	nl <- 10
 	if(tsts[i] == "ecdf")  nl <- seq(0.1, 0.9, 0.1)
 	levels <- calcLvls(M = MM, n = nl, mode = tsts[i],
-   showHist = TRUE, main = tsts[i])
+ showHist = TRUE, main = tsts[i])
 	}
 
 

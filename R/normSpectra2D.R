@@ -26,7 +26,9 @@
 #'
 #' data(MUD1)
 #'
-#' nMUD <- normSpectra2D(MUD1)
+#' MUD1n <- normSpectra2D(MUD1)
+#' MUD1b <- blankPeaks2D(MUD1, remF2 = 2.5 ~ 3.5)
+#' MUD1bn <- normSpectra2D(MUD1b)
 #'
 normSpectra2D <- function(spectra, method = "TotInt") {
 	
@@ -37,16 +39,16 @@ normSpectra2D <- function(spectra, method = "TotInt") {
 
 	if (method == "zero2one") {
 		for (i in 1:length(spectra$names)) {
-			rMin <- min(spectra$data[[i]])
+			rMin <- min(spectra$data[[i]], na.rm = TRUE)
 			spectra$data[[i]] <- spectra$data[[i]] - rMin
-			rMax <- max(spectra$data[[i]])
+			rMax <- max(spectra$data[[i]], na.rm = TRUE)
 			spectra$data[[i]] <- spectra$data[[i]]/rMax
 			}
 		}
 
 	if (method == "TotInt") {
 		for (i in 1:length(spectra$names)) {
-			spectra$data[[i]] <- spectra$data[[i]]/sum(spectra$data[[i]])
+			spectra$data[[i]] <- spectra$data[[i]]/sum(spectra$data[[i]], na.rm = TRUE)
 			}
 		}
 
