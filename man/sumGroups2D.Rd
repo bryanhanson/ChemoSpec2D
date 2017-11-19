@@ -2,7 +2,7 @@
 % Please edit documentation in R/sumGroups2D.R
 \name{sumGroups2D}
 \alias{sumGroups2D}
-\title{Summarize the Group Parameters of a Spectra2D Object}
+\title{Summarize the Groups in a Spectra2D Object}
 \usage{
 sumGroups2D(spectra)
 }

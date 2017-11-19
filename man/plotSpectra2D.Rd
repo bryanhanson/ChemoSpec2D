@@ -11,10 +11,10 @@ plotSpectra2D(spectra, which = 1, lvls = NULL, ...)
 
 \item{which}{An integer specifying which spectrum to plot.}
 
-\item{lvls}{An integer specifying the levels at which to compute contours.
+\item{lvls}{A numeric vector specifying the levels at which to compute contours.
 If \code{NULL}, values are computed using \code{chooseLvls}.}
 
-\item{\dots}{Additional parameters to be passed to plotting functions.}
+\item{\ldots}{Additional parameters to be passed to the plotting routines.}
 }
 \value{
 Side effect is a plot.

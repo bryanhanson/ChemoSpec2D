@@ -27,7 +27,7 @@
 #' data(MUD1)
 #'
 #' MUD1n <- normSpectra2D(MUD1)
-#' MUD1b <- blankPeaks2D(MUD1, remF2 = 2.5 ~ 3.5)
+#' MUD1b <- removeFreq2D(MUD1, remF2 = 2.5 ~ 3.5)
 #' MUD1bn <- normSpectra2D(MUD1b)
 #'
 normSpectra2D <- function(spectra, method = "TotInt") {

@@ -9,7 +9,7 @@
 #'
 #' @param pfac An object of class \code{parafac}.
 #'
-#' @param which An integer specifying the scores to plot.
+#' @param which An integer specifying two scores to plot.
 #'
 #' @param \dots Additional parameters to be passed to plotting functions.
 #'

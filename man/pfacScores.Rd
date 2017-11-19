@@ -11,7 +11,7 @@ pfacScores(spectra, pfac, which = c(1, 2), ...)
 
 \item{pfac}{An object of class \code{parafac}.}
 
-\item{which}{An integer specifying the scores to plot.}
+\item{which}{An integer specifying two scores to plot.}
 
 \item{\dots}{Additional parameters to be passed to plotting functions.}
 }

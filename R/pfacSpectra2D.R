@@ -9,7 +9,7 @@
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'
 #' @param parallel Logical.  Should parallel processing be used?
-#'        Unless you love waiting, you should use parallel processing.
+#'        Unless you love waiting, you should use parallel processing for real data sets.
 #'
 #' @param \dots Additional parameters to be passed to function \code{\link[multiway]{parafac}}.
 #'        At the minimum, you'll need to specify \code{nfac}.

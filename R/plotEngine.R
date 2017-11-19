@@ -4,7 +4,8 @@
 #' Plots one or more 2D spectra stored in a \code{\link{Spectra2D}} object.
 #' This is the function that actually creates the plots requested
 #' by several other functions.  Not intended to be called by the user.
-#' Base graphics functions are used.
+#' Base graphics functions are used.  x and y axes dimensions are 0...1
+#' par values should be adjusted before calling this function.
 #'
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'
@@ -42,8 +43,8 @@ plotEngine <- function(spectra, which = 1, lvls = NULL, colors = NULL, ...) {
   if (!is.null(lvls)) { if (length(which) != length(lvls)) stop("length(which) != length(lvls)") }
   if (!is.null(colors)) { if (length(which) != length(colors)) stop("length(which) != length(colors)") }
 
-  op <- par(no.readonly = TRUE) # save to restore later
-  par(mai = c(1, 0.5, 1, 1))
+  # op <- par(no.readonly = TRUE) # save to restore later
+  # par(mai = c(1, 0.5, 1, 1))
   
   # Plot each spectrum in turn
   for (i in 1:length(which)) {
@@ -85,5 +86,5 @@ plotEngine <- function(spectra, which = 1, lvls = NULL, colors = NULL, ...) {
     }
   } # end of master loop
   
-  on.exit(par(op)) # restore original values
+  # on.exit(par(op)) # restore original values
 }

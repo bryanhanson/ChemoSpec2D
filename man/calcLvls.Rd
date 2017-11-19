@@ -53,7 +53,7 @@ for (i in 1:length(tsts)) {
 	nl <- 10
 	if(tsts[i] == "ecdf")  nl <- seq(0.1, 0.9, 0.1)
 	levels <- calcLvls(M = MM, n = nl, mode = tsts[i],
- showHist = TRUE, main = tsts[i])
+   showHist = TRUE, main = tsts[i])
 	}
 
 

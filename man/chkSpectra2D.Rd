@@ -21,8 +21,8 @@ object (an S3 object) is internally consistent. This function can be used
 after manual editing of a \code{\link{Spectra2D}} object.  However,
 in most cases rather than
 directly manipulating a \code{\link{Spectra2D}} object, one should manipulate
-it via \code{\link{removeGroup2D}}, \code{\link{blankPeaks2D}},
-or \code{\link{removeSample2D}}.
+it via \code{\link{removeGroup2D}}, \code{\link{removeSample2D}}, \code{\link{normSpectra2D}},
+or \code{\link{removeFreq2D}}.
 }
 \details{
 This function is similar in spirit to \code{\link{validObject}} in the S4

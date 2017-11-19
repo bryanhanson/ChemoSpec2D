@@ -27,7 +27,8 @@ Side effect is a plot.
 Plots one or more 2D spectra stored in a \code{\link{Spectra2D}} object.
 This is the function that actually creates the plots requested
 by several other functions.  Not intended to be called by the user.
-Base graphics functions are used.
+Base graphics functions are used.  x and y axes dimensions are 0...1
+par values should be adjusted before calling this function.
 }
 \examples{
 

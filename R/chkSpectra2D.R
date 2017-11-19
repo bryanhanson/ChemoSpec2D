@@ -7,8 +7,8 @@
 #' after manual editing of a \code{\link{Spectra2D}} object.  However,
 #' in most cases rather than
 #' directly manipulating a \code{\link{Spectra2D}} object, one should manipulate
-#' it via \code{\link{removeGroup2D}}, \code{\link{blankPeaks2D}},
-#' or \code{\link{removeSample2D}}.
+#' it via \code{\link{removeGroup2D}}, \code{\link{removeSample2D}}, \code{\link{normSpectra2D}},
+#' or \code{\link{removeFreq2D}}.
 #' 
 #' This function is similar in spirit to \code{\link{validObject}} in the S4
 #' world.  When used at the console, and the object is OK, no message is
@@ -79,6 +79,18 @@ chkSpectra2D <- function(spectra, confirm = FALSE) {
 		print(dims)
 	}
 	
+	# Check that data matrices have NAs in the same positions, if they have them
+	
+	M <- spectra$data # list of numeric matrices
+	
+	for (i in 1:ns) {
+		M[[i]] <- is.na(spectra$data[[i]]) # now a list of logical matrices
+	}
+	
+	for (i in 2:ns) {
+		if (!identical(M[[i]], M[[i-1]])) stop("NAs are present in the data but differ between samples")
+	}
+	
 	# Check that the relationships between each element are correct
 		
 	F2 <- length(spectra$F2)
@@ -105,7 +117,7 @@ chkSpectra2D <- function(spectra, confirm = FALSE) {
 	
 	# Wrap up
 	
-	if ((!trouble) && (confirm)) message(">>> You must be awesome: These spectra look great!")
+	if ((!trouble) && (confirm)) message(">>> Everything looks good!")
 	if (trouble) {
 		message("*** There seem to be one or more problems with these spectra!")
 		stop("Sorry, we can't continue this way: It's not me, it's you!")

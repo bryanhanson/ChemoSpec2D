@@ -10,7 +10,7 @@ pfacSpectra2D(spectra, parallel = TRUE, ...)
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
 
 \item{parallel}{Logical.  Should parallel processing be used?
-Unless you love waiting, you should use parallel processing.}
+Unless you love waiting, you should use parallel processing for real data sets.}
 
 \item{\dots}{Additional parameters to be passed to function \code{\link[multiway]{parafac}}.
 At the minimum, you'll need to specify \code{nfac}.}

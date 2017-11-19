@@ -1,6 +1,6 @@
 #'
 #'
-#' Summarize the Group Parameters of a Spectra2D Object
+#' Summarize the Groups in a Spectra2D Object
 #' 
 #' This function summarizes the group membership and descriptive parameters of
 #' a \code{\link{Spectra2D}} object.

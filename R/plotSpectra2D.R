@@ -10,10 +10,10 @@
 #'
 #' @param which An integer specifying which spectrum to plot.
 #'
-#' @param lvls An integer specifying the levels at which to compute contours.
+#' @param lvls A numeric vector specifying the levels at which to compute contours.
 #'        If \code{NULL}, values are computed using \code{chooseLvls}.
 #'
-#' @param \dots Additional parameters to be passed to plotting functions.
+#' @param \ldots Additional parameters to be passed to the plotting routines.
 #'
 #' @return Side effect is a plot.
 #'
@@ -38,5 +38,5 @@ plotSpectra2D <- function(spectra, which = 1, lvls = NULL, ...) {
   lvls <- list(lvls)
   
   plotEngine(spectra, which, lvls, ...)
-    
+
 }

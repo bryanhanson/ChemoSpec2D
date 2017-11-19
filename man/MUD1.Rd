@@ -9,9 +9,9 @@
 Created from scratch. Contact the author for a script if interested.
 }
 \description{
-Made Up Data that resemble 2D NMR data sets.  They are very small and designed primarily
-to demonstrate and test functions.  Real 2D NMR data sets are too large to be included
-in the package.
+Made Up Data that resemble 2D NMR data sets.  They are very small, low resolution 
+and designed primarily to demonstrate and test functions.
+Real 2D NMR data sets are too large to be included in the package.
 }
 \details{
 \code{MUD1} is composed of 10 samples in two groups.  The data resembles an HSQC spectrum.

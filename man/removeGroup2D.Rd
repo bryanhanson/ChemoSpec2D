@@ -34,7 +34,7 @@ also uses grep.  Remember that the
 grepping process is greedy, i.e. grepping for "XY" find not only "XY" but
 also "XYZ".
 
-Unused levels in \code{$groups} are dropped.
+Unused levels in \code{$groups} are dropped by \code{removeGroup2D}.
 }
 \section{Functions}{
 \itemize{
@@ -48,11 +48,11 @@ Unused levels in \code{$groups} are dropped.
 data(MUD1)
 sumSpectra2D(MUD1)
 
-mud2 <- removeGroup2D(MUD1, "GroupA")
-sumGroups2D(mud2)
+MUD1a <- removeGroup2D(MUD1, "GroupA")
+sumGroups2D(MUD1a)
 
-mud3 <- removeSample2D(MUD1, "Sample1")
-sumSpectra2D(mud3)
+MUD1b <- removeSample2D(MUD1, "Sample1")
+sumSpectra2D(MUD1b)
 
 }
 \author{
