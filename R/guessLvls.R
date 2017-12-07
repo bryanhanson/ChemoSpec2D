@@ -18,7 +18,7 @@
 #'
 #' @author Bryan A. Hanson, DePauw University.
 #'
-#' @keywords utility
+#' @keywords utilities
 #'
 #' @seealso Please see \code{\link{calcLvls}}.
 #' 

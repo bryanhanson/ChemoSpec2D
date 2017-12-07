@@ -64,7 +64,7 @@
 #' @param retFreq Logical. Should the frequencies be returned?
 #'
 #' @return A list with two elements giving the indices of NAs for rows and columns,
-#'         unless \code{retFreq} = TRUE}, in which case the frequencies are returned.
+#'         unless \code{retFreq = TRUE}, in which case the frequencies are returned.
 #'
 #' @author Bryan A. Hanson, DePauw University.
 #'
@@ -243,3 +243,90 @@
 	
 	return(DF)
 	}
+
+### Helper Functions related to calcLvls
+
+.sH <- function(M, lvs, ...) { # Helper function for showHist = TRUE
+	
+	# Check which arm is larger and use that for xlim
+	ref <- .findExtreme(M)
+	lim.x <- c(-ref, ref)
+
+	def.par <- par(no.readonly = TRUE)
+	nf <- layout(mat = matrix(c(1, 2), 2, 1, byrow = TRUE), heights = c(6 , 1))
+	par(mar = c(3.1, 3.1, 1.1, 2.1))
+
+	hist(M, breaks = 50,
+		xlab = "", ylab = "", xlim = lim.x,
+		col = "black", ...)
+	abline(v = lvs, col = "pink", lty = 2)
+	
+	col1 <- rev(rainbow(5, start = 0.0, end = 0.25))
+	col2 <- rev(rainbow(4, start = 0.45, end = 0.66))
+	cscale <- c(col2, col1)
+	nc <- length(cscale)
+	plot(1:nc, rep(1.0, nc), type = "n",
+		yaxt = "n", xaxt = "n", main = "", xlab = "", ylab = "")
+	for (i in 1:nc) {
+		rect(i-0.5, 0.5, i+0.5, 1.5, border = NA, col = cscale[i])
+		}
+		
+	par(def.par)
+} # end of .sH
+
+
+.findExtreme <- function(M) {
+	# Find the most extreme value in a numerical object (matrix)
+	# and return the absolute value of that extreme
+	# Must handle NAs
+	M <- M[!is.na(M)]
+	ex <- abs(range(M))
+	ex <- ex[which.max(ex)]
+	return(ex)
+}
+		
+.getPN <- function(M) {
+	# Get either the (+)-ive or (-)-ive values in a matrix
+	# depending upon which is most extreme in absolute terms,
+	# and return them as a vector of positive values
+	
+	# Be sure to weed out NA's
+	
+	neg <- M[M < 0] # these are vectors
+	neg <- neg[!is.na(neg)]
+	pos <- M[M > 0]
+	pos <- pos[!is.na(pos)]
+	if (length(pos) == 0) return(neg) # no + values
+	if (length(neg) == 0) return(pos) # no - values
+	exP <- .findExtreme(pos)		
+	exN <- .findExtreme(neg)
+	if (exP >= exN) return(pos)
+	if (exN > exP) return(abs(neg))
+}
+			
+### extraData
+
+.extraData <- function(spectra, action) {
+	
+	spec.names <- names(spectra)
+	reqd.names <- c("F2", "F1", "data", "names", "groups", "colors", "units", "desc")
+	extra <- setdiff(spec.names, reqd.names)
+	
+	if (length(extra) > 0) {
+		# Always give the extra data names
+		for (i in 1:length(extra)) {
+			msg <- paste("\tAdditional data was found:", extra[i], sep = " ")
+			message(msg)			
+		}
+		
+		# If something was removed, give the indices		
+		if (!missing(action)) {
+			message("\tIf these are per sample data, you may have to manually edit them.")
+			message("\tThe removal indices are:")
+			print(action)		
+		}
+		
+	}
+}
+
+

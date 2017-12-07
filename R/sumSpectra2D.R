@@ -104,16 +104,8 @@ sumSpectra2D <- function(spectra, ...){
 	print(sumGroups2D(spectra))
 	
 	# Check for extra data and report if found
-	
-	sn <- names(spectra)
-	tn <- c("F2", "F1", "data", "names", "groups", "units", "colors", "desc")
-	extra <- setdiff(sn, tn)
-	if (length(extra) > 0) {
-		for (i in 1:length(extra)) {
-			msg <- paste("\n\tAdditional data was found:", extra[i], "\n", sep = " ")
-			message(msg)			
-		}
-		}
+	cat("\n")
+	if (length(spectra) > 8) .extraData(spectra)
 	
 	cat("\n*** Note: this data is an S3 object of class 'Spectra2D'\n")
 	}

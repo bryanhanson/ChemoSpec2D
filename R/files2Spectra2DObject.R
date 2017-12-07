@@ -87,8 +87,8 @@
 #' groups.  Because this is a grep process, you can get around this by using
 #' regular expressions in your \code{gr.crit} argument to specify the desired
 #' groups in a mutually exclusive manner.  In this second example, you could
-#' use \code{gr.crit = c("Control(.*)Sun", "Control(.*)Shade", "Sample(.*)Sun",
-#' "Sample(.*)Shade")} to have your groups assigned based upon both phrases in
+#' use \code{gr.crit = c("Control(.*)Sun"}, \code{"Control(.*)Shade"}, \code{"Sample(.*)Sun"},
+#' \code{"Sample(.*)Shade")} to have your groups assigned based upon both phrases in
 #' the file names.
 #'
 #' To summarize, \code{gr.crit} is used as a grep pattern, and the file/sample names

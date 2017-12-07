@@ -40,9 +40,6 @@
 #' plotSpectra2D(MUD1, lvls = c(0.25, 0.5, 0.75),
 #'   main = "MUD1 Spectrum 1: Complete Data Set")
 #'
-#' # Note for this low resolution data set, some formulas like
-#' # remF2 = 3 ~ 4 result in no change due to rounding.
-#'
 #' MUD1a <- removeFreq2D(MUD1, remF2 = 2 ~ 4)
 #' sumSpectra2D(MUD1a) # cannot plot, results would be misleading
 #'

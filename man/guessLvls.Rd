@@ -40,4 +40,4 @@ Please see \code{\link{calcLvls}}.
 \author{
 Bryan A. Hanson, DePauw University.
 }
-\keyword{utility}
+\keyword{utilities}

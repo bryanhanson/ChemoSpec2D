@@ -107,20 +107,12 @@ chkSpectra2D <- function(spectra, confirm = FALSE) {
 		
 	# Check for extra list elements and report
 
-	if ((length(spectra) > 8 ) && (confirm)) {
-		reqd <- c("F2", "F1", "data", "names", "groups", "colors", "unit", "desc")
-		spc <- spectra[!names(spectra) %in% reqd]
-		message(">>> Extra data was found in the spectra object:")
-		str(spc)
-		}
+	if ((length(spectra) > 8 ) && (confirm)) .extraData(spectra)
 	
 	# Wrap up
 	
 	if ((!trouble) && (confirm)) message(">>> Everything looks good!")
-	if (trouble) {
-		message("*** There seem to be one or more problems with these spectra!")
-		stop("Sorry, we can't continue this way: It's not me, it's you!")
-		}
+	if (trouble) stop(">>>  Bummer: There seem to be one or more problems with this data set!")
 	
 	}
 

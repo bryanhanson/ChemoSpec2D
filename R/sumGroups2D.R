@@ -44,5 +44,5 @@ sumGroups2D <- function(spectra){
 	g.sum <- g.sum[-1,]
 	g.sum <- subset(g.sum, no. > 0)
 	rownames(g.sum) <- c(1:nrow(g.sum))
-	g.sum
+	return(g.sum)
 	}
