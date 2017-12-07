@@ -23,7 +23,6 @@ a \code{\link{Spectra2D}} object.
 \examples{
 
 data(MUD1)
-
 sumGroups2D(MUD1)
 
 }

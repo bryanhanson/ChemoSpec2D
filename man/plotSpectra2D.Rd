@@ -4,7 +4,7 @@
 \alias{plotSpectra2D}
 \title{Plot a Spectra2D Object}
 \usage{
-plotSpectra2D(spectra, which = 1, lvls = NULL, ...)
+plotSpectra2D(spectra, which = 1, lvls = NULL, showNA = TRUE, ...)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
@@ -12,7 +12,10 @@ plotSpectra2D(spectra, which = 1, lvls = NULL, ...)
 \item{which}{An integer specifying which spectrum to plot.}
 
 \item{lvls}{A numeric vector specifying the levels at which to compute contours.
-If \code{NULL}, values are computed using \code{chooseLvls}.}
+If \code{NULL}, values are computed using \code{\link{guessLvls}}.}
+
+\item{showNA}{Logical. Should the locations of peaks removed by \code{\link{removePeaks2D}}
+be shown?  If present, these are show by a red line at each frequency.}
 
 \item{\ldots}{Additional parameters to be passed to the plotting routines.}
 }
@@ -25,6 +28,14 @@ This is primarily for inspection and for preparation of final plots.
 If you need to do extensive exploration, you should probably go back
 to the spectrometer.
 }
+\section{Warning}{
+
+One cannot remove frequencies from the interior of a 2D NMR data set and expect to get a meaningful
+contour plot, because doing so puts unrelated peaks adjacent in the data set.
+This would lead to contours being drawn that don't exist in the original data set.
+This function checks for missing frequencies.
+}
+
 \examples{
 
 data(MUD1)

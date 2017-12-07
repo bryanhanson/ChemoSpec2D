@@ -11,7 +11,7 @@ guessLvls(M, ...)
 
 \item{\dots}{Additional parameters to be passed to \code{\link{calcLvls}}.
 For instance \code{showHist = TRUE} will display a histogram of the data
-with the chosen levels.  Note that this will show all calculated contour
+with the chosen levels.  Note that doing so will show all calculated contour
 levels, but this function will remove the lowest one.}
 }
 \value{
@@ -28,8 +28,10 @@ uses \code{mode = "log"} and removes the lowest contour level).
 
 set.seed(9)
 MM <- matrix(rnorm(100, sd = 2), nrow = 10) # test data
-guessLvls(MM, showHist = TRUE) # showHist passes through to calcLvls
-guessLvls(abs(MM), showHist = TRUE)
+guessLvls(MM, showHist = TRUE,
+  main = "Levels Closest to Zero Will Be Dropped") # showHist passes through to calcLvls
+guessLvls(abs(MM), showHist = TRUE,
+  main = "Levels Closest to Zero Will Be Dropped")
 
 }
 \seealso{

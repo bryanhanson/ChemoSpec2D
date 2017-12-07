@@ -24,7 +24,6 @@
 #' @examples
 #'
 #' data(MUD1)
-#'
 #' sumGroups2D(MUD1)
 #'
 sumGroups2D <- function(spectra){

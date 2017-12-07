@@ -9,7 +9,10 @@ sumSpectra2D(spectra, ...)
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
 
-\item{...}{Arguments to be passed downstream.}
+\item{...}{Arguments to be passed downstream. If \code{sumSpectra2D} thinks there is a
+gap between every data point, add the argument \code{tolF1 = xx} and/or 
+\code{tolF2 = xx} which will pass through to
+the underlying functions and override the internal guessing at appropriate values.}
 }
 \value{
 None.  Results printed at console.
@@ -29,8 +32,14 @@ console.
 \examples{
 
 data(MUD1)
-
 sumSpectra2D(MUD1)
+
+MUD1a <- removeFreq2D(MUD1, remF2 = 2 ~ 4, remF1 = 10 ~ 15)
+sumSpectra2D(MUD1a)
+
+MUD1b <- removePeaks2D(MUD1, remF2 = 2 ~ 4, remF1 = 10 ~ 15)
+sumSpectra2D(MUD1b)
+plotSpectra2D(MUD1b)
 
 }
 \author{

@@ -21,32 +21,46 @@ An object of S3 class \code{\link{Spectra2D}}.
 \description{
 This function deletes specified frequencies from a \code{\link{Spectra2D}} object. This function
 is useful for removing regions with large interfering peaks (e.g. the water peak in 1H NMR),
-or regions that are primarily noise.
+or regions that are primarily noise.  It can also be used to isolate particular regions for
+further study.
 }
+\section{Warning}{
+
+One cannot remove frequencies from the interior of a 2D NMR data set and expect to get a meaningful
+contour plot, because doing so puts unrelated peaks adjacent in the data set.
+This would lead to contours being drawn that don't exist in the original data set. However, one
+can remove data from the interior and run a PARAFAC analysis on the result, using the spectrum
+as an abstract object (that is, not plottable).
+}
+
 \examples{
 
 data(MUD1)
 plotSpectra2D(MUD1, lvls = c(0.25, 0.5, 0.75),
   main = "MUD1 Spectrum 1: Complete Data Set")
 
-# Note for this low resolution data set, setting
-# remF2 = 3 ~ 4 results in no change due to rounding.
+# Note for this low resolution data set, some formulas like
+# remF2 = 3 ~ 4 result in no change due to rounding.
 
 MUD1a <- removeFreq2D(MUD1, remF2 = 2 ~ 4)
-sumSpectra2D(MUD1a)
-plotSpectra2D(MUD1a, , lvls = c(0.25, 0.5, 0.75),
-  main = "Removed F2 2 ~ 4")
+sumSpectra2D(MUD1a) # cannot plot, results would be misleading
 
 MUD1b <- removeFreq2D(MUD1, remF2 = low ~ 5)
 sumSpectra2D(MUD1b)
 plotSpectra2D(MUD1b, , lvls = c(0.25, 0.5, 0.75),
-  main = "Removed F2 low ~ 5")
+  main = "Removed Frequencies: F2 low ~ 5")
 
-MUD1c <- removeFreq2D(MUD1, remF2 = 6 ~ high, remF1 = 4 ~ 13)
+MUD1c <- removeFreq2D(MUD1, remF1 = low ~ 5)
 sumSpectra2D(MUD1c)
-plotSpectra2D(MUD1c, lvls = c(0.25, 0.5, 0.75),
-  main = "Removed F2 6 ~ high & F1 4 ~ 13")
+plotSpectra2D(MUD1c, , lvls = c(0.25, 0.5, 0.75),
+  main = "Removed Frequencies: F1 low ~ 5")
 
+MUD1d <- removeFreq2D(MUD1, remF2 = 6 ~ high, remF1 = 4 ~ 13)
+sumSpectra2D(MUD1d) # not plotted, results would be misleading
+
+}
+\seealso{
+\code{\link{removePeaks2D}} for another way to remove data.
 }
 \author{
 Bryan A. Hanson, DePauw University.

@@ -35,7 +35,6 @@ FALSE}) unless there is a problem.
 \examples{
 
 data(MUD1)
-
 chkSpectra2D(MUD1, confirm = TRUE)
 
 }

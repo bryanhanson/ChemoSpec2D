@@ -144,6 +144,7 @@ The list below gives each user-facing function and a brief description of what i
     * **removeGroup2D** Remove an entire group from a Spectra2D object.
     * **removeSample2D** Remove one or more samples from a Spectra2D object.
     * **removeFreq2D** Delete selected frequencies (on either dimension).
+    * **removePeaks2D** Set selected peaks to NA (on either dimension).
     * **plotSpectra2D** Plots one 2D spectrum stored in a Spectra2D object, as a contour plot.  Serious plotting and exploration is probably better done on the spectrometer.  This function is for quick checks and also publication-quality plots.
     * **normSpectra2D** Normalizes the 2D spectra stored in a Spectra2D object.
 * PARAFAC-Related Functions

@@ -35,7 +35,6 @@
 #' @examples
 #'
 #' data(MUD1)
-#'
 #' chkSpectra2D(MUD1, confirm = TRUE)
 #'
 chkSpectra2D <- function(spectra, confirm = FALSE) {
