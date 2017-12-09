@@ -18,15 +18,15 @@
 #'
 #' @param rlvls A vector specifying the levels at which to compute contours
 #'        for the reference spectrum.
-#'        If \code{NULL}, values are computed using \code{guessLvls}.
+#'        If \code{NULL}, values are computed using \code{calcLvls}.
 #'
 #' @param plvls A vector specifying the positive contour levels
 #'        for the loadings pseudo-spectrum.
-#'        If \code{NULL}, values are computed using \code{guessLvls}.
+#'        If \code{NULL}, values are computed using \code{calcLvls}.
 #'
 #' @param nlvls A vector specifying the negative contour levels
 #'        for the loadings pseudo-spectrum.
-#'        If \code{NULL}, values are computed using \code{guessLvls}.
+#'        If \code{NULL}, values are computed using \code{calcLvls}.
 #'
 #' @param colors A vector of 2-3 colors.  The first and second colors will be used for
 #'        the positive and negative loading contours.  The third color will be used
@@ -118,19 +118,19 @@ pfacLoadings <- function(spectra, pfac, which = 1, ref = NULL,
   
   # Compute levels for each loadings matrix (where not provided)
   if (is.null(plvls)) {
-  	plvls <- guessLvls(MP)
+  	plvls <- calcLvls(MP, mode = "NMR")
   	if (length(plvls) > 0L) PLVLS <- TRUE
   }
 
   if (is.null(nlvls)) {
-  	nlvls <- guessLvls(MN)
+  	nlvls <- calcLvls(MN, model = "NMR")
   	if (length(nlvls) > 0L) NLVLS <- TRUE
   }
   
   if (!is.null(ref)) {
   	if (length(colors) != 3L) stop("Please provide 3 colors for plotting")
     if (is.null(rlvls)) {
-  	  rlvls <- guessLvls(spectra$data[[ref]])
+  	  rlvls <- calcLvls(spectra$data[[ref]], mode = "NMR")
   	  if (length(rlvls) > 0L) RLVLS <- TRUE
     }
   }

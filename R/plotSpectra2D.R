@@ -17,7 +17,7 @@
 #' @param which An integer specifying which spectrum to plot.
 #'
 #' @param lvls A numeric vector specifying the levels at which to compute contours.
-#'        If \code{NULL}, values are computed using \code{\link{guessLvls}}.
+#'        If \code{NULL}, values are computed using \code{\link{calcLvls}}.
 #'
 #' @param showNA Logical. Should the locations of peaks removed by \code{\link{removePeaks2D}}
 #'        be shown?  If present, these are show by a red line at each frequency.
@@ -48,7 +48,7 @@ plotSpectra2D <- function(spectra, which = 1, lvls = NULL, showNA = TRUE, ...) {
   if (length(unique(diff(spectra$F2))) != 1) stop("There were missing frequencies along F2")
   chkSpectra2D(spectra)
 
-  lvls <- list(lvls)
+  lvls <- list(lvls) # .plotEngine is expecting a list
   
   op <- par(no.readonly = TRUE) # save to restore later
   par(mai = c(1, 0.5, 1, 1))

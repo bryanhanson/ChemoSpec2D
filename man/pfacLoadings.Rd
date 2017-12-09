@@ -20,15 +20,15 @@ Defaults to \code{NULL} which does not plot a reference spectrum.}
 
 \item{plvls}{A vector specifying the positive contour levels
 for the loadings pseudo-spectrum.
-If \code{NULL}, values are computed using \code{guessLvls}.}
+If \code{NULL}, values are computed using \code{calcLvls}.}
 
 \item{nlvls}{A vector specifying the negative contour levels
 for the loadings pseudo-spectrum.
-If \code{NULL}, values are computed using \code{guessLvls}.}
+If \code{NULL}, values are computed using \code{calcLvls}.}
 
 \item{rlvls}{A vector specifying the levels at which to compute contours
 for the reference spectrum.
-If \code{NULL}, values are computed using \code{guessLvls}.}
+If \code{NULL}, values are computed using \code{calcLvls}.}
 
 \item{colors}{A vector of 2-3 colors.  The first and second colors will be used for
 the positive and negative loading contours.  The third color will be used

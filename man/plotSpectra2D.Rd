@@ -12,7 +12,7 @@ plotSpectra2D(spectra, which = 1, lvls = NULL, showNA = TRUE, ...)
 \item{which}{An integer specifying which spectrum to plot.}
 
 \item{lvls}{A numeric vector specifying the levels at which to compute contours.
-If \code{NULL}, values are computed using \code{\link{guessLvls}}.}
+If \code{NULL}, values are computed using \code{\link{calcLvls}}.}
 
 \item{showNA}{Logical. Should the locations of peaks removed by \code{\link{removePeaks2D}}
 be shown?  If present, these are show by a red line at each frequency.}

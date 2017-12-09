@@ -116,9 +116,12 @@
 #'
 #' @param lvls A list of \code{length(which)}.  Each list element
 #'        should be a numeric vector giving the desired contour levels.
-#'        If any are \code{NULL}, values are computed using \code{chooseLvls}.
+#'        If any are \code{NULL}, values are computed using \code{calcLvls}.
 #'
-#' @param colors A vector of colors of \code{length(which)}.
+#' @param colors A list of \code{length(which)}. Each list element
+#'        should be a vector of valid color designations.  There should be
+#'        one color per level.  Defaults to a scheme of nine values
+#'        running from blue (low) to red (high), centered on green (zero).
 #'
 #' @param \dots Additional parameters to be passed to plotting functions.
 #'
@@ -136,9 +139,12 @@
   chkSpectra2D(spectra)
   if (!is.null(lvls)) { if (length(which) != length(lvls)) stop("length(which) != length(lvls)") }
   if (!is.null(colors)) { if (length(which) != length(colors)) stop("length(which) != length(colors)") }
-  
-  #op <- par(no.readonly = TRUE) # save to restore later
-  #par(mai = c(1, 0.5, 1, 1))
+  if ((!is.null(colors)) & (!is.null(lvls))) {
+  	if (lengths(colors) != lengths(lvls))
+  	message("The number of colors provided does not correspond to the number of levels specified:")
+  	print(data.frame(noCol = lengths(colors), noLvls = lengths(lvls)))
+  	stop("See above and revise please")
+  }
   
   # Plot each spectrum in turn
   for (i in 1:length(which)) {
@@ -146,7 +152,7 @@
     M <- spectra$data[[i]]
     M <- t(M[nrow(M):1,]) # 90 cw prior to compensate for 90 ccw rotation built-in to contour
     
-  	if (is.null(lvls[[i]])) curLvl <- guessLvls(M)
+  	if (is.null(lvls[[i]])) curLvl <- calcLvls(M, mode = "NMR")
   	if (!is.null(lvls[[i]])) curLvl <- lvls[[i]]
   	
   	if (is.null(colors)) curCol <- "black"

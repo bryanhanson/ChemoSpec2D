@@ -29,6 +29,11 @@ pfacScores <- function(spectra, pfac, which = c(1, 2), ...) {
 	
 	if (length(which) != 2L) stop("Please supply two scores to plot (argument 'which')")
 	chkSpectra2D(spectra)
-	
+
+	# Use a sensible xlab and ylab if none provided
+	args <- names(as.list(match.call()[-1]))
+	if (!("xlab" %in% args)) xlab <- paste("Component", which[1], sep = " ")	
+	if (!("ylab" %in% args)) ylab <- paste("Component", which[2], sep = " ")	
+
 	plot(pfac$C[,which[1]], pfac$C[,which[2]], col = spectra$colors, pch = 20, ...)
 }

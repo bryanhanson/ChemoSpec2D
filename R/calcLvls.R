@@ -9,18 +9,25 @@
 #' @param M A numeric matrix.
 #'
 #' @param n For all methods except \code{ecdf}, an integer giving the number of
-#' levels desired.  For \code{ecdf}, \code{n} should be one or more values in
+#' levels desired.  For most modes this is taken as \code{floor(n/2)} and then
+#' only the positive or negative levels may be selected, so you are not likely
+#' to actually get \code{n} levels most of the time (remember, you can always give
+#' your desired levels as a vector).  For \code{ecdf}, \code{n} should be one or
+#' more values in
 #' the interval (0...1).  For instance, a value of 0.6 corresponds to a single
 #' level in which 60 percent of the matrix values are below, and 40 percent
 #' above.
 #'
 #' @param mode Character.  One of \code{"even"}, \code{"log"}, \code{"exp"},
-#' \code{"ecdf"}, \code{"posexp"}, \code{"negexp"}, \code{"poslog"}, \code{"neglog"}.
+#' \code{"ecdf"}, \code{"posexp"}, \code{"negexp"}, \code{"poslog"}, \code{"neglog"}
+#' or \code{NMR}.
 #' \code{"even"} will create evenly
 #' spaced levels.  \code{"log"} will create levels which are more closely
 #' spaced at the high values, while \code{"exp"} does the opposite.  The pos- or
 #' neg- versions select just the positive or negative values.  \code{"ecdf"}
-#' computes levels at the requested quantiles of the matrix.
+#' computes levels at the requested quantiles of the matrix. \code{NMR} uses
+#' \code{log} but removes the levels closest to zero, which in NMR work will
+#' typically be too low for a good contour plot.
 #'
 #' @param lambda Numeric.  A non-zero exponent used with \code{method = "exp"}
 #' and relatives.
@@ -41,8 +48,6 @@
 #' @importFrom grDevices rainbow
 #' @importFrom stats ecdf
 #'
-#' @seealso \code{\link{guessLvls}} which uses this function.
-#'
 #' @export
 #'
 #' @keywords utilities
@@ -51,7 +56,7 @@
 #' 
 #' set.seed(9)
 #' MM <- matrix(runif(100, -1, 1), nrow = 10) # test data
-#' tsts <- c("even", "log", "poslog", "exp", "posexp", "ecdf")
+#' tsts <- c("even", "log", "poslog", "exp", "posexp", "ecdf", "NMR")
 #' for (i in 1:length(tsts)) {
 #' 	nl <- 10
 #' 	if(tsts[i] == "ecdf")  nl <- seq(0.1, 0.9, 0.1)
@@ -73,6 +78,7 @@ calcLvls <- function(M, n = 10, mode = "even",
 		lower <- mn * 0.95 # shrink in a bit at both ends
 		upper <- mx * 0.95
 		lvs <- seq(lower, upper, length.out = n)
+		if (length(lvs) == 0) stop("Levels calculation returned no levels")
 		if (showHist) .sH(M, lvs, ...)
 		return(lvs)
 		}
@@ -83,7 +89,7 @@ calcLvls <- function(M, n = 10, mode = "even",
 		
 		if (lambda == 0.0) stop("lambda cannot be zero")
 		
-		# Compute levels (only using positive values)
+		# Compute levels based on the most extreme value
 				
 		ref <- .findExtreme(M)
 		lower <- 0.00001 # just above zero to avoid Inf
@@ -104,13 +110,15 @@ calcLvls <- function(M, n = 10, mode = "even",
 	if (mode == "log") { # For use when the range is [-Inf...Inf]
 		n <- as.integer(n)
 		if (base <= 0L) stop("base must be > 0")
-		# Compute levels (only using positive values)
+		
+		# Compute levels based on the most extreme value
 
 		ref <- .findExtreme(M)				
 		X <- .getPN(M)
 		lower <- 0.001 # just above zero to avoid Inf
 		lvs <- seq(lower, ref, length.out = floor(n/2))
 		lvs <- log(lvs, base)
+		
 		# Now scale back into the range of the data
 		lvs <- abs(min(lvs)) + lvs
 		sf <- diff(range(X))/diff(range(lvs))
@@ -141,6 +149,7 @@ calcLvls <- function(M, n = 10, mode = "even",
 	if (mode == "posexp") { # For use when you just want (+)-ive
 		lvs <- calcLvls(M = M, n = n, mode = "exp", lambda = lambda, base = base, ...)
 		lvs <- lvs[lvs > 0]
+		if (length(lvs) == 0) stop("Levels calculation returned no levels")
 		if (showHist) .sH(M, lvs, ...)
 		return(lvs)
 		}
@@ -149,6 +158,7 @@ calcLvls <- function(M, n = 10, mode = "even",
 	if (mode == "negexp") { # For use when you just want (-)-ive
 		lvs <- calcLvls(M = M, n = n, mode = "exp", lambda = lambda, base = base, ...)
 		lvs <- lvs[lvs < 0]
+		if (length(lvs) == 0) stop("Levels calculation returned no levels")
 		if (showHist) .sH(M, lvs, ...)
 		return(lvs)
 		}
@@ -156,6 +166,7 @@ calcLvls <- function(M, n = 10, mode = "even",
 	if (mode == "poslog") { # For use when you just want (+)-ive
 		lvs <- calcLvls(M = M, n = n, mode = "log", lambda = lambda, base = base, ...)
 		lvs <- lvs[lvs > 0]
+		if (length(lvs) == 0) stop("Levels calculation returned no levels")
 		if (showHist) .sH(M, lvs, ...)
 		return(lvs)
 		}
@@ -164,8 +175,17 @@ calcLvls <- function(M, n = 10, mode = "even",
 	if (mode == "neglog") { # For use when you just want (-)-ive
 		lvs <- calcLvls(M = M, n = n, mode = "log", lambda = lambda, base = base, ...)
 		lvs <- lvs[lvs < 0]
+		if (length(lvs) == 0) stop("Levels calculation returned no levels")
 		if (showHist) .sH(M, lvs, ...)
 		return(lvs)
 		}
 
-	}
+	if (mode == "NMR") { # Removes levels closest to zero if there is more than 1 level
+		lvs <- calcLvls(M = M, n = n, mode = "poslog", lambda = lambda, base = base, ...)
+		if (length(lvs) > 1) lvs <- lvs[-1] # remove lowest level if more than one present
+		lvs <- sort(c(-1*lvs, lvs)) # Reflect through zero
+		if (showHist) .sH(M, lvs, ...)
+		return(lvs)
+		}
+
+	} # end of calcLvls
