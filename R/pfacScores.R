@@ -27,13 +27,32 @@
 #'
 pfacScores <- function(spectra, pfac, which = c(1, 2), ...) {
 	
+	if (class(spectra) != "Spectra2D") stop("spectra argument was not a Spectra2D object")
+	if (class(pfac) != "parafac") stop("pfac argument was not a parafac object")
 	if (length(which) != 2L) stop("Please supply two scores to plot (argument 'which')")
 	chkSpectra2D(spectra)
 
+	# See stackoverflow.com/a/46289614/633251 for the concepts re: argument handling
+	
 	# Use a sensible xlab and ylab if none provided
-	args <- names(as.list(match.call()[-1]))
-	if (!("xlab" %in% args)) xlab <- paste("Component", which[1], sep = " ")	
-	if (!("ylab" %in% args)) ylab <- paste("Component", which[2], sep = " ")	
+	args <- as.list(match.call()[-1])
+	if (!("xlab" %in% names(args))) {
+		xlab <- paste("Component", which[1], sep = " ")
+		args <- c(args, list(xlab = xlab))
+		}
+	if (!("ylab" %in% names(args))) {
+		ylab <- paste("Component", which[2], sep = " ")
+		args <- c(args, list(ylab = ylab))
+		}
 
-	plot(pfac$C[,which[1]], pfac$C[,which[2]], col = spectra$colors, pch = 20, ...)
+	# Update & clean the argument list
+	
+	args <- c(args, list(x = pfac$C[,which[1]], y = pfac$C[,which[2]], col = spectra$colors, pch = 20))
+	args["spectra"] <- NULL
+	args["pfac"] <- NULL
+	if ("which" %in% names(args)) args["which"] <- NULL
+
+	# Now create the plot
+	
+	do.call(plot, args)
 }

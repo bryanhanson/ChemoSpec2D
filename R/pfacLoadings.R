@@ -4,33 +4,32 @@
 #' Plots loadings from the PARAFAC analysis of a \code{\link{Spectra2D}} object.
 #' The loadings are computed by multipling matrix \code{A} by matrix \code{B}
 #' in the \code{parafac} object, for a given component.  This matrix has dimensions
-#' F2 x F1 and is a 2D pseudo-spectrum.
+#' F2 x F1 and is a 2D pseudo-spectrum.  A reference spectrum may also be drawn.
 #' 
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'
 #' @param pfac An object of class \code{parafac} obtained by running \code{\link{pfacSpectra2D}}.
 #'
-#' @param which An integer specifying the loading to plot.
+#' @param load An integer specifying the loading to plot.
 #'
 #' @param ref An integer giving the spectrum in \code{spectra} to use
 #'        as a reference spectrum, which is plotted behind the loadings.
 #'        Defaults to \code{NULL} which does not plot a reference spectrum.
 #'
-#' @param rlvls A vector specifying the levels at which to compute contours
+#' @param ref_lvls A vector specifying the levels at which to compute contours
 #'        for the reference spectrum.
 #'        If \code{NULL}, values are computed using \code{calcLvls}.
 #'
-#' @param plvls A vector specifying the positive contour levels
+#' @param load_lvls A vector specifying the positive contour levels
 #'        for the loadings pseudo-spectrum.
 #'        If \code{NULL}, values are computed using \code{calcLvls}.
 #'
-#' @param nlvls A vector specifying the negative contour levels
-#'        for the loadings pseudo-spectrum.
-#'        If \code{NULL}, values are computed using \code{calcLvls}.
+#' @param ref_cols A vector specifying the colors for the contours in the reference
+#'        spectrum. If \code{NULL}, set to gray.
 #'
-#' @param colors A vector of 2-3 colors.  The first and second colors will be used for
-#'        the positive and negative loading contours.  The third color will be used
-#'        for the reference spectrum, if requested.
+#' @param load_cols A vector specifying the colors for the contours in the laoding spectrum.
+#'        If \code{NULL}, defaults to a scheme of nine values
+#'        running from blue (low) to red (high), centered on green (zero).
 #'
 #' @param \dots Additional parameters to be passed to plotting functions.
 #'
@@ -46,96 +45,71 @@
 #'
 #' @importFrom graphics abline contour rect
 #'
-pfacLoadings <- function(spectra, pfac, which = 1, ref = NULL,
-  plvls = NULL, nlvls = NULL, rlvls = NULL,
-  colors = c("red", "blue", "grey"), ...) {
+pfacLoadings <- function(spectra, pfac,
+  load = 1, ref = NULL,
+  load_lvls = NULL, ref_lvls = NULL,
+  load_cols = NULL, ref_cols = NULL, ...) {
 	
-  if (missing(spectra)) stop("No spectral data provided")
-  if (length(which) != 1L) stop("Please supply a single loading")
-  if (which > ncol(pfac$A)) stop("Requested component does not exist")
+  if (class(spectra) != "Spectra2D") stop("spectra argument was not a Spectra2D object")
+  if (class(pfac) != "parafac") stop("pfac argument was not a parafac object")
+  if (length(load) != 1L) stop("Please supply a single loading")
+  if (load > ncol(pfac$A)) stop("Requested component does not exist")
   chkSpectra2D(spectra)
 
-  # Helper function
-  
-  plotContours <- function(spectra, MP, MN, PLVLS, NLVLS, RLVLS, plvls, nlvls, rlvls, ref) {
-  	# 6 combos must be considered!
-  	if (PLVLS & NLVLS & RLVLS) { # plot all
-  	  contour(x = spectra$F2, y = spectra$F1, z = spectra$data[[ref]], levels = rlvls,
-  	    col = colors[3], drawlabels = FALSE, ...)
-  	  contour(x = spectra$F2, y = spectra$F1, z = MP, levels = plvls,
-  	    col = colors[1], drawlabels = FALSE, add = TRUE)  		
-  	  contour(x = spectra$F2, y = spectra$F1, z = MN, levels = nlvls,
-  	    col = colors[2], drawlabels = FALSE, add = TRUE)  		  		
-  	}
-  	
-  	if (PLVLS & NLVLS & !RLVLS) { # plot + & -
-  	  contour(x = spectra$F2, y = spectra$F1, z = MP, levels = plvls,
-  	    col = colors[1], drawlabels = FALSE, ...)
-  	  contour(x = spectra$F2, y = spectra$F1, z = MN, levels = nlvls,
-  	    col = colors[2], drawlabels = FALSE, add = TRUE)  		
-  	}
-
-  	if (PLVLS & !NLVLS & RLVLS) { # plot + & ref
-  	  contour(x = spectra$F2, y = spectra$F1, z = spectra$data[[ref]], levels = rlvls,
-  	    col = colors[3], drawlabels = FALSE, ...)
-  	  contour(x = spectra$F2, y = spectra$F1, z = MP, levels = plvls,
-  	    col = colors[1], drawlabels = FALSE, add = TRUE)  		
-  	}
-
-  	if (!PLVLS & NLVLS & RLVLS) { # plot - & ref
-  	  contour(x = spectra$F2, y = spectra$F1, z = spectra$data[[ref]], levels = rlvls,
-  	    col = colors[3], drawlabels = FALSE, ...)
-  	  contour(x = spectra$F2, y = spectra$F1, z = MN, levels = nlvls,
-  	    col = colors[2], drawlabels = FALSE, add = TRUE)  		  			
-  	}
-
-  	if (PLVLS & !NLVLS & !RLVLS) { # plot + only
-  	  contour(x = spectra$F2, y = spectra$F1, z = MP, levels = plvls,
-  	    col = colors[1], drawlabels = FALSE, ...)  		
-  	}
-  	
-  	if (!PLVLS & NLVLS & !RLVLS) { # plot - only
-  	  contour(x = spectra$F2, y = spectra$F1, z = MN, levels = nlvls,
-  	    col = colors[2], drawlabels = FALSE, ...)  		
-  	}
-  	
-  } # end of helper function
-  
-  # Set up some flags to be certain we actually have levels to plot
-  PLVLS <- FALSE
-  NLVLS <- FALSE
-  RLVLS <- FALSE
-  if (!is.null(plvls)) PLVLS <- TRUE
-  if (!is.null(nlvls)) NLVLS <- TRUE
-  if (!is.null(rlvls)) RLVLS <- TRUE
-  
   # Compute loading matrices
-  M <- pfac$A[, which] %*% t(pfac$B[, which]) # all loadings
-  MN <- M
-  MN[MN > 0.0] <- 0.0 # negative loadings
-  MP <- M
-  MP[MP < 0.0] <- 0.0 # positive loadings
+  M <- pfac$A[, load] %*% t(pfac$B[, load])
   
-  # Compute levels for each loadings matrix (where not provided)
-  if (is.null(plvls)) {
-  	plvls <- calcLvls(MP, mode = "NMR")
-  	if (length(plvls) > 0L) PLVLS <- TRUE
-  }
-
-  if (is.null(nlvls)) {
-  	nlvls <- calcLvls(MN, model = "NMR")
-  	if (length(nlvls) > 0L) NLVLS <- TRUE
-  }
+  # Prep & send to plotEngine
+  # .plotEngine expects a spectra object and lvls and cols as lists
   
-  if (!is.null(ref)) {
-  	if (length(colors) != 3L) stop("Please provide 3 colors for plotting")
-    if (is.null(rlvls)) {
-  	  rlvls <- calcLvls(spectra$data[[ref]], mode = "NMR")
-  	  if (length(rlvls) > 0L) RLVLS <- TRUE
+  # Update spectra object
+  ns <- length(spectra$names) # no of spectra
+  spectra$data[[ns + 1]] <- t(M)
+  spectra$names[ns + 1] <- "loadings"
+  spectra$groups <- as.factor(c(spectra$groups, "loadings"))
+  spectra$colors[ns + 1] <- "black"
+  chkSpectra2D(spectra)
+  
+  # Configure levels
+  
+  if (is.null(ref)) { # only showing loadings
+    if (is.null(load_lvls)) lvls <- NULL # .plotEngine will assign levels
+    if (!is.null(load_lvls)) {
+      lvls <- vector("list", 1)
+      lvls[[1]] <- load_lvls
     }
   }
-  # Plot
-  plotContours(spectra, MP, MN, PLVLS, NLVLS, RLVLS, plvls, nlvls, rlvls, ref)
   
+  if (!is.null(ref)) { # showing loadings and reference spectrum
+    lvls <- vector("list", 2)  # intializes to NULL, NULL
+    if (!is.null(ref_lvls)) lvls[[1]] <- ref_lvls
+    if (is.null(ref_lvls)) lvls[[1]] <- NULL
+    if (!is.null(load_lvls)) lvls[[2]] <- load_lvls	
+    if (is.null(load_lvls)) lvls[[2]] <- NULL
+    if ((is.null(load_lvls) & (is.null(ref_lvls)))) lvls <- NULL 
+  }
+  
+  # Configure colors
+
+  if (is.null(ref)) { # only showing loadings
+    if (is.null(load_cols)) cols <- NULL # .plotEngine will assign levels
+    if (!is.null(load_cols)) {
+      cols <- vector("list", 1)
+      cols[[1]] <- load_cols
+    }
+  }
+  
+  if (!is.null(ref)) { # showing loadings and reference spectrum
+    cols <- vector("list", 2)  # intializes to NULL, NULL
+    if (!is.null(ref_cols)) cols[[1]] <- ref_cols
+    if (is.null(ref_cols)) cols[[1]] <- "gray"
+    if (!is.null(load_cols)) cols[[2]] <- load_cols	
+  }
+  
+  op <- par(no.readonly = TRUE) # save to restore later
+  par(mai = c(1, 0.5, 1, 1))
+  .plotEngine(spectra, which = c(ref, ns + 1), lvls = lvls, cols = cols, ...)
+  on.exit(par(op)) # restore original values
+    
   invisible(M)
 }

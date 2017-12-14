@@ -4,35 +4,34 @@
 \alias{pfacLoadings}
 \title{Plot Loadings from a PARAFAC Analysis of a Spectra2D Object}
 \usage{
-pfacLoadings(spectra, pfac, which = 1, ref = NULL, plvls = NULL,
-  nlvls = NULL, rlvls = NULL, colors = c("red", "blue", "grey"), ...)
+pfacLoadings(spectra, pfac, load = 1, ref = NULL, load_lvls = NULL,
+  ref_lvls = NULL, load_cols = NULL, ref_cols = NULL, ...)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
 
 \item{pfac}{An object of class \code{parafac} obtained by running \code{\link{pfacSpectra2D}}.}
 
-\item{which}{An integer specifying the loading to plot.}
+\item{load}{An integer specifying the loading to plot.}
 
 \item{ref}{An integer giving the spectrum in \code{spectra} to use
 as a reference spectrum, which is plotted behind the loadings.
 Defaults to \code{NULL} which does not plot a reference spectrum.}
 
-\item{plvls}{A vector specifying the positive contour levels
+\item{load_lvls}{A vector specifying the positive contour levels
 for the loadings pseudo-spectrum.
 If \code{NULL}, values are computed using \code{calcLvls}.}
 
-\item{nlvls}{A vector specifying the negative contour levels
-for the loadings pseudo-spectrum.
-If \code{NULL}, values are computed using \code{calcLvls}.}
-
-\item{rlvls}{A vector specifying the levels at which to compute contours
+\item{ref_lvls}{A vector specifying the levels at which to compute contours
 for the reference spectrum.
 If \code{NULL}, values are computed using \code{calcLvls}.}
 
-\item{colors}{A vector of 2-3 colors.  The first and second colors will be used for
-the positive and negative loading contours.  The third color will be used
-for the reference spectrum, if requested.}
+\item{load_cols}{A vector specifying the colors for the contours in the laoding spectrum.
+If \code{NULL}, defaults to a scheme of nine values
+running from blue (low) to red (high), centered on green (zero).}
+
+\item{ref_cols}{A vector specifying the colors for the contours in the reference
+spectrum. If \code{NULL}, set to gray.}
 
 \item{\dots}{Additional parameters to be passed to plotting functions.}
 }
@@ -43,7 +42,7 @@ The loadings matrix (pseudo-spectrum).  Side effect is a plot.
 Plots loadings from the PARAFAC analysis of a \code{\link{Spectra2D}} object.
 The loadings are computed by multipling matrix \code{A} by matrix \code{B}
 in the \code{parafac} object, for a given component.  This matrix has dimensions
-F2 x F1 and is a 2D pseudo-spectrum.
+F2 x F1 and is a 2D pseudo-spectrum.  A reference spectrum may also be drawn.
 }
 \seealso{
 Please see \code{\link{pfacSpectra2D}} for examples.

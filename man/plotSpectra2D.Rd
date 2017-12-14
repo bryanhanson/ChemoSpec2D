@@ -4,7 +4,8 @@
 \alias{plotSpectra2D}
 \title{Plot a Spectra2D Object}
 \usage{
-plotSpectra2D(spectra, which = 1, lvls = NULL, showNA = TRUE, ...)
+plotSpectra2D(spectra, which = 1, lvls = NULL, cols = NULL,
+  showNA = TRUE, ...)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
@@ -13,6 +14,10 @@ plotSpectra2D(spectra, which = 1, lvls = NULL, showNA = TRUE, ...)
 
 \item{lvls}{A numeric vector specifying the levels at which to compute contours.
 If \code{NULL}, values are computed using \code{\link{calcLvls}}.}
+
+\item{cols}{A vector of valid color designations.
+If \code{NULL}, defaults to a scheme of nine values
+running from blue (low) to red (high), centered on green (zero).}
 
 \item{showNA}{Logical. Should the locations of peaks removed by \code{\link{removePeaks2D}}
 be shown?  If present, these are show by a red line at each frequency.}

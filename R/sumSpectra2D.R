@@ -40,7 +40,8 @@
 #'
 #' MUD1b <- removePeaks2D(MUD1, remF2 = 2 ~ 4, remF1 = 10 ~ 15)
 #' sumSpectra2D(MUD1b)
-#' plotSpectra2D(MUD1b, lvls = c(0.25, 0.5, 0.75))
+#' plotSpectra2D(MUD1b, lvls = c(0.25, 0.5, 0.75),
+#'   main = "Removed Peaks: F2 = 2 ~ 4, & F1 = 10 ~ 15")
 #'
 sumSpectra2D <- function(spectra, ...){
 	
@@ -98,7 +99,7 @@ sumSpectra2D <- function(spectra, ...){
 		}
 	cat("\n")
 	
-	if (foundNA) cat("\tNAs were found in the data matrices.  To see where, plotSpectra2D.\n\n")
+	if (foundNA) cat("\tNAs were found in the data matrices.  To see where, use plotSpectra2D.\n\n")
 	
 	cat("\tThe spectra are divided into", length(levels(spectra$groups)), "groups:", "\n\n")
 	print(sumGroups2D(spectra))

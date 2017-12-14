@@ -118,7 +118,7 @@
 #'        should be a numeric vector giving the desired contour levels.
 #'        If any are \code{NULL}, values are computed using \code{calcLvls}.
 #'
-#' @param colors A list of \code{length(which)}. Each list element
+#' @param cols A list of \code{length(which)}. Each list element
 #'        should be a vector of valid color designations.  There should be
 #'        one color per level.  Defaults to a scheme of nine values
 #'        running from blue (low) to red (high), centered on green (zero).
@@ -133,18 +133,20 @@
 #'
 #' @importFrom graphics axis box mtext
 #'
-.plotEngine <- function(spectra, which = 1, lvls = NULL, colors = NULL, ...) {
+.plotEngine <- function(spectra, which = 1, lvls = NULL, cols = NULL, ...) {
 	
   if (missing(spectra)) stop("No spectral data provided")
   chkSpectra2D(spectra)
-  if (!is.null(lvls)) { if (length(which) != length(lvls)) stop("length(which) != length(lvls)") }
-  if (!is.null(colors)) { if (length(which) != length(colors)) stop("length(which) != length(colors)") }
-  if ((!is.null(colors)) & (!is.null(lvls))) {
-  	if (lengths(colors) != lengths(lvls))
-  	message("The number of colors provided does not correspond to the number of levels specified:")
-  	print(data.frame(noCol = lengths(colors), noLvls = lengths(lvls)))
-  	stop("See above and revise please")
-  }
+  # if (!is.null(lvls)) { if (length(which) != length(lvls)) stop("length(which) != length(lvls)") }
+  # if (!is.null(cols)) { if (length(which) != length(cols)) stop("length(which) != length(cols)") }
+  
+  # Something broken next block
+  # if ((!is.null(cols)) & (!is.null(lvls))) {
+  	# if (length(cols) != length(lvls))
+  	# message("The number of colors provided does not correspond to the number of levels specified:")
+  	# print(data.frame(noCol = length(cols), noLvls = length(lvls)))
+  	# stop("See above and revise accordingly")
+  # }
   
   # Plot each spectrum in turn
   for (i in 1:length(which)) {
@@ -155,8 +157,8 @@
   	if (is.null(lvls[[i]])) curLvl <- calcLvls(M, mode = "NMR")
   	if (!is.null(lvls[[i]])) curLvl <- lvls[[i]]
   	
-  	if (is.null(colors)) curCol <- "black"
-  	if (!is.null(colors)) curCol <- colors[[i]]
+  	if (is.null(cols[[i]])) curCol <- .mapColors(curLvl)
+  	if (!is.null(cols[[i]])) curCol <- cols[[i]]
 
   	if (i == 1) { # plot the first spectrum with decorations
   	  contour(M, drawlabels = FALSE, axes = FALSE, levels = curLvl, col = curCol, ...)
@@ -186,6 +188,25 @@
   
   #on.exit(par(op)) # restore original values
 }
+
+### Map colors to go with each contour level
+
+.mapColors <- function(lvls) {
+
+  # Construct default color scale
+  # blue/low -> red/high, anchored at zero (index 5, a shade of green)
+  # view with:
+  # pie(rep(1, 9), col = cscale)
+  col1 <- rev(rainbow(5, start = 0.0, end = 0.25))
+  col2 <- rev(rainbow(4, start = 0.45, end = 0.66))
+  cscale <- c(col2, col1)
+	
+  refscale <- seq(-1, 1, length.out = 10) # Not 9, surprisingly (must be 9 intervals)
+  myc <- cscale[findInterval(lvls, refscale)]
+  
+  return(myc)
+}
+
 
 ### check4Gaps
 

@@ -19,6 +19,10 @@
 #' @param lvls A numeric vector specifying the levels at which to compute contours.
 #'        If \code{NULL}, values are computed using \code{\link{calcLvls}}.
 #'
+#' @param cols A vector of valid color designations.
+#'        If \code{NULL}, defaults to a scheme of nine values
+#'        running from blue (low) to red (high), centered on green (zero).
+#'
 #' @param showNA Logical. Should the locations of peaks removed by \code{\link{removePeaks2D}}
 #'        be shown?  If present, these are show by a red line at each frequency.
 #'
@@ -38,21 +42,22 @@
 #'
 #' plotSpectra2D(MUD1, main = "MUD1", lvls = c(0.25, 0.5, 0.75))
 #'
-plotSpectra2D <- function(spectra, which = 1, lvls = NULL, showNA = TRUE, ...) {
+plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA = TRUE, ...) {
 	
-  if (missing(spectra)) stop("No spectral data provided")
+  if (class(spectra) != "Spectra2D") stop("spectra argument was not a Spectra2D object")
   if (length(which) != 1L) stop("Only a single spectrum can be plotted")
+  chkSpectra2D(spectra)
   
   # Stop if there are frequencies missing from the interior, this is misleading
   if (length(unique(diff(spectra$F1))) != 1) stop("There were missing frequencies along F1")
   if (length(unique(diff(spectra$F2))) != 1) stop("There were missing frequencies along F2")
-  chkSpectra2D(spectra)
 
-  lvls <- list(lvls) # .plotEngine is expecting a list
+  if (!is.null(lvls)) lvls <- list(lvls) # .plotEngine is expecting a list
+  if (!is.null(cols)) cols <- list(cols) # .plotEngine is expecting a list
   
   op <- par(no.readonly = TRUE) # save to restore later
   par(mai = c(1, 0.5, 1, 1))
-  .plotEngine(spectra, which, lvls, ...)
+  .plotEngine(spectra, which, lvls, cols, ...)
   
   if (showNA) {
   	
@@ -67,7 +72,7 @@ plotSpectra2D <- function(spectra, which = 1, lvls = NULL, showNA = TRUE, ...) {
   	
   	if (length(rNA) != 0) {
   		V <- rNA/diff(range(spectra$F2))
-  		abline(v = V, col = "red", lwd = 2)
+  		abline(v = V, col = "gray", lwd = 2)
   	}
   	
   	# Process columns
@@ -77,7 +82,7 @@ plotSpectra2D <- function(spectra, which = 1, lvls = NULL, showNA = TRUE, ...) {
   	
   	if (length(cNA) != 0) {
   		H <- 1 - cNA/diff(range(spectra$F1))
-  		abline(h = H, col = "red", lwd = 2)
+  		abline(h = H, col = "gray", lwd = 2)
   	}
 
   } # end of showNA

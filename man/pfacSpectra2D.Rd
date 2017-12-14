@@ -30,6 +30,8 @@ data(MUD1)
 res <- pfacSpectra2D(MUD1, parallel = FALSE, nfac = 2)
 pfacScores(MUD1, res)
 pfacLoadings(MUD1, res)
+pfacLoadings(MUD1, res, ref = 5)
+pfacLoadings(MUD1, res, load_lvls = c(0.7, 0.8, 0.9), ref = 0.5, ref_lvls = 0.5)
 
 }
 \references{
