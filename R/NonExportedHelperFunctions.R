@@ -30,11 +30,20 @@
     # Gaps in F1 or F2 may be present, complicating things
     # If no diff, then use seq(low, high, length.out = 10)
     # If diff, divide into sections, return 5 ticks per section
-  
+    
+    discon <- FALSE # Check for discontinuities
     dfreq <- diff(freq)
-    if (length(unique(dfreq)) == 1) ticks <- seq(min(freq), max(freq), length.out = 10)
+    p <- min(dfreq)
+    for (i in 1:length(dfreq)) {
+    	if (!isTRUE(all.equal(dfreq[i], p, scale = 1.0))) {
+    		discon <- TRUE
+    		break
+    	}
+    }
 
-  if (length(unique(dfreq)) != 1) { # there are discontinuities
+    if (!discon) ticks <- seq(min(freq), max(freq), length.out = 10)
+
+    if (discon) { # there are discontinuities
     dm <- min(dfreq)
     # separate into sections, compute each separately & concatenate
     dc <- which(dfreq != dm)
@@ -134,7 +143,8 @@
 #' @importFrom graphics axis box mtext
 #'
 .plotEngine <- function(spectra, which = 1, lvls = NULL, cols = NULL, ...) {
-	
+
+
   if (missing(spectra)) stop("No spectral data provided")
   chkSpectra2D(spectra)
   # if (!is.null(lvls)) { if (length(which) != length(lvls)) stop("length(which) != length(lvls)") }
@@ -151,7 +161,7 @@
   # Plot each spectrum in turn
   for (i in 1:length(which)) {
   	
-    M <- spectra$data[[i]]
+    M <- spectra$data[[ which[i] ]]
     M <- t(M[nrow(M):1,]) # 90 cw prior to compensate for 90 ccw rotation built-in to contour
     
   	if (is.null(lvls[[i]])) curLvl <- calcLvls(M, mode = "NMR")
@@ -169,9 +179,9 @@
       F2ticks <- .computeTicks(spectra$F2)
       F2lab <- rev(formatC(F2ticks, digits = 2, format = "f"))
       F2at <- seq(0.0, 1.0, length.out = length(F2lab))
-      
+            
       F1ticks <- .computeTicks(spectra$F1)
-      F1lab <- rev(formatC(F1ticks, digits = 2, format = "f"))
+      F1lab <- formatC(F1ticks, digits = 2, format = "f")
       F1at <- seq(1.0, 0.0, length.out = length(F1lab))
       
   	  axis(side = 1, at = F2at, labels = F2lab, cex.axis = 0.75)
@@ -191,6 +201,10 @@
 
 ### Map colors to go with each contour level
 
+# This function should accept arbitrary vectors of levels and map them
+# onto the reference color scale.  The color map should maintain symmetry present
+# in the levels so -4.1 should give a color symmetric to +4.1
+
 .mapColors <- function(lvls) {
 
   # Construct default color scale
@@ -202,9 +216,69 @@
   cscale <- c(col2, col1)
 	
   refscale <- seq(-1, 1, length.out = 10) # Not 9, surprisingly (must be 9 intervals)
-  myc <- cscale[findInterval(lvls, refscale)]
+  lvls <- .normAroundZero(lvls)
+  myc <- cscale[findInterval(lvls, refscale, all.inside = TRUE)]
   
   return(myc)
+}
+
+### Normalize levels symmetrcally around zero
+
+.normAroundZero <- function(x) {
+	
+	# Based on stackoverflow.com/a/5295202/633251
+	# a < b
+	rescale <- function(x, a = 0, b = 1) {
+		num <- (b - a) * (x - min(x))
+		denom <- diff(range(x))
+		ans <- a + num/denom
+	}
+	
+	# Check to see if we are dealing with only 1 value in which case this is the only level
+	#  and it will be assigned to 0, +1 or -1 accordingly
+	
+	if (length(x) == 1) {
+		if (x > 0) val <- 1.0
+		if (x < 0) val <- -1.0
+		if (x == 0.0) val <- 0.0
+		return(val)
+	}
+	
+	# Check for pos and neg "arms" as well as zero
+	P <- N <- Z <- FALSE # flags for the existence of pos and/or neg values
+	pos <- x[x > 0]
+	if (length(pos) > 0) P <- TRUE
+	neg <- x[x < 0]
+	if (length(neg) > 0) N <- TRUE
+	if (any(x == 0.0)) Z <- TRUE
+
+	# Now norm according to the situation
+	if ((P) & (!N)) vals <- rescale(x[x >= 0], 0, 1)
+	if ((!P) & (N)) vals <- rescale(x[x <= 0], -1, 0)
+	if ((P) & (N)) {
+		mep <- max(pos) # most extreme pos value
+		men <- min(neg)
+		
+		if (mep >= abs(men)) {
+			pos <- rescale(x[x >= 0], 0, 1)
+			# temporarily add -1 * the mep to the neg arm
+			# for scaling purposes, so both arms are scaled the same
+			neg <- c(-1 * mep, sort(neg))
+			neg <- rescale(neg, -1, 0)
+			vals <- unique(c(neg[-1], pos))
+		}
+		
+		if (abs(men) >= mep) {
+			neg <- rescale(x[x <= 0], -1, 0)
+			# temporarily add abs(men) to the pos arm
+			# for scaling purposes, so both arms are scaled the same
+			pos <- c(sort(pos), abs(men))
+			pos <- rescale(pos, 0, 1)
+			vals <- unique(c(neg, pos[-length(pos)]))
+		}
+	}
+	
+	return(vals)
 }
 
 

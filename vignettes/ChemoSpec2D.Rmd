@@ -83,7 +83,7 @@ where F2 and F1 are NMR-speak for the x- and y-axes/dimensions.  We will refer t
 \end{center}
 \end{figure}
 
-`ChemoSpec2D` treats each spectrum/matrix as the unit of observation, and thus the physical sample that went into the spectrometer corresponds to the sample from a statistical perspective.  Keeping this natural unit intact during analysis is referred to as a *strong* multi-way analysis. In a weak analysis, the 3D data set is unfolded into a series of contiguous 2D matrices and analyzed using methods suitable for any 2D data set (which are fundamentally bilinear).\cite{Huang2003}  In the weak approach, each slice of a 2D spectrum becomes just another 1D spectrum, and the relationship between the slices in a single 2D spectrum is lost.  Oddly enough, the trilinear/strong analysis has fewer parameters to estimate so it is simpler, but computationally more demanding.  The interpretation is also more straight-forward.
+`ChemoSpec2D` treats each spectrum/matrix as the unit of observation, and thus the physical sample that went into the spectrometer corresponds to the sample from a statistical perspective.  Keeping this natural unit intact during analysis is referred to as a *strong* multi-way analysis. In a weak analysis, the 3D data set is unfolded into a series of contiguous 2D matrices and analyzed using methods suitable for any 2D data set (which are fundamentally bilinear) (\cite{Huang2003}). In the weak approach, each slice of a 2D spectrum becomes just another 1D spectrum, and the relationship between the slices in a single 2D spectrum is lost.  Oddly enough, the trilinear/strong analysis has fewer parameters to estimate so it is simpler, but computationally more demanding.  The interpretation is also more straight-forward.
 
 The literature on this topic unfortunately uses a wide variety of terminology to describe the nature of the analysis, and the same mathematical analysis is found under different names in different fields.  Here are some terms used to describe the analysis process:
 
@@ -91,7 +91,7 @@ The literature on this topic unfortunately uses a wide variety of terminology to
 * $N$-way Image Analysis.  In the case of 2D NMR spectra $N$ would be three.
 * Principal Tensor Analysis.  Tensor is just another term for an array of any dimension, so in the case of a collection of 2D NMR the data is a 3-way tensor.
 
-Keirs provides discussion and suggestions on terminology best practices.\cite{Kiers2000}
+Keirs provides discussion and suggestions on terminology best practices (\cite{Kiers2000}).
 
 # PARAFAC
 
@@ -119,11 +119,11 @@ If $\ubar{\mathbf{X}}$ is flattened by taking the $Kth$-dimension slices and con
 \mathbf{X} = \mathbf{A}(\mathbf{C} \odot \mathbf{B})^T + \mathbf{E}
 \]
 
-Here, $\odot$ represents the column-wise Kronecker product, a matrix multiplication variant needed in this situation.  $\mathbf{A}$, $\mathbf{B}$ and $\mathbf{C}$ are the component matrices as above.\cite{Bro2003b, Smilde2004}
+Here, $\odot$ represents the column-wise Kronecker product, a matrix multiplication variant needed in this situation.  $\mathbf{A}$, $\mathbf{B}$ and $\mathbf{C}$ are the component matrices as above (\cite{Bro2003b, Smilde2004}).
 
 ## Interpretation
 
-Regardless of the mathematical representation, the algorithm provides $\mathbf{A}$, $\mathbf{B}$ and $\mathbf{C}$.  Interpretation of the component matrices depends upon how $\ubar{\mathbf{X}}$ was constructed (i.e. which dimension represents the samples).  In the case of `ChemoSpec2D` $\mathbf{C}$ contains values analogous to scores in that they can be used to see how samples cluster (this is because the samples are in the third dimension of $\ubar{\mathbf{X}}$).  Standard matrix multiplication of $\mathbf{A} \ \times \ \mathbf{B^T}$ for a particular column (component) gives a 2D loading plot (a pseudo-spectrum) showing the contributions (loadings) of each peak to the component. `ChemoSpec2D` uses the `R` package `multiway` to carry out PARAFAC.\cite{Helwig2017}
+Regardless of the mathematical representation, the algorithm provides $\mathbf{A}$, $\mathbf{B}$ and $\mathbf{C}$.  Interpretation of the component matrices depends upon how $\ubar{\mathbf{X}}$ was constructed (i.e. which dimension represents the samples).  In the case of `ChemoSpec2D` $\mathbf{C}$ contains values analogous to scores in that they can be used to see how samples cluster (this is because the samples are in the third dimension of $\ubar{\mathbf{X}}$).  Standard matrix multiplication of $\mathbf{A} \ \times \ \mathbf{B^T}$ for a particular column (component) gives a 2D loading plot (a pseudo-spectrum) showing the contributions (loadings) of each peak to the component. `ChemoSpec2D` uses the `R` package `multiway` to carry out PARAFAC (\cite{Helwig2017}).
 
 PARAFAC is also known by other terms:
 

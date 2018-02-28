@@ -54,10 +54,15 @@ pfacLoadings <- function(spectra, pfac,
   if (class(pfac) != "parafac") stop("pfac argument was not a parafac object")
   if (length(load) != 1L) stop("Please supply a single loading")
   if (load > ncol(pfac$A)) stop("Requested component does not exist")
+  if (!is.integer(ref)) stop("ref should be a single integer")
+  if (length(ref) != 1L) stop("ref should be a single integer")
   chkSpectra2D(spectra)
 
   # Compute loading matrices
   M <- pfac$A[, load] %*% t(pfac$B[, load])
+  #M <- t(M) # APPEARS TO BE NECESSARY TO ALIGN WITH REFERENCE SPECTRA
+  M <- M[nrow(M):1,ncol(M):1]
+  
   
   # Prep & send to plotEngine
   # .plotEngine expects a spectra object and lvls and cols as lists
@@ -88,11 +93,11 @@ pfacLoadings <- function(spectra, pfac,
     if (is.null(load_lvls)) lvls[[2]] <- NULL
     if ((is.null(load_lvls) & (is.null(ref_lvls)))) lvls <- NULL 
   }
-  
+    
   # Configure colors
 
   if (is.null(ref)) { # only showing loadings
-    if (is.null(load_cols)) cols <- NULL # .plotEngine will assign levels
+    if (is.null(load_cols)) cols <- NULL # .plotEngine will assign colors
     if (!is.null(load_cols)) {
       cols <- vector("list", 1)
       cols[[1]] <- load_cols
@@ -102,8 +107,10 @@ pfacLoadings <- function(spectra, pfac,
   if (!is.null(ref)) { # showing loadings and reference spectrum
     cols <- vector("list", 2)  # intializes to NULL, NULL
     if (!is.null(ref_cols)) cols[[1]] <- ref_cols
-    if (is.null(ref_cols)) cols[[1]] <- "gray"
+    if (is.null(ref_cols)) cols[[1]] <- NULL
     if (!is.null(load_cols)) cols[[2]] <- load_cols	
+    if (is.null(load_cols)) cols[[2]] <- NULL	
+    if ((is.null(load_cols) & (is.null(ref_cols)))) cols <- NULL 
   }
   
   op <- par(no.readonly = TRUE) # save to restore later

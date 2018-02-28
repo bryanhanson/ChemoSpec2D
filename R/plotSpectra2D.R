@@ -49,8 +49,22 @@ plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA =
   chkSpectra2D(spectra)
   
   # Stop if there are frequencies missing from the interior, this is misleading
-  if (length(unique(diff(spectra$F1))) != 1) stop("There were missing frequencies along F1")
-  if (length(unique(diff(spectra$F2))) != 1) stop("There were missing frequencies along F2")
+  # MAYBE PUT INTO A HELPER FUNCTION
+  dF1 <- spectra$F1[2] - spectra$F1[1]
+  diffF1 <- diff(spectra$F1)
+  for (i in 1:length(diffF1)) {
+  	if (!isTRUE(all.equal(diffF1[i], dF1, scale = 1.0))) { # detects discontinuity
+  		stop("There were missing frequencies along F1")
+  	}
+  }
+
+  dF2 <- spectra$F2[2] - spectra$F2[1]
+  diffF2 <- diff(spectra$F2)
+  for (i in 1:length(diffF2)) {
+  	if (!isTRUE(all.equal(diffF2[i], dF2, scale = 1.0))) { # detects discontinuity
+  		stop("There were missing frequencies along F2")
+  	}
+  }
 
   if (!is.null(lvls)) lvls <- list(lvls) # .plotEngine is expecting a list
   if (!is.null(cols)) cols <- list(cols) # .plotEngine is expecting a list
