@@ -54,8 +54,11 @@ pfacLoadings <- function(spectra, pfac,
   if (class(pfac) != "parafac") stop("pfac argument was not a parafac object")
   if (length(load) != 1L) stop("Please supply a single loading")
   if (load > ncol(pfac$A)) stop("Requested component does not exist")
-  if (!is.integer(ref)) stop("ref should be a single integer")
-  if (length(ref) != 1L) stop("ref should be a single integer")
+  if (!is.null(ref)) {
+  	if (length(ref) != 1L) stop("Please supply a single ref value")
+  	if (!is.integer(ref)) stop("ref should be a single integer")
+  }
+    
   chkSpectra2D(spectra)
 
   # Compute loading matrices
