@@ -19,18 +19,19 @@ extract peaks.}
 An object of S3 class \code{\link{Spectra2D}}.
 }
 \description{
-This function deletes specified frequencies from a \code{\link{Spectra2D}} object. This function
-is useful for removing regions with large interfering peaks (e.g. the water peak in 1H NMR),
-or regions that are primarily noise.  It can also be used to isolate particular regions for
-further study.
+This function deletes specified frequencies from a \code{\link{Spectra2D}} object.
+This function is useful for removing regions with large interfering peaks
+(e.g. the water peak in 1H NMR), or regions that are primarily noise.
+It can also be used to isolate particular regions for further study.
 }
 \section{Warning}{
 
-One cannot remove frequencies from the interior of a 2D NMR data set and expect to get a meaningful
-contour plot, because doing so puts unrelated peaks adjacent in the data set.
-This would lead to contours being drawn that don't exist in the original data set. However, one
-can remove data from the interior and run a PARAFAC analysis on the result, using the spectrum
-as an abstract object (that is, not plottable).
+One cannot remove frequencies from the interior of a 2D NMR data set and expect
+to get a meaningful contour plot, because doing so puts unrelated peaks adjacent
+in the data set. This would lead to contours being drawn that don't exist in the
+original data set. However, one can remove data from the interior and run a PARAFAC
+analysis on the result, using the spectrum as an abstract object (that is, the
+spectrum may not plottable, but the resulting scores are still meaningful).
 }
 
 \examples{

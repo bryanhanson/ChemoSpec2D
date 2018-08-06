@@ -10,7 +10,7 @@
 #' One cannot remove frequencies from the interior of a 2D NMR data set and expect to get a meaningful
 #' contour plot, because doing so puts unrelated peaks adjacent in the data set.
 #' This would lead to contours being drawn that don't exist in the original data set.
-#' This function checks for missing frequencies.
+#' This function will check for missing frequencies and stop if any are found.
 #'
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'

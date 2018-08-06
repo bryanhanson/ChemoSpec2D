@@ -1,10 +1,13 @@
 #'
 #' Convert a \code{Spectra2D} Object to a \code{Spectra} Object by Linearizing
 #' 
-#' A utility function which takes a \code{Spectra2D} object and linearizes it. Each 2D spectrum corresponding to
-#' a sample is linearized by taking each F1 slice and assembling them one after the other into a vector.  The
-#' frequency axis is replaced with an index (though it is stored as a real vector to satisfy the checking routines).
-#' The frequency vector will be equal to the length of the F2 dimension times the length of the F1 dimension.
+#' A utility function which takes a \code{Spectra2D} object and linearizes it.
+#' Each 2D spectrum corresponding to a sample is linearized by taking each F1 slice
+#' and assembling them one after the other into a vector.  The
+#' frequency axis is replaced with an index (though it is stored as a real vector
+#' to satisfy the definition of a \code{\link{ChemoSpec}Spectra} object).
+#' The frequency vector will be equal to the length of the F2 dimension times
+#' the length of the F1 dimension.
 #' 
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #' 

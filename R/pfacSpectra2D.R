@@ -3,8 +3,8 @@
 #' 
 #' Carry out PARAFAC analysis of a \code{\link{Spectra2D}} object.
 #' Function \code{\link[multiway]{parafac}} from \pkg{multiway} is used.
-#' Because computation is slow, it is advisable to run this in batch
-#' mode from the command line.
+#' For large data sets, computational time may be long enough that
+#' it is desirable to run in batch mode.
 #'
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'

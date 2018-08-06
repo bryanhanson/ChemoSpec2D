@@ -21,8 +21,8 @@ An object of class \code{parafac}.
 \description{
 Carry out PARAFAC analysis of a \code{\link{Spectra2D}} object.
 Function \code{\link[multiway]{parafac}} from \pkg{multiway} is used.
-Because computation is slow, it is advisable to run this in batch
-mode from the command line.
+For large data sets, computational time may be long enough that
+it is desirable to run in batch mode.
 }
 \examples{
 

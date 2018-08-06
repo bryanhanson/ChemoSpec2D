@@ -4,8 +4,8 @@
 \alias{files2Spectra2DObject}
 \title{Import Data into a Spectra2D Object}
 \usage{
-files2Spectra2DObject(gr.crit = NULL, gr.cols = "auto", fmt = "YXZ", npx,
-  x.unit = "no frequency unit provided",
+files2Spectra2DObject(gr.crit = NULL, gr.cols = "auto", fmt = "YXZ",
+  npx, x.unit = "no frequency unit provided",
   y.unit = "no frequency unit provided",
   z.unit = "no intensity unit provided",
   descrip = "no description provided", fileExt = "\\\\.(csv|CSV)$",

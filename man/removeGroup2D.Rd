@@ -24,8 +24,8 @@ An object of S3 class \code{\link{Spectra2D}}.
 Removes specified groups or samples from a \code{\link{Spectra2D}} object.
 }
 \details{
-Both functions will report if extra data elements are found.  These will
-probably need to be edited manually.  The indices reported to the console
+Both functions will report if extra data elements are found, which will
+need to be edited manually.  The indices reported to the console
 can be helpful in this regard.
 
 If \code{rem.sam} is a character vector, the sample

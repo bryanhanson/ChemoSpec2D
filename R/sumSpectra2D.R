@@ -6,10 +6,9 @@
 #' 
 #' Prior to summarizing, \code{\link{chkSpectra2D}} is run with confirm = FALSE.
 #' If there are problems, warnings are issued to the console and the summary is
-#' not done.  The
-#' \code{\link{Spectra2D}} object is also checked to see if it contains data elements
-#' beyond what is required.  If so, these extra elements are reported to the
-#' console.
+#' not done.  The \code{\link{Spectra2D}} object is also checked to see if it
+#' contains data elements beyond the specification.  If so, these extra elements
+#' are reported to the console.
 #' 
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'

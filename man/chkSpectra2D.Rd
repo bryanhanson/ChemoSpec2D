@@ -19,9 +19,9 @@ None; messages will be printed at the console if there is a problem.
 Utility function to verify that the structure of a \code{\link{Spectra2D}}
 object (an S3 object) is internally consistent. This function can be used
 after manual editing of a \code{\link{Spectra2D}} object.  However,
-in most cases rather than
-directly manipulating a \code{\link{Spectra2D}} object, one should manipulate
-it via \code{\link{removeGroup2D}}, \code{\link{removeSample2D}}, \code{\link{normSpectra2D}},
+in most cases rather than directly manipulating a \code{\link{Spectra2D}}
+object, one should manipulate it via \code{\link{removeGroup2D}},
+\code{\link{removeSample2D}}, \code{\link{normSpectra2D}},
 or \code{\link{removeFreq2D}}.
 }
 \details{
