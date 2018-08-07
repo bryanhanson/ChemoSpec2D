@@ -77,7 +77,7 @@ removeFreq2D <- function(spectra, remF2 = NULL, remF1 = NULL) {
 		if (!is.formula(remF1)) stop("remF1 must be a formula")
 		limits <- .getLimits(spectra, "F1", remF1)
 		toss <- !((spectra$F1 >= limits[1]) & (spectra$F1 <= limits[2]))
-		for (i in 1:length(spectra$data)) spectra$data[[i]] <- spectra$data[[i]][rev(toss),, drop = FALSE]
+		for (i in 1:length(spectra$data)) spectra$data[[i]] <- spectra$data[[i]][toss,, drop = FALSE]
 		spectra$F1 <- spectra$F1[toss]
 	}
 

@@ -36,10 +36,10 @@ sumSpectra2D(MUD1)
 MUD1a <- removeFreq2D(MUD1, remF2 = 2 ~ 4, remF1 = 10 ~ 15)
 sumSpectra2D(MUD1a)
 
-MUD1b <- removePeaks2D(MUD1, remF2 = 2 ~ 4, remF1 = 10 ~ 15)
+MUD1b <- removePeaks2D(MUD1, remF2 = 2 ~ 4, remF1 = 11 ~ 13)
 sumSpectra2D(MUD1b)
 plotSpectra2D(MUD1b, lvls = c(0.25, 0.5, 0.75),
-  main = "Removed Peaks: F2 = 2 ~ 4, & F1 = 10 ~ 15")
+  main = "Removed Peaks: F2 = 2 ~ 4, & F1 = 11 ~ 13")
 
 }
 \author{

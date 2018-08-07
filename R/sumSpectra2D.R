@@ -37,10 +37,10 @@
 #' MUD1a <- removeFreq2D(MUD1, remF2 = 2 ~ 4, remF1 = 10 ~ 15)
 #' sumSpectra2D(MUD1a)
 #'
-#' MUD1b <- removePeaks2D(MUD1, remF2 = 2 ~ 4, remF1 = 10 ~ 15)
+#' MUD1b <- removePeaks2D(MUD1, remF2 = 2 ~ 4, remF1 = 11 ~ 13)
 #' sumSpectra2D(MUD1b)
 #' plotSpectra2D(MUD1b, lvls = c(0.25, 0.5, 0.75),
-#'   main = "Removed Peaks: F2 = 2 ~ 4, & F1 = 10 ~ 15")
+#'   main = "Removed Peaks: F2 = 2 ~ 4, & F1 = 11 ~ 13")
 #'
 sumSpectra2D <- function(spectra, ...){
 	
@@ -81,19 +81,21 @@ sumSpectra2D <- function(spectra, ...){
 	cat("\tThere are ", length(spectra$names), " spectra in this set.\n\n", sep = "")
 	
 	cat("\tThe F2 dimension runs from ", spectra$F2[1], " to ", 
-		spectra$F2[length(spectra$F2)], " ", spectra$unit[1], "\n", sep = "")
+		spectra$F2[length(spectra$F2)], " ", spectra$unit[1],
+		"\n\tand there are ", length(spectra$F2), " data points.\n", sep = "")
 		
 	if (nrow(gF2) > 1) {
-		cat("\tThe F2 dimension has gaps. Here are the data chunks:\n\n")
+		cat("\n\tThe F2 dimension has gaps. Here are the data chunks:\n\n")
 		print(gF2)
 		}
 	cat("\n")
 	
 	cat("\tThe F1 dimension runs from ", spectra$F1[1], " to ", 
-		spectra$F1[length(spectra$F1)], " ", spectra$unit[2], "\n", sep = "")
+		spectra$F1[length(spectra$F1)], " ", spectra$unit[2],
+		"\n\tand there are ", length(spectra$F1), " slices.\n", sep = "")
 		
 	if (nrow(gF1) > 1) {
-		cat("\tThe F1 dimension has gaps. Here are the data chunks:\n\n")
+		cat("\n\tThe F1 dimension has gaps. Here are the data chunks:\n\n")
 		print(gF1)
 		}
 	cat("\n")

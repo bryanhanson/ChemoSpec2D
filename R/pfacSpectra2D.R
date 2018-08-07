@@ -4,7 +4,7 @@
 #' Carry out PARAFAC analysis of a \code{\link{Spectra2D}} object.
 #' Function \code{\link[multiway]{parafac}} from \pkg{multiway} is used.
 #' For large data sets, computational time may be long enough that
-#' it is desirable to run in batch mode.
+#' it mmight desirable to run in batch mode.
 #'
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'
@@ -21,8 +21,11 @@
 #' @keywords multivariate
 #'
 #' @references R. Bro "PARAFAC. Tutorial and applications" \emph{Chemometrics and Intelligent
-#' Laboratory Systems} vol. 38 pgs. 149-171 (1997).  A. Smilde, R. Bro and P. Geladi
+#' Laboratory Systems} vol. 38 pgs. 149-171 (1997).
+#'
+#'  A. Smilde, R. Bro and P. Geladi
 #' "Multi-way Analysis: Applications in the Chemical Sciences" Wiley (2004).
+#'
 #'
 #' @export
 #'
@@ -33,10 +36,13 @@
 #'
 #' data(MUD1)
 #' res <- pfacSpectra2D(MUD1, parallel = FALSE, nfac = 2)
-#' pfacScores(MUD1, res)
-#' pfacLoadings(MUD1, res)
-#' pfacLoadings(MUD1, res, ref = 6L)
-#' pfacLoadings(MUD1, res, load_lvls = c(0.7, 0.8, 0.9), ref = 6L, ref_lvls = 0.5)
+#' pfacScores(MUD1, res, main = "PARAFAC Score Plot")
+#' pfacLoadings(MUD1, res, main = "PARAFAC Comp. 1 Loadings\nDefault Levels")
+#' pfacLoadings(MUD1, res, ref = 6L,
+#'   main = "PARAFAC Comp. 1 Loadings + Ref. Spectrum\nDefault Levels")
+#' pfacLoadings(MUD1, res, load_lvls = c(0.7, 0.8, 0.9),
+#'   ref = 6L, ref_lvls = 0.5,
+#'   main = "PARAFAC Comp. 1 Loadings + Ref. Spectrum\nCustom Levels; Ref. Spectrum Black")
 #'
 
 pfacSpectra2D <- function(spectra, parallel = TRUE, ...) {

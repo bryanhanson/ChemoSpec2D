@@ -9,7 +9,8 @@
 #' @param M A numeric matrix.
 #'
 #' @param n For all methods except \code{ecdf}, an integer giving the number of
-#' levels desired.  For most modes this is taken as \code{floor(n/2)} and additionally
+#' levels desired.  For most modes this is used interally as \code{floor(n/2)}
+#' and the result doubled.  In addition,
 #' only the positive or negative levels may be selected, so you are not likely
 #' to actually get \code{n} levels most of the time (remember, you can always give
 #' your desired levels as a vector).  For \code{ecdf}, \code{n} should be one or

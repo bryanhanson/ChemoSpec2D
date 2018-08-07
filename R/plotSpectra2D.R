@@ -24,7 +24,7 @@
 #'        running from blue (low) to red (high), centered on green (zero).
 #'
 #' @param showNA Logical. Should the locations of peaks removed by \code{\link{removePeaks2D}}
-#'        be shown?  If present, these are show by a red line at each frequency.
+#'        be shown?  If present, these are show by a gray line at each frequency.
 #'
 #' @param \ldots Additional parameters to be passed to the plotting routines.
 #'
@@ -39,7 +39,6 @@
 #' @examples
 #'
 #' data(MUD1)
-#'
 #' plotSpectra2D(MUD1, main = "MUD1", lvls = c(0.25, 0.5, 0.75))
 #'
 plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA = TRUE, ...) {
@@ -54,7 +53,7 @@ plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA =
   diffF1 <- diff(spectra$F1)
   for (i in 1:length(diffF1)) {
   	if (!isTRUE(all.equal(diffF1[i], dF1, scale = 1.0))) { # detects discontinuity
-  		stop("There were missing frequencies along F1")
+  		stop("Cannot plot: missing frequencies along F1")
   	}
   }
 
@@ -62,7 +61,7 @@ plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA =
   diffF2 <- diff(spectra$F2)
   for (i in 1:length(diffF2)) {
   	if (!isTRUE(all.equal(diffF2[i], dF2, scale = 1.0))) { # detects discontinuity
-  		stop("There were missing frequencies along F2")
+  		stop("Cannot plot: missing frequencies along F2")
   	}
   }
 
@@ -74,29 +73,19 @@ plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA =
   .plotEngine(spectra, which, lvls, cols, ...)
   
   if (showNA) {
-  	
-  	NAs <- .findNA(spectra, retFreq = TRUE)
-  	
-  	# NOTE: examples probably work because the scales start at zero
-  	
-  	# Process rows
-  	# rNA are indices from left-to-right, but axis labels right-to-left
-  	# which affects where we draw the lines
+  	 	
+  	NAs <- .findNA(spectra)
   	rNA <- NAs[[1]]
-  	
-  	if (length(rNA) != 0) {
-  		V <- rNA/diff(range(spectra$F2))
-  		abline(v = V, col = "gray", lwd = 2)
-  	}
-  	
-  	# Process columns
-  	# cNA are indices from top-to-bottom, which corresponds to labels
-  	# which affects where we draw the lines
   	cNA <- NAs[[2]]
   	
+  	if (length(rNA) != 0) {
+  		V <- rNA/length(spectra$F2)
+  		abline(v = V, col = "gray98", lwd = 2)
+  	}
+  	  	
   	if (length(cNA) != 0) {
-  		H <- 1 - cNA/diff(range(spectra$F1))
-  		abline(h = H, col = "gray", lwd = 2)
+  		H <- 1 - cNA/length(spectra$F1)
+  		abline(h = H, col = "gray98", lwd = 2)
   	}
 
   } # end of showNA

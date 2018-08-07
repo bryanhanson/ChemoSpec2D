@@ -27,8 +27,6 @@
 #' 
 #' @keywords utilities
 #' 
-#' @export
-#'
 #' @importFrom RColorBrewer brewer.pal
 #'
 groupNcolor2D <- function(spectra, gr.crit = NULL, gr.cols = "auto") {

@@ -26,7 +26,7 @@ This function is useful for removing regions with large
 interfering peaks (e.g. the water peak in 1H NMR), or regions that are primarily
 noise.  This function leaves the frequency axes intact.  Note that the
 \code{\link[multiway]{parafac}} function does not allow \code{NA}
-in the input data matrices.  See \code{\link{removeFreq2D}} for a way to reduce
+in the input data matrices.  See \code{\link{removeFreq2D}} for a way to shrink
 the data set without introducing \code{NA}s.
 }
 \examples{

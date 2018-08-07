@@ -3,11 +3,11 @@
 #' 
 #' Carry out multivariate image analysis of a \code{\link{Spectra2D}} object
 #' (multivariate image analysis is the same as a Tucker1 analysis).
-#' Function \code{\link[ThreeWay]{pcasup1}} from \pkg{ThreeWay} is used.
+#' Function \code{\link[ThreeWay]{pcasup1}} from package \pkg{ThreeWay} is used.
 #'
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'
-#' @return A list per \code{\link[ThreeWay]{pcasup1}}.  In particular, the list includes
+#' @return A list per \code{\link[ThreeWay]{pcasup1}}.  Of particular interest are the
 #'   elements \code{C} containing the eigenvectors and \code{1c} containing the eigenvalues.
 #'
 #' @author Bryan A. Hanson, DePauw University.
@@ -16,11 +16,12 @@
 #'
 #' @references
 #'
-#' R. Bro "PARAFAC. Tutorial and applications" \emph{Chemometrics and Intelligent
-#' Laboratory Systems} vol. 38 pgs. 149-171 (1997).
-#'
 #' A. Smilde, R. Bro and P. Geladi
 #' "Multi-way Analysis: Applications in the Chemical Sciences" Wiley (2004).
+#' See especially Example 4.5.
+#'
+#' P. Geladi and H. Grahn "Multivariate Image Analysis" Wiley (1996).
+#'
 #'
 #' @export
 #'
@@ -30,7 +31,7 @@
 #'
 #' data(MUD1)
 #' res <- miaSpectra2D(MUD1)
-#' miaScores(MUD1, res)
+#' miaScores(MUD1, res, main = "MIA Scores")
 #'
 
 miaSpectra2D <- function(spectra) {

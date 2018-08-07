@@ -41,7 +41,8 @@ The loadings matrix (pseudo-spectrum).  Side effect is a plot.
 \description{
 Plots loadings from the PARAFAC analysis of a \code{\link{Spectra2D}} object.
 The loadings are computed by multipling matrix \code{A} by matrix \code{B}
-in the \code{parafac} object, for a given component.  This matrix has dimensions
+in the \code{parafac} object, for a given component.  The matrix that results
+has dimensions
 F2 x F1 and is a 2D pseudo-spectrum.  A reference spectrum may also be drawn.
 }
 \seealso{

@@ -9,7 +9,7 @@
 Created from scratch. Contact the author for a script if interested.
 }
 \description{
-Made Up Data that resemble 2D NMR data sets.  They are very small, low resolution 
+Made Up Data that resemble a crude 2D NMR data set.  Lean, low resolution 
 and designed primarily to demonstrate and test functions.
 Real 2D NMR data sets are too large to be included in the package.
 }
@@ -19,7 +19,6 @@ Real 2D NMR data sets are too large to be included in the package.
 \examples{
 
 data(MUD1)
-
 sumSpectra2D(MUD1)
 
 }

@@ -16,8 +16,9 @@ console, as would be desirable for interactive use.}
 None; messages will be printed at the console if there is a problem.
 }
 \description{
-Utility function to verify that the structure of a \code{\link{Spectra2D}}
-object (an S3 object) is internally consistent. This function can be used
+Utility function, used by every function that has a \code{Spectra2D} object
+as an argument, to verify that the structure of a \code{\link{Spectra2D}}
+object (an S3 object) is internally consistent. This function can also be used
 after manual editing of a \code{\link{Spectra2D}} object.  However,
 in most cases rather than directly manipulating a \code{\link{Spectra2D}}
 object, one should manipulate it via \code{\link{removeGroup2D}},

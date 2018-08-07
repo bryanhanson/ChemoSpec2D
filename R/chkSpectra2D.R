@@ -2,8 +2,9 @@
 #'
 #' Verify the Integrity of a Spectra2D Object
 #' 
-#' Utility function to verify that the structure of a \code{\link{Spectra2D}}
-#' object (an S3 object) is internally consistent. This function can be used
+#' Utility function, used by every function that has a \code{Spectra2D} object
+#' as an argument, to verify that the structure of a \code{\link{Spectra2D}}
+#' object (an S3 object) is internally consistent. This function can also be used
 #' after manual editing of a \code{\link{Spectra2D}} object.  However,
 #' in most cases rather than directly manipulating a \code{\link{Spectra2D}}
 #' object, one should manipulate it via \code{\link{removeGroup2D}},
@@ -39,26 +40,45 @@
 #'
 chkSpectra2D <- function(spectra, confirm = FALSE) {
 	
-	# Check classes of each element
+	# Check classes/types of each element
 	
-	if (missing(spectra)) stop("No object of supposed class Spectra2D provided")
+	if (missing(spectra)) stop("No object of class Spectra2D provided")
 	trouble <- FALSE
-	if (!class(spectra) == "Spectra2D") { warning("The object provided was not of class Spectra2D"); trouble <- TRUE }
-	if (!class(spectra$F2) == "numeric") { warning("The F2 frequency data are not numeric"); trouble <- TRUE }
-	if (!class(spectra$F1) == "numeric") { warning("The F1 frequency data are not numeric"); trouble <- TRUE }
-	if (!class(spectra$data) == "list") { warning("Data is not a list"); trouble <- TRUE }
-	if (!class(spectra$names) == "character") { warning("The sample names are not character type"); trouble <- TRUE }
-	if (!class(spectra$units) == "character") { warning("The units are not character type"); trouble <- TRUE }
-	if (!class(spectra$desc) == "character") { warning("The description is not character type"); trouble <- TRUE }
-	if (!class(spectra$groups) == "factor") { warning("The assigned groups are not factor type"); trouble <- TRUE }
-	if (!class(spectra$colors) == "character") { warning("The assigned colors are not character type"); trouble <- TRUE }
+	extraTrouble <- FALSE
+	if (!class(spectra) == "Spectra2D") {
+		warning("The object provided was not of class Spectra2D")
+		trouble <- TRUE }
+	if (!class(spectra$F2) == "numeric") {
+		warning("The F2 frequency data are not numeric")
+		trouble <- TRUE }
+	if (!class(spectra$F1) == "numeric") {
+		warning("The F1 frequency data are not numeric")
+		trouble <- TRUE }
+	if (!class(spectra$data) == "list") {
+		warning("Data is not a list")
+		trouble <- TRUE }
+	if (!class(spectra$names) == "character") {
+		warning("The sample names are not character type")
+		trouble <- TRUE }
+	if (!class(spectra$units) == "character") {
+		warning("The units are not character type")
+		trouble <- TRUE }
+	if (!class(spectra$desc) == "character") {
+		warning("The description is not character type")
+		trouble <- TRUE }
+	if (!class(spectra$groups) == "factor") {
+		warning("The assigned groups are not factor type")
+		trouble <- TRUE }
+	if (!class(spectra$colors) == "character") {
+		warning("The assigned colors are not character type")
+		trouble <- TRUE }
 	
 	# Check that F2 and F1 are sorted ascending
 
 	if (is.unsorted(spectra$F2)) {warning("F2 frequency data are not sorted ascending"); trouble <- TRUE }
 	if (is.unsorted(spectra$F1)) {warning("F1 frequency data are not sorted ascending"); trouble <- TRUE }
 
-	# Check to make sure that data matrices have the same dim
+	# Check to make sure that every data matrix has the same dim & proper type
 	
 	ns <- length(spectra$names)
 	dims <- matrix(NA_integer_, ncol = 2, nrow = ns)
@@ -70,7 +90,7 @@ chkSpectra2D <- function(spectra, confirm = FALSE) {
 		dims[i,] <- c(ncol(spectra$data[[i]]), nrow(spectra$data[[i]]))
 	}
 	
-	Ucol1 <- length(unique(dims[,1])) == 1L # TRUE/FALSE
+	Ucol1 <- length(unique(dims[,1])) == 1L # returns TRUE/FALSE
 	Ucol2 <- length(unique(dims[,2])) == 1L
 	
 	if (!Ucol1 | !Ucol2) {
@@ -107,12 +127,13 @@ chkSpectra2D <- function(spectra, confirm = FALSE) {
 		
 	# Check for extra list elements and report
 
-	if ((length(spectra) > 8 ) && (confirm)) .extraData(spectra)
+	if (length(spectra) > 8 ) extraTrouble <- .extraData(spectra)
 	
 	# Wrap up
 	
-	if ((!trouble) && (confirm)) message(">>> Everything looks good!")
-	if (trouble) stop(">>>  Bummer: There seem to be one or more problems with this data set!")
+	if ((!trouble) && (!extraTrouble) && (confirm)) message(">>> Everything looks good!")
+	if (extraTrouble) message("\n\t>>>  Please check the extra data entries.")
+	if (trouble) stop("\n>>>  Bummer: There seem to be one or more problems with this data set!")
 	
 	}
 

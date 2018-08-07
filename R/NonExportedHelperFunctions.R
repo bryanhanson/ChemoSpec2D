@@ -4,6 +4,8 @@
 # They are very lean and don't necessarily check arguments, so the calling
 # function must check the arguments.
 #
+# When things are documented roxygen2 style, use @noRd to prevent a manual entry
+#
 
 ### getLimits
 	
@@ -78,6 +80,7 @@
 #' @author Bryan A. Hanson, DePauw University.
 #'
 #' @keywords utilities
+#' @noRd
 #'
 .findNA <- function(spectra, retFreq = FALSE) {
 
@@ -87,17 +90,22 @@
 	M <- spectra$data[[1]] # All spectra are assumed to have the same set of NAs
 	                       # This is verified by chkSpectra2D
 	
-	# Must find rows (columns) that are all NA
+	# Find rows (columns) that are all NA
 	
-	# Check along the rows (F2)
+	# Check along the rows (F2, but displayed as vertical lines in plotSpectra2D)
 	rNA <- rep(NA_integer_, ncol(M))
 	for (i in 1:ncol(M)) {
 		if (all(is.na(M[,i]))) rNA[i] <- i
 	}
 	rNA <- as.integer(na.omit(rNA))
-    if (retFreq) rNA <- spectra$F2[rNA]
+	
+	# For rows, we are checking each column left-to-right corresponding to the column
+	# indices of M. As spectra$F2 is sorted ascending, but plotted descending, 
+	# we must reverse F2 if we want correct frequencies for plotting.
+	# No such fix is needed for the columns.
+    if (retFreq) rNA <- rev(spectra$F2)[rNA]
     
-	# Check along the columns (F1)
+	# Check along the columns (F1, but displayed as horizontal lines in plotSpectra2D)
 	cNA <- rep(NA_integer_, nrow(M))
 	for (i in 1:nrow(M)) {
 		if (all(is.na(M[i,]))) cNA[i] <- i
@@ -141,6 +149,7 @@
 #' @keywords hplot
 #'
 #' @importFrom graphics axis box mtext
+#' @noRd
 #'
 .plotEngine <- function(spectra, which = 1, lvls = NULL, cols = NULL, ...) {
 
@@ -312,7 +321,8 @@
 #' @author Bryan A. Hanson, DePauw University.
 #' 
 #' @keywords utilities
-#' 
+#' @noRd
+#'
 .check4Gaps <- function(x, tol = 0.01) {
 	
 # Code derived from ChemoSpec::check4Gaps
@@ -407,27 +417,42 @@
 			
 ### extraData
 
-.extraData <- function(spectra, action) {
-	
+# Argument 'indices' is used by removeSample2D and removeGroup2D to report
+# the indices of the samples that were removed, so the user can use them
+# to manually fix the extra data.
+
+.extraData <- function(spectra, indices) {
+	trouble <- FALSE
 	spec.names <- names(spectra)
 	reqd.names <- c("F2", "F1", "data", "names", "groups", "colors", "units", "desc")
 	extra <- setdiff(spec.names, reqd.names)
 	
 	if (length(extra) > 0) {
-		# Always give the extra data names
+		
+		ns <- length(spectra$names)
+
+		# Give the extra data names & check their lengths
 		for (i in 1:length(extra)) {
 			msg <- paste("\tAdditional data was found:", extra[i], sep = " ")
-			message(msg)			
+			message(msg)		
+			if (length(spectra[[extra[i]]]) != ns) {
+				msg <- paste("\tThe length of *", extra[i],
+					"* did not match the number of samples.\n", sep = "")
+				message(msg)
+				trouble <- TRUE			
+			}
 		}
 		
 		# If something was removed, give the indices		
-		if (!missing(action)) {
+		if (!missing(indices)) {
 			message("\tIf these are per sample data, you may have to manually edit them.")
 			message("\tThe removal indices are:")
-			print(action)		
+			print(indices)		
 		}
 		
 	}
+	
+	return(trouble)
 }
 
 

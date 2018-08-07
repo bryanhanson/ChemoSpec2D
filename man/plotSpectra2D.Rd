@@ -20,7 +20,7 @@ If \code{NULL}, defaults to a scheme of nine values
 running from blue (low) to red (high), centered on green (zero).}
 
 \item{showNA}{Logical. Should the locations of peaks removed by \code{\link{removePeaks2D}}
-be shown?  If present, these are show by a red line at each frequency.}
+be shown?  If present, these are show by a gray line at each frequency.}
 
 \item{\ldots}{Additional parameters to be passed to the plotting routines.}
 }
@@ -44,7 +44,6 @@ This function will check for missing frequencies and stop if any are found.
 \examples{
 
 data(MUD1)
-
 plotSpectra2D(MUD1, main = "MUD1", lvls = c(0.25, 0.5, 0.75))
 
 }

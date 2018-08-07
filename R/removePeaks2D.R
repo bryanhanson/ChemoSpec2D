@@ -9,7 +9,7 @@
 #' interfering peaks (e.g. the water peak in 1H NMR), or regions that are primarily
 #' noise.  This function leaves the frequency axes intact.  Note that the
 #' \code{\link[multiway]{parafac}} function does not allow \code{NA}
-#' in the input data matrices.  See \code{\link{removeFreq2D}} for a way to reduce
+#' in the input data matrices.  See \code{\link{removeFreq2D}} for a way to shrink
 #' the data set without introducing \code{NA}s.
 #'
 #' @param spectra An object of S3 class \code{\link{Spectra2D}} from which to
@@ -77,7 +77,7 @@ removePeaks2D <- function(spectra, remF2 = NULL, remF1 = NULL) {
 		if (!is.formula(remF1)) stop("remF1 must be a formula")
 		limits <- .getLimits(spectra, "F1", remF1)
 		toss <- ((spectra$F1 >= limits[1]) & (spectra$F1 <= limits[2]))
-		for (i in 1:length(spectra$data)) spectra$data[[i]][rev(toss), ] <- NA	
+		for (i in 1:length(spectra$data)) spectra$data[[i]][toss, ] <- NA	
 	}
 
 	chkSpectra2D(spectra)		

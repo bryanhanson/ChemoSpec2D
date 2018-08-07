@@ -4,7 +4,7 @@
 \alias{normSpectra2D}
 \title{Normalize a Spectra2D Object}
 \usage{
-normSpectra2D(spectra, method = "TotInt")
+normSpectra2D(spectra, method = "zero2one")
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}} to be normalized.}
@@ -26,7 +26,6 @@ This function carries out normalization of the spectra in a
 \examples{
 
 data(MUD1)
-
 MUD1n <- normSpectra2D(MUD1)
 MUD1b <- removeFreq2D(MUD1, remF2 = 2.5 ~ 3.5)
 MUD1bn <- normSpectra2D(MUD1b)

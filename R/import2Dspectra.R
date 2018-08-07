@@ -31,8 +31,6 @@
 #' 
 #' @importFrom utils read.table
 #'
-#' @export
-#'
 import2Dspectra <- function(file, fmt, npx, ...) {
 	
   valid <- FALSE
