@@ -4,7 +4,7 @@
 # They are very lean and don't necessarily check arguments, so the calling
 # function must check the arguments.
 #
-# When things are documented roxygen2 style, use @noRd to prevent a manual entry
+# When things are documented roxygen2 style, use @noRd to prevent an entry in the manual
 #
 
 ### getLimits

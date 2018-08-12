@@ -4,6 +4,10 @@ Exploratory Chemometrics for 2D Spectroscopy
 Bryan A. Hanson DePauw University, Greencastle Indiana USA
 URL: github.com/bryanhanson/ChemoSpec2D
 
+Changes in version 0.1.328 2018-08-12
+     + Improved MUD1 test data set.
+     + Added centerSpectra2D function.
+
 Changes in version 0.1.314 2018-08-07
      + Fixed incorrectly reversed F1 frequency removal in removePeaks2D.
      + Fixed a problem with where the gray "no data" lines were drawn in removePeaks2D (part of the problem was in .findNA).

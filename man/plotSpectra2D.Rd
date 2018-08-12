@@ -44,7 +44,7 @@ This function will check for missing frequencies and stop if any are found.
 \examples{
 
 data(MUD1)
-plotSpectra2D(MUD1, main = "MUD1", lvls = c(0.25, 0.5, 0.75))
+plotSpectra2D(MUD1, main = "MUD1 Sample 1", lvls = c(0.1, 0.5, 0.8, 0.9))
 
 }
 \author{

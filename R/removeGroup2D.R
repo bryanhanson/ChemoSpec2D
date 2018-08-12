@@ -50,8 +50,6 @@ removeGroup2D <- function(spectra, rem.group) {
 	if (missing(rem.group)) stop("Nothing to remove")
 	chkSpectra2D(spectra)
 	
-	# BE CAREFUL: greping can catch more than you think!
-	
 	k <- c()
 	if (is.character(rem.group)) {
 		for (n in 1:length(rem.group)) {

@@ -39,7 +39,7 @@
 #' @examples
 #'
 #' data(MUD1)
-#' plotSpectra2D(MUD1, main = "MUD1", lvls = c(0.25, 0.5, 0.75))
+#' plotSpectra2D(MUD1, main = "MUD1 Sample 1", lvls = c(0.1, 0.5, 0.8, 0.9))
 #'
 plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA = TRUE, ...) {
 	
@@ -48,7 +48,6 @@ plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA =
   chkSpectra2D(spectra)
   
   # Stop if there are frequencies missing from the interior, this is misleading
-  # MAYBE PUT INTO A HELPER FUNCTION
   dF1 <- spectra$F1[2] - spectra$F1[1]
   diffF1 <- diff(spectra$F1)
   for (i in 1:length(diffF1)) {

@@ -11,7 +11,6 @@ removeSample2D <- function(spectra, rem.sam) {
 	chkSpectra2D(spectra)
 	
 	# Remove the requested samples by name or number
-	# BE CAREFUL: greping can catch more than you think!
 	
 	k <- c()
 	if (is.character(rem.sam)) {

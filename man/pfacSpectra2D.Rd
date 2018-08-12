@@ -13,7 +13,10 @@ pfacSpectra2D(spectra, parallel = TRUE, ...)
 Unless you love waiting, you should use parallel processing for real data sets.}
 
 \item{\dots}{Additional parameters to be passed to function \code{\link[multiway]{parafac}}.
-At the minimum, you'll need to specify \code{nfac}.}
+At the minimum, you'll need to specify \code{nfac}.  You should also give thought to
+value of \code{const}, allowed options can be seen in \code{\link[CMLS]{const}}.
+The default is to compute an unconstrained solution.  However, in some cases one may
+wish to apply a non-negativity constraint.}
 }
 \value{
 An object of class \code{parafac}.
@@ -22,19 +25,17 @@ An object of class \code{parafac}.
 Carry out PARAFAC analysis of a \code{\link{Spectra2D}} object.
 Function \code{\link[multiway]{parafac}} from \pkg{multiway} is used.
 For large data sets, computational time may be long enough that
-it mmight desirable to run in batch mode.
+it might desirable to run in batch mode.
 }
 \examples{
 
 data(MUD1)
 res <- pfacSpectra2D(MUD1, parallel = FALSE, nfac = 2)
 pfacScores(MUD1, res, main = "PARAFAC Score Plot")
-pfacLoadings(MUD1, res, main = "PARAFAC Comp. 1 Loadings\\nDefault Levels")
-pfacLoadings(MUD1, res, ref = 6L,
-  main = "PARAFAC Comp. 1 Loadings + Ref. Spectrum\\nDefault Levels")
-pfacLoadings(MUD1, res, load_lvls = c(0.7, 0.8, 0.9),
-  ref = 6L, ref_lvls = 0.5,
-  main = "PARAFAC Comp. 1 Loadings + Ref. Spectrum\\nCustom Levels; Ref. Spectrum Black")
+pfacLoadings(MUD1, res, load_lvls = c(1, 4, 6, 9),
+  main = "PARAFAC Comp. 1 Loadings")
+pfacLoadings(MUD1, res, ref = 6L, load_lvls = c(1, 4, 6, 9),
+  main = "PARAFAC Comp. 1 Loadings + Ref. Spectrum")
 
 }
 \references{

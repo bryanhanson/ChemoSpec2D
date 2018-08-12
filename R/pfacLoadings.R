@@ -64,7 +64,6 @@ pfacLoadings <- function(spectra, pfac,
 
   # Compute loading matrices
   M <- pfac$A[, load] %*% t(pfac$B[, load])
-  #M <- t(M) # APPEARS TO BE NECESSARY TO ALIGN WITH REFERENCE SPECTRA
   M <- M[nrow(M):1,ncol(M):1]
   
   

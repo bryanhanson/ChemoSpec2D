@@ -38,23 +38,23 @@
 #' @examples
 #'
 #' data(MUD1)
-#' plotSpectra2D(MUD1, lvls = c(0.25, 0.5, 0.75),
-#'   main = "MUD1 Spectrum 1: Complete Data Set")
+#' plotSpectra2D(MUD1, lvls = c(0.1, 0.5, 0.8, 0.9),
+#'   main = "MUD1 Sample 1: Complete Data Set")
 #'
 #' MUD1a <- removeFreq2D(MUD1, remF2 = 2 ~ 4)
 #' sumSpectra2D(MUD1a) # cannot plot, results would be misleading
 #'
-#' MUD1b <- removeFreq2D(MUD1, remF2 = low ~ 5)
+#' MUD1b <- removeFreq2D(MUD1, remF1 = low ~ 15)
 #' sumSpectra2D(MUD1b)
-#' plotSpectra2D(MUD1b, , lvls = c(0.25, 0.5, 0.75),
-#'   main = "Removed Frequencies: F2 low ~ 5")
+#' plotSpectra2D(MUD1b, , lvls = c(0.1, 0.5, 0.8, 0.9),
+#'   main = "MUD1 Sample 1\nRemoved Frequencies: F1 low ~ 15")
 #'
-#' MUD1c <- removeFreq2D(MUD1, remF1 = low ~ 5)
+#' MUD1c <- removeFreq2D(MUD1, remF2 = low ~ 5)
 #' sumSpectra2D(MUD1c)
-#' plotSpectra2D(MUD1c, , lvls = c(0.25, 0.5, 0.75),
-#'   main = "Removed Frequencies: F1 low ~ 5")
+#' plotSpectra2D(MUD1c, , lvls = c(0.1, 0.5, 0.8, 0.9),
+#'   main = "MUD1 Sample 1\nRemoved Frequencies: F2 low ~ 5")
 #'
-#' MUD1d <- removeFreq2D(MUD1, remF2 = 6 ~ high, remF1 = 4 ~ 13)
+#' MUD1d <- removeFreq2D(MUD1, remF2 = 6 ~ high, remF1 = 13 ~ 17)
 #' sumSpectra2D(MUD1d) # not plotted, results would be misleading
 #'
 removeFreq2D <- function(spectra, remF2 = NULL, remF1 = NULL) {

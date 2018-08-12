@@ -98,7 +98,7 @@ calcLvls <- function(M, n = 10, mode = "even",
 		lvs <- exp(lvs*lambda)
 		
 		# Now scale back into the range of the data
-		# Shrink inward a bit, can't show a contour at max/min value
+		# Shrink inward a bit, can't show a contour at max/min value (well, maybe one can...)
 		lvs2 <- lvs * ref*0.975/max(lvs)
 
 		# Reflect through zero

@@ -35,28 +35,28 @@
 #' @examples
 #'
 #' data(MUD1)
-#' plotSpectra2D(MUD1, lvls = c(0.25, 0.5, 0.75),
-#'   main = "MUD1 Spectrum 1: Complete Data Set")
+#' plotSpectra2D(MUD1, lvls = c(0.1, 0.5, 0.8, 0.9),
+#'   main = "MUD1 Sample 1: Complete Data Set")
 #'
-#' MUD1a <- removePeaks2D(MUD1, remF2 = 2 ~ 4)
+#' MUD1a <- removePeaks2D(MUD1, remF2 = 2.5 ~ 4)
 #' sumSpectra2D(MUD1a)
-#' plotSpectra2D(MUD1a, , lvls = c(0.25, 0.5, 0.75),
-#'   main = "Removed Peaks: F2 2 ~ 4")
+#' plotSpectra2D(MUD1a, , lvls = c(0.1, 0.5, 0.8, 0.9),
+#'   main = "MUD1 Sample 1\nRemoved Peaks: F2 2.5 ~ 4")
 #'
 #' MUD1b <- removePeaks2D(MUD1, remF2 = low ~ 5)
 #' sumSpectra2D(MUD1b)
-#' plotSpectra2D(MUD1b, , lvls = c(0.25, 0.5, 0.75),
-#'   main = "Removed Peaks: F2 low ~ 5")
+#' plotSpectra2D(MUD1b, , lvls = c(0.1, 0.5, 0.8, 0.9),
+#'   main = "MUD1 Sample 1\nRemoved Peaks: F2 low ~ 5")
 #'
-#' MUD1c <- removePeaks2D(MUD1, remF1 = high ~ 12)
+#' MUD1c <- removePeaks2D(MUD1, remF1 = high ~ 23)
 #' sumSpectra2D(MUD1c)
-#' plotSpectra2D(MUD1c, , lvls = c(0.25, 0.5, 0.75),
-#'   main = "Removed Peaks: F1 high ~ 12")
+#' plotSpectra2D(MUD1c, , lvls = c(0.1, 0.5, 0.8, 0.9),
+#'   main = "MUD1 Sample 1\nRemoved Peaks: F1 high ~ 23")
 #'
-#' MUD1d <- removePeaks2D(MUD1, remF2 = 2 ~ 4, remF1 = 4 ~ 6)
+#' MUD1d <- removePeaks2D(MUD1, remF2 = 2.5 ~ 4, remF1 = 17 ~ 20)
 #' sumSpectra2D(MUD1d)
-#' plotSpectra2D(MUD1d, lvls = c(0.25, 0.5, 0.75),
-#'   main = "Removed Peaks: F2 2 ~ 4 & F1 4 ~ 6")
+#' plotSpectra2D(MUD1d, lvls = c(0.1, 0.5, 0.8, 0.9),
+#'   main = "MUD1 Sample 1\nRemoved Peaks: F2 2.5 ~ 4 & F1 17 ~ 20")
 #'
 removePeaks2D <- function(spectra, remF2 = NULL, remF1 = NULL) {
 
