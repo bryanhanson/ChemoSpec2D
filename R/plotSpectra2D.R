@@ -19,12 +19,13 @@
 #' @param lvls A numeric vector specifying the levels at which to compute contours.
 #'        If \code{NULL}, values are computed using \code{\link{calcLvls}}.
 #'
-#' @param cols A vector of valid color designations.
-#'        If \code{NULL}, defaults to a scheme of nine values
+#' @param cols A vector of valid color designations.  If provided, must be of the
+#'        the same length as \code{lvls} (i.e. each contour is a particular color).
+#'        If \code{NULL}, defaults to using a scheme of up to nine values
 #'        running from blue (low) to red (high), centered on green (zero).
 #'
 #' @param showNA Logical. Should the locations of peaks removed by \code{\link{removePeaks2D}}
-#'        be shown?  If present, these are show by a gray line at each frequency.
+#'        be shown?  If present, these are shown by a gray line at each frequency.
 #'
 #' @param \ldots Additional parameters to be passed to the plotting routines.
 #'
@@ -39,7 +40,8 @@
 #' @examples
 #'
 #' data(MUD1)
-#' plotSpectra2D(MUD1, main = "MUD1 Sample 1", lvls = c(0.1, 0.5, 0.8, 0.9))
+#' plotSpectra2D(MUD1, which = 7, lvls = seq(-1, 1, by = 0.2),
+#'   main = "MUD1 Sample 7")
 #'
 plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA = TRUE, ...) {
 	
@@ -64,13 +66,18 @@ plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA =
   	}
   }
 
-  if (!is.null(lvls)) lvls <- list(lvls) # .plotEngine is expecting a list
-  if (!is.null(cols)) cols <- list(cols) # .plotEngine is expecting a list
+  # Process provided lvls and cols, including default values of NULL
+  # .plotEngine expects a list for each
+  # .plotEngine will compute defaults if NULL is passed
+  lvls <- list(lvls) # list(NULL) works here
+  cols <- list(cols)
   
+  # Go plot
   op <- par(no.readonly = TRUE) # save to restore later
-  par(mai = c(1, 0.5, 1, 1))
+  par(mai = c(0.75, 0.5, 1.0, 0.75))
   .plotEngine(spectra, which, lvls, cols, ...)
   
+  # Show NAs if requested
   if (showNA) {
   	 	
   	NAs <- .findNA(spectra)
@@ -88,6 +95,8 @@ plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA =
   	}
 
   } # end of showNA
+  
+  # Add showScale = TRUE code?
     
   on.exit(par(op)) # restore original values
 }

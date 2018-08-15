@@ -21,7 +21,7 @@
 #'        for the reference spectrum.
 #'        If \code{NULL}, values are computed using \code{calcLvls}.
 #'
-#' @param load_lvls A vector specifying the positive contour levels
+#' @param load_lvls A vector specifying the contour levels
 #'        for the loadings pseudo-spectrum.
 #'        If \code{NULL}, values are computed using \code{calcLvls}.
 #'
@@ -29,7 +29,7 @@
 #'        spectrum. If \code{NULL}, set to gray.
 #'
 #' @param load_cols A vector specifying the colors for the contours in the laoding spectrum.
-#'        If \code{NULL}, defaults to a scheme of nine values
+#'        If \code{NULL}, defaults to a scheme of values
 #'        running from blue (low) to red (high), centered on green (zero).
 #'
 #' @param \dots Additional parameters to be passed to plotting functions.
@@ -54,7 +54,7 @@ pfacLoadings <- function(spectra, pfac,
   if (class(spectra) != "Spectra2D") stop("spectra argument was not a Spectra2D object")
   if (class(pfac) != "parafac") stop("pfac argument was not a parafac object")
   if (length(load) != 1L) stop("Please supply a single loading")
-  if (load > ncol(pfac$A)) stop("Requested component does not exist")
+  if (load > ncol(pfac$A)) stop("Requested load does not exist")
   if (!is.null(ref)) {
   	if (length(ref) != 1L) stop("Please supply a single ref value")
   	if (!is.integer(ref)) stop("ref should be a single integer")

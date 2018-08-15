@@ -4,6 +4,13 @@ Exploratory Chemometrics for 2D Spectroscopy
 Bryan A. Hanson DePauw University, Greencastle Indiana USA
 URL: github.com/bryanhanson/ChemoSpec2D
 
+Changes in version 0.1.373 2018-08-15
+     + MUD1 gains some negative peaks for more comprehensive graphical tests.
+     + .mapColors overhauled.
+     + .plotEngine overhaulded.
+     + .normAroundZero overhauled, and renamed to .symAroundZero.
+     + Added convenience function inspectLvls to allow quick selection of levels.
+
 Changes in version 0.1.328 2018-08-12
      + Improved MUD1 test data set.
      + Added centerSpectra2D function.

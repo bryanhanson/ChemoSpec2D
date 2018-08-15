@@ -15,12 +15,13 @@ plotSpectra2D(spectra, which = 1, lvls = NULL, cols = NULL,
 \item{lvls}{A numeric vector specifying the levels at which to compute contours.
 If \code{NULL}, values are computed using \code{\link{calcLvls}}.}
 
-\item{cols}{A vector of valid color designations.
-If \code{NULL}, defaults to a scheme of nine values
+\item{cols}{A vector of valid color designations.  If provided, must be of the
+the same length as \code{lvls} (i.e. each contour is a particular color).
+If \code{NULL}, defaults to using a scheme of up to nine values
 running from blue (low) to red (high), centered on green (zero).}
 
 \item{showNA}{Logical. Should the locations of peaks removed by \code{\link{removePeaks2D}}
-be shown?  If present, these are show by a gray line at each frequency.}
+be shown?  If present, these are shown by a gray line at each frequency.}
 
 \item{\ldots}{Additional parameters to be passed to the plotting routines.}
 }
@@ -44,7 +45,8 @@ This function will check for missing frequencies and stop if any are found.
 \examples{
 
 data(MUD1)
-plotSpectra2D(MUD1, main = "MUD1 Sample 1", lvls = c(0.1, 0.5, 0.8, 0.9))
+plotSpectra2D(MUD1, which = 7, lvls = seq(-1, 1, by = 0.2),
+  main = "MUD1 Sample 7")
 
 }
 \author{

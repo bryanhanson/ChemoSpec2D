@@ -7,26 +7,184 @@
 # When things are documented roxygen2 style, use @noRd to prevent an entry in the manual
 #
 
-### getLimits
-	
-# The user may not know or think about whether F2 or F1 is ascending or descending
-# so we will try to get it right no matter how the user gives
-# the formula; e.g. 6 ~ 3 ought to be handled as 3 ~ 6.
-	
-.getLimits <- function(spectra, dim, form) {
-	lhs <- form[[2]]
-	rhs <- form[[3]]
-	if (as.character(lhs) == "low") lhs <- min(spectra[[dim]])
-	if (as.character(lhs) == "high") lhs <- max(spectra[[dim]]) 
-	if (as.character(rhs) == "low") rhs <- min(spectra[[dim]])
-	if (as.character(rhs) == "high") rhs <- max(spectra[[dim]])
-	ans <- c(lhs, rhs)
-	if (is.unsorted(ans)) ans <- rev(ans)
-	return(ans) # should always give numeric values in order
+##### Functions Related to Contour Plots #####
+
+### plotEngine
+
+#'
+#' Plotting Engine for 2D Spectra
+#' 
+#' Plots one or more 2D spectra stored in a \code{\link{Spectra2D}} object.
+#' This is the function that actually creates the plots requested
+#' by several other functions.  Not intended to be called by the user.
+#' Base graphics functions are used.  x and y axes dimensions are on [0...1]
+#' par values should be adjusted before calling this function.
+#'
+#' @param spectra An object of S3 class \code{\link{Spectra2D}}.
+#'
+#' @param which An integer vector giving the spectra to be plotted.
+#'        Spectra are plotted in order so the last one requested is on top.
+#'
+#' @param lvls A list of \code{length(which)}.  Each list element
+#'        should be a numeric vector giving the desired contour levels.
+#'        If any are \code{NULL}, values are computed using \code{calcLvls}.
+#'
+#' @param cols A list of \code{length(which)}. Each list element
+#'        should be a vector of valid color designations.  There should be
+#'        one color per contour level.  Defaults to a scheme of nine values
+#'        running from blue (low) to red (high), centered on green (zero).
+#'
+#' @param \dots Additional parameters to be passed to plotting functions.
+#'
+#' @return Side effect is a plot.
+#'
+#' @author Bryan A. Hanson, DePauw University.
+#'
+#' @keywords hplot
+#'
+#' @importFrom graphics axis box mtext
+#' @noRd
+#'
+.plotEngine <- function(spectra, which = 1, lvls = NULL, cols = NULL, ...) {
+
+
+  if (missing(spectra)) stop("No spectral data provided")
+  chkSpectra2D(spectra)
+  
+  # Plot each spectrum in turn
+  for (i in 1:length(which)) {
+  	
+    M <- spectra$data[[ which[i] ]]
+    M <- t(M[nrow(M):1,]) # 90 cw prior to compensate for 90 ccw rotation built-in to contour
+    
+  	if (is.null(lvls[[i]])) curLvl <- calcLvls(M, mode = "NMR")
+  	if (!is.null(lvls[[i]])) curLvl <- lvls[[i]]
+  	
+  	if (is.null(cols[[i]])) curCol <- .mapColors(spectra, curLvl)
+  	if (!is.null(cols[[i]])) curCol <- cols[[i]]
+  	
+  	if (length(curLvl) != length(curCol)) {
+  	  msg <- paste("The number of colors provided for spectrum", which[i],
+  	    "does not match the number of levels provided:", sep = " ")
+  	  message(msg)
+  	  print(data.frame(noCols = length(cols), noLvls = length(lvls)))
+  	  stop("See above and revise accordingly")
+  	}
+
+  	if (i == 1) { # plot the first spectrum with decorations
+  	  contour(M, drawlabels = FALSE, axes = FALSE, levels = curLvl, col = curCol, ...)
+  	  box()
+  	  
+      # Compute tick positions and labels, then draw
+      
+      F2ticks <- .computeTicks(spectra$F2)
+      F2lab <- rev(formatC(F2ticks, digits = 2, format = "f"))
+      F2at <- seq(0.0, 1.0, length.out = length(F2lab))
+            
+      F1ticks <- .computeTicks(spectra$F1)
+      F1lab <- formatC(F1ticks, digits = 2, format = "f")
+      F1at <- seq(1.0, 0.0, length.out = length(F1lab))
+      
+  	  axis(side = 1, at = F2at, labels = F2lab, cex.axis = 0.75)
+  	  axis(side = 4, at = F1at, labels = F1lab, cex.axis = 0.75)
+  	  
+  	  mtext(spectra$unit[1], 1, line = 2)
+  	  mtext(spectra$unit[2], 4, line = 2)
+  	} # end of plotting first spectrum
+
+    if (i > 1) {
+  	  contour(M, drawlabels = FALSE, axes = FALSE, levels = curLvl, col = curCol, add = TRUE, ...)
+    }
+  } # end of master loop
+} # end of .plotEngine
+
+### Map colors to go with each contour level
+
+# This function should accept arbitrary vectors of levels and map them
+# onto the reference color scale.  The color map should maintain symmetry present
+# in the levels so -4.1 should give a color symmetric to +4.1
+# Mapping should be relative to the range of the entire Spectra2D object, not just
+# a single spectrum.  That way different spectra can be compared directly.
+
+.mapColors <- function(spectra, lvls) {
+
+  cscale <- .createScale()
+  drange <- range(spectra$data, na.rm = TRUE) # some data sets have NAs
+  drange <- .symAroundZero(drange)
+  refscale <- seq(drange[1], drange[2], length.out = 10) # Not 9, surprisingly (need 9 intervals)
+  myc <- cscale[findInterval(lvls, refscale, all.inside = TRUE)]
+  return(myc)
 }
 
+### Adjust values to be symmetric around zero so that scale is applied correctly
+# Find the most extreme of two values, and return it and its negative
 
-### computeTicks
+.symAroundZero <- function(x) {
+	
+  if (length(x) != 2L) stop(".symAroundZero did not get two values")
+		
+  # Check for pos and neg values
+  P <- N <- FALSE # flags for the existence of pos and/or neg values
+  pos <- x[x > 0]
+  if (length(pos) > 0) P <- TRUE
+  neg <- x[x < 0]
+  if (length(neg) > 0) N <- TRUE
+
+  if ((P) & (!N)) vals <- c(-max(x), max(x))
+  if ((!P) & (N)) vals <- c(min(x), -min(x))
+  if ((P) & (N)) {
+    mep <- max(pos) # most extreme pos value
+    men <- min(neg) # most extreme neg value
+    if (mep >= abs(men))  vals <- c(-mep, mep)	
+    if (abs(men) >= mep) vals <- c(men, -men)
+    }
+	
+	return(vals)
+}
+
+### Construct default color scale
+
+.createScale <- function() {
+  # blue/low -> red/high, anchored at zero (index 5, a shade of green)
+  # view with:
+  # pie(rep(1, 9), col = cscale)
+	col1 <- rev(rainbow(5, start = 0.0, end = 0.25))
+	col2 <- rev(rainbow(4, start = 0.45, end = 0.66))
+	cscale <- c(col2, col1)	
+}
+
+### Draw the scale/legend
+
+.drawScale <- function(cscale, orient) { # Draw a scale for reference
+
+	nc <- length(cscale)
+	
+	if (orient == "horizontal") {
+	  plot(1:nc, rep(1.0, nc), type = "n",
+		yaxt = "n", xaxt = "n", main = "", xlab = "", ylab = "")
+	  for (i in 1:nc) {
+		rect(i-0.5, 0.5, i+0.5, 1.5, border = NA, col = cscale[i])
+	  }	
+	} # end of orient == "horizontal"
+
+	if (orient == "vertical") {
+      plot.new()
+      op <- par(no.readonly = TRUE) # save to restore later (must call before layout)
+      par(mai = c(0.5, 3.4, 0.5, 3.4))
+
+	  plot(rep(1.0, nc), 1:nc, type = "n",
+		yaxt = "n", xaxt = "n", main = "", xlab = "", ylab = "")
+	  for (i in 1:nc) {
+		rect(0.5, i-0.5, 1.5, i+0.5, border = NA, col = cscale[i])
+	  }
+	  text(0.0, 0.5, labels = "test") # not working
+      on.exit(par(op)) # restore original values
+
+	} # end of orient == "vertical"
+	
+}
+
+### computeTicks for contour plots
 
 .computeTicks <- function(freq) {
     # Gaps in F1 or F2 may be present, complicating things
@@ -61,7 +219,29 @@
   return(ticks)
 }
 
+##### Misc Utility Functions #####
+
+### Get limits from a user specified formula (used in removeFreq2D and removePeaks2D)
+	
+# The user may not know or think about whether F2 or F1 is ascending or descending
+# so we will try to get it right no matter how the user gives
+# the formula; e.g. 6 ~ 3 ought to be handled as 3 ~ 6.
+	
+.getLimits <- function(spectra, dim, form) {
+	lhs <- form[[2]]
+	rhs <- form[[3]]
+	if (as.character(lhs) == "low") lhs <- min(spectra[[dim]])
+	if (as.character(lhs) == "high") lhs <- max(spectra[[dim]]) 
+	if (as.character(rhs) == "low") rhs <- min(spectra[[dim]])
+	if (as.character(rhs) == "high") rhs <- max(spectra[[dim]])
+	ans <- c(lhs, rhs)
+	if (is.unsorted(ans)) ans <- rev(ans)
+	return(ans) # should always give numeric values in order
+}
+
+
 ### findNA
+
 #'
 #'
 #' Find NA in a Spectra2D Object
@@ -115,180 +295,6 @@
 	
 	return(list(rowNA = rNA, colNA = cNA))
 	}
-
-### plotEngine
-#'
-#' Plotting Engine for 2D Spectra
-#' 
-#' Plots one or more 2D spectra stored in a \code{\link{Spectra2D}} object.
-#' This is the function that actually creates the plots requested
-#' by several other functions.  Not intended to be called by the user.
-#' Base graphics functions are used.  x and y axes dimensions are 0...1
-#' par values should be adjusted before calling this function.
-#'
-#' @param spectra An object of S3 class \code{\link{Spectra2D}}.
-#'
-#' @param which An integer vector giving the spectra to be plotted.
-#'        Spectra are plotted in order so the last one is on top.
-#'
-#' @param lvls A list of \code{length(which)}.  Each list element
-#'        should be a numeric vector giving the desired contour levels.
-#'        If any are \code{NULL}, values are computed using \code{calcLvls}.
-#'
-#' @param cols A list of \code{length(which)}. Each list element
-#'        should be a vector of valid color designations.  There should be
-#'        one color per level.  Defaults to a scheme of nine values
-#'        running from blue (low) to red (high), centered on green (zero).
-#'
-#' @param \dots Additional parameters to be passed to plotting functions.
-#'
-#' @return Side effect is a plot.
-#'
-#' @author Bryan A. Hanson, DePauw University.
-#'
-#' @keywords hplot
-#'
-#' @importFrom graphics axis box mtext
-#' @noRd
-#'
-.plotEngine <- function(spectra, which = 1, lvls = NULL, cols = NULL, ...) {
-
-
-  if (missing(spectra)) stop("No spectral data provided")
-  chkSpectra2D(spectra)
-  # if (!is.null(lvls)) { if (length(which) != length(lvls)) stop("length(which) != length(lvls)") }
-  # if (!is.null(cols)) { if (length(which) != length(cols)) stop("length(which) != length(cols)") }
-  
-  # Something broken next block
-  # if ((!is.null(cols)) & (!is.null(lvls))) {
-  	# if (length(cols) != length(lvls))
-  	# message("The number of colors provided does not correspond to the number of levels specified:")
-  	# print(data.frame(noCol = length(cols), noLvls = length(lvls)))
-  	# stop("See above and revise accordingly")
-  # }
-  
-  # Plot each spectrum in turn
-  for (i in 1:length(which)) {
-  	
-    M <- spectra$data[[ which[i] ]]
-    M <- t(M[nrow(M):1,]) # 90 cw prior to compensate for 90 ccw rotation built-in to contour
-    
-  	if (is.null(lvls[[i]])) curLvl <- calcLvls(M, mode = "NMR")
-  	if (!is.null(lvls[[i]])) curLvl <- lvls[[i]]
-  	
-  	if (is.null(cols[[i]])) curCol <- .mapColors(curLvl)
-  	if (!is.null(cols[[i]])) curCol <- cols[[i]]
-
-  	if (i == 1) { # plot the first spectrum with decorations
-  	  contour(M, drawlabels = FALSE, axes = FALSE, levels = curLvl, col = curCol, ...)
-  	  box()
-  	  
-      # Compute tick positions and labels, then draw
-      
-      F2ticks <- .computeTicks(spectra$F2)
-      F2lab <- rev(formatC(F2ticks, digits = 2, format = "f"))
-      F2at <- seq(0.0, 1.0, length.out = length(F2lab))
-            
-      F1ticks <- .computeTicks(spectra$F1)
-      F1lab <- formatC(F1ticks, digits = 2, format = "f")
-      F1at <- seq(1.0, 0.0, length.out = length(F1lab))
-      
-  	  axis(side = 1, at = F2at, labels = F2lab, cex.axis = 0.75)
-  	  axis(side = 4, at = F1at, labels = F1lab, cex.axis = 0.75)
-  	  
-  	  mtext(spectra$unit[1], 1, line = 2)
-  	  mtext(spectra$unit[2], 4, line = 2)
-  	}
-
-    if (i > 1) {
-  	  contour(M, drawlabels = FALSE, axes = FALSE, levels = curLvl, col = curCol, add = TRUE, ...)
-    }
-  } # end of master loop
-  
-  #on.exit(par(op)) # restore original values
-}
-
-### Map colors to go with each contour level
-
-# This function should accept arbitrary vectors of levels and map them
-# onto the reference color scale.  The color map should maintain symmetry present
-# in the levels so -4.1 should give a color symmetric to +4.1
-
-.mapColors <- function(lvls) {
-
-  # Construct default color scale
-  # blue/low -> red/high, anchored at zero (index 5, a shade of green)
-  # view with:
-  # pie(rep(1, 9), col = cscale)
-  col1 <- rev(rainbow(5, start = 0.0, end = 0.25))
-  col2 <- rev(rainbow(4, start = 0.45, end = 0.66))
-  cscale <- c(col2, col1)
-	
-  refscale <- seq(-1, 1, length.out = 10) # Not 9, surprisingly (must be 9 intervals)
-  lvls <- .normAroundZero(lvls)
-  myc <- cscale[findInterval(lvls, refscale, all.inside = TRUE)]
-  
-  return(myc)
-}
-
-### Normalize levels symmetrcally around zero
-
-.normAroundZero <- function(x) {
-	
-	# Based on stackoverflow.com/a/5295202/633251
-	# a < b
-	rescale <- function(x, a = 0, b = 1) {
-		num <- (b - a) * (x - min(x))
-		denom <- diff(range(x))
-		ans <- a + num/denom
-	}
-	
-	# Check to see if we are dealing with only 1 value in which case this is the only level
-	#  and it will be assigned to 0, +1 or -1 accordingly
-	
-	if (length(x) == 1) {
-		if (x > 0) val <- 1.0
-		if (x < 0) val <- -1.0
-		if (x == 0.0) val <- 0.0
-		return(val)
-	}
-	
-	# Check for pos and neg "arms" as well as zero
-	P <- N <- Z <- FALSE # flags for the existence of pos and/or neg values
-	pos <- x[x > 0]
-	if (length(pos) > 0) P <- TRUE
-	neg <- x[x < 0]
-	if (length(neg) > 0) N <- TRUE
-	if (any(x == 0.0)) Z <- TRUE
-
-	# Now norm according to the situation
-	if ((P) & (!N)) vals <- rescale(x[x >= 0], 0, 1)
-	if ((!P) & (N)) vals <- rescale(x[x <= 0], -1, 0)
-	if ((P) & (N)) {
-		mep <- max(pos) # most extreme pos value
-		men <- min(neg)
-		
-		if (mep >= abs(men)) {
-			pos <- rescale(x[x >= 0], 0, 1)
-			# temporarily add -1 * the mep to the neg arm
-			# for scaling purposes, so both arms are scaled the same
-			neg <- c(-1 * mep, sort(neg))
-			neg <- rescale(neg, -1, 0)
-			vals <- unique(c(neg[-1], pos))
-		}
-		
-		if (abs(men) >= mep) {
-			neg <- rescale(x[x <= 0], -1, 0)
-			# temporarily add abs(men) to the pos arm
-			# for scaling purposes, so both arms are scaled the same
-			pos <- c(sort(pos), abs(men))
-			pos <- rescale(pos, 0, 1)
-			vals <- unique(c(neg, pos[-length(pos)]))
-		}
-	}
-	
-	return(vals)
-}
 
 
 ### check4Gaps
@@ -363,7 +369,7 @@
 	ref <- .findExtreme(M)
 	lim.x <- c(-ref, ref)
 
-	def.par <- par(no.readonly = TRUE)
+	def.par <- par(no.readonly = TRUE) # save to restore later (must call before layout) 
 	nf <- layout(mat = matrix(c(1, 2), 2, 1, byrow = TRUE), heights = c(6 , 1))
 	par(mar = c(3.1, 3.1, 1.1, 2.1))
 
@@ -372,15 +378,8 @@
 		col = "black", ...)
 	abline(v = lvs, col = "pink", lty = 2)
 	
-	col1 <- rev(rainbow(5, start = 0.0, end = 0.25))
-	col2 <- rev(rainbow(4, start = 0.45, end = 0.66))
-	cscale <- c(col2, col1)
-	nc <- length(cscale)
-	plot(1:nc, rep(1.0, nc), type = "n",
-		yaxt = "n", xaxt = "n", main = "", xlab = "", ylab = "")
-	for (i in 1:nc) {
-		rect(i-0.5, 0.5, i+0.5, 1.5, border = NA, col = cscale[i])
-		}
+	cscale <- .createScale()
+	.drawScale(cscale, "horizontal")
 		
 	par(def.par)
 } # end of .sH

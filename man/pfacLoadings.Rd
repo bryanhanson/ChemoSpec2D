@@ -18,7 +18,7 @@ pfacLoadings(spectra, pfac, load = 1, ref = NULL, load_lvls = NULL,
 as a reference spectrum, which is plotted behind the loadings.
 Defaults to \code{NULL} which does not plot a reference spectrum.}
 
-\item{load_lvls}{A vector specifying the positive contour levels
+\item{load_lvls}{A vector specifying the contour levels
 for the loadings pseudo-spectrum.
 If \code{NULL}, values are computed using \code{calcLvls}.}
 
@@ -27,7 +27,7 @@ for the reference spectrum.
 If \code{NULL}, values are computed using \code{calcLvls}.}
 
 \item{load_cols}{A vector specifying the colors for the contours in the laoding spectrum.
-If \code{NULL}, defaults to a scheme of nine values
+If \code{NULL}, defaults to a scheme of values
 running from blue (low) to red (high), centered on green (zero).}
 
 \item{ref_cols}{A vector specifying the colors for the contours in the reference
