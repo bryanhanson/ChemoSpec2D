@@ -12,6 +12,11 @@
 #' This would lead to contours being drawn that don't exist in the original data set.
 #' This function will check for missing frequencies and stop if any are found.
 #'
+#' @section Scale:
+#' For the time being, you can draw a scale/legend with this command:
+#' \code{ChemoSpec2D:::.drawScale(ChemoSpec2D:::.createScale(), "vertical")}.
+#' In a future version this will be less clunky.
+#'
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'
 #' @param which An integer specifying which spectrum to plot.

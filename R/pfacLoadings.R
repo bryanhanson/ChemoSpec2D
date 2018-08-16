@@ -36,6 +36,11 @@
 #'
 #' @return The loadings matrix (pseudo-spectrum).  Side effect is a plot.
 #'
+#' @section Scale:
+#' For the time being, you can draw a scale/legend with this command:
+#' \code{ChemoSpec2D:::.drawScale(ChemoSpec2D:::.createScale(), "vertical")}.
+#' In a future version this will be less clunky.
+#'
 #' @author Bryan A. Hanson, DePauw University.
 #'
 #' @keywords hplot
@@ -53,11 +58,12 @@ pfacLoadings <- function(spectra, pfac,
 	
   if (class(spectra) != "Spectra2D") stop("spectra argument was not a Spectra2D object")
   if (class(pfac) != "parafac") stop("pfac argument was not a parafac object")
+  
   if (length(load) != 1L) stop("Please supply a single loading")
   if (load > ncol(pfac$A)) stop("Requested load does not exist")
+  
   if (!is.null(ref)) {
   	if (length(ref) != 1L) stop("Please supply a single ref value")
-  	if (!is.integer(ref)) stop("ref should be a single integer")
   }
     
   chkSpectra2D(spectra)
@@ -70,54 +76,52 @@ pfacLoadings <- function(spectra, pfac,
   # Prep & send to plotEngine
   # .plotEngine expects a spectra object and lvls and cols as lists
   
-  # Update spectra object
+  # Update spectra object to include loading matrix
   ns <- length(spectra$names) # no of spectra
-  spectra$data[[ns + 1]] <- t(M)
+  spectra$data[[ns + 1]] <- M
   spectra$names[ns + 1] <- "loadings"
   spectra$groups <- as.factor(c(spectra$groups, "loadings"))
   spectra$colors[ns + 1] <- "black"
   chkSpectra2D(spectra)
   
   # Configure levels
-  
+  # Note that ref is plotted first if at all (see call to .plotEngine below)
+  # See R Inferno 8.1.55 about setting list components to NULL (dont' do it)
   if (is.null(ref)) { # only showing loadings
-    if (is.null(load_lvls)) lvls <- NULL # .plotEngine will assign levels
-    if (!is.null(load_lvls)) {
-      lvls <- vector("list", 1)
-      lvls[[1]] <- load_lvls
-    }
+    if (!is.null(load_lvls)) lvls <- list(load_lvls)
+    if (is.null(load_lvls)) lvls <- list(NULL)
   }
   
   if (!is.null(ref)) { # showing loadings and reference spectrum
     lvls <- vector("list", 2)  # intializes to NULL, NULL
     if (!is.null(ref_lvls)) lvls[[1]] <- ref_lvls
-    if (is.null(ref_lvls)) lvls[[1]] <- NULL
     if (!is.null(load_lvls)) lvls[[2]] <- load_lvls	
-    if (is.null(load_lvls)) lvls[[2]] <- NULL
-    if ((is.null(load_lvls) & (is.null(ref_lvls)))) lvls <- NULL 
   }
     
   # Configure colors
 
   if (is.null(ref)) { # only showing loadings
-    if (is.null(load_cols)) cols <- NULL # .plotEngine will assign colors
-    if (!is.null(load_cols)) {
-      cols <- vector("list", 1)
-      cols[[1]] <- load_cols
-    }
+    if (!is.null(load_cols)) cols <- list(load_cols)
+    if (is.null(load_cols)) cols <- list(NULL)
   }
   
   if (!is.null(ref)) { # showing loadings and reference spectrum
     cols <- vector("list", 2)  # intializes to NULL, NULL
     if (!is.null(ref_cols)) cols[[1]] <- ref_cols
-    if (is.null(ref_cols)) cols[[1]] <- NULL
     if (!is.null(load_cols)) cols[[2]] <- load_cols	
-    if (is.null(load_cols)) cols[[2]] <- NULL	
-    if ((is.null(load_cols) & (is.null(ref_cols)))) cols <- NULL 
   }
+  
+  # cat("\nValues of lvls in pfacLoadings:\n")
+  # print(lvls)
+
+  # cat("\nValues of cols in pfacLoadings:\n")
+  # print(cols)
+ 
   
   op <- par(no.readonly = TRUE) # save to restore later
   par(mai = c(1, 0.5, 1, 1))
+  # Note on next call: if res = NULL it is not really included in which
+  # so it's not requested (try tst <- c(1, 2, NULL, 4); tst[3] = 4; length(tst) = 3)
   .plotEngine(spectra, which = c(ref, ns + 1), lvls = lvls, cols = cols, ...)
   on.exit(par(op)) # restore original values
     

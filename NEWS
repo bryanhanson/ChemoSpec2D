@@ -4,6 +4,11 @@ Exploratory Chemometrics for 2D Spectroscopy
 Bryan A. Hanson DePauw University, Greencastle Indiana USA
 URL: github.com/bryanhanson/ChemoSpec2D
 
+Changes in version 0.1.407 2018-08-16
+     + A simple means of drawing a separate scale/legend for the contour plots was added.
+     + pfacLoadings simplified, and some logical errors fixed.
+     + An error in the construction of the data cube / array in pfacSpectra2D was fixed.  This task is now handled by helper function .makeArray since it is also required by centerSpectra2D.
+
 Changes in version 0.1.373 2018-08-15
      + MUD1 gains some negative peaks for more comprehensive graphical tests.
      + .mapColors overhauled.

@@ -40,9 +40,10 @@
 #' data(MUD1)
 #' res <- pfacSpectra2D(MUD1, parallel = FALSE, nfac = 2)
 #' pfacScores(MUD1, res, main = "PARAFAC Score Plot")
-#' pfacLoadings(MUD1, res, load_lvls = c(1, 4, 6, 9),
+#' pfacLoadings(MUD1, res, load_lvls = seq(5, 30, 5),
 #'   main = "PARAFAC Comp. 1 Loadings")
-#' pfacLoadings(MUD1, res, ref = 6L, load_lvls = c(1, 4, 6, 9),
+#' pfacLoadings(MUD1, res, load_lvls = seq(5, 30, 5),
+#'   ref = 6, ref_lvls = c(-0.5, 0.5), ref_cols = c("blue", "red"),
 #'   main = "PARAFAC Comp. 1 Loadings + Ref. Spectrum")
 #'
 
@@ -64,8 +65,7 @@ pfacSpectra2D <- function(spectra, parallel = TRUE, ...) {
   }
   
   # Set up data array (frontal slices)
-  DA <- array(unlist(spectra$data), dim = c(length(spectra$F2), length(spectra$F1), length(spectra$names)))
-  dimnames(DA) <- list(A = NULL, B = NULL, C = spectra$names)
+  DA <- .makeArray(spectra)
   if (any(is.na(DA))) stop("Data for parafac cannot have NA")
   
   # Run it

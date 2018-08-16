@@ -54,22 +54,38 @@
   # Plot each spectrum in turn
   for (i in 1:length(which)) {
   	
+  	# cat("Plotting spectrum", i, "\n")
+  	
     M <- spectra$data[[ which[i] ]]
     M <- t(M[nrow(M):1,]) # 90 cw prior to compensate for 90 ccw rotation built-in to contour
     
-  	if (is.null(lvls[[i]])) curLvl <- calcLvls(M, mode = "NMR")
+    # print(is.null(lvls[[i]]))
+    
+    # print(cols)
+   
+    	if (is.null(lvls[[i]])) curLvl <- calcLvls(M, mode = "NMR")
   	if (!is.null(lvls[[i]])) curLvl <- lvls[[i]]
   	
-  	if (is.null(cols[[i]])) curCol <- .mapColors(spectra, curLvl)
-  	if (!is.null(cols[[i]])) curCol <- cols[[i]]
+  	# No. of lvls and cols must match, so if only one is passed the
+  	# other must be made to match.  At this point we know the number
+  	# of lvls regardless of how they were provided.  Fix cols accordingly.
   	
-  	if (length(curLvl) != length(curCol)) {
-  	  msg <- paste("The number of colors provided for spectrum", which[i],
-  	    "does not match the number of levels provided:", sep = " ")
-  	  message(msg)
-  	  print(data.frame(noCols = length(cols), noLvls = length(lvls)))
-  	  stop("See above and revise accordingly")
+  	if (is.null(cols[[i]])) curCol <- .mapColors(spectra, curLvl)
+  	if (!is.null(cols[[i]])) { # This is where a mismatch can occur
+  		curCol <- cols[[i]]
+	  	if (length(curLvl) != length(curCol)) {
+	  	  msg <- paste("The number of colors provided for spectrum", which[i],
+	  	    "does not match \nthe number of levels provided (or automatically computed):", sep = " ")
+	  	  message(msg)
+	  	  print(data.frame(noCols = length(cols), noLvls = length(lvls)))
+	  	  message("Using automatic color assignment.  To avoid this, either provide \nboth lvls and cols or provide enough cols to match lvls in the table above")
+	  	  curCol <- .mapColors(spectra, curLvl)
+
+	  	  # print(curLvl)
+	  	  # print(curCol)
+	  	}
   	}
+  	
 
   	if (i == 1) { # plot the first spectrum with decorations
   	  contour(M, drawlabels = FALSE, axes = FALSE, levels = curLvl, col = curCol, ...)
@@ -92,7 +108,7 @@
   	  mtext(spectra$unit[2], 4, line = 2)
   	} # end of plotting first spectrum
 
-    if (i > 1) {
+    if (i > 1) { # Add any additional spectra requested
   	  contour(M, drawlabels = FALSE, axes = FALSE, levels = curLvl, col = curCol, add = TRUE, ...)
     }
   } # end of master loop
@@ -104,7 +120,10 @@
 # onto the reference color scale.  The color map should maintain symmetry present
 # in the levels so -4.1 should give a color symmetric to +4.1
 # Mapping should be relative to the range of the entire Spectra2D object, not just
-# a single spectrum.  That way different spectra can be compared directly.
+# a single spectrum.  That way different spectra in a set can be compared directly.
+
+# Note that if one is plotting a loading, then the computation of range may be greatly
+# skewed by the loadings entry.  For now, live with it, levels can always be provided.
 
 .mapColors <- function(spectra, lvls) {
 
@@ -155,6 +174,7 @@
 
 ### Draw the scale/legend
 
+#' @importFrom graphics plot.new mtext
 .drawScale <- function(cscale, orient) { # Draw a scale for reference
 
 	nc <- length(cscale)
@@ -170,14 +190,15 @@
 	if (orient == "vertical") {
       plot.new()
       op <- par(no.readonly = TRUE) # save to restore later (must call before layout)
-      par(mai = c(0.5, 3.4, 0.5, 3.4))
+      par(mai = c(0.75, 3.4, 0.75, 3.4))
 
 	  plot(rep(1.0, nc), 1:nc, type = "n",
 		yaxt = "n", xaxt = "n", main = "", xlab = "", ylab = "")
 	  for (i in 1:nc) {
 		rect(0.5, i-0.5, 1.5, i+0.5, border = NA, col = cscale[i])
 	  }
-	  text(0.0, 0.5, labels = "test") # not working
+	  mtext("low", side = 1)
+	  mtext("high", side = 3)
       on.exit(par(op)) # restore original values
 
 	} # end of orient == "vertical"
@@ -455,3 +476,16 @@
 }
 
 
+
+### Make an Array/Data Cube from a Spectra2D Object
+
+.makeArray <- function(spectra) { # stack frontal slabs with spectra$data entries
+	nF1 <- length(spectra$F1)
+	nF2 <- length(spectra$F2)
+	nS <- length(spectra$names)
+	A <- array(NA_real_,
+		dim = c(nF1, nF2, nS),
+		dimnames = list(rep("J", nF1), rep("I", nF2), rep("K", nS))) # rows x cols x samples
+	for (k in 1:nS) A[,,k] <- spectra$data[[k]]
+	return(A)
+}

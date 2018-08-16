@@ -45,6 +45,13 @@ in the \code{parafac} object, for a given component.  The matrix that results
 has dimensions
 F2 x F1 and is a 2D pseudo-spectrum.  A reference spectrum may also be drawn.
 }
+\section{Scale}{
+
+For the time being, you can draw a scale/legend with this command:
+\code{ChemoSpec2D:::.drawScale(ChemoSpec2D:::.createScale(), "vertical")}.
+In a future version this will be less clunky.
+}
+
 \seealso{
 Please see \code{\link{pfacSpectra2D}} for examples.
 }

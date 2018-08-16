@@ -42,6 +42,13 @@ This would lead to contours being drawn that don't exist in the original data se
 This function will check for missing frequencies and stop if any are found.
 }
 
+\section{Scale}{
+
+For the time being, you can draw a scale/legend with this command:
+\code{ChemoSpec2D:::.drawScale(ChemoSpec2D:::.createScale(), "vertical")}.
+In a future version this will be less clunky.
+}
+
 \examples{
 
 data(MUD1)

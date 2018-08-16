@@ -16,7 +16,8 @@
 #' remove selected peaks.
 #'
 #' @param remF2 A formula giving the range of frequencies to be set to \code{NA}.  May include
-#' "low" or "high" representing the extremes of the spectra.  See the examples.
+#' "low" or "high" representing the extremes of the spectra.    Values outside the range of
+#' F2 are tolerated without notice and are handled \code{min} or \code{max}.See the examples.
 #'
 #' @param remF1 As for \code{remF2}.
 #'
