@@ -34,7 +34,8 @@
 #'
 #' @param \dots Additional parameters to be passed to plotting functions.
 #'
-#' @return The loadings matrix (pseudo-spectrum).  Side effect is a plot.
+#' @return The modified \code{Spectra2D} object is returned invisibly.
+#' The loadings matrix will be appended.  Side effect is a plot.
 #'
 #' @section Scale:
 #' For the time being, you can draw a scale/legend with this command:
@@ -125,5 +126,5 @@ pfacLoadings <- function(spectra, pfac,
   .plotEngine(spectra, which = c(ref, ns + 1), lvls = lvls, cols = cols, ...)
   on.exit(par(op)) # restore original values
     
-  invisible(M)
+  invisible(spectra)
 }

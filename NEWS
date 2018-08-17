@@ -4,6 +4,10 @@ Exploratory Chemometrics for 2D Spectroscopy
 Bryan A. Hanson DePauw University, Greencastle Indiana USA
 URL: github.com/bryanhanson/ChemoSpec2D
 
+Changes in version 0.1.412 2018-08-17
+     + pfacLoadings now returns the modified Spectra2D object, not the loadings matrix.
+     + inspectLvls can now access the loadings matrix, if present, in a Spectra2D object.
+
 Changes in version 0.1.407 2018-08-16
      + A simple means of drawing a separate scale/legend for the contour plots was added.
      + pfacLoadings simplified, and some logical errors fixed.

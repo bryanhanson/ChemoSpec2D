@@ -9,6 +9,8 @@
 #' 
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'
+#' @param loadings Logical.  If a loadings entry is present, draw the histogram for it.
+#'
 #' @param \dots Arguments to be passed downstream.
 #'
 #' @return A numeric vector giving the levels (invisibly).
@@ -19,15 +21,26 @@
 #'
 #' @keywords utilities
 #'
+#' @seealso See \code{\link{pfacSpectra}} for further examples.
+#'
 #' @examples
 #' 
 #' data(MUD1)
 #' inspectLvls(MUD1, ylim = c(0, 200), main = "All MUD1 Data, mode = even")
 #' inspectLvls(MUD1, ylim = c(0, 200), mode = "NMR",  main = "All MUD1 Data, mode = NMR")
 #' 
-inspectLvls <- function(spectra, ...) {
+inspectLvls <- function(spectra, loadings = FALSE, ...) {
 
-  lvls <- calcLvls(unlist(spectra$data), showHist = TRUE, ...)
+  if (!loadings) lvls <- calcLvls(unlist(spectra$data), showHist = TRUE, ...)
+  
+  if (loadings) {
+  	load <- "loadings" %in% spectra$names
+  	if (!load) stop("This Spectra2D object did not contain loadings.\n\t
+  	  Did you run pfacLoadings?")
+  	if (load) lvls <- calcLvls(
+  	  spectra$data[[which(spectra$names == "loadings")]], showHist = TRUE, ...)
+   }
+   
   invisible(lvls)
-
+  
 } # end of inspectLvls

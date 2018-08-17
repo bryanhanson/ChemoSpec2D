@@ -32,11 +32,16 @@ it might desirable to run in batch mode.
 data(MUD1)
 res <- pfacSpectra2D(MUD1, parallel = FALSE, nfac = 2)
 pfacScores(MUD1, res, main = "PARAFAC Score Plot")
-pfacLoadings(MUD1, res, load_lvls = seq(5, 30, 5),
+res1 <- pfacLoadings(MUD1, res, load_lvls = seq(5, 30, 5),
   main = "PARAFAC Comp. 1 Loadings")
-pfacLoadings(MUD1, res, load_lvls = seq(5, 30, 5),
+res2 <- pfacLoadings(MUD1, res, load_lvls = seq(5, 30, 5),
   ref = 6, ref_lvls = c(-0.5, 0.5), ref_cols = c("blue", "red"),
   main = "PARAFAC Comp. 1 Loadings + Ref. Spectrum")
+
+# Selection of loading matrix levels can be aided by the following
+
+inspectLvls(res1, loadings = TRUE, ylim = c(0, 50),
+  main = "Histogram of Loadings Matrix")
 
 }
 \references{

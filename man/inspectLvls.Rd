@@ -4,10 +4,12 @@
 \alias{inspectLvls}
 \title{Inspect Levels for Contour Plots of Spectra2D Objects}
 \usage{
-inspectLvls(spectra, ...)
+inspectLvls(spectra, loadings = FALSE, ...)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
+
+\item{loadings}{Logical.  If a loadings entry is present, draw the histogram for it.}
 
 \item{\dots}{Arguments to be passed downstream.}
 }
@@ -27,6 +29,9 @@ data(MUD1)
 inspectLvls(MUD1, ylim = c(0, 200), main = "All MUD1 Data, mode = even")
 inspectLvls(MUD1, ylim = c(0, 200), mode = "NMR",  main = "All MUD1 Data, mode = NMR")
 
+}
+\seealso{
+See \code{\link{pfacSpectra}} for further examples.
 }
 \author{
 Bryan A. Hanson, DePauw University. \email{hanson@depauw.edu}

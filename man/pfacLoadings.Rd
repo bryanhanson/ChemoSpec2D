@@ -36,7 +36,8 @@ spectrum. If \code{NULL}, set to gray.}
 \item{\dots}{Additional parameters to be passed to plotting functions.}
 }
 \value{
-The loadings matrix (pseudo-spectrum).  Side effect is a plot.
+The modified \code{Spectra2D} object is returned invisibly.
+The loadings matrix will be appended.  Side effect is a plot.
 }
 \description{
 Plots loadings from the PARAFAC analysis of a \code{\link{Spectra2D}} object.
