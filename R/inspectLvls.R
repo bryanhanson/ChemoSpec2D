@@ -21,7 +21,7 @@
 #'
 #' @keywords utilities
 #'
-#' @seealso See \code{\link{pfacSpectra}} for further examples.
+#' @seealso See \code{\link{pfacSpectra2D}} for further examples.
 #'
 #' @examples
 #' 

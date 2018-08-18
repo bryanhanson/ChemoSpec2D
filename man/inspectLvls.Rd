@@ -31,7 +31,7 @@ inspectLvls(MUD1, ylim = c(0, 200), mode = "NMR",  main = "All MUD1 Data, mode =
 
 }
 \seealso{
-See \code{\link{pfacSpectra}} for further examples.
+See \code{\link{pfacSpectra2D}} for further examples.
 }
 \author{
 Bryan A. Hanson, DePauw University. \email{hanson@depauw.edu}

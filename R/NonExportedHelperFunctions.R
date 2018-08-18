@@ -285,34 +285,29 @@
 #'
 .findNA <- function(spectra, retFreq = FALSE) {
 
-	if (missing(spectra)) stop("No spectral data provided")
-	chkSpectra2D(spectra)
-	
 	M <- spectra$data[[1]] # All spectra are assumed to have the same set of NAs
 	                       # This is verified by chkSpectra2D
 	
 	# Find rows (columns) that are all NA
 	
-	# Check along the rows (F2, but displayed as vertical lines in plotSpectra2D)
-	rNA <- rep(NA_integer_, ncol(M))
+	# Check along F2 for columns that are all NA (displayed as vertical lines in plotSpectra2D)
+	# As spectra$F2 is sorted ascending, but plotted descending, 
+	# we must reverse F2 if we want correct frequencies for plotting.
+	# No such fix is needed for F1.
+	cNA <- rep(NA_integer_, ncol(M))
 	for (i in 1:ncol(M)) {
-		if (all(is.na(M[,i]))) rNA[i] <- i
+		if (all(is.na(M[,i]))) cNA[i] <- i
+	}
+	cNA <- as.integer(na.omit(cNA))	
+    if (retFreq) cNA <- rev(spectra$F2)[cNA]
+    
+	# Check along F1 for rows that are all NA (displayed as horizontal lines in plotSpectra2D)
+	rNA <- rep(NA_integer_, nrow(M))
+	for (i in 1:nrow(M)) {
+		if (all(is.na(M[i,]))) rNA[i] <- i
 	}
 	rNA <- as.integer(na.omit(rNA))
-	
-	# For rows, we are checking each column left-to-right corresponding to the column
-	# indices of M. As spectra$F2 is sorted ascending, but plotted descending, 
-	# we must reverse F2 if we want correct frequencies for plotting.
-	# No such fix is needed for the columns.
-    if (retFreq) rNA <- rev(spectra$F2)[rNA]
-    
-	# Check along the columns (F1, but displayed as horizontal lines in plotSpectra2D)
-	cNA <- rep(NA_integer_, nrow(M))
-	for (i in 1:nrow(M)) {
-		if (all(is.na(M[i,]))) cNA[i] <- i
-	}
-	cNA <- as.integer(na.omit(cNA))
-    if (retFreq) cNA <- spectra$F1[cNA]
+    if (retFreq) rNA <- spectra$F1[rNA]
 	
 	return(list(rowNA = rNA, colNA = cNA))
 	}

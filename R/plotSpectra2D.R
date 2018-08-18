@@ -86,16 +86,16 @@ plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA =
   if (showNA) {
   	 	
   	NAs <- .findNA(spectra)
-  	rNA <- NAs[[1]]
-  	cNA <- NAs[[2]]
+  	rNA <- NAs[[1]] # row NAs will be drawn as a horizontal line
+  	cNA <- NAs[[2]] # col NAs will be drawn as a vertical line
   	
-  	if (length(rNA) != 0) {
-  		V <- rNA/length(spectra$F2)
+  	if (length(cNA) != 0) {
+  		V <- cNA/length(spectra$F2)
   		abline(v = V, col = "gray98", lwd = 2)
   	}
   	  	
-  	if (length(cNA) != 0) {
-  		H <- 1 - cNA/length(spectra$F1)
+  	if (length(rNA) != 0) {
+  		H <- 1 - rNA/length(spectra$F1)
   		abline(h = H, col = "gray98", lwd = 2)
   	}
 
