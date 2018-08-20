@@ -4,6 +4,9 @@ Exploratory Chemometrics for 2D Spectroscopy
 Bryan A. Hanson DePauw University, Greencastle Indiana USA
 URL: github.com/bryanhanson/ChemoSpec2D
 
+Changes in version 0.1.431 2018-08-19
+     + Modified plotSpectra2D so that it will plot more than one spectrum.
+
 Changes in version 0.1.419 2018-08-18
      + Added unit tests for .findNA.
      + Setting up unit tests for .findNA led to code clean up (better variable names and code notes).

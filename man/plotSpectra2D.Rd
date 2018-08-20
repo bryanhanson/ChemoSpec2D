@@ -10,15 +10,19 @@ plotSpectra2D(spectra, which = 1, lvls = NULL, cols = NULL,
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
 
-\item{which}{An integer specifying which spectrum to plot.}
+\item{which}{An integer specifying which spectrum to plot.  May be a vector.}
 
 \item{lvls}{A numeric vector specifying the levels at which to compute contours.
-If \code{NULL}, values are computed using \code{\link{calcLvls}}.}
+If \code{NULL}, values are computed using \code{\link{calcLvls}}.  If
+argument \code{which} gives more than one spectrum to plot, then \code{lvls}
+must be a list of levels of \code{length(which)}.}
 
 \item{cols}{A vector of valid color designations.  If provided, must be of the
 the same length as \code{lvls} (i.e. each contour is a particular color).
 If \code{NULL}, defaults to using a scheme of up to nine values
-running from blue (low) to red (high), centered on green (zero).}
+running from blue (low) to red (high), centered on green (zero).  If
+argument \code{which} gives more than one spectrum to plot, then \code{cols}
+must be a list of colors of \code{length(which)}.}
 
 \item{showNA}{Logical. Should the locations of peaks removed by \code{\link{removePeaks2D}}
 be shown?  If present, these are shown by a gray line at each frequency.}
@@ -49,11 +53,32 @@ For the time being, you can draw a scale/legend with this command:
 In a future version this will be less clunky.
 }
 
+\section{Levels & Colors}{
+
+The number of levels and colors must match, and they are used 1 for 1.  If you
+provide \code{n} colors, and no levels, the automatic calculation of levels may return
+a number of levels other than \code{n}, in which case the function will override your colors and
+assign new colors for the number of levels it computed (with a message).  To get
+exactly what you want, specify both levels and colors in equal numbers.  Function
+\code{\link{inspectLvls}} can help you choose appropriate levels.
+}
+
+\section{Overlaying Spectra}{
+
+If you specify more than one spectrum to plot, e.g. \code{which = c(1,2)}, then
+arguments \code{lvls} and \code{cols} must be lists of levels and colors, one list
+element for each spectrum to be plotted (if specified at all).  See the examples.
+}
+
 \examples{
 
 data(MUD1)
 plotSpectra2D(MUD1, which = 7, lvls = seq(-1, 1, by = 0.2),
   main = "MUD1 Sample 7")
+plotSpectra2D(MUD1, which = c(1, 6),
+  lvls = list(c(-0.2, 0.2, 0.5), c(-0.6, 0.4, 0.9)),
+  cols = list(rep("black", 3), rep("red", 3)),
+  main = "MUD1 Sample 1 (black) & Sample 6 (red)")
 
 }
 \author{

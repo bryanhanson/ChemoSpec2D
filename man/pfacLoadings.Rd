@@ -53,6 +53,16 @@ For the time being, you can draw a scale/legend with this command:
 In a future version this will be less clunky.
 }
 
+\section{Levels & Colors}{
+
+The number of levels and colors must match, and they are used 1 for 1.  If you
+provide \code{n} colors, and no levels, the automatic calculation of levels may return
+a number of levels other than \code{n}, in which case the function will override your colors and
+assign new colors for the number of levels it computed (with a message).  To get
+exactly what you want, specify both levels and colors in equal numbers.  Function
+\code{\link{inspectLvls}} can help you choose appropriate levels.
+}
+
 \seealso{
 Please see \code{\link{pfacSpectra2D}} for examples.
 }

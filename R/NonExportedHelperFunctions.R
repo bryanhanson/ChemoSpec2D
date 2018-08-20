@@ -63,7 +63,7 @@
     
     # print(cols)
    
-    	if (is.null(lvls[[i]])) curLvl <- calcLvls(M, mode = "NMR")
+    if (is.null(lvls[[i]])) curLvl <- calcLvls(M, mode = "NMR")
   	if (!is.null(lvls[[i]])) curLvl <- lvls[[i]]
   	
   	# No. of lvls and cols must match, so if only one is passed the

@@ -6,6 +6,27 @@
 #' If you need to do extensive exploration, you should probably go back
 #' to the spectrometer.
 #' 
+#' @param spectra An object of S3 class \code{\link{Spectra2D}}.
+#'
+#' @param which An integer specifying which spectrum to plot.  May be a vector.
+#'
+#' @param lvls A numeric vector specifying the levels at which to compute contours.
+#'        If \code{NULL}, values are computed using \code{\link{calcLvls}}.  If
+#'        argument \code{which} gives more than one spectrum to plot, then \code{lvls}
+#'        must be a list of levels of \code{length(which)}.
+#'
+#' @param cols A vector of valid color designations.  If provided, must be of the
+#'        the same length as \code{lvls} (i.e. each contour is a particular color).
+#'        If \code{NULL}, defaults to using a scheme of up to nine values
+#'        running from blue (low) to red (high), centered on green (zero).  If
+#'        argument \code{which} gives more than one spectrum to plot, then \code{cols}
+#'        must be a list of colors of \code{length(which)}.
+#'
+#' @param showNA Logical. Should the locations of peaks removed by \code{\link{removePeaks2D}}
+#'        be shown?  If present, these are shown by a gray line at each frequency.
+#'
+#' @param \ldots Additional parameters to be passed to the plotting routines.
+#'
 #' @section Warning:
 #' One cannot remove frequencies from the interior of a 2D NMR data set and expect to get a meaningful
 #' contour plot, because doing so puts unrelated peaks adjacent in the data set.
@@ -17,22 +38,18 @@
 #' \code{ChemoSpec2D:::.drawScale(ChemoSpec2D:::.createScale(), "vertical")}.
 #' In a future version this will be less clunky.
 #'
-#' @param spectra An object of S3 class \code{\link{Spectra2D}}.
+#' @section Levels & Colors:
+#' The number of levels and colors must match, and they are used 1 for 1.  If you
+#' provide \code{n} colors, and no levels, the automatic calculation of levels may return
+#' a number of levels other than \code{n}, in which case the function will override your colors and
+#' assign new colors for the number of levels it computed (with a message).  To get
+#' exactly what you want, specify both levels and colors in equal numbers.  Function
+#' \code{\link{inspectLvls}} can help you choose appropriate levels.
 #'
-#' @param which An integer specifying which spectrum to plot.
-#'
-#' @param lvls A numeric vector specifying the levels at which to compute contours.
-#'        If \code{NULL}, values are computed using \code{\link{calcLvls}}.
-#'
-#' @param cols A vector of valid color designations.  If provided, must be of the
-#'        the same length as \code{lvls} (i.e. each contour is a particular color).
-#'        If \code{NULL}, defaults to using a scheme of up to nine values
-#'        running from blue (low) to red (high), centered on green (zero).
-#'
-#' @param showNA Logical. Should the locations of peaks removed by \code{\link{removePeaks2D}}
-#'        be shown?  If present, these are shown by a gray line at each frequency.
-#'
-#' @param \ldots Additional parameters to be passed to the plotting routines.
+#' @section Overlaying Spectra:
+#' If you specify more than one spectrum to plot, e.g. \code{which = c(1,2)}, then
+#' arguments \code{lvls} and \code{cols} must be lists of levels and colors, one list
+#' element for each spectrum to be plotted (if specified at all).  See the examples.
 #'
 #' @return Side effect is a plot.
 #'
@@ -47,11 +64,14 @@
 #' data(MUD1)
 #' plotSpectra2D(MUD1, which = 7, lvls = seq(-1, 1, by = 0.2),
 #'   main = "MUD1 Sample 7")
+#' plotSpectra2D(MUD1, which = c(1, 6),
+#'   lvls = list(c(-0.2, 0.2, 0.5), c(-0.6, 0.4, 0.9)),
+#'   cols = list(rep("black", 3), rep("red", 3)),
+#'   main = "MUD1 Sample 1 (black) & Sample 6 (red)")
 #'
 plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA = TRUE, ...) {
 	
   if (class(spectra) != "Spectra2D") stop("spectra argument was not a Spectra2D object")
-  if (length(which) != 1L) stop("Only a single spectrum can be plotted")
   chkSpectra2D(spectra)
   
   # Stop if there are frequencies missing from the interior, this is misleading
@@ -71,11 +91,21 @@ plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA =
   	}
   }
 
-  # Process provided lvls and cols, including default values of NULL
+  # Figure out how many spectra will be plotted and fix up levels and colors
+  # accordingly. Process provided lvls and cols, including default values of NULL.
   # .plotEngine expects a list for each
   # .plotEngine will compute defaults if NULL is passed
-  lvls <- list(lvls) # list(NULL) works here
-  cols <- list(cols)
+
+  
+  if (length(which) == 1L) {
+    lvls <- list(lvls) # list(NULL) works here
+    cols <- list(cols)  	
+  }
+
+  if (length(which) > 1L) {
+  	if (is.null(lvls)) lvls <- vector("list", length(which))
+  	if (is.null(cols)) cols <- vector("list", length(which))  	
+  }
   
   # Go plot
   op <- par(no.readonly = TRUE) # save to restore later
