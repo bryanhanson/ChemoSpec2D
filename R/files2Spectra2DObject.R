@@ -32,9 +32,10 @@
 #' 
 #' @param descrip A character string describing the data set.
 #' 
-#' @param fmt A character string giving the format of the data.
+#' @param fmt A character string giving the format of the data. Consult
+#' \code{\link{import2Dspectra}} for options.
 #'
-#' @param npx Integer giving the number of data points in the F2 (x) dimension.
+#' @param nF2 Integer giving the number of data points in the F2 (x) dimension.
 #'
 #' @param fileExt A character string giving the extension of the files to be
 #' processed. \code{regex} strings can be used.  For instance, the default
@@ -115,7 +116,7 @@
 #'
 
 files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto", 
-	fmt = "YXZ", npx, 
+	fmt = NULL, nF2 = NULL, 
 	x.unit = "no frequency unit provided",
 	y.unit = "no frequency unit provided",
 	z.unit = "no intensity unit provided",
@@ -128,6 +129,8 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
 		}
 	
 	if (is.null(gr.crit)) stop("No group criteria provided to encode data")
+	if (is.null(nF2)) stop("You must provide nF2")
+	if (is.null(fmt)) stop("You must provide fmt")
 
 	out <- tryCatch(
 	{
@@ -145,9 +148,7 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
 	spectra$names <- files.noext
 	names(spectra$data) <- files.noext
 	spectra$groups <- NA_character_
-	spectra$unit[1] <- x.unit
-	spectra$unit[2] <- y.unit
-	spectra$unit[3] <- z.unit
+	spectra$units <- c(x.unit, y.unit, z.unit)
 	spectra$desc <- descrip
 	class(spectra) <- "Spectra2D"
 	
@@ -158,20 +159,18 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
 	for (i in 1:ns) {
 		if (debug) cat("Importing file: ", files[i], "\n")
 		
-		if (fmt == "YXZ") {
-			tmp <- import2Dspectra(files[i], fmt = fmt, npx = npx, ...)
-			spectra$data[[i]] <- tmp[["M"]]
-			if (i == 1L) {
-				spectra$F2 <- tmp[["F2"]]
-				spectra$F1 <- tmp[["F1"]]	
-				}
-			} # end of fmt == "YXZ"
+		tmp <- import2Dspectra(files[i], fmt = fmt, nF2 = nF2, ...)
+		spectra$data[[i]] <- tmp[["M"]]
+		if (i == 1L) {
+			spectra$F2 <- tmp[["F2"]]
+			spectra$F1 <- tmp[["F1"]]	
+			}
 			
 		}
 	
 	# Assign groups & colors
 
-	spectra <- groupNcolor2D(spectra, gr.crit, gr.cols)
+	spectra <- .groupNcolor2D(spectra, gr.crit, gr.cols)
 	
 	# Wrap up
 	

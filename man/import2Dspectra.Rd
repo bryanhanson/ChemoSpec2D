@@ -4,21 +4,21 @@
 \alias{import2Dspectra}
 \title{Import 2D Spectroscopic Data}
 \usage{
-import2Dspectra(file, fmt, npx, ...)
+import2Dspectra(file, fmt, nF2, ...)
 }
 \arguments{
 \item{file}{Character string giving the path to a file containing a 2D spectrum.}
 
-\item{fmt}{Character string giving the format to use (currently limited to \code{"YXZ"}).}
+\item{fmt}{Character string giving the format code to use.}
 
-\item{npx}{Integer giving the number of data points in the F2 (x) dimension.}
+\item{nF2}{Integer giving the number of data points in the F2 (x) dimension.}
 
 \item{...}{Parameters to be passed to \code{\link{read.table}}.}
 }
 \value{
 A list with 3 elements:
 \itemize{
-  \item A matrix of the z values.  The no. of rows = \code{npx} and the no. of columns
+  \item A matrix of the z values.  The no. of rows = \code{nF2} and the no. of columns
         follows from the size of the imported data.
   \item A vector giving the F2 (x) values.
   \item A vector giving the F1 (y) values.
@@ -26,13 +26,32 @@ A list with 3 elements:
 }
 \description{
 This function imports a single file (for instance, a csv) containing a 2D
-spectroscopic data set.  An internal function, not
-generally called by the user.
+spectroscopic data set.  The current version handles various types of 
+ascii text files.  This function is called by \code{files2Spectra2DObject}
+and is exported and documented to assist in developing new format codes.
 }
-\details{
-If \code{fmt = "YXZ"} it is assumed that the columns contain Y, X and Z
-values describing the data.
+\section{ASCII Format Codes}{
+
+ASCII format codes are constructed in two parts separated by a hyphen.  The first part gives
+the order of the columns in the file, e.g. F2F1Z means the first column has the F2 values,
+the second column has the F1 values and the third the intensities.  The second part of the
+format code relates to the order of the rows, i.e. which column varies fastest and in what direction.
+These codes are best understood in relation to how the data is stored internally in a matrix.
+The internal matrix is organized exactly as the data appears on the screen, with F2 decreasing
+left-to-right, and F1 increasing top-to-bottom. There are four possibilities:
+\itemize{
+  \item Data in the file consists of F2 slices starting at the bottom (max F1).  Use \code{F2decF1}.
+  \item Data in the file consists of F2 slices starting at the top (min F1).  Use \code{F2incF1}.
+  \item Data in the file consists of F1 slices starting on the left (max F2).  Use \code{F1decF2}.
+  \item Data in the file consists of F1 slices starting on the right (max F1).  Use \code{F1incF2}.
 }
+}
+
+\section{Other Format Codes}{
+
+Coming soon, e.g. JDX
+}
+
 \author{
 Bryan A. Hanson, DePauw University.
 }

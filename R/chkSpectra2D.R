@@ -98,7 +98,7 @@ chkSpectra2D <- function(spectra, confirm = FALSE) {
 		print(dims)
 	}
 	
-	# Check that data matrices have NAs in the same positions, if they have them
+	# Check that data matrices have NAs in the same positions, if they have them at all
 	
 	M <- spectra$data # list of numeric matrices
 	
@@ -109,7 +109,7 @@ chkSpectra2D <- function(spectra, confirm = FALSE) {
 	for (i in 2:ns) {
 		if (!identical(M[[i]], M[[i-1]])) stop("NAs are present in the data but differ between samples")
 	}
-	
+		
 	# Check that the relationships between each element are correct
 		
 	F2 <- length(spectra$F2)

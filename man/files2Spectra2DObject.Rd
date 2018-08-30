@@ -4,8 +4,8 @@
 \alias{files2Spectra2DObject}
 \title{Import Data into a Spectra2D Object}
 \usage{
-files2Spectra2DObject(gr.crit = NULL, gr.cols = "auto", fmt = "YXZ",
-  npx, x.unit = "no frequency unit provided",
+files2Spectra2DObject(gr.crit = NULL, gr.cols = "auto", fmt = NULL,
+  nF2 = NULL, x.unit = "no frequency unit provided",
   y.unit = "no frequency unit provided",
   z.unit = "no intensity unit provided",
   descrip = "no description provided", fileExt = "\\\\.(csv|CSV)$",
@@ -22,9 +22,10 @@ names that don't match entries in \code{gr.crit} or there are entries in
 
 \item{gr.cols}{A character vector, giving one color per group.}
 
-\item{fmt}{A character string giving the format of the data.}
+\item{fmt}{A character string giving the format of the data. Consult
+\code{\link{import2Dspectra}} for options.}
 
-\item{npx}{Integer giving the number of data points in the F2 (x) dimension.}
+\item{nF2}{Integer giving the number of data points in the F2 (x) dimension.}
 
 \item{x.unit}{A character string giving the units for the F2 dimension
 (frequency or wavelength corresponding to the x dimension).}
