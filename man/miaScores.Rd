@@ -9,7 +9,8 @@ miaScores(spectra, mia, which = c(1, 2), ...)
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
 
-\item{mia}{A list as returned by \code{\link[ThreeWay]{pcasup1}}..}
+\item{mia}{A list as returned by \code{\link[ThreeWay]{pcasup1}}, with
+class \code{pcasup1}.}
 
 \item{which}{An integer specifying two scores to plot.}
 

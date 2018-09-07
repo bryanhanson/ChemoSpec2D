@@ -12,6 +12,7 @@ miaSpectra2D(spectra)
 \value{
 A list per \code{\link[ThreeWay]{pcasup1}}.  Of particular interest are the
   elements \code{C} containing the eigenvectors and \code{1c} containing the eigenvalues.
+  We add the class \code{pcasup1} to the list for our use later.
 }
 \description{
 Carry out multivariate image analysis of a \code{\link{Spectra2D}} object
@@ -23,6 +24,7 @@ Function \code{\link[ThreeWay]{pcasup1}} from package \pkg{ThreeWay} is used.
 data(MUD1)
 res <- miaSpectra2D(MUD1)
 miaScores(MUD1, res, main = "MIA Scores")
+plotScree(res)
 
 }
 \references{
