@@ -48,7 +48,8 @@ miaScores <- function(spectra, mia, which = c(1, 2), ...) {
 
 	# Update & clean the argument list
 	
-	args <- c(args, list(x = mia$C[,which[1]], y = mia$C[,which[2]], col = spectra$colors, pch = 20))
+	args <- c(args, list(x = mia$C[,which[1]], y = mia$C[,which[2]],
+		col = spectra$colors, pch = 20))
 	args["spectra"] <- NULL
 	args["mia"] <- NULL
 	if ("which" %in% names(args)) args["which"] <- NULL
