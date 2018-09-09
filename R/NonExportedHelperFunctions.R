@@ -42,7 +42,8 @@
 #'
 #' @keywords hplot
 #'
-#' @importFrom graphics axis box mtext
+#' @importFrom graphics axis box mtext abline contour text
+#' 
 #' @noRd
 #'
 .plotEngine <- function(spectra, which = 1, lvls = NULL, cols = NULL, ...) {
@@ -174,7 +175,7 @@
 
 ### Draw the scale/legend
 
-#' @importFrom graphics plot.new mtext
+#' @importFrom graphics plot.new mtext rect
 .drawScale <- function(cscale, orient) { # Draw a scale for reference
 
 	nc <- length(cscale)

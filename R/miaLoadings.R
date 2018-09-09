@@ -1,15 +1,15 @@
 #'
-#' Plot Loadings from a PARAFAC Analysis of a Spectra2D Object
+#' Plot Loadings from a MIA of a Spectra2D Object
 #' 
-#' Plots loadings from the PARAFAC analysis of a \code{\link{Spectra2D}} object.
-#' The loadings are computed by multipling matrix \code{A} by matrix \code{B}
-#' in the \code{parafac} object, for a given component.  The matrix that results
-#' has dimensions
-#' F2 x F1 and is a 2D pseudo-spectrum.  A reference spectrum may also be drawn.
+#' Plots loadings from a MIA (multivariate image analysis) of a
+#' \code{\link{Spectra2D}} object.  The loadings are presented as
+#' a 2D pseudo-spectrum with dimensions F1 x F2.
+#' A reference spectrum may also be drawn.
 #' 
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'
-#' @param pfac An object of class \code{parafac} obtained by running \code{\link{pfacSpectra2D}}.
+#' @param mia An object of class \code{pcasup1} obtained by running
+#' \code{\link{miaSpectra2D}}.
 #'
 #' @param load An integer specifying the loading to plot.
 #'
@@ -43,9 +43,10 @@
 #' In a future version this will be less clunky.
 #'
 #' @section Levels & Colors:
-#' The number of levels and colors must match, and they are used 1 for 1.  If you
-#' provide \code{n} colors, and no levels, the automatic calculation of levels may return
-#' a number of levels other than \code{n}, in which case the function will override your colors and
+#' The number of levels and colors must match, and they are used one for one.
+#' If you provide \code{n} colors, and no levels, the automatic calculation of
+#' levels may return a number of levels other than \code{n}, in which case the
+#' function will override your colors and
 #' assign new colors for the number of levels it computed (with a message).  To get
 #' exactly what you want, specify both levels and colors in equal numbers.  Function
 #' \code{\link{inspectLvls}} can help you choose appropriate levels.
@@ -54,20 +55,20 @@
 #'
 #' @keywords hplot
 #'
-#' @seealso Please see \code{\link{pfacSpectra2D}} for examples.
+#' @seealso Please see \code{\link{miaSpectra2D}} for examples.
 #' 
 #' @export
 #'
-pfacLoadings <- function(spectra, pfac,
+miaLoadings <- function(spectra, mia,
   load = 1, ref = NULL,
   load_lvls = NULL, ref_lvls = NULL,
   load_cols = NULL, ref_cols = NULL, ...) {
 	
   if (class(spectra) != "Spectra2D") stop("spectra argument was not a Spectra2D object")
-  if (class(pfac) != "parafac") stop("pfac argument was not a parafac object")
+  if (class(mia) != "pcasup1") stop("mia argument was not a pcasup1 object")
   
   if (length(load) != 1L) stop("Please supply a single loading")
-  if (load > ncol(pfac$A)) stop("Requested load does not exist")
+  if (load > ncol(mia$C)) stop("Requested load does not exist")
   
   if (!is.null(ref)) {
   	if (length(ref) != 1L) stop("Please supply a single ref value")
@@ -75,17 +76,26 @@ pfacLoadings <- function(spectra, pfac,
     
   chkSpectra2D(spectra)
 
-  # Compute loading matrices
-  M <- pfac$A[, load] %*% t(pfac$B[, load])
-  M <- M[nrow(M):1,ncol(M):1]
+  # Computation per Geldadi & Grahn pg 124
+  # Stack each spectrum into a single "column"
+  ns <- length(spectra$names)
+  nF1 <- length(spectra$F1)
+  nF2 <- length(spectra$F2)
+  M1 <- matrix(NA_real_, ncol = ns, nrow = nF1 * nF2)
+  for (i in 1:ns) { M1[,i] <- as.vector(spectra$data[[i]]) }
+
+  # Compute loading matrix
+  L <- M1 %*% mia$C[, load]
+  L <- L[nrow(L):1,ncol(L):1]
   
-  
-  # Prep & send to plotEngine
+  # Unstack to the pseudospectrum
+  M2 <- matrix(L, ncol = nF2, nrow = nF1)
+ 
+  ### Prep & send to plotEngine
   # .plotEngine expects a spectra object and lvls and cols as lists
   
   # Update spectra object to include loading matrix
-  ns <- length(spectra$names) # no of spectra
-  spectra$data[[ns + 1]] <- M
+  spectra$data[[ns + 1]] <- M2
   spectra$names[ns + 1] <- "loadings"
   spectra$groups <- as.factor(c(spectra$groups, "loadings"))
   spectra$colors[ns + 1] <- "black"

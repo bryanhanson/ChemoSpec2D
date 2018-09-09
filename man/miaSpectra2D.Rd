@@ -25,6 +25,7 @@ data(MUD1)
 res <- miaSpectra2D(MUD1)
 miaScores(MUD1, res, main = "MIA Scores")
 plotScree(res)
+miaLoadings(MUD1, res, main = "MIA Comp. 1 Loadings")
 
 }
 \references{
