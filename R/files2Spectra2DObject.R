@@ -101,7 +101,7 @@
 #' plot!  A warning is issued in these cases, since one wouldn't normally want
 #' a spectrum to be orphaned this way.
 #'
-#' All these problems can generally be identified by running \code{\link{sumSpectra2D}}
+#' All these problems can generally be identified by running \code{\link[ChemoSpecUtils]{sumSpectra}}
 #' once the data is imported.
 #'
 #' @author Bryan A. Hanson, DePauw University.
@@ -174,7 +174,7 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
 	
 	# Wrap up
 	
-	chkSpectra2D(spectra)
+	chkSpectra(spectra)
 	
 	datafile <- paste(out.file, ".RData", sep = "")
 

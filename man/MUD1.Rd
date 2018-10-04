@@ -21,7 +21,7 @@ Real 2D NMR data sets are too large to be included in the package.
 \examples{
 
 data(MUD1)
-sumSpectra2D(MUD1)
+sumSpectra(MUD1)
 
 }
 \author{

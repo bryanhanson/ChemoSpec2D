@@ -72,7 +72,7 @@
 plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA = TRUE, ...) {
 	
   if (class(spectra) != "Spectra2D") stop("spectra argument was not a Spectra2D object")
-  chkSpectra2D(spectra)
+  chkSpectra(spectra)
   
   # Stop if there are frequencies missing from the interior, this is misleading
   dF1 <- spectra$F1[2] - spectra$F1[1]

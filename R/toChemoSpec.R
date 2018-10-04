@@ -23,7 +23,7 @@
 #'
 toChemoSpec <- function(spectra) {
 	
-	chkSpectra2D(spectra)
+	chkSpectra(spectra)
 	
 	# Helper function from HandyStuff
 

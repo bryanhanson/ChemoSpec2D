@@ -1,10 +1,10 @@
 #'
-#' Scree Plots of MIA or PARAFAC Results for a Spectra2D Object
+#' Scree Plots of MIA Results for a Spectra2D Object
 #' 
 #' Draw a scree plot to help choose the number of components in a MIA
-#' (multivariate image analysis) or PARAFAC (parallel factor analysis).
+#' (multivariate image analysis).
 #'
-#' @param results A list as produced by \code{\link[ThreeWay]{pcasup1}}.  Of particular interest are the
+#' @param results A list as produced by \code{\link{miaSpectra2D}}.  Of particular interest are the
 #'   elements \code{C} containing the eigenvectors and \code{1c} containing the eigenvalues.
 #'
 #' @param \dots Additional parameters to be passed to plotting functions.
@@ -27,7 +27,7 @@
 
 plotScree <- function(results, ...) {
 
-	if (missing(results)) stop("No MIA or PARAFAC results provided")
+	if (missing(results)) stop("No MIA results provided")
 	
 	if (class(results) == "pcasup1")  {
 		# compute cumulative variance

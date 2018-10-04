@@ -17,8 +17,9 @@ An object of S3 class \code{\link{Spectra2D}}.
 }
 \description{
 This function will center, and optionally scale, a \code{Spectra2D} object along the
-samples dimension. Several scaling options are available.  The data is centered
-before scaling is applied.
+samples dimension (i.e. this is pixel-wise scaling in the language of multivariate
+image analysis). Several scaling options are available.
+The data is centered before scaling is applied.
 }
 \examples{
 

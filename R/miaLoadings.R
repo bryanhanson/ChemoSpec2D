@@ -74,7 +74,7 @@ miaLoadings <- function(spectra, mia,
   	if (length(ref) != 1L) stop("Please supply a single ref value")
   }
     
-  chkSpectra2D(spectra)
+  chkSpectra(spectra)
 
   # Computation per Geldadi & Grahn pg 124
   # Stack each spectrum into a single "column"
@@ -99,7 +99,7 @@ miaLoadings <- function(spectra, mia,
   spectra$names[ns + 1] <- "loadings"
   spectra$groups <- as.factor(c(spectra$groups, "loadings"))
   spectra$colors[ns + 1] <- "black"
-  chkSpectra2D(spectra)
+  chkSpectra(spectra)
   
   # Configure levels
   # Note that ref is plotted first if at all (see call to .plotEngine below)

@@ -73,7 +73,7 @@ pfacLoadings <- function(spectra, pfac,
   	if (length(ref) != 1L) stop("Please supply a single ref value")
   }
     
-  chkSpectra2D(spectra)
+  chkSpectra(spectra)
 
   # Compute loading matrices
   M <- pfac$A[, load] %*% t(pfac$B[, load])
@@ -89,7 +89,7 @@ pfacLoadings <- function(spectra, pfac,
   spectra$names[ns + 1] <- "loadings"
   spectra$groups <- as.factor(c(spectra$groups, "loadings"))
   spectra$colors[ns + 1] <- "black"
-  chkSpectra2D(spectra)
+  chkSpectra(spectra)
   
   # Configure levels
   # Note that ref is plotted first if at all (see call to .plotEngine below)

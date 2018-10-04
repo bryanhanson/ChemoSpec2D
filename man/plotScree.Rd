@@ -2,12 +2,12 @@
 % Please edit documentation in R/plotScree.R
 \name{plotScree}
 \alias{plotScree}
-\title{Scree Plots of MIA or PARAFAC Results for a Spectra2D Object}
+\title{Scree Plots of MIA Results for a Spectra2D Object}
 \usage{
 plotScree(results, ...)
 }
 \arguments{
-\item{results}{A list as produced by \code{\link[ThreeWay]{pcasup1}}.  Of particular interest are the
+\item{results}{A list as produced by \code{\link{miaSpectra2D}}.  Of particular interest are the
 elements \code{C} containing the eigenvectors and \code{1c} containing the eigenvalues.}
 
 \item{\dots}{Additional parameters to be passed to plotting functions.}
@@ -17,7 +17,7 @@ None.  Side effect is a plot.
 }
 \description{
 Draw a scree plot to help choose the number of components in a MIA
-(multivariate image analysis) or PARAFAC (parallel factor analysis).
+(multivariate image analysis).
 }
 \references{
 The idea for the alternative style scree plot produced here

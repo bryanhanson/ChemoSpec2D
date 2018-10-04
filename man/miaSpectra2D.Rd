@@ -33,7 +33,9 @@ A. Smilde, R. Bro and P. Geladi
 "Multi-way Analysis: Applications in the Chemical Sciences" Wiley (2004).
 See especially Example 4.5.
 
-P. Geladi and H. Grahn "Multivariate Image Analysis" Wiley (1996).
+P. Geladi and H. Grahn "Multivariate Image Analysis" Wiley (1996).  Note that
+in this text the meanings of scores and loadings are reversed from the usual
+spectroscopic uses of the terms.
 }
 \author{
 Bryan A. Hanson, DePauw University.

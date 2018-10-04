@@ -1,15 +1,15 @@
 Package: ChemoSpec2D
 Type: Package
 Title: Exploratory Chemometrics for 2D Spectroscopy
-Version: 0.1.458
-Date: 2018-09-08
+Version: 0.1.471
+Date: 2018-10-03
 Authors@R: c(person("Bryan A.", "Hanson", role = c("aut", "cre"), email =
     "hanson@depauw.edu"))
 Description: A collection of functions for exploratory chemometrics of 2D spectroscopic data sets such as COSY and HSQC NMR spectra. 'ChemoSpec2D' deploys methods aimed primarily at classification of samples and the identification of spectral features which are important in distinguishing samples from each other. Each 2D spectrum (a matrix) is treated as the unit of observation, and thus the physical sample in the spectrometer corresponds to the  sample from a statistical perspective.  In addition to chemometric tools, a few tools are provided for plotting 2D spectra, but these are not intended to replace the functionality typically available on the spectrometer. 'ChemoSpec2D' takes many of its cues from 'ChemoSpec' and tries to create consistent graphical output and to be very user friendly.
 License: GPL-3
 Depends:
     R (>= 3.1)
-Imports: R.utils, tools, utils, RColorBrewer, plyr, ChemoSpec, ThreeWay, multiway, matrixStats
+Imports: R.utils, tools, utils, RColorBrewer, plyr, ChemoSpec, ThreeWay, multiway, matrixStats, ChemoSpecUtils
 Suggests: ChemoSpec2Ddata, knitr, testthat
 Additional_repositories: https://bryanhanson.github.io/ChemoSpec2Ddata/
 URL: https://github.com/bryanhanson/ChemoSpec2D

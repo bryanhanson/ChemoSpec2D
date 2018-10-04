@@ -21,7 +21,9 @@
 #' "Multi-way Analysis: Applications in the Chemical Sciences" Wiley (2004).
 #' See especially Example 4.5.
 #'
-#' P. Geladi and H. Grahn "Multivariate Image Analysis" Wiley (1996).
+#' P. Geladi and H. Grahn "Multivariate Image Analysis" Wiley (1996).  Note that
+#' in this text the meanings of scores and loadings are reversed from the usual
+#' spectroscopic uses of the terms.
 #'
 #'
 #' @export
@@ -40,7 +42,7 @@
 miaSpectra2D <- function(spectra) {
 
   if (class(spectra) != "Spectra2D") stop("spectra argument was not a Spectra2D object")
-  chkSpectra2D(spectra)
+  chkSpectra(spectra)
   
   if (!requireNamespace("ThreeWay", quietly = TRUE)) {
     stop("You must install package ThreeWay to use this function")

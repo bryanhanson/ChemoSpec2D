@@ -115,7 +115,7 @@ assigned a group. Therefore they don't plot, but they do take up space in a
 plot!  A warning is issued in these cases, since one wouldn't normally want
 a spectrum to be orphaned this way.
 
-All these problems can generally be identified by running \code{\link{sumSpectra2D}}
+All these problems can generally be identified by running \code{\link[ChemoSpecUtils]{sumSpectra}}
 once the data is imported.
 }
 

@@ -50,7 +50,7 @@
 
 
   if (missing(spectra)) stop("No spectral data provided")
-  chkSpectra2D(spectra)
+  chkSpectra(spectra)
   
   # Plot each spectrum in turn
   for (i in 1:length(which)) {
@@ -281,13 +281,14 @@
 #'
 #' @author Bryan A. Hanson, DePauw University.
 #'
+#' @importFrom stats na.omit
 #' @keywords utilities
 #' @noRd
 #'
 .findNA <- function(spectra, retFreq = FALSE) {
 
 	M <- spectra$data[[1]] # All spectra are assumed to have the same set of NAs
-	                       # This is verified by chkSpectra2D
+	                       # This is verified by chkSpectra
 	
 	# Find rows (columns) that are all NA
 	
@@ -510,7 +511,7 @@
 #' function is the last internal step in creating a \code{Spectra2D} object.
 #' Until this function has done its job, an object of class
 #' \code{\link{Spectra2D}} will not pass checks as the assembly is not complete
-#' (see \code{\link{chkSpectra2D}}).
+#' (see \code{\link[ChemoSpecUtils]{chkSpectra}}).
 #' 
 #' @author Bryan A. Hanson, DePauw University.
 #' 

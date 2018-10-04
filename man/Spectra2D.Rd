@@ -12,7 +12,7 @@ spectra themselves.  \code{Spectra2D} objects are created by
 \section{Structure}{
  The structure of a \code{Spectra2D} object is a list of eight
 elements and an attribute as follows:
-
+w
 \tabular{lll}{
   \emph{element} \tab \emph{type} \tab \emph{description}\cr
 
@@ -55,13 +55,13 @@ elements and an attribute as follows:
 
 data(MUD1)
 str(MUD1)
-sumSpectra2D(MUD1)
+sumSpectra(MUD1)
 
 }
 \seealso{
-\code{\link{sumSpectra2D}} to summarize a \code{Spectra2D} object.
-\code{\link{sumGroups2D}} to summarize group membership of a \code{Spectra2D}
-object. \code{\link{chkSpectra2D}} to verify the integrity of a
+\code{\link[ChemoSpecUtils]{sumSpectra}} to summarize a \code{Spectra2D} object.
+\code{\link[ChemoSpecUtils]{sumGroups}} to summarize group membership of a \code{Spectra2D}
+object. \code{\link[ChemoSpecUtils]{chkSpectra}} to verify the integrity of a
 \code{Spectra2D} object.
 }
 \author{

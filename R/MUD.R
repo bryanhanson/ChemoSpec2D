@@ -25,7 +25,7 @@
 #' @examples
 #'
 #' data(MUD1)
-#' sumSpectra2D(MUD1)
+#' sumSpectra(MUD1)
 #'
 NULL
 

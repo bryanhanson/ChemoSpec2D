@@ -27,7 +27,7 @@ This function is useful for removing regions with large
 interfering peaks (e.g. the water peak in 1H NMR), or regions that are primarily
 noise.  This function leaves the frequency axes intact.  Note that the
 \code{\link[multiway]{parafac}} function does not allow \code{NA}
-in the input data matrices.  See \code{\link{removeFreq2D}} for a way to shrink
+in the input data matrices.  See \code{\link{removeFreq}} for a way to shrink
 the data set without introducing \code{NA}s.
 }
 \examples{
@@ -37,28 +37,28 @@ plotSpectra2D(MUD1, which = 7, lvls = seq(-1, 1, by = 0.2),
   main = "MUD1 Sample 7: Complete Data Set")
 
 MUD1a <- removePeaks2D(MUD1, remF2 = 2.5 ~ 4)
-sumSpectra2D(MUD1a)
+sumSpectra(MUD1a)
 plotSpectra2D(MUD1a, which = 7, lvls = seq(-1, 1, by = 0.2),
   main = "MUD1 Sample 7\\nRemoved Peaks: F2 2.5 ~ 4")
 
 MUD1b <- removePeaks2D(MUD1, remF2 = low ~ 5)
-sumSpectra2D(MUD1b)
+sumSpectra(MUD1b)
 plotSpectra2D(MUD1b, which = 7, lvls = seq(-1, 1, by = 0.2),
   main = "MUD1 Sample 7\\nRemoved Peaks: F2 low ~ 5")
 
 MUD1c <- removePeaks2D(MUD1, remF1 = high ~ 23)
-sumSpectra2D(MUD1c)
+sumSpectra(MUD1c)
 plotSpectra2D(MUD1c, which = 7, lvls = seq(-1, 1, by = 0.2),
   main = "MUD1 Sample 7\\nRemoved Peaks: F1 high ~ 23")
 
 MUD1d <- removePeaks2D(MUD1, remF2 = 2.5 ~ 4, remF1 = 17 ~ 20)
-sumSpectra2D(MUD1d)
+sumSpectra(MUD1d)
 plotSpectra2D(MUD1d, which = 7, lvls = seq(-1, 1, by = 0.2),
   main = "MUD1 Sample 7\\nRemoved Peaks: F2 2.5 ~ 4 & F1 17 ~ 20")
 
 }
 \seealso{
-\code{\link{removeFreq2D}}.
+\code{\link[ChemoSpecUtils]{removeFreq}}.
 }
 \author{
 Bryan A. Hanson, DePauw University.

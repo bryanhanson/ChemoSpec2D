@@ -30,7 +30,7 @@ pfacScores <- function(spectra, pfac, which = c(1, 2), ...) {
 	if (class(spectra) != "Spectra2D") stop("spectra argument was not a Spectra2D object")
 	if (class(pfac) != "parafac") stop("pfac argument was not a parafac object")
 	if (length(which) != 2L) stop("Please supply two scores to plot (argument 'which')")
-	chkSpectra2D(spectra)
+	chkSpectra(spectra)
 
 	# See stackoverflow.com/a/46289614/633251 for the concepts re: argument handling
 	

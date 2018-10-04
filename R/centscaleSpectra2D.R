@@ -3,13 +3,14 @@
 #' Center and Optionally Scale a Spectra2D Object Along the Samples Dimension
 #' 
 #' This function will center, and optionally scale, a \code{Spectra2D} object along the
-#' samples dimension. Several scaling options are available.  The data is centered
-#' before scaling is applied.
+#' samples dimension (i.e. this is pixel-wise scaling in the language of multivariate
+#' image analysis). Several scaling options are available.
+#' The data is centered before scaling is applied.
 #'
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'
 #' @param choice A character string indicating the type of scaling to apply.  One of
-#' \code{c("autoscale", "Pareto")}.
+#' \code{c("autoscale", "Pareto")}.  
 #'
 #' @return An object of S3 class \code{\link{Spectra2D}}.
 #'
@@ -33,7 +34,7 @@
 centscaleSpectra2D <- function(spectra, choice = "noscale") {
 
 	if (missing(spectra)) stop("No spectral data provided")
-	chkSpectra2D(spectra)
+	chkSpectra(spectra)
 	
 	A1 <- .makeArray(spectra) # frontal slabs contain spectra$data entries
 	A2 <- aperm(A1, perm = c(3, 2, 1))
@@ -55,6 +56,6 @@ centscaleSpectra2D <- function(spectra, choice = "noscale") {
 		dimnames(spectra$data[[k]]) <- NULL # strip dimensions from array/aperm
 	}
 
-	chkSpectra2D(spectra)		
+	chkSpectra(spectra)		
 	return(spectra)
 	}
