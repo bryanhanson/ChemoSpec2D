@@ -34,4 +34,7 @@
 #' @importFrom ChemoSpecUtils removeFreq removeGroup removeSample
 #' @export removeFreq removeGroup removeSample
 #'
+#' @importFrom ChemoSpecUtils .findNA .getLimits .check4Gaps
+#' @export  .findNA .getLimits .check4Gaps
+#'
 NULL

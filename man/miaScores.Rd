@@ -4,7 +4,8 @@
 \alias{miaScores}
 \title{Plot Scores from a Multivariate Image Analysis (Tucker1) of a Spectra2D Object}
 \usage{
-miaScores(spectra, mia, which = c(1, 2), ...)
+miaScores(spectra, mia, which = c(1, 2), ellipse = "none",
+  tol = "none", leg.loc = "topright", ...)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
@@ -13,6 +14,20 @@ miaScores(spectra, mia, which = c(1, 2), ...)
 class \code{pcasup1}.}
 
 \item{which}{An integer specifying two scores to plot.}
+
+\item{ellipse}{A character vector specifying the type of ellipses to be
+plotted.  One of \code{c("both", "none", "cls", "rob")}.  \code{cls}
+specifies classical confidence ellipses, \code{rob} specifies robust
+confidence ellipses.  An ellipse is drawn for each group in 
+\code{spectra$groups}, unless there are not enough data points (in
+which case a warning is issued).}
+
+\item{tol}{A number describing the fraction of points to be labeled.
+\code{tol = 1.0} labels all the points; \code{tol = 0.05} labels the most
+extreme 5 percent.}
+
+\item{leg.loc}{Character; if \code{"none"} no legend will be drawn.
+Otherwise, any string acceptable to \code{\link{legend}}.}
 
 \item{\dots}{Additional parameters to be passed to plotting functions.}
 }

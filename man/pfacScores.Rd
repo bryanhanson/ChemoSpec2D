@@ -4,7 +4,8 @@
 \alias{pfacScores}
 \title{Plot Scores from a PARAFAC Analysis of a Spectra2D Object}
 \usage{
-pfacScores(spectra, pfac, which = c(1, 2), ...)
+pfacScores(spectra, pfac, which = c(1, 2), tol = "none",
+  leg.loc = "topright", ...)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
@@ -12,6 +13,13 @@ pfacScores(spectra, pfac, which = c(1, 2), ...)
 \item{pfac}{An object of class \code{parafac}.}
 
 \item{which}{An integer specifying two scores to plot.}
+
+\item{tol}{A number describing the fraction of points to be labeled.
+\code{tol = 1.0} labels all the points; \code{tol = 0.05} labels the most
+extreme 5 percent.}
+
+\item{leg.loc}{Character; if \code{"none"} no legend will be drawn.
+Otherwise, any string acceptable to \code{\link{legend}}.}
 
 \item{\dots}{Additional parameters to be passed to plotting functions.}
 }

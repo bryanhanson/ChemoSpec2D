@@ -34,7 +34,7 @@
 #'
 #' data(MUD1)
 #' res <- miaSpectra2D(MUD1)
-#' miaScores(MUD1, res, main = "MIA Scores")
+#' miaScores(MUD1, res, main = "MIA Scores", tol = 0.1, ellipse = "cls")
 #' plotScree(res)
 #' miaLoadings(MUD1, res, main = "MIA Comp. 1 Loadings")
 #'

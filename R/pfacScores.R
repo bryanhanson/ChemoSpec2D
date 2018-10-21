@@ -11,6 +11,13 @@
 #'
 #' @param which An integer specifying two scores to plot.
 #'
+#' @param tol A number describing the fraction of points to be labeled.
+#' \code{tol = 1.0} labels all the points; \code{tol = 0.05} labels the most
+#' extreme 5 percent.
+#'
+#' @param leg.loc Character; if \code{"none"} no legend will be drawn.
+#' Otherwise, any string acceptable to \code{\link{legend}}.
+#'
 #' @param \dots Additional parameters to be passed to plotting functions.
 #'
 #' @return None.  Side effect is a plot.
@@ -24,8 +31,9 @@
 #' @export
 #'
 #' @importFrom graphics plot
+#' @importFrom ChemoSpecUtils .plotScores
 #'
-pfacScores <- function(spectra, pfac, which = c(1, 2), ...) {
+pfacScores <- function(spectra, pfac, which = c(1, 2), tol = "none", leg.loc = "topright", ...) {
 	
 	if (class(spectra) != "Spectra2D") stop("spectra argument was not a Spectra2D object")
 	if (class(pfac) != "parafac") stop("pfac argument was not a parafac object")
@@ -47,12 +55,7 @@ pfacScores <- function(spectra, pfac, which = c(1, 2), ...) {
 
 	# Update & clean the argument list
 	
-	args <- c(args, list(x = pfac$C[,which[1]], y = pfac$C[,which[2]], col = spectra$colors, pch = 20))
-	args["spectra"] <- NULL
-	args["pfac"] <- NULL
-	if ("which" %in% names(args)) args["which"] <- NULL
-
-	# Now create the plot
-	
-	do.call(plot, args)
+	args <- c(args, list(use.sym = FALSE, pca = pfac, pcs = which))
+	args["pfac"] <- NULL	
+	do.call(.plotScores, args)
 }

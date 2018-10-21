@@ -113,6 +113,7 @@
 #' @importFrom utils read.table
 #' @importFrom tools file_path_sans_ext
 #' @importFrom R.utils saveObject
+#' @importFrom ChemoSpecUtils .groupNcolor
 #'
 
 files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto", 
@@ -170,7 +171,7 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
 	
 	# Assign groups & colors
 
-	spectra <- .groupNcolor2D(spectra, gr.crit, gr.cols)
+	spectra <- .groupNcolor(spectra, gr.crit, gr.cols, mode = "2D")
 	
 	# Wrap up
 	

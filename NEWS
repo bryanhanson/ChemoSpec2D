@@ -4,6 +4,9 @@ Exploratory Chemometrics for 2D Spectroscopy
 Bryan A. Hanson DePauw University, Greencastle Indiana USA
 URL: github.com/bryanhanson/ChemoSpec2D
 
+Changes in version 0.1.505 2018-10-20
+     + Ellipses in score plots working.
+
 Changes in version 0.1.471 2018-10-03
      + Improved documentation.
      + Modifications to work with ChemoSpecUtils.

@@ -38,8 +38,9 @@
 #' @examples
 #'
 #' data(MUD1)
+#' set.seed(123)
 #' res <- pfacSpectra2D(MUD1, parallel = FALSE, nfac = 2)
-#' pfacScores(MUD1, res, main = "PARAFAC Score Plot")
+#' pfacScores(MUD1, res, tol = 0.1, leg.loc = "bottomright", main = "PARAFAC Score Plot")
 #' res1 <- pfacLoadings(MUD1, res, load_lvls = seq(5, 30, 5),
 #'   main = "PARAFAC Comp. 1 Loadings")
 #' res2 <- pfacLoadings(MUD1, res, load_lvls = seq(5, 30, 5),
