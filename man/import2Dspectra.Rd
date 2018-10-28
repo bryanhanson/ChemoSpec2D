@@ -27,7 +27,7 @@ A list with 3 elements:
 \description{
 This function imports a single file (for instance, a csv) containing a 2D
 spectroscopic data set.  The current version handles various types of 
-ascii text files.  This function is called by \code{files2Spectra2DObject}
+ASCII text files.  This function is called by \code{files2Spectra2DObject}
 and is exported and documented to assist in developing new format codes.
 }
 \section{ASCII Format Codes}{

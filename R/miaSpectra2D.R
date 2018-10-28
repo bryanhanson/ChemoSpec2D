@@ -9,7 +9,7 @@
 #'
 #' @return A list per \code{\link[ThreeWay]{pcasup1}}.  Of particular interest are the
 #'   elements \code{C} containing the eigenvectors and \code{1c} containing the eigenvalues.
-#'   We add the class \code{pcasup1} to the list for our use later.
+#'   We add the class \code{mia} to the list for our use later.
 #'
 #' @author Bryan A. Hanson, DePauw University.
 #'
@@ -34,7 +34,7 @@
 #'
 #' data(MUD1)
 #' res <- miaSpectra2D(MUD1)
-#' miaScores(MUD1, res, main = "MIA Scores", tol = 0.1, ellipse = "cls")
+#' plotScores(MUD1, res, main = "MIA Scores", tol = 0.1, ellipse = "cls")
 #' plotScree(res)
 #' miaLoadings(MUD1, res, main = "MIA Comp. 1 Loadings")
 #'
@@ -62,7 +62,7 @@ miaSpectra2D <- function(spectra) {
   }
 
   t1 <- ThreeWay::pcasup1(X, n, m, p, 3)
-  class(t1) <- "pcasup1"
+  class(t1) <- "mia"
   
   return(t1)
 }

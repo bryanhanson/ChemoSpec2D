@@ -10,7 +10,7 @@ miaLoadings(spectra, mia, load = 1, ref = NULL, load_lvls = NULL,
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
 
-\item{mia}{An object of class \code{pcasup1} obtained by running
+\item{mia}{An object of class \code{mia} obtained by running
 \code{\link{miaSpectra2D}}.}
 
 \item{load}{An integer specifying the loading to plot.}

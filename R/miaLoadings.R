@@ -8,7 +8,7 @@
 #' 
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'
-#' @param mia An object of class \code{pcasup1} obtained by running
+#' @param mia An object of class \code{mia} obtained by running
 #' \code{\link{miaSpectra2D}}.
 #'
 #' @param load An integer specifying the loading to plot.
@@ -65,7 +65,7 @@ miaLoadings <- function(spectra, mia,
   load_cols = NULL, ref_cols = NULL, ...) {
 	
   if (class(spectra) != "Spectra2D") stop("spectra argument was not a Spectra2D object")
-  if (class(mia) != "pcasup1") stop("mia argument was not a pcasup1 object")
+  if (class(mia) != "mia") stop("mia argument was not a mia object")
   
   if (length(load) != 1L) stop("Please supply a single loading")
   if (load > ncol(mia$C)) stop("Requested load does not exist")
