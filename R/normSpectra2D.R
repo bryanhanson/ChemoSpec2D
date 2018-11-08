@@ -31,7 +31,7 @@
 #'
 normSpectra2D <- function(spectra, method = "zero2one") {
 	
-	if (missing(spectra)) stop("No spectral data provided")
+	.chkArgs(mode = 21L)
 	chkSpectra(spectra)
 
 # normalize each 2D spectrum to a [0...1] range:

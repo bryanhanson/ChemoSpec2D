@@ -41,7 +41,7 @@
 
 miaSpectra2D <- function(spectra) {
 
-  if (class(spectra) != "Spectra2D") stop("spectra argument was not a Spectra2D object")
+  .chkArgs(mode = 21L)
   chkSpectra(spectra)
   
   if (!requireNamespace("ThreeWay", quietly = TRUE)) {

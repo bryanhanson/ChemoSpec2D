@@ -61,9 +61,9 @@
 #'
 removePeaks2D <- function(spectra, remF2 = NULL, remF1 = NULL) {
 
-	if (missing(spectra)) stop("No spectral data provided")
-	if (is.null(remF2) & is.null(remF1)) stop("Nothing to remove")
+	.chkArgs(mode = 21L)
 	chkSpectra(spectra)
+	if (is.null(remF2) & is.null(remF1)) stop("Nothing to remove")
 		
 	# Set peaks to NA as requested
 	

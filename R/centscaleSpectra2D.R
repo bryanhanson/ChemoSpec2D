@@ -33,7 +33,7 @@
 #'
 centscaleSpectra2D <- function(spectra, choice = "noscale") {
 
-	if (missing(spectra)) stop("No spectral data provided")
+	.chkArgs(mode = 21L)
 	chkSpectra(spectra)
 	
 	A1 <- .makeArray(spectra) # frontal slabs contain spectra$data entries

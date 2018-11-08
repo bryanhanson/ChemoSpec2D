@@ -1,7 +1,3 @@
-
-
-### plotEngine
-
 #'
 #' Plotting Engine for 2D Spectra
 #' 
@@ -40,8 +36,6 @@
 
 .plotEngine <- function(spectra, which = 1, lvls = NULL, cols = NULL, ...) {
 
-
-  if (missing(spectra)) stop("No spectral data provided")
   chkSpectra(spectra)
   
   # Plot each spectrum in turn
@@ -53,7 +47,6 @@
     M <- t(M[nrow(M):1,]) # 90 cw prior to compensate for 90 ccw rotation built-in to contour
     
     # print(is.null(lvls[[i]]))
-    
     # print(cols)
    
     if (is.null(lvls[[i]])) curLvl <- calcLvls(M, mode = "NMR")
@@ -81,18 +74,49 @@
   	
 
   	if (i == 1) { # plot the first spectrum with decorations
-  	  contour(M, drawlabels = FALSE, axes = FALSE, levels = curLvl, col = curCol, ...)
+  		
+  	  # Handle user-provided xlim and/or ylim (rescale to [0...1] as required by contour)
+	
+	  # args <- as.list(match.call())[-1] # a COPY of the args for use with do.call
+	  
+	  # print(args)
+	  
+	  # if ("xlim" %in% names(args)) {
+	  	# limx <- .rescale(eval(args$xlim), spectra$F2)
+	  	# args$xlim <- NULL
+	  	# args <- c(args, list(xlim = limx))
+	  # }
+	  
+	  # if ("ylim" %in% names(args)) {
+	  	# limy <- .rescale(eval(args$ylim), spectra$F1)
+	  	# args$ylim <- NULL
+	  	# args <- c(args, list(ylim = limy))
+	  # }
+	  
+	  # clean up args (remove formals)
+	  # args$spectra <- NULL
+	  # args$which <- NULL
+	  # args$lvls <- NULL
+	  # args$cols <- NULL
+	  
+	  # args <- c(args, list(x = M, drawlabels = FALSE, axes = FALSE, levels = curLvl, col = curCol))
+	  
+	  # print(args)
+	  
+  	  contour(x = spectra$F2, y = spectra$F1, M,
+  	  	drawlabels = FALSE, axes = FALSE, levels = curLvl, col = curCol, ...)
+  	  # do.call(contour, args)
   	  box()
   	  
       # Compute tick positions and labels, then draw
       
       F2ticks <- .computeTicks(spectra$F2)
       F2lab <- rev(formatC(F2ticks, digits = 2, format = "f"))
-      F2at <- seq(0.0, 1.0, length.out = length(F2lab))
+      F2at <- seq(min(spectra$F2), max(spectra$F2), length.out = length(F2lab))
             
       F1ticks <- .computeTicks(spectra$F1)
-      F1lab <- formatC(F1ticks, digits = 2, format = "f")
-      F1at <- seq(1.0, 0.0, length.out = length(F1lab))
+      F1lab <- rev(formatC(F1ticks, digits = 2, format = "f"))
+      F1at <- seq(min(spectra$F1), max(spectra$F1), length.out = length(F1lab))
       
   	  axis(side = 1, at = F2at, labels = F2lab, cex.axis = 0.75)
   	  axis(side = 4, at = F1at, labels = F1lab, cex.axis = 0.75)

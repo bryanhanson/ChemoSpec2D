@@ -16,6 +16,8 @@
 #'
 .mapColors <- function(spectra, lvls) {
 
+  .chkArgs(mode = 21L)
+  
   cscale <- .createScale()
   drange <- range(spectra$data, na.rm = TRUE) # some data sets have NAs
   drange <- .symAroundZero(drange)

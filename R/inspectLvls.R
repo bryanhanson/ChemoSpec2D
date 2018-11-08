@@ -31,6 +31,8 @@
 #' 
 inspectLvls <- function(spectra, loadings = FALSE, ...) {
 
+  .chkArgs(mode = 21L)
+  
   if (!loadings) lvls <- calcLvls(unlist(spectra$data), showHist = TRUE, ...)
   
   if (loadings) {

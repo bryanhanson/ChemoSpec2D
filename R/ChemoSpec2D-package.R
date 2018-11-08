@@ -26,15 +26,18 @@
 #'
 #' @keywords package
 #'
-#  This import/export business based on stackoverflow.com/a/35118850/633251
+#  The following import/export business based on stackoverflow.com/a/35118850/633251
 #'
-#' @importFrom ChemoSpecUtils .addLegend chkSpectra sumSpectra sumGroups plotScores
-#' @export  .addLegend chkSpectra sumSpectra sumGroups plotScores
+#' @importFrom ChemoSpecUtils chkSpectra sumSpectra sumGroups
+#' @export  chkSpectra sumSpectra sumGroups
 #'
-#' @importFrom ChemoSpecUtils removeFreq removeGroup removeSample plotScree
-#' @export removeFreq removeGroup removeSample plotScree
+#' @importFrom ChemoSpecUtils removeFreq removeGroup removeSample
+#' @export removeFreq removeGroup removeSample
 #'
-#' @importFrom ChemoSpecUtils .findNA .getLimits check4Gaps
-#' @export  .findNA .getLimits check4Gaps
+#' @importFrom ChemoSpecUtils plotScree plotScores
+#' @export  plotScree plotScores
+#'
+#' @importFrom ChemoSpecUtils .findNA .getLimits check4Gaps .chkArgs .addLegend
+#' @export  .findNA .getLimits check4Gaps .chkArgs .addLegend
 #'
 NULL

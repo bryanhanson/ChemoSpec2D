@@ -64,8 +64,7 @@ miaLoadings <- function(spectra, mia,
   load_lvls = NULL, ref_lvls = NULL,
   load_cols = NULL, ref_cols = NULL, ...) {
 	
-  if (class(spectra) != "Spectra2D") stop("spectra argument was not a Spectra2D object")
-  if (class(mia) != "mia") stop("mia argument was not a mia object")
+  .chkArgs(mode = 22L)
   
   if (length(load) != 1L) stop("Please supply a single loading")
   if (load > ncol(mia$C)) stop("Requested load does not exist")

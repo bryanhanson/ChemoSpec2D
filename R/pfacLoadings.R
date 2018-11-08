@@ -63,8 +63,7 @@ pfacLoadings <- function(spectra, pfac,
   load_lvls = NULL, ref_lvls = NULL,
   load_cols = NULL, ref_cols = NULL, ...) {
 	
-  if (class(spectra) != "Spectra2D") stop("spectra argument was not a Spectra2D object")
-  if (class(pfac) != "parafac") stop("pfac argument was not a parafac object")
+  .chkArgs(mode = 22L)
   
   if (length(load) != 1L) stop("Please supply a single loading")
   if (load > ncol(pfac$A)) stop("Requested load does not exist")

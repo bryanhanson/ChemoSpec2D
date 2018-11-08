@@ -71,10 +71,11 @@
 #'
 plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA = TRUE, ...) {
 	
-  if (class(spectra) != "Spectra2D") stop("spectra argument was not a Spectra2D object")
+  .chkArgs(mode = 21L)
   chkSpectra(spectra)
   
   # Stop if there are frequencies missing from the interior, this is misleading
+  # Same computational approach as in check4Gaps
   dF1 <- spectra$F1[2] - spectra$F1[1]
   diffF1 <- diff(spectra$F1)
   for (i in 1:length(diffF1)) {

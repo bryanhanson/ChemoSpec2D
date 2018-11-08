@@ -55,7 +55,7 @@
 
 pfacSpectra2D <- function(spectra, parallel = TRUE, ...) {
 
-  if (class(spectra) != "Spectra2D") stop("spectra argument was not a Spectra2D object")
+  .chkArgs(mode = 21L)
   chkSpectra(spectra)
   
   if (!requireNamespace("multiway", quietly = TRUE)) {

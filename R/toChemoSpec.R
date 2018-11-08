@@ -23,6 +23,7 @@
 #'
 toChemoSpec <- function(spectra) {
 	
+	.chkArgs(mode = 21L)
 	chkSpectra(spectra)
 	
 	# Helper function from HandyStuff
