@@ -25,6 +25,8 @@
 #' @param showNA Logical. Should the locations of peaks removed by \code{\link{removePeaks2D}}
 #'        be shown?  If present, these are shown by a gray line at each frequency.
 #'
+#' @param showGrid Logical. If TRUE, show a dotted gray line at each tick mark.
+#'
 #' @param \ldots Additional parameters to be passed to the plotting routines.
 #'
 #' @section Warning:
@@ -69,7 +71,8 @@
 #'   cols = list(rep("black", 3), rep("red", 3)),
 #'   main = "MUD1 Sample 1 (black) & Sample 6 (red)")
 #'
-plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA = TRUE, ...) {
+plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL,
+  showNA = TRUE, showGrid = FALSE, ...) {
 	
   .chkArgs(mode = 21L)
   chkSpectra(spectra)
@@ -111,7 +114,8 @@ plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA =
   # Go plot
   op <- par(no.readonly = TRUE) # save to restore later
   par(mai = c(0.75, 0.5, 1.0, 0.75))
-  .plotEngine(spectra, which, lvls, cols, ...)
+  .plotEngine(spectra = spectra, which = which,
+    lvls = lvls, cols = cols, showGrid = showGrid, ...)
   
   # Show NAs if requested
   if (showNA) {

@@ -21,6 +21,8 @@
 #'        one color per contour level.  Defaults to a scheme of nine values
 #'        running from blue (low) to red (high), centered on green (zero).
 #'
+#' @param showGrid Logical. Shall a grid be drawn (corresponds to ticks).
+#'
 #' @param \dots Additional parameters to be passed to plotting functions.
 #'
 #' @return Side effect is a plot.
@@ -34,7 +36,7 @@
 #' @noRd
 #'
 
-.plotEngine <- function(spectra, which = 1, lvls = NULL, cols = NULL, ...) {
+.plotEngine <- function(spectra, which = 1, lvls = NULL, cols = NULL, showGrid = FALSE, ...) {
 
   chkSpectra(spectra)
   
@@ -45,10 +47,7 @@
   	
     M <- spectra$data[[ which[i] ]]
     M <- t(M[nrow(M):1,]) # 90 cw prior to compensate for 90 ccw rotation built-in to contour
-    
-    # print(is.null(lvls[[i]]))
-    # print(cols)
-   
+       
     if (is.null(lvls[[i]])) curLvl <- calcLvls(M, mode = "NMR")
   	if (!is.null(lvls[[i]])) curLvl <- lvls[[i]]
   	
@@ -66,59 +65,71 @@
 	  	  print(data.frame(noCols = length(cols), noLvls = length(lvls)))
 	  	  message("Using automatic color assignment.  To avoid this, either provide \nboth lvls and cols or provide enough cols to match lvls in the table above")
 	  	  curCol <- .mapColors(spectra, curLvl)
-
-	  	  # print(curLvl)
-	  	  # print(curCol)
 	  	}
   	}
   	
 
   	if (i == 1) { # plot the first spectrum with decorations
   		
-  	  # Handle user-provided xlim and/or ylim (rescale to [0...1] as required by contour)
+	  # Keep in mind that the origin for the contour function has 0,0 at the lower left corner.
+	  # However, the convention for 2D NMR has the origin for F2 on the right and the origin
+	  # for F1 at the top. The actual matrix/spectrum has been rotated 90 CW to account
+	  # for this convention (see above). We have to construct the axis labels manually due
+	  # to the differing origin conventions mentioned just above.
+
+  	  # Handle user-provided xlim and/or ylim, keeping in mind the different conventions
+  	  # for 2D NMR plotting vs those of the contour function. xlim/ylim on [0...1]
 	
-	  # args <- as.list(match.call())[-1] # a COPY of the args for use with do.call
+	  args <- as.list(match.call())[-1] # a COPY of the args for use with do.call
+	  
+	  if ("xlim" %in% names(args)) {
+	  	limx <- eval(args$xlim)
+	  	limx <- sort(.rescale(limx, spectra$F2, mode = 2L))
+	  	# message("limx = ")
+	  	# print(limx)
+	  	args$xlim <- NULL
+	  	args <- c(args, list(xlim = limx))
+	  }
+	  
+	  if ("ylim" %in% names(args)) {
+	  	limy <- eval(args$ylim)
+	  	limy <- sort(.rescale(limy, spectra$F1, mode = 2L))
+	  	# message("limy = ")
+	  	# print(limy)
+	  	args$ylim <- NULL
+	  	args <- c(args, list(ylim = limy))
+	  }
+	  
+	  # clean up args (remove unneeded formals)
+	  args$spectra <- NULL
+	  args$which <- NULL
+	  args$lvls <- NULL
+	  args$cols <- NULL
+	  args$grid <- NULL
+	  args$showGrid <- NULL
 	  
 	  # print(args)
 	  
-	  # if ("xlim" %in% names(args)) {
-	  	# limx <- .rescale(eval(args$xlim), spectra$F2)
-	  	# args$xlim <- NULL
-	  	# args <- c(args, list(xlim = limx))
-	  # }
-	  
-	  # if ("ylim" %in% names(args)) {
-	  	# limy <- .rescale(eval(args$ylim), spectra$F1)
-	  	# args$ylim <- NULL
-	  	# args <- c(args, list(ylim = limy))
-	  # }
-	  
-	  # clean up args (remove formals)
-	  # args$spectra <- NULL
-	  # args$which <- NULL
-	  # args$lvls <- NULL
-	  # args$cols <- NULL
-	  
-	  # args <- c(args, list(x = M, drawlabels = FALSE, axes = FALSE, levels = curLvl, col = curCol))
-	  
-	  # print(args)
-	  
-  	  contour(x = spectra$F2, y = spectra$F1, M,
-  	  	drawlabels = FALSE, axes = FALSE, levels = curLvl, col = curCol, ...)
-  	  # do.call(contour, args)
+	  args <- c(args, list(x = M, drawlabels = FALSE, axes = FALSE, levels = curLvl, col = curCol))
+  	  do.call(contour, args)
   	  box()
   	  
       # Compute tick positions and labels, then draw
+      # Final tick positions are on [0...1], the internal contour coordinates,
+      # but .computeTicks works using native coords of the data
+      # .computeTicks also takes into account any gaps
       
+      thres <- 15.0
       F2ticks <- .computeTicks(spectra$F2)
-      F2lab <- rev(formatC(F2ticks, digits = 2, format = "f"))
-      F2at <- seq(min(spectra$F2), max(spectra$F2), length.out = length(F2lab))
-            
-      F1ticks <- .computeTicks(spectra$F1)
-      F1lab <- rev(formatC(F1ticks, digits = 2, format = "f"))
-      F1at <- seq(min(spectra$F1), max(spectra$F1), length.out = length(F1lab))
-      
+      if (diff(range(spectra$F2)) > thres) F2lab <- rev(formatC(F2ticks, digits = 0, format = "f"))
+      if (diff(range(spectra$F2)) <= thres) F2lab <- rev(formatC(F2ticks, digits = 2, format = "f"))
+      F2at <- .rescale(F2ticks, spectra$F2, mode = 1L)
   	  axis(side = 1, at = F2at, labels = F2lab, cex.axis = 0.75)
+      
+      F1ticks <- .computeTicks(spectra$F1)
+      if (diff(range(spectra$F1)) > thres) F1lab <- rev(formatC(F1ticks, digits = 0, format = "f"))
+      if (diff(range(spectra$F1)) <= thres) F1lab <- rev(formatC(F1ticks, digits = 2, format = "f"))
+      F1at <- .rescale(F1ticks, spectra$F1, mode = 1L)     
   	  axis(side = 4, at = F1at, labels = F1lab, cex.axis = 0.75)
   	  
   	  mtext(spectra$unit[1], 1, line = 2)
@@ -129,4 +140,10 @@
   	  contour(M, drawlabels = FALSE, axes = FALSE, levels = curLvl, col = curCol, add = TRUE, ...)
     }
   } # end of master loop
+  
+  if (showGrid) {
+    abline(v = F2at, col = "gray", lty = "dotted")
+    abline(h = F1at, col = "gray", lty = "dotted")
+  }
+ 
 } # end of .plotEngine

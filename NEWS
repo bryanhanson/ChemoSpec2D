@@ -4,8 +4,11 @@ Exploratory Chemometrics for 2D Spectroscopy
 Bryan A. Hanson DePauw University, Greencastle Indiana USA
 URL: github.com/bryanhanson/ChemoSpec2D
 
-Changes in version 0.1.xx 2018-11-xx
+Changes in version 0.1.623 2018-11-09
      + Consistent argument checking implemented via ChemoSpecUtils::.chkArgs.
+     + plotSpectra2D now accepts xlim and ylim.
+     + Ticks in plotSpectra2D now chosen via pretty() and are easier to use.
+     + plotSpectra2D gains an option for a grid aligned with the ticks.
 
 Changes in version 0.1.532 2018-10-28
      + hcaScores added via ChemoSpecUtils.

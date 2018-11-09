@@ -5,7 +5,7 @@
 \title{Plot a Spectra2D Object}
 \usage{
 plotSpectra2D(spectra, which = 1, lvls = NULL, cols = NULL,
-  showNA = TRUE, ...)
+  showNA = TRUE, showGrid = FALSE, ...)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
@@ -26,6 +26,8 @@ must be a list of colors of \code{length(which)}.}
 
 \item{showNA}{Logical. Should the locations of peaks removed by \code{\link{removePeaks2D}}
 be shown?  If present, these are shown by a gray line at each frequency.}
+
+\item{showGrid}{Logical. If TRUE, show a dotted gray line at each tick mark.}
 
 \item{\ldots}{Additional parameters to be passed to the plotting routines.}
 }
