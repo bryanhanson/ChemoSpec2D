@@ -50,9 +50,7 @@ This function will check for missing frequencies and stop if any are found.
 
 \section{Scale}{
 
-For the time being, you can draw a scale/legend with this command:
-\code{ChemoSpec2D:::.drawScale(ChemoSpec2D:::.createScale(), "vertical")}.
-In a future version this will be less clunky.
+You can view the color scale for the plot via \code{\link{showScale}}.
 }
 
 \section{Levels & Colors}{
@@ -75,11 +73,11 @@ element for each spectrum to be plotted (if specified at all).  See the examples
 \examples{
 
 data(MUD1)
-plotSpectra2D(MUD1, which = 7, lvls = seq(-1, 1, by = 0.2),
+mylvls <- seq(-0.3, 0.3, 0.1)[-4]
+plotSpectra2D(MUD1, which = 7, lvls = mylvls,
   main = "MUD1 Sample 7")
-plotSpectra2D(MUD1, which = c(1, 6),
-  lvls = list(c(-0.2, 0.2, 0.5), c(-0.6, 0.4, 0.9)),
-  cols = list(rep("black", 3), rep("red", 3)),
+plotSpectra2D(MUD1, which = c(1, 6), lvls = list(mylvls, mylvls),
+  cols = list(rep("black", 6), rep("red", 6)),
   main = "MUD1 Sample 1 (black) & Sample 6 (red)")
 
 }

@@ -27,16 +27,24 @@ Function \code{\link[multiway]{parafac}} from \pkg{multiway} is used.
 For large data sets, computational time may be long enough that
 it might desirable to run in batch mode.
 }
+\section{Warning}{
+
+  To get reproducible results you will need to \code{set.seed()}.  See the example.
+}
+
 \examples{
 
 data(MUD1)
 set.seed(123)
 res <- pfacSpectra2D(MUD1, parallel = FALSE, nfac = 2)
-plotScores(MUD1, res, tol = 0.1, leg.loc = "bottomright", main = "PARAFAC Score Plot")
-res1 <- pfacLoadings(MUD1, res, load_lvls = seq(5, 30, 5),
+plotScores(MUD1, res, tol = 0.1, leg.loc = "topright",
+  ellipse = "cls", main = "PARAFAC Score Plot")
+res1 <- pfacLoadings(MUD1, res,
+  load_lvls = seq(-12, -2, 2),
   main = "PARAFAC Comp. 1 Loadings")
-res2 <- pfacLoadings(MUD1, res, load_lvls = seq(5, 30, 5),
-  ref = 6, ref_lvls = c(-0.5, 0.5), ref_cols = c("blue", "red"),
+res2 <- pfacLoadings(MUD1, res, load_lvls = seq(-12, -2, 2),
+  ref = 2, ref_lvls = c(-0.2, -0.1, 0.1, 0.2),
+  ref_cols = c("violet", "violet", "orange", "orange"),
   main = "PARAFAC Comp. 1 Loadings + Ref. Spectrum")
 
 # Selection of loading matrix levels can be aided by the following

@@ -70,8 +70,6 @@ calcLvls <- function(M, n = 10, mode = "even",
 	lambda = 1.0, base = 2,
 	showHist = FALSE, ...) {
 
-	# Uses several helper functions in NonExportedHelperFunctions.R
-			
 	if (mode == "even") {
 		n <- as.integer(n)
 		mn <- min(M)

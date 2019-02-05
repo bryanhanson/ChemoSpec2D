@@ -43,8 +43,6 @@
   # Plot each spectrum in turn
   for (i in 1:length(which)) {
   	
-  	# cat("Plotting spectrum", i, "\n")
-  	
     M <- spectra$data[[ which[i] ]]
     M <- t(M[nrow(M):1,]) # 90 cw prior to compensate for 90 ccw rotation built-in to contour
        
@@ -85,8 +83,6 @@
 	  if ("xlim" %in% names(args)) {
 	  	limx <- eval(args$xlim)
 	  	limx <- sort(.rescale(limx, spectra$F2, mode = 2L))
-	  	# message("limx = ")
-	  	# print(limx)
 	  	args$xlim <- NULL
 	  	args <- c(args, list(xlim = limx))
 	  }
@@ -94,8 +90,6 @@
 	  if ("ylim" %in% names(args)) {
 	  	limy <- eval(args$ylim)
 	  	limy <- sort(.rescale(limy, spectra$F1, mode = 2L))
-	  	# message("limy = ")
-	  	# print(limy)
 	  	args$ylim <- NULL
 	  	args <- c(args, list(ylim = limy))
 	  }
@@ -107,8 +101,6 @@
 	  args$cols <- NULL
 	  args$grid <- NULL
 	  args$showGrid <- NULL
-	  
-	  # print(args)
 	  
 	  args <- c(args, list(x = M, drawlabels = FALSE, axes = FALSE, levels = curLvl, col = curCol))
   	  do.call(contour, args)

@@ -6,7 +6,7 @@
 #' @importFrom graphics plot.new mtext rect
 #'
 
-.drawScale <- function(cscale, orient) { # Draw a scale for reference
+.drawScale <- function(cscale, orient) {
 
 	nc <- length(cscale)
 	

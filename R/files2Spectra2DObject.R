@@ -1,5 +1,4 @@
 #'
-#'
 #' Import Data into a Spectra2D Object
 #'
 #' This function imports data into a \code{\link{Spectra2D}} object.  It uses
@@ -104,6 +103,11 @@
 #' All these problems can generally be identified by running \code{\link[ChemoSpecUtils]{sumSpectra}}
 #' once the data is imported.
 #'
+#' @section Advanced Tricks:
+#' While argument \code{fileExt} appears to be a file extension (from its
+#' name and the description elsewhere), it's actually just a grep pattern that you can apply
+#' to any part of the file name if you know how to contruct the proper pattern.
+#'
 #' @author Bryan A. Hanson, DePauw University.
 #' 
 #' @keywords import
@@ -178,14 +182,12 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
 	chkSpectra(spectra)
 	
 	datafile <- paste(out.file, ".RData", sep = "")
-
 	saveObject(spectra, file = datafile)
-	
 	return(spectra)
 	},
 	
 	error = function(cond) {
-		errmess <- "There was a problem importing your files!\n\nAre you importing csv or similar files?\nDid you get a message such as 'undefined columns selected'?\nYou probably need to specify sep, header and dec values\nPlease read ?files2Spectra2DObject for details\n\nFor any trouble importing files set debug = TRUE\n"
+		errmess <- "There was a problem importing your files!\n\nAre you importing csv or similar files? Did you get a message such as 'undefined columns selected'? You probably need to specify sep, header and dec values. Please read ?files2Spectra2DObject for details.\n\nFor any trouble importing files set debug = TRUE.\n"
 		message("\nError message from R: ", cond$message, "\n")
 		message(errmess)
 		return(NA)

@@ -26,8 +26,8 @@
 #' @examples
 #' 
 #' data(MUD1)
-#' inspectLvls(MUD1, ylim = c(0, 200), main = "All MUD1 Data, mode = even")
-#' inspectLvls(MUD1, ylim = c(0, 200), mode = "NMR",  main = "All MUD1 Data, mode = NMR")
+#' inspectLvls(MUD1, ylim = c(0, 50), main = "All MUD1 Data, mode = even")
+#' inspectLvls(MUD1, ylim = c(0, 50), mode = "NMR",  main = "All MUD1 Data, mode = NMR")
 #' 
 inspectLvls <- function(spectra, loadings = FALSE, ...) {
 
@@ -38,7 +38,7 @@ inspectLvls <- function(spectra, loadings = FALSE, ...) {
   if (loadings) {
   	load <- "loadings" %in% spectra$names
   	if (!load) stop("This Spectra2D object did not contain loadings.\n\t
-  	  Did you run pfacLoadings?")
+  	  You need to run miaLoadings or pfacLoadings first.")
   	if (load) lvls <- calcLvls(
   	  spectra$data[[which(spectra$names == "loadings")]], showHist = TRUE, ...)
    }

@@ -38,9 +38,7 @@
 #' The loadings matrix will be appended.  Side effect is a plot.
 #'
 #' @section Scale:
-#' For the time being, you can draw a scale/legend with this command:
-#' \code{ChemoSpec2D:::.drawScale(ChemoSpec2D:::.createScale(), "vertical")}.
-#' In a future version this will be less clunky.
+#' You can view the color scale for the plot via \code{\link{showScale}}.
 #'
 #' @section Levels & Colors:
 #' The number of levels and colors must match, and they are used one for one.
@@ -126,14 +124,7 @@ miaLoadings <- function(spectra, mia,
     if (!is.null(ref_cols)) cols[[1]] <- ref_cols
     if (!is.null(load_cols)) cols[[2]] <- load_cols	
   }
-  
-  # cat("\nValues of lvls in pfacLoadings:\n")
-  # print(lvls)
-
-  # cat("\nValues of cols in pfacLoadings:\n")
-  # print(cols)
- 
-  
+    
   op <- par(no.readonly = TRUE) # save to restore later
   par(mai = c(1, 0.5, 1, 1))
   # Note on next call: if res = NULL it is not really included in which

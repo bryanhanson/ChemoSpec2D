@@ -119,6 +119,13 @@ All these problems can generally be identified by running \code{\link[ChemoSpecU
 once the data is imported.
 }
 
+\section{Advanced Tricks}{
+
+While argument \code{fileExt} appears to be a file extension (from its
+name and the description elsewhere), it's actually just a grep pattern that you can apply
+to any part of the file name if you know how to contruct the proper pattern.
+}
+
 \author{
 Bryan A. Hanson, DePauw University.
 }
