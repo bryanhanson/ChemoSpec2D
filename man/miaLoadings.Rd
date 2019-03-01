@@ -5,12 +5,13 @@
 \title{Plot Loadings from a MIA of a Spectra2D Object}
 \usage{
 miaLoadings(spectra, mia, load = 1, ref = NULL, load_lvls = NULL,
-  ref_lvls = NULL, load_cols = NULL, ref_cols = NULL, ...)
+  ref_lvls = NULL, load_cols = NULL, ref_cols = NULL, plot = TRUE,
+  ...)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
 
-\item{mia}{An object of class \code{pcasup1} obtained by running
+\item{mia}{An object of class \code{mia} obtained by running
 \code{\link{miaSpectra2D}}.}
 
 \item{load}{An integer specifying the loading to plot.}
@@ -27,14 +28,19 @@ If \code{NULL}, values are computed using \code{calcLvls}.}
 for the reference spectrum.
 If \code{NULL}, values are computed using \code{calcLvls}.}
 
-\item{load_cols}{A vector specifying the colors for the contours in the laoding spectrum.
+\item{load_cols}{A vector specifying the colors for the contours in the loading spectrum.
 If \code{NULL}, defaults to a scheme of values
 running from blue (low) to red (high), centered on green (zero).}
 
 \item{ref_cols}{A vector specifying the colors for the contours in the reference
 spectrum. If \code{NULL}, set to gray.}
 
-\item{\dots}{Additional parameters to be passed to plotting functions.}
+\item{plot}{Logical.  Shall a plot be made?  Plotting large data sets can be slow.
+Run the function with \code{plot = FALSE}, then use \code{\link{inspectLvls}}
+to figure out desirable levels, then create the plot.}
+
+\item{\dots}{Additional parameters to be passed to plotting functions.  For instance
+\code{showGrid = TRUE}.}
 }
 \value{
 The modified \code{Spectra2D} object is returned invisibly.
@@ -48,9 +54,7 @@ A reference spectrum may also be drawn.
 }
 \section{Scale}{
 
-For the time being, you can draw a scale/legend with this command:
-\code{ChemoSpec2D:::.drawScale(ChemoSpec2D:::.createScale(), "vertical")}.
-In a future version this will be less clunky.
+You can view the color scale for the plot via \code{\link{showScale}}.
 }
 
 \section{Levels & Colors}{

@@ -12,7 +12,7 @@ miaSpectra2D(spectra)
 \value{
 A list per \code{\link[ThreeWay]{pcasup1}}.  Of particular interest are the
   elements \code{C} containing the eigenvectors and \code{1c} containing the eigenvalues.
-  We add the class \code{pcasup1} to the list for our use later.
+  We add the class \code{mia} to the list for our use later.
 }
 \description{
 Carry out multivariate image analysis of a \code{\link{Spectra2D}} object
@@ -23,9 +23,15 @@ Function \code{\link[ThreeWay]{pcasup1}} from package \pkg{ThreeWay} is used.
 
 data(MUD1)
 res <- miaSpectra2D(MUD1)
-miaScores(MUD1, res, main = "MIA Scores")
+plotScores(MUD1, res, main = "MIA Scores", tol = 0.1, ellipse = "cls")
 plotScree(res)
-miaLoadings(MUD1, res, main = "MIA Comp. 1 Loadings")
+MUD1a <- miaLoadings(MUD1, res, load_lvls = c(-0.4, -0.2, 0.2, 0.4),
+  main = "MIA Comp. 1 Loadings")
+
+# Selection of loading matrix levels can be aided by the following
+
+inspectLvls(MUD1a, loadings = TRUE, ylim = c(0, 10),
+  main = "Histogram of Loadings Matrix")
 
 }
 \references{
@@ -33,7 +39,9 @@ A. Smilde, R. Bro and P. Geladi
 "Multi-way Analysis: Applications in the Chemical Sciences" Wiley (2004).
 See especially Example 4.5.
 
-P. Geladi and H. Grahn "Multivariate Image Analysis" Wiley (1996).
+P. Geladi and H. Grahn "Multivariate Image Analysis" Wiley (1996).  Note that
+in this text the meanings of scores and loadings are reversed from the usual
+spectroscopic uses of the terms.
 }
 \author{
 Bryan A. Hanson, DePauw University.

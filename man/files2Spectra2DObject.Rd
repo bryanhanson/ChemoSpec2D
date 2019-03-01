@@ -115,8 +115,15 @@ assigned a group. Therefore they don't plot, but they do take up space in a
 plot!  A warning is issued in these cases, since one wouldn't normally want
 a spectrum to be orphaned this way.
 
-All these problems can generally be identified by running \code{\link{sumSpectra2D}}
+All these problems can generally be identified by running \code{\link[ChemoSpecUtils]{sumSpectra}}
 once the data is imported.
+}
+
+\section{Advanced Tricks}{
+
+While argument \code{fileExt} appears to be a file extension (from its
+name and the description elsewhere), it's actually just a grep pattern that you can apply
+to any part of the file name if you know how to contruct the proper pattern.
 }
 
 \author{

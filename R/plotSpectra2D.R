@@ -25,6 +25,8 @@
 #' @param showNA Logical. Should the locations of peaks removed by \code{\link{removePeaks2D}}
 #'        be shown?  If present, these are shown by a gray line at each frequency.
 #'
+#' @param showGrid Logical. If TRUE, show a dotted gray line at each tick mark.
+#'
 #' @param \ldots Additional parameters to be passed to the plotting routines.
 #'
 #' @section Warning:
@@ -34,9 +36,7 @@
 #' This function will check for missing frequencies and stop if any are found.
 #'
 #' @section Scale:
-#' For the time being, you can draw a scale/legend with this command:
-#' \code{ChemoSpec2D:::.drawScale(ChemoSpec2D:::.createScale(), "vertical")}.
-#' In a future version this will be less clunky.
+#' You can view the color scale for the plot via \code{\link{showScale}}.
 #'
 #' @section Levels & Colors:
 #' The number of levels and colors must match, and they are used 1 for 1.  If you
@@ -62,17 +62,18 @@
 #' @examples
 #'
 #' data(MUD1)
-#' plotSpectra2D(MUD1, which = 7, lvls = seq(-1, 1, by = 0.2),
+#' mylvls <- seq(-0.3, 0.3, 0.1)[-4]
+#' plotSpectra2D(MUD1, which = 7, lvls = mylvls,
 #'   main = "MUD1 Sample 7")
-#' plotSpectra2D(MUD1, which = c(1, 6),
-#'   lvls = list(c(-0.2, 0.2, 0.5), c(-0.6, 0.4, 0.9)),
-#'   cols = list(rep("black", 3), rep("red", 3)),
+#' plotSpectra2D(MUD1, which = c(1, 6), lvls = list(mylvls, mylvls),
+#'   cols = list(rep("black", 6), rep("red", 6)),
 #'   main = "MUD1 Sample 1 (black) & Sample 6 (red)")
 #'
-plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA = TRUE, ...) {
+plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL,
+  showNA = TRUE, showGrid = FALSE, ...) {
 	
-  if (class(spectra) != "Spectra2D") stop("spectra argument was not a Spectra2D object")
-  chkSpectra2D(spectra)
+  .chkArgs(mode = 21L)
+  chkSpectra(spectra)
   
   # Stop if there are frequencies missing from the interior, this is misleading
   dF1 <- spectra$F1[2] - spectra$F1[1]
@@ -110,7 +111,8 @@ plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL, showNA =
   # Go plot
   op <- par(no.readonly = TRUE) # save to restore later
   par(mai = c(0.75, 0.5, 1.0, 0.75))
-  .plotEngine(spectra, which, lvls, cols, ...)
+  .plotEngine(spectra = spectra, which = which,
+    lvls = lvls, cols = cols, showGrid = showGrid, ...)
   
   # Show NAs if requested
   if (showNA) {

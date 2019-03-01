@@ -4,12 +4,13 @@
 \alias{inspectLvls}
 \title{Inspect Levels for Contour Plots of Spectra2D Objects}
 \usage{
-inspectLvls(spectra, loadings = FALSE, ...)
+inspectLvls(spectra, loading = NULL, ...)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
 
-\item{loadings}{Logical.  If a loadings entry is present, draw the histogram for it.}
+\item{loading}{Integer.  If a loadings entry is present, draw the histogram for it.
+For example, if \code{loading = 1} \code{Loading_1} is used.}
 
 \item{\dots}{Arguments to be passed downstream.}
 }
@@ -20,14 +21,15 @@ A numeric vector giving the levels (invisibly).
 Given a \code{Spectra2D} object, this function will assist in selecting levels
 for preparing contour and image type plots.  The entire range of the data is
 used in the histogram so you can choose levels that are suitable for any
-particular spectrum.  Any of the arguments to \code{\link{calcLvls}} can be used
+particular spectrum.  However, loading matrices are excluded unless specified 
+as the input. Any of the arguments to \code{\link{calcLvls}} can be used
 to capture the computed levels, or you can choose by inspection.
 }
 \examples{
 
 data(MUD1)
-inspectLvls(MUD1, ylim = c(0, 200), main = "All MUD1 Data, mode = even")
-inspectLvls(MUD1, ylim = c(0, 200), mode = "NMR",  main = "All MUD1 Data, mode = NMR")
+inspectLvls(MUD1, ylim = c(0, 50), main = "All MUD1 Data, mode = even")
+inspectLvls(MUD1, ylim = c(0, 50), mode = "NMR",  main = "All MUD1 Data, mode = NMR")
 
 }
 \seealso{

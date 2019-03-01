@@ -9,7 +9,7 @@
 #'
 #' @return A list per \code{\link[ThreeWay]{pcasup1}}.  Of particular interest are the
 #'   elements \code{C} containing the eigenvectors and \code{1c} containing the eigenvalues.
-#'   We add the class \code{pcasup1} to the list for our use later.
+#'   We add the class \code{mia} to the list for our use later.
 #'
 #' @author Bryan A. Hanson, DePauw University.
 #'
@@ -21,8 +21,9 @@
 #' "Multi-way Analysis: Applications in the Chemical Sciences" Wiley (2004).
 #' See especially Example 4.5.
 #'
-#' P. Geladi and H. Grahn "Multivariate Image Analysis" Wiley (1996).
-#'
+#' P. Geladi and H. Grahn "Multivariate Image Analysis" Wiley (1996).  Note that
+#' in this text the meanings of scores and loadings are reversed from the usual
+#' spectroscopic uses of the terms.
 #'
 #' @export
 #'
@@ -32,15 +33,21 @@
 #'
 #' data(MUD1)
 #' res <- miaSpectra2D(MUD1)
-#' miaScores(MUD1, res, main = "MIA Scores")
+#' plotScores(MUD1, res, main = "MIA Scores", tol = 0.1, ellipse = "cls")
 #' plotScree(res)
-#' miaLoadings(MUD1, res, main = "MIA Comp. 1 Loadings")
+#' MUD1a <- miaLoadings(MUD1, res, load_lvls = c(-0.4, -0.2, 0.2, 0.4),
+#'   main = "MIA Comp. 1 Loadings")
+#'
+#' # Selection of loading matrix levels can be aided by the following
+#'
+#' inspectLvls(MUD1a, loadings = TRUE, ylim = c(0, 10),
+#'   main = "Histogram of Loadings Matrix")
 #'
 
 miaSpectra2D <- function(spectra) {
 
-  if (class(spectra) != "Spectra2D") stop("spectra argument was not a Spectra2D object")
-  chkSpectra2D(spectra)
+  .chkArgs(mode = 21L)
+  chkSpectra(spectra)
   
   if (!requireNamespace("ThreeWay", quietly = TRUE)) {
     stop("You must install package ThreeWay to use this function")
@@ -60,7 +67,7 @@ miaSpectra2D <- function(spectra) {
   }
 
   t1 <- ThreeWay::pcasup1(X, n, m, p, 3)
-  class(t1) <- "pcasup1"
+  class(t1) <- "mia"
   
   return(t1)
 }

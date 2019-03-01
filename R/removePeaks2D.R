@@ -9,7 +9,7 @@
 #' interfering peaks (e.g. the water peak in 1H NMR), or regions that are primarily
 #' noise.  This function leaves the frequency axes intact.  Note that the
 #' \code{\link[multiway]{parafac}} function does not allow \code{NA}
-#' in the input data matrices.  See \code{\link{removeFreq2D}} for a way to shrink
+#' in the input data matrices.  See \code{\link{removeFreq}} for a way to shrink
 #' the data set without introducing \code{NA}s.
 #'
 #' @param spectra An object of S3 class \code{\link{Spectra2D}} from which to
@@ -29,41 +29,46 @@
 #'
 #' @importFrom plyr is.formula
 #'
-#' @seealso \code{\link{removeFreq2D}}.
+#' @seealso \code{\link[ChemoSpecUtils]{removeFreq}}.
 #'
 #' @export
 #'
 #' @examples
+#' # Note we will set contours a bit low to better
+#' # show what is going on.
 #'
 #' data(MUD1)
-#' plotSpectra2D(MUD1, which = 7, lvls = seq(-1, 1, by = 0.2),
+#' mylvls <- seq(-0.3, 0.3, 0.1)
+#' mylvls[4] <- 0.05
+#'
+#' plotSpectra2D(MUD1, which = 7, lvls = mylvls,
 #'   main = "MUD1 Sample 7: Complete Data Set")
 #'
 #' MUD1a <- removePeaks2D(MUD1, remF2 = 2.5 ~ 4)
-#' sumSpectra2D(MUD1a)
-#' plotSpectra2D(MUD1a, which = 7, lvls = seq(-1, 1, by = 0.2),
+#' sumSpectra(MUD1a)
+#' plotSpectra2D(MUD1a, which = 7, lvls = mylvls,
 #'   main = "MUD1 Sample 7\nRemoved Peaks: F2 2.5 ~ 4")
 #'
 #' MUD1b <- removePeaks2D(MUD1, remF2 = low ~ 5)
-#' sumSpectra2D(MUD1b)
-#' plotSpectra2D(MUD1b, which = 7, lvls = seq(-1, 1, by = 0.2),
+#' sumSpectra(MUD1b)
+#' plotSpectra2D(MUD1b, which = 7, lvls = mylvls,
 #'   main = "MUD1 Sample 7\nRemoved Peaks: F2 low ~ 5")
 #'
 #' MUD1c <- removePeaks2D(MUD1, remF1 = high ~ 23)
-#' sumSpectra2D(MUD1c)
-#' plotSpectra2D(MUD1c, which = 7, lvls = seq(-1, 1, by = 0.2),
+#' sumSpectra(MUD1c)
+#' plotSpectra2D(MUD1c, which = 7, lvls = mylvls,
 #'   main = "MUD1 Sample 7\nRemoved Peaks: F1 high ~ 23")
 #'
 #' MUD1d <- removePeaks2D(MUD1, remF2 = 2.5 ~ 4, remF1 = 17 ~ 20)
-#' sumSpectra2D(MUD1d)
-#' plotSpectra2D(MUD1d, which = 7, lvls = seq(-1, 1, by = 0.2),
+#' sumSpectra(MUD1d)
+#' plotSpectra2D(MUD1d, which = 7, lvls = mylvls,
 #'   main = "MUD1 Sample 7\nRemoved Peaks: F2 2.5 ~ 4 & F1 17 ~ 20")
 #'
 removePeaks2D <- function(spectra, remF2 = NULL, remF1 = NULL) {
 
-	if (missing(spectra)) stop("No spectral data provided")
+	.chkArgs(mode = 21L)
+	chkSpectra(spectra)
 	if (is.null(remF2) & is.null(remF1)) stop("Nothing to remove")
-	chkSpectra2D(spectra)
 		
 	# Set peaks to NA as requested
 	
@@ -81,7 +86,7 @@ removePeaks2D <- function(spectra, remF2 = NULL, remF1 = NULL) {
 		for (i in 1:length(spectra$data)) spectra$data[[i]][toss, ] <- NA	
 	}
 
-	chkSpectra2D(spectra)		
+	chkSpectra(spectra)		
 	return(spectra)
 	}
 

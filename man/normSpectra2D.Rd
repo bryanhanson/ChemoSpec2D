@@ -19,15 +19,15 @@ An object of S3 class \code{\link{Spectra2D}}.
 This function carries out normalization of the spectra in a
 \code{\link{Spectra2D}} object.  There are currently two options:
 \itemize{
-  \item \code{"zero2one"} scales each 2D spectrum separately to a [0 \ldots{} 1] scale.
-  \item \code{"TotInt"} scales each 2D spectrum separately so that the total area is one.
+  \item \code{"zero2one"} normalizes each 2D spectrum to a [0 \ldots{} 1] scale.
+  \item \code{"TotInt"} normalizes each 2D spectrum so that the total area is one.
 }
 }
 \examples{
 
 data(MUD1)
 MUD1n <- normSpectra2D(MUD1)
-MUD1b <- removeFreq2D(MUD1, remF2 = 2.5 ~ 3.5)
+MUD1b <- removeFreq(MUD1, remF2 = 2.5 ~ 3.5)
 MUD1bn <- normSpectra2D(MUD1b)
 
 }
