@@ -1,0 +1,52 @@
+template:
+  params:
+    bootswatch: cerulean
+
+reference:
+- title: "Importing Data"
+  contents:
+  - '`files2Spectra2DObject`'
+  - '`import2Dspectra`'
+
+- title: "Data Summaries"
+  contents:
+  - '`sumGroups`'
+  - '`sumSpectra`'
+
+- title: "Pre-Processing Data"
+  desc: "Modifying/editing data"
+  contents:
+  - '`removeFreq`'
+  - '`removeGroup`'
+  - '`removeSample`'
+  - '`removePeaks2D`'
+  - '`normSpectra2D`'
+  - '`centscaleSpectra2D`'
+
+- title: "Plots"
+  contents:
+  - '`plotSpectra2D`'
+  - '`plotSlice`'
+  - '`plotScores`'
+  - '`plotScree`'
+  - '`miaLoadings`'
+  - '`pfacLoadings`'
+
+- title: "Exploratory Data Analysis"
+  contents:
+  - '`miaSpectra2D`'
+  - '`pfacSpectra2D`'
+
+- title: "Data Sets"
+  contents:
+  - '`Spectra2D`'
+  - '`MUD1`'
+
+- title: "Utilities & Reference"
+  contents:
+  - '`chkSpectra`'
+  - '`check4Gaps`'
+  - '`showScale`'
+  - '`toChemoSpec`'
+  - '`calcLvls`'
+  - '`inspectLvls`'
