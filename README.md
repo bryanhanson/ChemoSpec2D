@@ -19,6 +19,7 @@ install.packages("devtools")
 library("devtools")
 install_github(repo = "bryanhanson/ChemoSpec2D@master")
 library("ChemoSpec2D")
+```
 
 ### License Information
 
