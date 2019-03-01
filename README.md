@@ -1,19 +1,24 @@
-[![Project Status: WIP – Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](http://www.repostatus.org/badges/latest/wip.svg)](http://www.repostatus.org/#wip)
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![Downloads](https://cranlogs.r-pkg.org/badges/ChemoSpec2D)](https://cran.r-project.org/package=ChemoSpec2D)
 
 ## What is ChemoSpec2D?
 
-`ChemoSpec2D` is  collection of functions for working with 2D spectra.  It has been developed with NMR in mind, but other types of 2D spectroscopy may also be analyzed. `ChemoSpec2D` takes many of its cues from `ChemoSpec` and tries to create consistent graphical output and be very user friendly.  Tools to plot 2D spectra and carry out PARAFAC are the main features.
+`ChemoSpec2D` is a collection of functions for exploratory chemometrics of 2D spectroscopic data sets such as COSY (correlated spectroscopy) and HSQC (heteronuclear single quantum coherence) 2D NMR (nuclear magnetic resonance) spectra. 'ChemoSpec2D' deploys methods aimed primarily at classification of samples and the identification of spectral features which are important in distinguishing samples from each other. Each 2D spectrum (a matrix) is treated as the unit of observation, and thus the physical sample in the spectrometer corresponds to the  sample from a statistical perspective.  In addition to chemometric tools, a few tools are provided for plotting 2D spectra, but these are not intended to replace the functionality typically available on the spectrometer. 'ChemoSpec2D' takes many of its cues from 'ChemoSpec' and tries to create consistent graphical output and to be very user friendly.
 
-## How to install ChemoSpec2D from Github Using R:
+### Installing ChemoSpec2D from CRAN:
+
+````r
+chooseCRANmirror() # choose a CRAN mirror
+install.packages("ChemoSpec2D")
+library("ChemoSpec2D")
+````
+
+### Installing ChemoSpec2D from Github:
 
 ````r
 install.packages("devtools")
 library("devtools")
 install_github(repo = "bryanhanson/ChemoSpec2D@master")
 library("ChemoSpec2D")
-````
-
-`ChemoSpec2D` has a companion package containing test data called `ChemoSpec2Ddata`.  Click [here](https://github.com/bryanhanson/ChemoSpec2Ddata) for installation instructions.
 
 ### License Information
 
