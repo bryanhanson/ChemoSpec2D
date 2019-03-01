@@ -6,15 +6,15 @@
 
 ### Installing ChemoSpec2D from CRAN:
 
-````r
+```r
 chooseCRANmirror() # choose a CRAN mirror
 install.packages("ChemoSpec2D")
 library("ChemoSpec2D")
-````
+```
 
 ### Installing ChemoSpec2D from Github:
 
-````r
+```r
 install.packages("devtools")
 library("devtools")
 install_github(repo = "bryanhanson/ChemoSpec2D@master")
