@@ -1,4 +1,14 @@
 
+# ChemoSpec2D 0.2.19 2019-02-28
+
+## Bug Fixes
+* Both `miaLoadings` and `pfacLoadings` were incorrectly reordering their matrices.
+* `inspectLvls` was not excluding any loading matrices when `loading = NULL`.
+
+## Improvements
+* `miaLoadings` and `pfacLoadings` now check to see if the requested loading has already been computed, and if so, it is not computed again. Loadings are  named `Loading_x` in the `Spectra2D` object. These functions also gain a plot argument so that plots can be suppressed if desired.  These changes were made for dealing with large data sets which can occupy a lot of memory and slow down the computation of the contours.  Using `plot = FALSE` allows one to compute the loadings and then figure out desirable contour levels before running with `plot = TRUE`.
+* `pfacSpectra2D` gains an argument `setup`.  If `TRUE` and `parallel = TRUE` the parallel computational environment is automatically configured for the user.  If `FALSE` the user is responsible for setting up the environment.  This is useful if working on Azure or AWS EC2.
+
 # ChemoSpec2D 0.2.0 2018-11-30
 
 ## New Features

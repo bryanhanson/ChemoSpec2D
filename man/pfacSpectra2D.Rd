@@ -4,13 +4,17 @@
 \alias{pfacSpectra2D}
 \title{PARAFAC Analysis of a Spectra2D Object}
 \usage{
-pfacSpectra2D(spectra, parallel = TRUE, ...)
+pfacSpectra2D(spectra, parallel = FALSE, setup = FALSE, ...)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
 
 \item{parallel}{Logical.  Should parallel processing be used?
-Unless you love waiting, you should use parallel processing for real data sets.}
+Unless you love waiting, you should use parallel processing for larger data sets.}
+
+\item{setup}{Logical.  If \code{TRUE} the parallel environment will be automatically
+configured for you.  If \code{FALSE}, the user must configure the environment
+themselves (desirable for instance if working on Azure or AWS EC2).}
 
 \item{\dots}{Additional parameters to be passed to function \code{\link[multiway]{parafac}}.
 At the minimum, you'll need to specify \code{nfac}.  You should also give thought to

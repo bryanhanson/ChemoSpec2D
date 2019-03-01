@@ -5,7 +5,8 @@
 \title{Plot Loadings from a PARAFAC Analysis of a Spectra2D Object}
 \usage{
 pfacLoadings(spectra, pfac, load = 1, ref = NULL, load_lvls = NULL,
-  ref_lvls = NULL, load_cols = NULL, ref_cols = NULL, ...)
+  ref_lvls = NULL, load_cols = NULL, ref_cols = NULL, plot = TRUE,
+  ...)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
@@ -33,7 +34,12 @@ running from blue (low) to red (high), centered on green (zero).}
 \item{ref_cols}{A vector specifying the colors for the contours in the reference
 spectrum. If \code{NULL}, set to gray.}
 
-\item{\dots}{Additional parameters to be passed to plotting functions.}
+\item{plot}{Logical.  Shall a plot be made?  Plotting large data sets can be slow.
+Run the function with \code{plot = FALSE}, then use \code{\link{inspectLvls}}
+to figure out desirable levels, then create the plot.}
+
+\item{\dots}{Additional parameters to be passed to plotting functions.  For instance
+\code{showGrid = TRUE}.}
 }
 \value{
 The modified \code{Spectra2D} object is returned invisibly.

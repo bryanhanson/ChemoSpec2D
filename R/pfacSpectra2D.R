@@ -9,7 +9,11 @@
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'
 #' @param parallel Logical.  Should parallel processing be used?
-#'        Unless you love waiting, you should use parallel processing for real data sets.
+#'        Unless you love waiting, you should use parallel processing for larger data sets.
+#'
+#' @param setup Logical.  If \code{TRUE} the parallel environment will be automatically
+#'        configured for you.  If \code{FALSE}, the user must configure the environment
+#'        themselves (desirable for instance if working on Azure or AWS EC2).
 #'
 #' @param \dots Additional parameters to be passed to function \code{\link[multiway]{parafac}}.
 #'        At the minimum, you'll need to specify \code{nfac}.  You should also give thought to
@@ -36,7 +40,7 @@
 #' @export
 #'
 #' @importFrom multiway parafac
-#' @importFrom parallel makeCluster clusterEvalQ stopCluster detectCores
+#' @importFrom parallel makeCluster clusterEvalQ stopCluster detectCores clusterSetRNGStream
 #'
 #' @examples
 #'
@@ -59,33 +63,41 @@
 #'   main = "Histogram of Loadings Matrix")
 #'
 
-pfacSpectra2D <- function(spectra, parallel = TRUE, ...) {
+pfacSpectra2D <- function(spectra, parallel = FALSE, setup = FALSE, ...) {
 
   .chkArgs(mode = 21L)
   chkSpectra(spectra)
+  if ((!parallel) & (setup)) stop("setup should not be TRUE if parallel is FALSE")
   
   if (!requireNamespace("multiway", quietly = TRUE)) {
     stop("You must install package multiway to use this functoin")
   }
 
+  # Set up data array (frontal slices)
+  DA <- .makeArray(spectra)
+  if (any(is.na(DA))) stop("Data for parafac cannot have NA")
+
+  # Set up parallel environment
   if (parallel) {
     if (!requireNamespace("parallel", quietly = TRUE)) {
       stop("You must install package parallel to use the parallel option")
     }
-    cl <- makeCluster(detectCores())
-    ce <- clusterEvalQ(cl, library(multiway))
+    if (setup) {
+      cl <- makeCluster(detectCores())
+      ce <- clusterEvalQ(cl, library(multiway))
+      clusterSetRNGStream(cl, 123)
+    }
   }
-  
-  # Set up data array (frontal slices)
-  DA <- .makeArray(spectra)
-  if (any(is.na(DA))) stop("Data for parafac cannot have NA")
   
   # Run it
   if (!parallel) pfac <- parafac(DA, ...)
-  if (parallel) pfac <- parafac(DA, parallel = TRUE, cl = cl, ...)
- 
+  if (parallel) {
+  	if (setup) pfac <- parafac(DA, parallel = TRUE, cl = cl, ...)
+  	if (!setup) pfac <- parafac(DA, parallel = TRUE, ...) # user provides add'l args
+  	
+  }
   # Wrap up
-  if (parallel) stopCluster(cl)
+  if (setup) stopCluster(cl)
   return(pfac)
 }
 

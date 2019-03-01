@@ -32,7 +32,12 @@
 #'        If \code{NULL}, defaults to a scheme of values
 #'        running from blue (low) to red (high), centered on green (zero).
 #'
-#' @param \dots Additional parameters to be passed to plotting functions.
+#' @param plot Logical.  Shall a plot be made?  Plotting large data sets can be slow.
+#'        Run the function with \code{plot = FALSE}, then use \code{\link{inspectLvls}}
+#'        to figure out desirable levels, then create the plot.
+#'
+#' @param \dots Additional parameters to be passed to plotting functions.  For instance
+#'        \code{showGrid = TRUE}.
 #'
 #' @return The modified \code{Spectra2D} object is returned invisibly.
 #' The loadings matrix will be appended.  Side effect is a plot.
@@ -59,7 +64,8 @@
 pfacLoadings <- function(spectra, pfac,
   load = 1, ref = NULL,
   load_lvls = NULL, ref_lvls = NULL,
-  load_cols = NULL, ref_cols = NULL, ...) {
+  load_cols = NULL, ref_cols = NULL,
+  plot = TRUE, ...) {
 	
   .chkArgs(mode = 22L)
   
@@ -72,55 +78,68 @@ pfacLoadings <- function(spectra, pfac,
     
   chkSpectra(spectra)
 
-  # Compute loading matrices
-  M <- pfac$A[, load] %*% t(pfac$B[, load])
-  M <- M[nrow(M):1,ncol(M):1]
+  # Skip the computation if the requested loading has already been computed.
+  # This is essential for large data sets which occupy a lot of memory which slows
+  # down the contour calculations.  Go straight to plotting.
   
-  
-  # Prep & send to plotEngine
-  # .plotEngine expects a spectra object and lvls and cols as lists
-  
-  # Update spectra object to include loading matrix
-  ns <- length(spectra$names) # no of spectra
-  spectra$data[[ns + 1]] <- M
-  spectra$names[ns + 1] <- "loadings"
-  spectra$groups <- as.factor(c(spectra$groups, "loadings"))
-  spectra$colors[ns + 1] <- "black"
-  chkSpectra(spectra)
-  
-  # Configure levels
-  # Note that ref is plotted first if at all (see call to .plotEngine below)
-  # See R Inferno 8.1.55 about setting list components to NULL (dont' do it)
-  if (is.null(ref)) { # only showing loadings
-    if (!is.null(load_lvls)) lvls <- list(load_lvls)
-    if (is.null(load_lvls)) lvls <- list(NULL)
-  }
-  
-  if (!is.null(ref)) { # showing loadings and reference spectrum
-    lvls <- vector("list", 2)  # intializes to NULL, NULL
-    if (!is.null(ref_lvls)) lvls[[1]] <- ref_lvls
-    if (!is.null(load_lvls)) lvls[[2]] <- load_lvls	
-  }
-    
-  # Configure colors
+  pat <- paste("Loading", load, sep = "_")
+  Ldone <- grep(pat, spectra$names)
+  msg <- "Loading was present but no plot was requested; nothing to do"
+  if ((length(Ldone) == 1L) & (plot == FALSE)) stop(msg)
+  if (length(Ldone) == 0) { # loading was not found, compute it
 
-  if (is.null(ref)) { # only showing loadings
-    if (!is.null(load_cols)) cols <- list(load_cols)
-    if (is.null(load_cols)) cols <- list(NULL)
+	  # Compute loading matrices
+	  M <- pfac$A[, load] %*% t(pfac$B[, load])
+	  # M <- M[nrow(M):1,ncol(M):1] # why?  it's wrong...
+	   
+	  # Update spectra object to include loading matrix
+	  ns <- length(spectra$names) # no of spectra
+	  spectra$data[[ns + 1]] <- M
+	  Ldone <- ns + 1 # update for use in call to .plotEngine
+	  spectra$names[ns + 1] <- paste("Loading", load, sep = "_")
+	  spectra$groups <- as.factor(c(spectra$groups, "loadings"))
+	  spectra$colors[ns + 1] <- "black"
+	  chkSpectra(spectra)
   }
   
-  if (!is.null(ref)) { # showing loadings and reference spectrum
-    cols <- vector("list", 2)  # intializes to NULL, NULL
-    if (!is.null(ref_cols)) cols[[1]] <- ref_cols
-    if (!is.null(load_cols)) cols[[2]] <- load_cols	
-  }
-    
-  op <- par(no.readonly = TRUE) # save to restore later
-  par(mai = c(1, 0.5, 1, 1))
-  # Note on next call: if res = NULL it is not really included in which
-  # so it's not requested (try tst <- c(1, 2, NULL, 4); tst[3] = 4; length(tst) = 3)
-  .plotEngine(spectra, which = c(ref, ns + 1), lvls = lvls, cols = cols, ...)
-  on.exit(par(op)) # restore original values
-    
+  if (plot) {
+	  # Prep & send to plotEngine
+	  # .plotEngine expects a spectra object and lvls and cols as lists
+	  
+	  # Configure levels
+	  # Note that ref is plotted first if at all (see call to .plotEngine below)
+	  # See R Inferno 8.1.55 about setting list components to NULL (don't do it)
+	  if (is.null(ref)) { # only showing loadings
+	    if (!is.null(load_lvls)) lvls <- list(load_lvls)
+	    if (is.null(load_lvls)) lvls <- list(NULL)
+	  }
+	  
+	  if (!is.null(ref)) { # showing loadings and reference spectrum
+	    lvls <- vector("list", 2)  # intializes to NULL, NULL
+	    if (!is.null(ref_lvls)) lvls[[1]] <- ref_lvls
+	    if (!is.null(load_lvls)) lvls[[2]] <- load_lvls	
+	  }
+	    
+	  # Configure colors
+	
+	  if (is.null(ref)) { # only showing loadings
+	    if (!is.null(load_cols)) cols <- list(load_cols)
+	    if (is.null(load_cols)) cols <- list(NULL)
+	  }
+	  
+	  if (!is.null(ref)) { # showing loadings and reference spectrum
+	    cols <- vector("list", 2)  # intializes to NULL, NULL
+	    if (!is.null(ref_cols)) cols[[1]] <- ref_cols
+	    if (!is.null(load_cols)) cols[[2]] <- load_cols	
+	  }
+	    
+	  op <- par(no.readonly = TRUE) # save to restore later
+	  par(mai = c(1, 0.5, 1, 1))
+	  # Note on next call: if ref = NULL it is not really included in which
+	  # so it's not requested (try tst <- c(1, 2, NULL, 4); tst[3] = 4; length(tst) = 3)
+	  .plotEngine(spectra, which = c(ref, Ldone), lvls = lvls, cols = cols, ...)
+	  on.exit(par(op)) # restore original values
+  } # end of plot = TRUE
+  
   invisible(spectra)
 }
