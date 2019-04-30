@@ -1,15 +1,21 @@
 #'
-#' Plot Loadings from a PARAFAC Analysis of a Spectra2D Object
+#' Plot Loadings from a PARAFAC, MIA or POP Analysis of a Spectra2D Object
 #' 
-#' Plots loadings from the PARAFAC analysis of a \code{\link{Spectra2D}} object.
-#' The loadings are computed by multipling matrix \code{A} by matrix \code{B}
-#' in the \code{parafac} object, for a given component.  The matrix that results
-#' has dimensions
+#' Plots loadings from a PARAFAC, MIA or POP analysis of a \code{\link{Spectra2D}} object.
+#' The loadings matrix has has dimensions
 #' F2 x F1 and is a 2D pseudo-spectrum.  A reference spectrum may also be drawn.
 #' 
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'
-#' @param pfac An object of class \code{parafac} obtained by running \code{\link{pfacSpectra2D}}.
+#' @param so ("Score Object") One of the following:
+#' \itemize{
+#'  \item An object of class \code{mia} produced by
+#'   function \code{\link{miaSpectra2D}}.
+#'  \item An object of class \code{pfac} produced by
+#'   function \code{\link{pfacSpectra2D}}.
+#'  \item An object of class \code{pop} produced by
+#'   function \code{\link{popSpectra2D}}.
+#' }
 #'
 #' @param load An integer specifying the loading to plot.
 #'
@@ -40,7 +46,8 @@
 #'        \code{showGrid = TRUE}.
 #'
 #' @return The modified \code{Spectra2D} object is returned invisibly.
-#' The loadings matrix will be appended.  Side effect is a plot.
+#' The loadings matrix will be appended with a sample of name of Loadings_x where
+#' \code{x = load}. Side effect is a plot.
 #'
 #' @section Scale:
 #' You can view the color scale for the plot via \code{\link{showScale}}.
@@ -57,11 +64,12 @@
 #'
 #' @keywords hplot
 #'
-#' @seealso Please see \code{\link{pfacSpectra2D}} for examples.
+#' @seealso Please see \code{\link{pfacSpectra2D}}, \code{\link{miaSpectra2D}} or
+#' \code{\link{popSpectra2D}} for examples.
 #' 
 #' @export
 #'
-pfacLoadings <- function(spectra, pfac,
+plotLoadings2D <- function(spectra, so,
   load = 1, ref = NULL,
   load_lvls = NULL, ref_lvls = NULL,
   load_cols = NULL, ref_cols = NULL,
@@ -70,8 +78,6 @@ pfacLoadings <- function(spectra, pfac,
   .chkArgs(mode = 22L)
   
   if (length(load) != 1L) stop("Please supply a single loading")
-  if (load > ncol(pfac$A)) stop("Requested load does not exist")
-  
   if (!is.null(ref)) {
   	if (length(ref) != 1L) stop("Please supply a single ref value")
   }
@@ -86,22 +92,80 @@ pfacLoadings <- function(spectra, pfac,
   Ldone <- grep(pat, spectra$names)
   msg <- "Loading was present but no plot was requested; nothing to do"
   if ((length(Ldone) == 1L) & (plot == FALSE)) stop(msg)
-  if (length(Ldone) == 0) { # loading was not found, compute it
+  
+  
+  if (length(Ldone) == 0) {
+  # Loading was not found, compute it
+  # In this block we do things differently for each class
+      soOK <- FALSE
+	  if ("mia" %in% class(so)) {
+	  	  soOK <- TRUE
+	  	  if (load > ncol(so$C)) stop("Requested load does not exist")
 
-	  # Compute loading matrices
-	  M <- pfac$A[, load] %*% t(pfac$B[, load])
-	  # M <- M[nrow(M):1,ncol(M):1] # why?  it's wrong...
-	   
+		  # Computation per Geldadi & Grahn pg 124
+		  # Stack each spectrum into a single "column"
+		  ns <- length(spectra$names)
+		  nF1 <- length(spectra$F1)
+		  nF2 <- length(spectra$F2)
+		  M1 <- matrix(NA_real_, ncol = ns, nrow = nF1 * nF2)
+		  for (i in 1:ns) { M1[,i] <- as.vector(spectra$data[[i]]) }
+		
+		  # Compute loading matrix
+		  L <- M1 %*% so$C[, load]
+		  
+		  # Unstack to the pseudospectrum
+		  M <- matrix(L, ncol = nF2, nrow = nF1)
+		 
+	  } # end of mia
+	
+	  if ("pfac" %in% class(so)) {
+	  	  soOK <- TRUE
+	      if (load > ncol(so$A)) stop("Requested load does not exist")
+	
+		  # Compute loading matrices
+		  M <- so$A[, load] %*% t(so$B[, load])
+		   
+	  } # end of pfac
+	
+	  if ("pop" %in% class(so)) {
+	  	  soOK <- TRUE
+	  	  if (load > ncol(so$rotation)) stop("Requested load does not exist")
+	  	
+		  #M <- so$x[, load] %*% t(so$rotation[, load])
+		  L <- so$rotation[,load]
+		  nF1 <- length(spectra$F1)
+		  nF2 <- length(spectra$F2)
+
+		  stackByColumn <- function(IN, nrow, ncol){ # Helper function from HandyStuff
+			if (length(IN)/nrow != ncol) stop("Dimensions don't make sense in stackByColumn")
+			OUT <- matrix(NA_real_, nrow = nrow, ncol = ncol)
+			idx <- seq(nrow, length(IN), nrow)
+			for (n in 1:ncol){
+				OUT[,n] <- IN[(idx[n]-nrow+1):(idx[n])]
+				}
+			OUT
+			}
+          
+          M <- stackByColumn(L, nF1, nF2)
+		   
+	  } # end of pop
+
+      if (!soOK) stop("Could not resolve class of the scores object")
+      
 	  # Update spectra object to include loading matrix
 	  ns <- length(spectra$names) # no of spectra
 	  spectra$data[[ns + 1]] <- M
 	  Ldone <- ns + 1 # update for use in call to .plotEngine
-	  spectra$names[ns + 1] <- paste("Loading", load, sep = "_")
+	  Lname <- paste("Loading", load, sep = "_")
+	  names(spectra$data)[ns + 1] <- Lname
+	  spectra$names[ns + 1] <- Lname
 	  spectra$groups <- as.factor(c(spectra$groups, "loadings"))
 	  spectra$colors[ns + 1] <- "black"
-	  chkSpectra(spectra)
-  }
+	  chkSpectra(spectra)  	
+
+  } # end of computing loading pseudo-spectrum
   
+
   if (plot) {
 	  # Prep & send to plotEngine
 	  # .plotEngine expects a spectra object and lvls and cols as lists

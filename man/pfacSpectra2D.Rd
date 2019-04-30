@@ -4,7 +4,8 @@
 \alias{pfacSpectra2D}
 \title{PARAFAC Analysis of a Spectra2D Object}
 \usage{
-pfacSpectra2D(spectra, parallel = FALSE, setup = FALSE, ...)
+pfacSpectra2D(spectra, parallel = FALSE, setup = FALSE, nfac = 2,
+  ...)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
@@ -16,14 +17,16 @@ Unless you love waiting, you should use parallel processing for larger data sets
 configured for you.  If \code{FALSE}, the user must configure the environment
 themselves (desirable for instance if working on Azure or AWS EC2).}
 
+\item{nfac}{Integer.  The number of factors/components to compute.}
+
 \item{\dots}{Additional parameters to be passed to function \code{\link[multiway]{parafac}}.
-At the minimum, you'll need to specify \code{nfac}.  You should also give thought to
-value of \code{const}, allowed options can be seen in \code{\link[CMLS]{const}}.
-The default is to compute an unconstrained solution.  However, in some cases one may
-wish to apply a non-negativity constraint.}
+You should give thought to value of \code{const}, allowed options can be seen in
+\code{\link[CMLS]{const}}. The default is to compute an unconstrained solution.
+However, in some cases one may wish to apply a non-negativity constraint.}
 }
 \value{
-An object of class \code{parafac}.
+An object of class \code{pfac} and \code{parafac}, modified to include a list
+element called \code{$method} which is \code{parafac}.
 }
 \description{
 Carry out PARAFAC analysis of a \code{\link{Spectra2D}} object.
@@ -43,10 +46,10 @@ set.seed(123)
 res <- pfacSpectra2D(MUD1, parallel = FALSE, nfac = 2)
 plotScores(MUD1, res, tol = 0.1, leg.loc = "topright",
   ellipse = "cls", main = "PARAFAC Score Plot")
-res1 <- pfacLoadings(MUD1, res,
+res1 <- plotLoadings2D(MUD1, res,
   load_lvls = seq(-12, -2, 2),
   main = "PARAFAC Comp. 1 Loadings")
-res2 <- pfacLoadings(MUD1, res, load_lvls = seq(-12, -2, 2),
+res2 <- plotLoadings2D(MUD1, res, load_lvls = seq(-12, -2, 2),
   ref = 2, ref_lvls = c(-0.2, -0.1, 0.1, 0.2),
   ref_cols = c("violet", "violet", "orange", "orange"),
   main = "PARAFAC Comp. 1 Loadings + Ref. Spectrum")
@@ -63,6 +66,10 @@ Laboratory Systems} vol. 38 pgs. 149-171 (1997).
 
  A. Smilde, R. Bro and P. Geladi
 "Multi-way Analysis: Applications in the Chemical Sciences" Wiley (2004).
+}
+\seealso{
+For other data reduction methods for \code{Spectra2D} objects, see
+\code{\link{miaSpectra2D}} and \code{\link{popSpectra2D}}.
 }
 \author{
 Bryan A. Hanson, DePauw University.

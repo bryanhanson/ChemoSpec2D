@@ -1,4 +1,20 @@
 
+# ChemoSpec2D 0.2.55 2019-04-30
+
+## New Features
+* New function `popSpectra2D` computes "plain old PCA" on a `Spectra2D` data set, using the IRLBA algorithm. The data is unstacked before PCA.
+
+## Improvements
+* `pfacSpectra2D` now has a `nfac` as an argument; previously the user was warned to provide it.  This is clearer, more user-friendly and more consistent with other functions.
+* Small changes to several functions to work more consistently with changes in `ChemoSpecUtils` and `ChemoSpec` which introduce more PCA variants.
+* `miaLoadings`, `popLoadings` (never publically released), and `pfacLoadings` were collapsed into `plotLoadings2D`.
+* Improved reporting in `chkSpectra`.
+* NAMESPACE cleaned up a bit.
+* `files2Spectra2DObject` is now careful to remove any dimnames of the imported matrices, to avoid causing a ruckus with `chkSpectra`.
+
+## Deprecated Functions
+* `toChemoSpec` was removed as `popSpectra2D` provides a complete workflow corresponding to unstacking, computing PCA and reassembling the loadings.
+
 # ChemoSpec2D 0.2.19 2019-02-28
 
 ## Bug Fixes

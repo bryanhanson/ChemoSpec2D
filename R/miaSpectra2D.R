@@ -9,11 +9,15 @@
 #'
 #' @return A list per \code{\link[ThreeWay]{pcasup1}}.  Of particular interest are the
 #'   elements \code{C} containing the eigenvectors and \code{1c} containing the eigenvalues.
-#'   We add the class \code{mia} to the list for our use later.
+#'   We add the class \code{mia} to the list for our use later, as well as a \code{method}
+#'   element for annotating plots.
 #'
 #' @author Bryan A. Hanson, DePauw University.
 #'
 #' @keywords multivariate
+#'
+#' @seealso For other data reduction methods for \code{Spectra2D} objects, see
+#' \code{\link{pfacSpectra2D}} and \code{\link{popSpectra2D}}.
 #'
 #' @references
 #'
@@ -27,15 +31,13 @@
 #'
 #' @export
 #'
-#' @importFrom ThreeWay pcasup1
-#'
 #' @examples
 #'
 #' data(MUD1)
 #' res <- miaSpectra2D(MUD1)
 #' plotScores(MUD1, res, main = "MIA Scores", tol = 0.1, ellipse = "cls")
 #' plotScree(res)
-#' MUD1a <- miaLoadings(MUD1, res, load_lvls = c(-0.4, -0.2, 0.2, 0.4),
+#' MUD1a <- plotLoadings2D(MUD1, res, load_lvls = c(-0.4, -0.2, 0.2, 0.4),
 #'   main = "MIA Comp. 1 Loadings")
 #'
 #' # Selection of loading matrix levels can be aided by the following
@@ -67,6 +69,7 @@ miaSpectra2D <- function(spectra) {
   }
 
   t1 <- ThreeWay::pcasup1(X, n, m, p, 3)
+  t1$method <- "MIA"
   class(t1) <- "mia"
   
   return(t1)

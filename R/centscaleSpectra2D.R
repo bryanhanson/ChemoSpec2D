@@ -24,7 +24,6 @@
 #'
 #' @export
 #'
-#' @importFrom matrixStats colSds colMeans2
 #'
 #' @examples
 #'
@@ -35,19 +34,23 @@ centscaleSpectra2D <- function(spectra, choice = "noscale") {
 
 	.chkArgs(mode = 21L)
 	chkSpectra(spectra)
+
+  if (!requireNamespace("matrixStats", quietly = TRUE)) {
+    stop("You must install package matrixStats to use this function")
+  }
 	
 	A1 <- .makeArray(spectra) # frontal slabs contain spectra$data entries
 	A2 <- aperm(A1, perm = c(3, 2, 1))
 	
 	# center the data
-	for (i in 1:length(spectra$F1)) A2[,,i] <- A2[,,i] - colMeans2(A2[,,i], na.rm = TRUE)
+	for (i in 1:length(spectra$F1)) A2[,,i] <- A2[,,i] - matrixStats::colMeans2(A2[,,i], na.rm = TRUE)
 	
 	if (choice == "autoscale") {
-		for (i in 1:length(spectra$F1)) A2[,,i] <- A2[,,i]/colSds(A2[,,i], na.rm = TRUE)	
+		for (i in 1:length(spectra$F1)) A2[,,i] <- A2[,,i]/matrixStats::colSds(A2[,,i], na.rm = TRUE)	
 	}
 	
 	if (choice == "Pareto") {
-		for (i in 1:length(spectra$F1)) A2[,,i] <- A2[,,i]/sqrt(colSds(A2[,,i], na.rm = TRUE))	
+		for (i in 1:length(spectra$F1)) A2[,,i] <- A2[,,i]/sqrt(matrixStats::colSds(A2[,,i], na.rm = TRUE))	
 	}
 		
 	A3 <- aperm(A2, c(3, 2, 1)) # restore original orientation
