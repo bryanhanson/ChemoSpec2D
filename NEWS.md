@@ -1,6 +1,12 @@
 
 # ChemoSpec2D 0.3.xx 2019-xx-xx
 
+## Bug Fixes
+* An issue with the setting of x and y limits in `plotScores` was fixed.  This was a long standing bug that somehow escaped notice. Note that `plotScores` is actually in `ChemoSpecUtils` but is called from `ChemoSpec2D`, affecting the results here.
+
+## Misc.
+* Documentation `colorSymbol` was moved to package `ChemoSpecUtils`.
+
 # ChemoSpec2D 0.2.55 2019-04-30
 
 ## New Features

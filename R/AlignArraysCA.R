@@ -1,5 +1,5 @@
 #'
-#' Globally Align 2D NMR Spectra, Including Stacks of 2D Spectra
+#' Globally Align 2D NMR Spectra, Including Arrays Composed of Stacks of 2D Spectra
 #'
 #' This function attempts to align (multiple) 2D NMR spectra via a simple optimization
 #' approach, on a discrete grid corresponding to the matrix indices.
@@ -53,14 +53,14 @@
 #' Roughly follows the algorithm described in Robinette et al. 2011
 #'            \emph{Anal. Chem.} vol. 83, 1649-1657 (2011) dx.doi.org/10.1021/ac102724x
 #'
-#' @importFrom graphics legend points
+#' @importFrom graphics legend points lines
 #' @importFrom stats na.omit optimize
 #'
 #' @export
 #' @noRd
 #'
 
-.globalAlignArraysCA <- function(Ref, Mask,
+.AlignArraysCA <- function(Ref, Mask,
 	maxColShift = 40, maxRowShift = 40,
 	thres = 0.98, iter = 20,  stopWhen = c(0.02, 5),
 	plot = FALSE, title = NULL, debug = 0L) {
@@ -70,31 +70,37 @@
   # The method here based on bookdown.org/rdpeng/advstatcomp/coordinate-descent.html
   # Step 0. Initialize a Few Things.
     
-  currOF <- 0.0 # OF is 1 - distance so we want to MAXimize this value
+  # currOF <- 0.0 # OF is 1 - distance so we want to MAXimize this value
   posX <- 0L
   posY <- 0L
   outcome <- "Exceeded threshold"
   
   historyX <- rep(NA_integer_, iter)
   historyY <- rep(NA_integer_, iter)
+  historyXr <- rep(NA_real_, iter) # we will also track the non-rounded values
+  historyYr <- rep(NA_real_, iter)
   historyOF <- rep(NA_real_, iter)
   
-  # Helper Functions
+  # Wrappers to change the order of arguments
   fx <- function(x, y, Mask, Ref) {
-  	.evalMatrixOverlap(Ref, Mask, x, y)
+  	.evalArrayOverlap(Ref = Ref, Mask = Mask, posx = x, posy = y)
   }
   
   fy <- function(y, x, Mask, Ref) {
-  	.evalMatrixOverlap(Ref, Mask, x, y)
+  	.evalArrayOverlap(Ref = Ref, Mask = Mask, posx = x, posy = y)
   }
  
   # Check to see, if by chance, the matrices are perfectly aligned with no shifts.
   # If so, the while loop will be skipped saving lots of time.
 
-  currOF <- .evalMatrixOverlap(Ref, Mask, 0, 0) # iteration 1
+  currOF <- .evalArrayOverlap(Ref, Mask, 0, 0) # iteration 1
   historyX[1] <- 0L
   historyY[1] <- 0L
   historyOF[1] <- currOF
+  historyXr[1] <- 0.0
+  historyYr[1] <- 0.0
+  opY <- list(maximum = 0.0) # needed for first iteration only
+  opX <- list(maximum = 0.0)
   
   it <- 2L # iteration counter
 
@@ -120,12 +126,16 @@
     
     if ((it %% 2) == 0) {
       opX <- optimize(fx, c(-1*maxColShift, maxColShift), y = posY, Mask = Mask, Ref = Ref, maximum = TRUE)
+      historyXr[it] <- opX$maximum
+      historyYr[it] <- opY$maximum # value from prev iteration
       posX <- round(opX$maximum) # must round here, as will be coerced later when used as index
       currOF <- opX$objective
     }
     
     if ((it %% 2) == 1) {
-      opY <- optimize(fy, c(-1*maxColShift, maxColShift), x = posX, Mask = Mask, Ref = Ref, maximum = TRUE)
+      opY <- optimize(fy, c(-1*maxRowShift, maxRowShift), x = posX, Mask = Mask, Ref = Ref, maximum = TRUE)
+      historyYr[it] <- opY$maximum
+      historyXr[it] <- opX$maximum # value from prev iteration
       posY <- round(opY$maximum)
       currOF <- opY$objective
     }
@@ -142,7 +152,10 @@
   
   DF <- data.frame(x = historyX,
   	               y = historyY,
+  	               xr = historyXr,
+  	               yr = historyYr,
   	               OF = historyOF)
+    
   DF <- DF[1:(it-1),]
   best <- which.max(DF$OF)
   bestX <- DF$x[best]
@@ -155,7 +168,7 @@
   	# first plot
   	plot(DF$OF, type = "b", xlab = "iteration", ylab = "OF", ylim = c(0, 1))
   	abline(h = thres, col = "gray90")
-  	points(nrow(DF), DF$OF[best], pch = 20)
+  	points(best, DF$OF[best], pch = 20)
   	mtext("Alignment Progress", line = 1)
   	mtext("black dot = optimal alignment", line = 0, col = "black", cex = 0.75)
    	legend("bottomleft", outcome, col = "black", cex = 0.75, bty = "n")
@@ -181,9 +194,10 @@
   	  xlab = "x position", ylab = "y position")
   	abline(h = 0, v = 0, col = "gray90")
   	points(DF$x[best], DF$y[best], pch = 20)
+  	lines(DF$xr, DF$yr, col = "red", type = "l")
   	mtext("Search Path", line = 1)
-  	mtext("black dot = optimal alignment", line = 0, col = "black", cex = 0.75)
-  	info <- paste("opt. shift: x =", round(DF$x[best]), "y =", round(DF$y[best]), sep = " ")
+  	mtext("red line = path prior to rounding", line = 0, col = "red", cex = 0.75)
+  	info <- paste("opt. shift: x =", DF$x[best], "y =", DF$y[best], sep = " ")
   	mtext(info, side = 4)
   	on.exit(par(op))
   } # end of plot == TRUE
@@ -193,11 +207,11 @@
   # If shift is zero simply return the mask
 
   # optimal alignment is no change -- exit now
-  if ((posX == 0L) & (posY == 0L)) return(list(AA = Mask, diagnostics = DF))
+  if ((bestX == 0L) & (bestY == 0L)) return(list(AA = Mask, diagnostics = DF))
 
   # otherwise shift
-  
-  Ash <- .shiftArray(Mask, -bestX, -bestY, fill = "zero")
+    
+  Ash <- .shiftArray(Mask, bestX, bestY, fill = "zero")
   dimnames(Ash) <- NULL
   return(list(AA = Ash, diagnostics = DF))
 }

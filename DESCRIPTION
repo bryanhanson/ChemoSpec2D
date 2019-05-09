@@ -1,8 +1,8 @@
 Package: ChemoSpec2D
 Type: Package
 Title: Exploratory Chemometrics for 2D Spectroscopy
-Version: 0.3.2
-Date: 2019-04-30
+Version: 0.3.22
+Date: 2019-05-07
 Authors@R: c(
     person("Bryan A.", "Hanson",
     role = c("aut", "cre"), email =
@@ -24,7 +24,11 @@ Suggests:
   multiway,
   parallel,
   matrixStats,
-  R.utils
+  R.utils,
+  lhs,
+  mlr,
+  mlrMBO,
+  smoof
 URL: https://github.com/bryanhanson/ChemoSpec2D
 BugReports: https://github.com/bryanhanson/ChemoSpec2D/issues
 ByteCompile: TRUE

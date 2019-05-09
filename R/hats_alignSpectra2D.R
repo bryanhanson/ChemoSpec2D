@@ -2,7 +2,8 @@
 #' Align the Spectra in a Spectra2D Object using the HATS algorithm.
 #' 
 #' Align the spectra in a \code{\link{Spectra2D}} object using an implementation
-#' of the HATS algorithm described by Robinette \emph{et al.}.  The algorithm
+#' of the HATS algorithm described by Robinette \emph{et al.}.  Currently, only
+#' global, not local, alignment is carried out.  The algorithm
 #' used here assumes the shift needed to align the spectra is relatively small and
 #' performs well in such cases. If some spectra are significantly shifted, the approach
 #' here does not perform that well.  More data sets are needed for testing to improve the
@@ -26,7 +27,8 @@
 #' @param iter Integer. The maximum number of iterations.
 #'
 #' @param method Character. Currently only \code{method = "CA"} is available which uses
-#'               a coordinate ascent method to align the spectra.
+#'        the HATS algorithm plus a coordinate ascent method to align the spectra.
+#'        Use \code{plot = TRUE} to see this in action.
 #'
 #' @param stopWhen Length two numeric vector.  The first value is a change in the
 #'        objective function. Let's call it \code{v}.  The second value is a number of data points
@@ -51,7 +53,7 @@
 #' @importFrom stats hclust
 #'
 
-alignSpectra2D <- function(spectra, maxF2 = NULL, maxF1 = NULL,
+hats_alignSpectra2D <- function(spectra, maxF2 = NULL, maxF1 = NULL,
   thres = 0.98, iter = 10, stopWhen = c(0.02, 5),
   plot = FALSE, debug = 0, method = "CA") {
 
@@ -60,6 +62,11 @@ alignSpectra2D <- function(spectra, maxF2 = NULL, maxF1 = NULL,
   if (is.null(maxF2)) maxF2 <- 20
   if (is.null(maxF1)) maxF1 <- 20
 
+  msg <- "This is a beta version of hats_alignSpectra2D.\n
+    Please check your results carefully, and consider sharing your data\n
+    for additional testing.  Contact Bryan Hanson via hanson@depauw.edu"
+  message(msg)
+  
   # Step 1.  Unstack to 2D matrix
   M <- .unstack(spectra)
   
@@ -68,7 +75,7 @@ alignSpectra2D <- function(spectra, maxF2 = NULL, maxF1 = NULL,
   # hc <- hclust(as.dist(cor(t(M)))) # correlation is invariant to shift so it's probably not the best choice here
   hc <- hclust(rowDist(M, "cosine")) # cosine sensitive to shift, also on [-1,1]
   if (debug >= 2L) print(hc$merge)
-  # if (plot == TRUE) plot(hc)
+  if (plot == TRUE) plot(hc)
   
   # Step 3.  Create a list giving the spectra to be aligned at each step,
   #          working from the lowest point on the dendrogram
@@ -91,9 +98,9 @@ alignSpectra2D <- function(spectra, maxF2 = NULL, maxF1 = NULL,
   	Mask <- .makeArray2(spectra, m)
   	
   	if (method == "CA") {
-  	  AA <- .globalAlignArraysCA(Ref, Mask,
+  	  AA <- .AlignArraysCA(Ref, Mask,
   	  maxColShift = maxF2, maxRowShift = maxF1,
-  	  debug = debug, title = dtitle)$AA
+  	  debug = debug, plot = plot, title = dtitle)$AA
   	}
 
   	for (j in 1:dim(AA)[1]) { # get the number of slabs in AA

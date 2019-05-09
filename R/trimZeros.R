@@ -4,6 +4,6 @@
 #' @noRd
 #'  
 .trimZeros <- function(spectra) {
-	UseMethod("trimZeros")
+	UseMethod(".trimZeros")
 }
 

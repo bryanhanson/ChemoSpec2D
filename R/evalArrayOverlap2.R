@@ -4,15 +4,15 @@
 #' @noRd
 #'
 
-.evalMatrixOverlap <- function(Ref, Mask, posx, posy) {
+#
+# This version for use with mlrMBO:
+#   1. requires that Ref and Mask are in the global environment
+#   2. x is vectorized: x[1] is posx, x[2] is posy (immediately reassigned for consistency)
+#
+.evalArrayOverlap2 <- function(x) {
 
-  # posx and posy don't change here!
-  # NOTE: lower values of OF mean the spectra are more similar, so we want to minimize the value of OF.
-  # However, we will return 1 - OF so we can use it conceptually as something to be maximized in the
-  # other functions.
-  
-  # Note: posx and posy can be numeric but will be coerced to integer and then used as indices
-  # BUT coercion simply drops the decimal (doesn't round) so that's not the right answer!
+  posx <- x[1]
+  posy <- x[2]
   
   OF1 <- function(MA, MB) rowDist(matrix(c(c(MA), c(MB)), nrow = 2, byrow = TRUE), "cosine") # MA, MB are matrices
   
@@ -34,15 +34,6 @@
   # Mask moves over Ref in x and y directions, evaluate, store positions & results
   # Modified Ref will be put in A1
   # Modified Mask will be put in A2
-  # The code in the Brute Force version may be helpful to understand the strategy here
-  # except here we are starting at 0,0 not in the lower left of possibilities.
-
-  # The code here is related to the code in .shiftArray, however here the overlap region
-  # does not have the same dimensions as the original matrices/arrays, and thus there
-  # is no fill parameter.
-  # Looks like we could use .shiftArray, calling it once for Ref and once for Mask,
-  # if .shiftArray gained a fill = "shrink" argument
-  # PROJECT FOR LATER
   
   # Modify Ref, the reference, in the x-direction (cols)
   if (posx > 0) A1 <- Ref[,-(1:abs(posx)),,drop = FALSE] # mask is to the right of the reference
