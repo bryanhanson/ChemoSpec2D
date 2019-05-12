@@ -25,6 +25,11 @@
   xshift = 0, yshift = 0,
   fill = "zero") {
   
+  xshift <- as.integer(xshift)
+  yshift <- as.integer(yshift)
+  
+  if ((xshift == 0L) & (yshift == 0L)) stop(".shiftArray received shift instructions of 0,0")
+    
   if (abs(xshift) >= (dim(A)[3]-2)) stop("Cannot shift matrix that far in x-direction")
   if (abs(yshift) >= (dim(A)[2]-2)) stop("Cannot shift matrix that far in y-direction")
   

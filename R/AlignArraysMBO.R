@@ -1,17 +1,16 @@
 #'
-#' Globally Align 2D NMR Spectra, Including Arrays Composed of Stacks of 2D Spectra
+#' Globally Align Arrays, Including Arrays Composed of Stacks of 2D NMR Spectra
 #'
-#' This function attempts to align (multiple) 2D NMR spectra via a simple optimization
-#' approach, on a discrete grid corresponding to the matrix indices.
+#' This function attempts to align (multiple) 2D NMR spectra, storing the spectra as arrays.
+#' Alignment occurs on a discrete grid corresponding to the indices. The arrays are arranged 
+#' such that one is aligning their projection onto a 2D grid, which means one is shifting the
+#' arrays in 2D -- essentially the problem reduces to aligning matrices along their indices.
 #' The potential alignment space runs from \code{-maxColShift} \ldots \code{maxColShift} and \code{-maxRowShift}
-#' \ldots \code{maxRowShift}. The mask matrix is moved over the reference matrix starting at the center,
-#' and the region of overlap is evaluated by the objective function.  Think of this as moving the
-#' the center of the mask over the reference matrix while looking for the best fit. 
+#' \ldots \code{maxRowShift}.
 #'
-#' The strategy used does not involve any random moves.  The search for the optimum alignment starts
-#' by checking the situation with no shifts.  If the threshold is exceeded the search is done.  If the threshold
-#' is not exceeded, a coordinate ascent strategy is used to find the next position to evaluate. This is repeated
-#' until one of the stopping criteria are satisfied.
+#' The strategy used is "Model Based Optimization" or MBO, which is also known as "Bayesian Optimization"
+#' or BO.  The search for the optimum alignment starts by checking if no shift exceeds the threshold.  If so,
+#' no search is needed.  If the threshold is not exceeded, we proceed to MBO/BO.
 #'
 #' @param Ref Numeric Array. An array of 2D spectra with the first dimension being \code{1:no. samples}.
 #'        A single spectrum is fine as along as it is an array, with first dimension = 1.
@@ -24,24 +23,28 @@
 #'
 #' @param maxRowShift Integer.  As for \code{maxColShift}, but for the y-dimension/rows.
 #'
-#' @param thres Numeric. The stopping criterion. Once the objective function reaches
-#'        this value the search stops.  The objective function is the cosine of the angle
+#' @param thres Numeric. Prior to launching the optimization, the objective function is evaluated
+#'        for no shift in case this is actually the best alignment (saving a great deal of time).
+#'        If this initial check exceeds the value of \code{thres}, no optimization is performed
+#'        and the unshifted spectra are returned.  The objective function is the cosine of the angle
 #'        between the unstacked spectra, so \code{thres} should be on [0 \ldots 1].
 #'
-#' @param iter Integer. The maximum number of iterations.
+#' @param no.it Integer. The maximum number of iterations in the optimization.
 #'
+#' @param restarts Integer. The maximum number of independent rounds of optimization.
 #'
 #' @param plot Logical. Shall a plot of the alignment progress be made?  The plot is useful for
-#'        diagnostic purposes.
+#'        diagnostic purposes.  Every step of the alignment has a corresponding plot so you should
+#'        probably direct the output to a pdf file.
 #'
-#' @return A list, with two elements: \code{AA} the aligned matrix, which is a shifted version
-#'         of the mask (Mask), and \code{diagnostics}, a data frame providing information
-#'         about the history of the alignment (and is the basis for the diagnostic plot).
+#' @return A list with two elements: 1. The aligned matrix, which is a shifted version of the mask (AA).
+#'         2. A length two integer vector containing the optimal x and y shifts (shift).
 #'
-#' @importFrom smoof makeSingleObjectiveFunction
-#' @importFrom lhs generateDesign
-#' @importFrom mlr makeLearner
-#' @importFrom mlrMBO mbo makeMBOcontrol setMBOControlTermination setMBOControlInfill
+# #' @importFrom smoof makeSingleObjectiveFunction
+# #' @importFrom ParamHelpers generateDesign makeParamSet makeIntegerVectorParam getParamSet
+# #' @importFrom mlr makeLearner
+# #' @importFrom lhs randomLHS
+# #' @importFrom mlrMBO mbo makeMBOControl setMBOControlTermination setMBOControlInfill makeMBOInfillCritEI
 #'
 #' @export
 #' @noRd
@@ -49,24 +52,34 @@
 
 .AlignArraysMBO <- function(Ref, Mask,
 	maxColShift = 40, maxRowShift = 40,
-	thres = 0.99, iter = 10L, plot = FALSE) {
+	thres = 0.99, no.it = 20L, restarts = 2L,
+	plot = FALSE, debug = 0L) {
 
   if (!all(dim(Ref)[2:3] == dim(Mask)[2:3])) stop("Arrays Ref and Mask must have the same dimensions")
      
   # Step 1. Check to see, if by chance, the matrices are perfectly aligned with no shifts.
-  # If so, we can skip the optimization process, and exit now
+  # If so, we can skip the optimization process, and exit now.
 
-  currOF <- .evalArrayOverlap2(c(0L, 0L))
-  if (currOF >= thres) return(AA = Mask)
+  currOF <- .evalArrayOverlapMBO(c(0L, 0L))
+  if (currOF >= thres) return(list(AA = Mask, shift = c(0L, 0L)))
   
   # Step 2.  Run MBO to find best overlap
+
+  makeF <- function(Ref, Mask) {
+  	force(Ref)
+  	force(Mask)
+  	# see .evalArrayOverlapMBO for the mechanism of retrieving Ref and Mask from the calling environment
+    function(x) {.evalArrayOverlapMBO(x)}
+  }
   
-  objF <- makeSingleObjectiveFunction(
-    name = "Eval Array Overlap",
-    fn = .evalArrayOverlap2,
+  optFun <- makeF(Ref, Mask)
+  
+  objF <- smoof::makeSingleObjectiveFunction(
+    name = "Eval Array Overlap MBO",
+    fn = optFun,
     minimize = FALSE,
-    par.set = makeParamSet(
-      makeIntegerVectorParam(
+    par.set = ParamHelpers::makeParamSet(
+      ParamHelpers::makeIntegerVectorParam(
         len = 2L,
         id = "x",
         lower = c(-maxColShift, -maxRowShift),
@@ -75,19 +88,39 @@
     )
   )
   
-  des <- generateDesign(n = 10L, getParamSet(objF), fun = randomLHS)
-  surrogate = makeLearner("regr.km", predict.type = "se", covtype = "matern3_2")
-  ctrl = makeMBOControl()
-  ctrl = setMBOControlTermination(ctrl, iters = iter)
-  ctrl = setMBOControlInfill(ctrl, crit = makeMBOInfillCritEI())
+  search_space = (2*maxColShift + 1) * (2*maxRowShift + 1)
+    
+  des <- ParamHelpers::generateDesign(n = 20L, ParamHelpers::getParamSet(objF), fun = lhs::randomLHS)
+  surrogate <- mlr::makeLearner("regr.km",
+    predict.type = "se",
+    covtype = "matern3_2",
+    config = list(show.learner.output = FALSE))
+  ctrl <- mlrMBO::makeMBOControl()
+  ctrl <- mlrMBO::setMBOControlTermination(ctrl, iters = no.it)
+  ctrl <- mlrMBO::setMBOControlInfill(ctrl, crit = mlrMBO::makeMBOInfillCritEI(),
+    opt.focussearch.points = floor(search_space),  # using 50% of points
+    opt.restarts = restarts)
 
-  res <- mbo(objF, des, surrogate, ctrl)
-
+  # next line: show.info = FALSE suppresses the info about the set up of the Latin Square
+  res <- mlrMBO::mbo(objF, des, surrogate, ctrl, show.info = TRUE)
+  if (plot) plot(res)
+  
+  bestY <- res$x$x[1] # Note that the returned value of x1 corresponds to rows and hence y values
+  bestX <- res$x$x[2]
+  
+  if (debug >= 1) cat("[ChemoSpec2D] Best alignment is to shift F2 by ", -bestX, " and F1 by ", -bestY, "\n\n")
+  
   # Step 3. Create the modified mask
   # The mask (Mask) is "moved", not the reference
-    
-  Ash <- .shiftArray(Mask, res$x[1], res$x[2], fill = "zero")
+  # It's possible that we did not exceed the threshold in Step 1, but the best answer is still
+  # to not shift.  We have to capture that here as .shiftArray does not care for such input.
+  
+  if ((bestX == 0L) & (bestY == 0L)) return(list(AA = Mask, shift = c(0L, 0L)))
+  
+  # Note negation in next step
+  Ash <- .shiftArray(Mask, xshift = -bestX, yshift = -bestY, fill = "zero")
   dimnames(Ash) <- NULL
-  return(AA = Ash)
+  
+  return(list(AA = Ash, shift = c(-bestX, -bestY)))
 }
 

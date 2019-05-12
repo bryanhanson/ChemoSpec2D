@@ -9,15 +9,15 @@
 #   1. requires that Ref and Mask are in the global environment
 #   2. x is vectorized: x[1] is posx, x[2] is posy (immediately reassigned for consistency)
 #
-.evalArrayOverlap2 <- function(x) {
+.evalArrayOverlapMBO <- function(x) {
 
   posx <- x[1]
   posy <- x[2]
+  Ref <- get("Ref", envir = parent.frame())
+  Mask <- get("Mask", envir = parent.frame())
   
   OF1 <- function(MA, MB) rowDist(matrix(c(c(MA), c(MB)), nrow = 2, byrow = TRUE), "cosine") # MA, MB are matrices
-  
-  # COULD WRITE A matDist function, might be slightly faster
-    
+      
   OF <- function(MA, MB) { # MA, MB are arrays of matrices
   	nSa <- dim(MA)[1] # no. samples in array A
   	nSb <- dim(MB)[1] # no. samples in array B
@@ -31,7 +31,7 @@
   	tot
   }
 
-  # Mask moves over Ref in x and y directions, evaluate, store positions & results
+  # Conceptually, Mask moves over Ref in x and y directions, evaluate, store positions & results
   # Modified Ref will be put in A1
   # Modified Mask will be put in A2
   
