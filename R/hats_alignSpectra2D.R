@@ -10,7 +10,7 @@
 #' @param maxF2 Integer.  The most extreme positive \code{F2step} to allow during the
 #'        alignment process (units are data points).  Search for the optimal alignment will
 #'        cover the region \code{-maxColShift} \ldots \code{maxColShift} and \code{-maxRowShift}
-#'        \ldots \code{maxRowShift}.
+#'        \ldots \code{maxRowShift}. Default is 10\% of the data points in the dimension.
 #'
 #' @param maxF1 Integer.  As for \code{maxF2}, but for F1.
 #'
@@ -61,15 +61,31 @@
 #' @export
 #' @importFrom stats hclust
 #'
-
+#' @examples
+#' \dontrun{
+#' data(MUD2)
+#' sumSpectra(MUD2)
+#' # You might want to direct the diagnostic output here to a pdf file
+#' # This alignment takes about 90 seconds including the plotting overhead
+#' MUD2a <- hats_alignSpectra2D(MUD2, method = "MBO", debug = 1, plot = TRUE)
+#' mylvls <- seq(3, 30, 3)
+#' col1 <- rep("black", length(mylvls))
+#' col2 <- rep("red", length(mylvls))
+#' col3 <- rep("blue", length(mylvls))
+#' col4 <- rep("green", length(mylvls))
+#' plotSpectra2D(MUD2a, which = c(3, 6, 2, 5),
+#'   lvls = list(mylvls, mylvls, mylvls, mylvls),
+#'   cols = list(col1, col2, col3, col4))
+#' }
+#' 
 hats_alignSpectra2D <- function(spectra, maxF2 = NULL, maxF1 = NULL,
   thres = 0.99, no.it = 20L, restarts = 2L, method = "MBO", trimZeros = TRUE,
   plot = FALSE, debug = 1) {
 
   .chkArgs(mode = 21L)
   chkSpectra(spectra)
-  if (is.null(maxF2)) maxF2 <- 20
-  if (is.null(maxF1)) maxF1 <- 20
+  if (is.null(maxF2)) maxF2 <- floor(0.1*length(spectra$F2))
+  if (is.null(maxF1)) maxF1 <- floor(0.1*length(spectra$F1))
 
   msg <- "This is a beta version of hats_alignSpectra2D.
     Please check your results carefully, and consider sharing your data

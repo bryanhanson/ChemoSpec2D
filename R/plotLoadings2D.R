@@ -1,8 +1,8 @@
 #'
 #' Plot Loadings from a PARAFAC, MIA or POP Analysis of a Spectra2D Object
 #' 
-#' Plots loadings from a PARAFAC, MIA or POP analysis of a \code{\link{Spectra2D}} object.
-#' The loadings matrix has has dimensions
+#' Computes (if necessary) and plots loadings from a PARAFAC, MIA or POP analysis of a
+#' \code{\link{Spectra2D}} object. The loadings matrix has has dimensions
 #' F2 x F1 and is a 2D pseudo-spectrum.  A reference spectrum may also be drawn.
 #' 
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
@@ -40,7 +40,7 @@
 #'
 #' @param plot Logical.  Shall a plot be made?  Plotting large data sets can be slow.
 #'        Run the function with \code{plot = FALSE}, then use \code{\link{inspectLvls}}
-#'        to figure out desirable levels, then create the plot.
+#'        to figure out desirable levels, then set \code{plot = TRUE}.
 #'
 #' @param \dots Additional parameters to be passed to plotting functions.  For instance
 #'        \code{showGrid = TRUE}.
@@ -131,22 +131,21 @@ plotLoadings2D <- function(spectra, so,
 	  	  soOK <- TRUE
 	  	  if (load > ncol(so$rotation)) stop("Requested load does not exist")
 	  	
-		  #M <- so$x[, load] %*% t(so$rotation[, load])
 		  L <- so$rotation[,load]
 		  nF1 <- length(spectra$F1)
 		  nF2 <- length(spectra$F2)
-
-		  stackByColumn <- function(IN, nrow, ncol){ # Helper function from HandyStuff
-			if (length(IN)/nrow != ncol) stop("Dimensions don't make sense in stackByColumn")
+          
+          stackByRow <- function(IN, nrow, ncol){ # Helper function from HandyStuff
+			if (length(IN)/nrow != ncol) stop("Dimensions don't make sense in stackByRow")
 			OUT <- matrix(NA_real_, nrow = nrow, ncol = ncol)
-			idx <- seq(nrow, length(IN), nrow)
-			for (n in 1:ncol){
-				OUT[,n] <- IN[(idx[n]-nrow+1):(idx[n])]
+			idx <- seq(ncol, length(IN), ncol)
+			for (n in 1:nrow){
+				OUT[n,] <- IN[(idx[n]-ncol+1):(idx[n])]
 				}
 			OUT
-			}
-          
-          M <- stackByColumn(L, nF1, nF2)
+		  }
+
+          M <- stackByRow(L, nF1, nF2)
 		   
 	  } # end of pop
 

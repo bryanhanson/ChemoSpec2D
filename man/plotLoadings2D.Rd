@@ -44,7 +44,7 @@ spectrum. If \code{NULL}, set to gray.}
 
 \item{plot}{Logical.  Shall a plot be made?  Plotting large data sets can be slow.
 Run the function with \code{plot = FALSE}, then use \code{\link{inspectLvls}}
-to figure out desirable levels, then create the plot.}
+to figure out desirable levels, then set \code{plot = TRUE}.}
 
 \item{\dots}{Additional parameters to be passed to plotting functions.  For instance
 \code{showGrid = TRUE}.}
@@ -55,8 +55,8 @@ The loadings matrix will be appended with a sample of name of Loadings_x where
 \code{x = load}. Side effect is a plot.
 }
 \description{
-Plots loadings from a PARAFAC, MIA or POP analysis of a \code{\link{Spectra2D}} object.
-The loadings matrix has has dimensions
+Computes (if necessary) and plots loadings from a PARAFAC, MIA or POP analysis of a
+\code{\link{Spectra2D}} object. The loadings matrix has has dimensions
 F2 x F1 and is a 2D pseudo-spectrum.  A reference spectrum may also be drawn.
 }
 \section{Scale}{

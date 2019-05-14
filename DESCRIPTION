@@ -1,8 +1,8 @@
 Package: ChemoSpec2D
 Type: Package
 Title: Exploratory Chemometrics for 2D Spectroscopy
-Version: 0.3.88
-Date: 2019-05-11
+Version: 0.3.97
+Date: 2019-05-14
 Authors@R: c(
     person("Bryan A.", "Hanson",
     role = c("aut", "cre"), email =

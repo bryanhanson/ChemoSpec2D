@@ -22,7 +22,8 @@ themselves (desirable for instance if working on Azure or AWS EC2).}
 \item{\dots}{Additional parameters to be passed to function \code{\link[multiway]{parafac}}.
 You should give thought to value of \code{const}, allowed options can be seen in
 \code{\link[CMLS]{const}}. The default is to compute an unconstrained solution.
-However, in some cases one may wish to apply a non-negativity constraint.}
+However, in some cases one may wish to apply a non-negativity constraint.  Also,
+to suppress the progress bar, you can use \code{verbose = FALSE}.}
 }
 \value{
 An object of class \code{pfac} and \code{parafac}, modified to include a list
@@ -32,7 +33,7 @@ element called \code{$method} which is \code{parafac}.
 Carry out PARAFAC analysis of a \code{\link{Spectra2D}} object.
 Function \code{\link[multiway]{parafac}} from \pkg{multiway} is used.
 For large data sets, computational time may be long enough that
-it might desirable to run in batch mode.
+it might desirable to run in batch mode and possibly use parallel processing.
 }
 \section{Warning}{
 

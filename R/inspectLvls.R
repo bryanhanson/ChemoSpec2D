@@ -6,7 +6,7 @@
 #' used in the histogram so you can choose levels that are suitable for any
 #' particular spectrum.  However, loading matrices are excluded unless specified 
 #' as the input. Any of the arguments to \code{\link{calcLvls}} can be used
-#' to capture the computed levels, or you can choose by inspection.
+#' to compute the levels, or you can choose by inspection.
 #' 
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'
@@ -46,7 +46,7 @@ inspectLvls <- function(spectra, loading = NULL, ...) {
   	pat <- paste("Loading", loading, sep = "_")
   	Ldone <- grep(pat, spectra$names)
   	if (length(Ldone) == 0) stop("This Spectra2D object did not contain loadings.\n\t
-  	  You need to run miaLoadings or pfacLoadings first.")
+  	  You need to run plotLoadings2D and save the results.")
   	lvls <- calcLvls(spectra$data[[Ldone]], showHist = TRUE, ...)
    }
    

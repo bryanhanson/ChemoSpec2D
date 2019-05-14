@@ -23,7 +23,7 @@ for preparing contour and image type plots.  The entire range of the data is
 used in the histogram so you can choose levels that are suitable for any
 particular spectrum.  However, loading matrices are excluded unless specified 
 as the input. Any of the arguments to \code{\link{calcLvls}} can be used
-to capture the computed levels, or you can choose by inspection.
+to compute the levels, or you can choose by inspection.
 }
 \examples{
 
