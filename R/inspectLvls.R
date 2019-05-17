@@ -28,8 +28,8 @@
 #' @examples
 #' 
 #' data(MUD1)
-#' inspectLvls(MUD1, ylim = c(0, 50), main = "All MUD1 Data, mode = even")
-#' inspectLvls(MUD1, ylim = c(0, 50), mode = "NMR",  main = "All MUD1 Data, mode = NMR")
+#' inspectLvls(MUD1, ylim = c(0, 300), main = "All MUD1 Data, mode = even")
+#' inspectLvls(MUD1, ylim = c(0, 300), mode = "NMR",  main = "All MUD1 Data, mode = NMR")
 #' 
 inspectLvls <- function(spectra, loading = NULL, ...) {
 
@@ -45,7 +45,7 @@ inspectLvls <- function(spectra, loading = NULL, ...) {
   if (!is.null(loading)) {
   	pat <- paste("Loading", loading, sep = "_")
   	Ldone <- grep(pat, spectra$names)
-  	if (length(Ldone) == 0) stop("This Spectra2D object did not contain loadings.\n\t
+  	if (length(Ldone) == 0) stop("This Spectra2D object did not contain loadings.
   	  You need to run plotLoadings2D and save the results.")
   	lvls <- calcLvls(spectra$data[[Ldone]], showHist = TRUE, ...)
    }

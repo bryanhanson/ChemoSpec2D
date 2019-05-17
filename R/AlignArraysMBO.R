@@ -33,18 +33,19 @@
 #'
 #' @param restarts Integer. The maximum number of independent rounds of optimization.
 #'
+#' @param debug Integer.  Values >= 1 give messages about alignment progress in black text.  Values >= 2
+#'        print the merge matrix from the \code{hclust} object, which serves as the guide tree.
+#'        Depending upon the optimization method values >= 2 may give additional information.
+#'        For \code{method = "MBO"} values less than 2 suppress some messages and warnings from
+#'        the underlying functions.  If the alignment doesn't work well, set \code{debug = 2}.
+#'        Setting \code{plot = TRUE} also gives a view of alignment progress.
+#'
 #' @param plot Logical. Shall a plot of the alignment progress be made?  The plot is useful for
 #'        diagnostic purposes.  Every step of the alignment has a corresponding plot so you should
 #'        probably direct the output to a pdf file.
 #'
 #' @return A list with two elements: 1. The aligned matrix, which is a shifted version of the mask (AA).
 #'         2. A length two integer vector containing the optimal x and y shifts (shift).
-#'
-# #' @importFrom smoof makeSingleObjectiveFunction
-# #' @importFrom ParamHelpers generateDesign makeParamSet makeIntegerVectorParam getParamSet
-# #' @importFrom mlr makeLearner
-# #' @importFrom lhs randomLHS
-# #' @importFrom mlrMBO mbo makeMBOControl setMBOControlTermination setMBOControlInfill makeMBOInfillCritEI
 #'
 #' @export
 #' @noRd
@@ -73,7 +74,7 @@
   }
   
   optFun <- makeF(Ref, Mask)
-  
+    
   objF <- smoof::makeSingleObjectiveFunction(
     name = "Eval Array Overlap MBO",
     fn = optFun,
@@ -93,16 +94,22 @@
   des <- ParamHelpers::generateDesign(n = 20L, ParamHelpers::getParamSet(objF), fun = lhs::randomLHS)
   surrogate <- mlr::makeLearner("regr.km",
     predict.type = "se",
-    covtype = "matern3_2",
-    config = list(show.learner.output = FALSE))
+    covtype = "matern3_2")
   ctrl <- mlrMBO::makeMBOControl()
   ctrl <- mlrMBO::setMBOControlTermination(ctrl, iters = no.it)
   ctrl <- mlrMBO::setMBOControlInfill(ctrl, crit = mlrMBO::makeMBOInfillCritEI(),
     opt.focussearch.points = floor(search_space),  # using 50% of points
     opt.restarts = restarts)
 
-  # next line: show.info = FALSE suppresses the info about the set up of the Latin Square
-  res <- mlrMBO::mbo(objF, des, surrogate, ctrl, show.info = TRUE)
+  # We've got a lot of clunkiness to control the info from mlrMBO and friends
+  # and keep a clean user experience
+  # show.info = FALSE suppresses the info about the set up of the Latin Square
+  if (debug >= 2) res <- mlrMBO::mbo(objF, des, surrogate, ctrl, show.info = TRUE)
+  if (debug < 2) {
+  	mlr::configureMlr(show.learner.output = FALSE)
+  	suppressWarnings(res <- mlrMBO::mbo(objF, des, surrogate, ctrl, show.info = FALSE))
+  }
+  
   if (plot) plot(res)
   
   bestY <- res$x$x[1] # Note that the returned value of x1 corresponds to rows and hence y values

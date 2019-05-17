@@ -28,8 +28,8 @@ to compute the levels, or you can choose by inspection.
 \examples{
 
 data(MUD1)
-inspectLvls(MUD1, ylim = c(0, 50), main = "All MUD1 Data, mode = even")
-inspectLvls(MUD1, ylim = c(0, 50), mode = "NMR",  main = "All MUD1 Data, mode = NMR")
+inspectLvls(MUD1, ylim = c(0, 300), main = "All MUD1 Data, mode = even")
+inspectLvls(MUD1, ylim = c(0, 300), mode = "NMR",  main = "All MUD1 Data, mode = NMR")
 
 }
 \seealso{

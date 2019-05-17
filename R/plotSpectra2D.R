@@ -62,12 +62,12 @@
 #' @examples
 #'
 #' data(MUD1)
-#' mylvls <- seq(-0.3, 0.3, 0.1)[-4]
+#' mylvls <- seq(5, 35, 5)
 #' plotSpectra2D(MUD1, which = 7, lvls = mylvls,
 #'   main = "MUD1 Sample 7")
-#' plotSpectra2D(MUD1, which = c(1, 6), lvls = list(mylvls, mylvls),
+#' plotSpectra2D(MUD1, which = c(6, 1), lvls = list(mylvls, mylvls),
 #'   cols = list(rep("black", 6), rep("red", 6)),
-#'   main = "MUD1 Sample 1 (black) & Sample 6 (red)")
+#'   main = "MUD1 Sample 1 (red) & Sample 6 (black)\n(4 of 6 peaks overlap)")
 #'
 plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL,
   showNA = TRUE, showGrid = FALSE, ...) {
@@ -110,7 +110,7 @@ plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL,
   
   # Go plot
   op <- par(no.readonly = TRUE) # save to restore later
-  par(mai = c(0.75, 0.5, 1.0, 0.75))
+  par(mai = c(1.0, 0.5, 1.0, 1.0))
   .plotEngine(spectra = spectra, which = which,
     lvls = lvls, cols = cols, showGrid = showGrid, ...)
   

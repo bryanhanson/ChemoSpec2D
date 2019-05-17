@@ -46,10 +46,10 @@ sumSpectra(MUD1a)
 plotSpectra2D(MUD1a, which = 7, lvls = mylvls,
   main = "MUD1 Sample 7\\nRemoved Peaks: F2 2.5 ~ 4")
 
-MUD1b <- removePeaks2D(MUD1, remF2 = low ~ 5)
+MUD1b <- removePeaks2D(MUD1, remF2 = low ~ 2)
 sumSpectra(MUD1b)
 plotSpectra2D(MUD1b, which = 7, lvls = mylvls,
-  main = "MUD1 Sample 7\\nRemoved Peaks: F2 low ~ 5")
+  main = "MUD1 Sample 7\\nRemoved Peaks: F2 low ~ 2")
 
 MUD1c <- removePeaks2D(MUD1, remF1 = high ~ 23)
 sumSpectra(MUD1c)

@@ -3,6 +3,8 @@
 \docType{data}
 \name{MUD}
 \alias{MUD}
+\alias{MUD1}
+\alias{MUD2}
 \title{Made Up 2D NMR-Like Data Sets}
 \format{The data are stored as a \code{\link{Spectra2D}} object.}
 \source{

@@ -1,5 +1,4 @@
 #'
-#'
 #' Made Up 2D NMR-Like Data Sets
 #' 
 #' Made Up Data that resemble simple, HSQC-like 2D NMR data sets.  Lean, low resolution 
@@ -10,20 +9,20 @@
 #'
 #'   \item \code{MUD1} is intended to test and demonstrate data reduction functions.  The HSQC-like data
 #' is derived from the 1H and 13C spectra of 3-methyl-1-butanol and the corresponding ethyl ether,
-#' idealized slightly for simplicity. There are 10 spectra.  Samples 1 and 6 are the pure compounds.
-#' The other samples are mixtures of the two compounds.
+#' idealized slightly for simplicity. There are 10 spectra.  Sample 1 is the alcohol; samples 2-5 are
+#' the alcohol with local shifts (specifically, two peaks have been shifted \pm one data point).
+#' Samples 6-10 are the ether, treated in a similar fashion. 
 #'
 #' \item \code{MUD2} is intended to test and demonstrate alignment algorithms.  The HSQC-like data
 #' is derived from the 1H and 13C spectra of 3-methyl-1-butanol, idealized slightly for
-#' simplicity. There are 10 spectra.  The first one is "correct" and shifts on one or both
-#' dimensions have been introduced in the other samples.
+#' simplicity. There are 10 spectra.  The first one is "correct" and the other samples have global shifts on one
+#' or both dimensions.
 #' }
 #'
 #' @author Bryan A. Hanson, DePauw University.
 #'
 #' @name MUD
-#' @alias MUD1
-#' @alias MUD2
+#' @aliases MUD1 MUD2
 #'
 #' @docType data
 #'

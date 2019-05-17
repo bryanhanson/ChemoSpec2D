@@ -37,12 +37,12 @@
 #' res <- miaSpectra2D(MUD1)
 #' plotScores(MUD1, res, main = "MIA Scores", tol = 0.1, ellipse = "cls")
 #' plotScree(res)
-#' MUD1a <- plotLoadings2D(MUD1, res, load_lvls = c(-0.4, -0.2, 0.2, 0.4),
+#' MUD1a <- plotLoadings2D(MUD1, res, load_lvls = seq(-90, 0, 10),
 #'   main = "MIA Comp. 1 Loadings")
 #'
 #' # Selection of loading matrix levels can be aided by the following
 #'
-#' inspectLvls(MUD1a, loadings = TRUE, ylim = c(0, 10),
+#' inspectLvls(MUD1a, loading = 1, ylim = c(0, 80),
 #'   main = "Histogram of Loadings Matrix")
 #'
 

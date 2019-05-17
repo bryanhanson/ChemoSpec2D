@@ -47,7 +47,7 @@
 #' res <- popSpectra2D(MUD1)
 #' plotScores(MUD1, res, main = "POP Scores", tol = 0.1, ellipse = "cls")
 #' plotScree(res)
-#' MUD1a <- plotLoadings2D(MUD1, res, load_lvls = c(-0.4, -0.2, 0.2, 0.4),
+#' MUD1a <- plotLoadings2D(MUD1, res, load_lvls = c(-0.2, -0.1, 0.1, 0.2),
 #'   main = "POP Comp. 1 Loadings")
 
 popSpectra2D <- function(spectra, n = 3, choice = "noscale", ...) {
