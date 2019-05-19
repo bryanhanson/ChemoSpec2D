@@ -35,7 +35,7 @@
 #'
 #' data(MUD1)
 #' res <- miaSpectra2D(MUD1)
-#' plotScores(MUD1, res, main = "MIA Scores", tol = 0.1, ellipse = "cls")
+#' plotScores(MUD1, res, main = "MIA Scores", tol = 1.0, ellipse = "cls")
 #' plotScree(res)
 #' MUD1a <- plotLoadings2D(MUD1, res, load_lvls = seq(-90, 0, 10),
 #'   main = "MIA Comp. 1 Loadings")

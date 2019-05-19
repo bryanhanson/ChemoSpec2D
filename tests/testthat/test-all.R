@@ -1,7 +1,7 @@
 
 ### Unit tests for ChemoSpec2D
 
-# A tiny Spectras object for testing
+# A tiny Spectra object for testing
 tiny <- vector("list")
 tiny$F2 <- as.numeric(1:10)
 tiny$F1 <- as.numeric(1:5)

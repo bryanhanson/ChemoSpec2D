@@ -1,16 +1,18 @@
 #'
-#' Globally Align Arrays, Including Arrays Composed of Stacks of 2D NMR Spectra
+#' Globally Align Arrays Composed of Stacks of 2D NMR Spectra
 #'
-#' This function attempts to align (multiple) 2D NMR spectra, storing the spectra as arrays.
-#' Alignment occurs on a discrete grid corresponding to the indices. The arrays are arranged 
+#' This function aligns multiple 2D NMR spectra, working with the spectra internally as arrays.
+#' Alignment occurs on a discrete grid corresponding to the arrary indices. The arrays are arranged 
 #' such that one is aligning their projection onto a 2D grid, which means one is shifting the
-#' arrays in 2D -- essentially the problem reduces to aligning matrices along their indices.
+#' arrays in 2D.  If you were doing this visually with transparencies of two 2D spectra, one the 
+#' reference and one the mask, you would shift the transparencies around to get the best visual alignment,
+#' but the only possible answers require alignment at particular data pointa/indices.
 #' The potential alignment space runs from \code{-maxColShift} \ldots \code{maxColShift} and \code{-maxRowShift}
 #' \ldots \code{maxRowShift}.
 #'
 #' The strategy used is "Model Based Optimization" or MBO, which is also known as "Bayesian Optimization"
-#' or BO.  The search for the optimum alignment starts by checking if no shift exceeds the threshold.  If so,
-#' no search is needed.  If the threshold is not exceeded, we proceed to MBO/BO.
+#' or BO.  Here, the search for the optimum alignment starts by checking if no shift exceeds the threshold.
+#' If so, no search is needed and time is saved.  If the threshold is not exceeded, we proceed to MBO/BO.
 #'
 #' @param Ref Numeric Array. An array of 2D spectra with the first dimension being \code{1:no. samples}.
 #'        A single spectrum is fine as along as it is an array, with first dimension = 1.
@@ -98,7 +100,7 @@
   ctrl <- mlrMBO::makeMBOControl()
   ctrl <- mlrMBO::setMBOControlTermination(ctrl, iters = no.it)
   ctrl <- mlrMBO::setMBOControlInfill(ctrl, crit = mlrMBO::makeMBOInfillCritEI(),
-    opt.focussearch.points = floor(search_space),  # using 50% of points
+    opt.focussearch.points = floor(search_space),  # using 50% of possible search space
     opt.restarts = restarts)
 
   # We've got a lot of clunkiness to control the info from mlrMBO and friends
@@ -119,8 +121,8 @@
   
   # Step 3. Create the modified mask
   # The mask (Mask) is "moved", not the reference
-  # It's possible that we did not exceed the threshold in Step 1, but the best answer is still
-  # to not shift.  We have to capture that here as .shiftArray does not care for such input.
+  # It's possible that we did not exceed the threshold in Step 1, but the best answer found by MBO is still
+  # to not shift.  We have to capture that here as .shiftArray does not care for 0,0 input.
   
   if ((bestX == 0L) & (bestY == 0L)) return(list(AA = Mask, shift = c(0L, 0L)))
   

@@ -77,7 +77,7 @@ mylvls <- seq(5, 35, 5)
 plotSpectra2D(MUD1, which = 7, lvls = mylvls,
   main = "MUD1 Sample 7")
 plotSpectra2D(MUD1, which = c(6, 1), lvls = list(mylvls, mylvls),
-  cols = list(rep("black", 6), rep("red", 6)),
+  cols = list(rep("black", 7), rep("red", 7)),
   main = "MUD1 Sample 1 (red) & Sample 6 (black)\\n(4 of 6 peaks overlap)")
 
 }

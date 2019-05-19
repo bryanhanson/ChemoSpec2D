@@ -41,7 +41,7 @@ in some literature.  This action is performed on the unstacked matrix, as will c
 \examples{
 data(MUD1)
 res <- popSpectra2D(MUD1)
-plotScores(MUD1, res, main = "POP Scores", tol = 0.1, ellipse = "cls")
+plotScores(MUD1, res, main = "POP Scores", ellipse = "cls")
 plotScree(res)
 MUD1a <- plotLoadings2D(MUD1, res, load_lvls = c(-0.2, -0.1, 0.1, 0.2),
   main = "POP Comp. 1 Loadings")
