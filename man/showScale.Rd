@@ -9,3 +9,8 @@ showScale()
 \description{
 This function opens the file scale.pdf in an appropriate viewer.
 }
+\examples{
+\dontrun{
+showScale()
+}
+}

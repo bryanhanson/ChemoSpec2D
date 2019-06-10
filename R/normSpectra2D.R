@@ -21,6 +21,7 @@
 #' @keywords utilities
 #'
 #' @export
+#' @seealso \code{link{centscaleSpectra2D}} for another means of scaling.
 #'
 #' @examples
 #'
@@ -33,7 +34,9 @@ normSpectra2D <- function(spectra, method = "zero2one") {
 	
 	.chkArgs(mode = 21L)
 	chkSpectra(spectra)
-
+	ok <- c("zero2one", "TotInt")
+	if (!method %in% ok) stop("Invalid method specified")
+	
 # normalize each 2D spectrum to a [0...1] range:
 
 	if (method == "zero2one") {

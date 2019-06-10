@@ -5,9 +5,10 @@
 #'
 #' @export
 #'
-#' @example
+#' @examples
+#' \dontrun{
 #' showScale()
-#'
+#' }
 
 showScale <- function() {
   # Based on stackoverflow.com/a/37505297/633251

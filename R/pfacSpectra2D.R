@@ -4,7 +4,7 @@
 #' Carry out PARAFAC analysis of a \code{\link{Spectra2D}} object.
 #' Function \code{\link[multiway]{parafac}} from \pkg{multiway} is used.
 #' For large data sets, computational time may be long enough that
-#' it might desirable to run in batch mode.
+#' it might desirable to run in batch mode and possibly use parallel processing.
 #'
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'
@@ -15,18 +15,24 @@
 #'        configured for you.  If \code{FALSE}, the user must configure the environment
 #'        themselves (desirable for instance if working on Azure or AWS EC2).
 #'
-#' @param \dots Additional parameters to be passed to function \code{\link[multiway]{parafac}}.
-#'        At the minimum, you'll need to specify \code{nfac}.  You should also give thought to
-#'        value of \code{const}, allowed options can be seen in \code{\link[CMLS]{const}}.
-#'        The default is to compute an unconstrained solution.  However, in some cases one may
-#'        wish to apply a non-negativity constraint.
+#' @param nfac Integer.  The number of factors/components to compute.
 #'
-#' @return An object of class \code{parafac}.
+#' @param \dots Additional parameters to be passed to function \code{\link[multiway]{parafac}}.
+#'        You should give thought to value of \code{const}, allowed options can be seen in
+#'        \code{\link[CMLS]{const}}. The default is to compute an unconstrained solution.
+#'        However, in some cases one may wish to apply a non-negativity constraint.  Also,
+#'        to suppress the progress bar, you can use \code{verbose = FALSE}.
+#'
+#' @return An object of class \code{pfac} and \code{parafac}, modified to include a list
+#' element called \code{$method} which is \code{parafac}.
 #'
 #' @section Warning:
 #'   To get reproducible results you will need to \code{set.seed()}.  See the example.
 #'
 #' @author Bryan A. Hanson, DePauw University.
+#'
+#' @seealso For other data reduction methods for \code{Spectra2D} objects, see
+#' \code{\link{miaSpectra2D}} and \code{\link{popSpectra2D}}.
 #'
 #' @keywords multivariate
 #'
@@ -39,7 +45,6 @@
 #'
 #' @export
 #'
-#' @importFrom multiway parafac
 #' @importFrom parallel makeCluster clusterEvalQ stopCluster detectCores clusterSetRNGStream
 #'
 #' @examples
@@ -47,30 +52,30 @@
 #' data(MUD1)
 #' set.seed(123)
 #' res <- pfacSpectra2D(MUD1, parallel = FALSE, nfac = 2)
-#' plotScores(MUD1, res, tol = 0.1, leg.loc = "topright",
+#' plotScores(MUD1, res, leg.loc = "topright",
 #'   ellipse = "cls", main = "PARAFAC Score Plot")
-#' res1 <- pfacLoadings(MUD1, res,
-#'   load_lvls = seq(-12, -2, 2),
+#' res1 <- plotLoadings2D(MUD1, res,
+#'   load_lvls = c(1, 5, 10, 15, 25),
 #'   main = "PARAFAC Comp. 1 Loadings")
-#' res2 <- pfacLoadings(MUD1, res, load_lvls = seq(-12, -2, 2),
-#'   ref = 2, ref_lvls = c(-0.2, -0.1, 0.1, 0.2),
-#'   ref_cols = c("violet", "violet", "orange", "orange"),
+#' res2 <- plotLoadings2D(MUD1, res, load_lvls = c(1, 5, 10, 15, 25),
+#'   ref = 2, ref_lvls = seq(5, 35, 5),
+#'   ref_cols = rep("black", 7),
 #'   main = "PARAFAC Comp. 1 Loadings + Ref. Spectrum")
 #'
 #' # Selection of loading matrix levels can be aided by the following
 #'
-#' inspectLvls(res1, loadings = TRUE, ylim = c(0, 50),
+#' inspectLvls(res1, loading = 1, ylim = c(0, 50),
 #'   main = "Histogram of Loadings Matrix")
 #'
 
-pfacSpectra2D <- function(spectra, parallel = FALSE, setup = FALSE, ...) {
+pfacSpectra2D <- function(spectra, parallel = FALSE, setup = FALSE, nfac = 2, ...) {
 
   .chkArgs(mode = 21L)
   chkSpectra(spectra)
   if ((!parallel) & (setup)) stop("setup should not be TRUE if parallel is FALSE")
   
   if (!requireNamespace("multiway", quietly = TRUE)) {
-    stop("You must install package multiway to use this functoin")
+    stop("You must install package multiway to use this function")
   }
 
   # Set up data array (frontal slices)
@@ -90,14 +95,16 @@ pfacSpectra2D <- function(spectra, parallel = FALSE, setup = FALSE, ...) {
   }
   
   # Run it
-  if (!parallel) pfac <- parafac(DA, ...)
+  if (!parallel) pfac <- multiway::parafac(DA, nfac = nfac, ...)
   if (parallel) {
-  	if (setup) pfac <- parafac(DA, parallel = TRUE, cl = cl, ...)
-  	if (!setup) pfac <- parafac(DA, parallel = TRUE, ...) # user provides add'l args
+  	if (setup) pfac <- multiway::parafac(DA, parallel = TRUE, cl = cl, nfac = nfac, ...)
+  	if (!setup) pfac <- multiway::parafac(DA, parallel = TRUE, nfac = nfac, ...) # user provides add'l args
   	
   }
   # Wrap up
   if (setup) stopCluster(cl)
+  pfac$method <- "parafac"
+  class(pfac) <- c(class(pfac), "pfac")
   return(pfac)
 }
 

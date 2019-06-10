@@ -124,8 +124,8 @@
       F1at <- .rescale(F1ticks, spectra$F1, mode = 1L)     
   	  axis(side = 4, at = F1at, labels = F1lab, cex.axis = 0.75)
   	  
-  	  mtext(spectra$unit[1], 1, line = 2)
-  	  mtext(spectra$unit[2], 4, line = 2)
+  	  mtext(spectra$unit[1], 1, line = 3)
+  	  mtext(spectra$unit[2], 4, line = 3)
   	} # end of plotting first spectrum
 
     if (i > 1) { # Add any additional spectra requested

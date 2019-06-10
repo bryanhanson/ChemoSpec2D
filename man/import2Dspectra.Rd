@@ -27,7 +27,8 @@ A list with 3 elements:
 \description{
 This function imports a single file (for instance, a csv) containing a 2D
 spectroscopic data set.  The current version handles various types of 
-ASCII text files.  This function is called by \code{files2Spectra2DObject}
+ASCII text files as well as a few other types.
+This function is called by \code{files2Spectra2DObject}
 and is exported and documented to assist in developing new format codes.
 }
 \section{ASCII Format Codes}{
@@ -49,7 +50,13 @@ left-to-right, and F1 increasing top-to-bottom. There are four possibilities:
 
 \section{Other Format Codes}{
 
-Coming soon, e.g. JDX
+Here are some other format codes you can use:
+\itemize{
+  \item \code{SimpleM}.  Imports simple matrices composed of z values.  The F2 and F1 values
+        are taken from the dimension of the matrix.  After import, you will have to manually
+        fix the F2 and F1 values.  You may also have to transpose the matrices manually, or
+        perhaps invert the order of the rows or columns.
+}
 }
 
 \author{

@@ -45,7 +45,7 @@ to the spectrometer.
 One cannot remove frequencies from the interior of a 2D NMR data set and expect to get a meaningful
 contour plot, because doing so puts unrelated peaks adjacent in the data set.
 This would lead to contours being drawn that don't exist in the original data set.
-This function will check for missing frequencies and stop if any are found.
+This function will check for missing frequencies and stops if any are found.
 }
 
 \section{Scale}{
@@ -73,12 +73,12 @@ element for each spectrum to be plotted (if specified at all).  See the examples
 \examples{
 
 data(MUD1)
-mylvls <- seq(-0.3, 0.3, 0.1)[-4]
+mylvls <- seq(5, 35, 5)
 plotSpectra2D(MUD1, which = 7, lvls = mylvls,
   main = "MUD1 Sample 7")
-plotSpectra2D(MUD1, which = c(1, 6), lvls = list(mylvls, mylvls),
-  cols = list(rep("black", 6), rep("red", 6)),
-  main = "MUD1 Sample 1 (black) & Sample 6 (red)")
+plotSpectra2D(MUD1, which = c(6, 1), lvls = list(mylvls, mylvls),
+  cols = list(rep("black", 7), rep("red", 7)),
+  main = "MUD1 Sample 1 (red) & Sample 6 (black)\\n(4 of 6 peaks overlap)")
 
 }
 \author{

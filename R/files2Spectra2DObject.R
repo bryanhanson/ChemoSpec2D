@@ -116,7 +116,6 @@
 #'
 #' @importFrom utils read.table
 #' @importFrom tools file_path_sans_ext
-#' @importFrom R.utils saveObject
 #' @importFrom ChemoSpecUtils .groupNcolor
 #'
 
@@ -166,6 +165,7 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
 		
 		tmp <- import2Dspectra(files[i], fmt = fmt, nF2 = nF2, ...)
 		spectra$data[[i]] <- tmp[["M"]]
+		dimnames(spectra$data[[i]]) <- NULL # clean up to plain matrix
 		if (i == 1L) {
 			spectra$F2 <- tmp[["F2"]]
 			spectra$F1 <- tmp[["F1"]]	
@@ -182,7 +182,7 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
 	chkSpectra(spectra)
 	
 	datafile <- paste(out.file, ".RData", sep = "")
-	saveObject(spectra, file = datafile)
+	R.utils::saveObject(spectra, file = datafile)
 	return(spectra)
 	},
 	

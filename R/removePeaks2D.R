@@ -27,8 +27,6 @@
 #'
 #' @keywords utilities
 #'
-#' @importFrom plyr is.formula
-#'
 #' @seealso \code{\link[ChemoSpecUtils]{removeFreq}}.
 #'
 #' @export
@@ -49,20 +47,20 @@
 #' plotSpectra2D(MUD1a, which = 7, lvls = mylvls,
 #'   main = "MUD1 Sample 7\nRemoved Peaks: F2 2.5 ~ 4")
 #'
-#' MUD1b <- removePeaks2D(MUD1, remF2 = low ~ 5)
+#' MUD1b <- removePeaks2D(MUD1, remF2 = low ~ 2)
 #' sumSpectra(MUD1b)
 #' plotSpectra2D(MUD1b, which = 7, lvls = mylvls,
-#'   main = "MUD1 Sample 7\nRemoved Peaks: F2 low ~ 5")
+#'   main = "MUD1 Sample 7\nRemoved Peaks: F2 low ~ 2")
 #'
 #' MUD1c <- removePeaks2D(MUD1, remF1 = high ~ 23)
 #' sumSpectra(MUD1c)
 #' plotSpectra2D(MUD1c, which = 7, lvls = mylvls,
 #'   main = "MUD1 Sample 7\nRemoved Peaks: F1 high ~ 23")
 #'
-#' MUD1d <- removePeaks2D(MUD1, remF2 = 2.5 ~ 4, remF1 = 17 ~ 20)
+#' MUD1d <- removePeaks2D(MUD1, remF2 = 2.5 ~ 4, remF1 = 45 ~ 55)
 #' sumSpectra(MUD1d)
 #' plotSpectra2D(MUD1d, which = 7, lvls = mylvls,
-#'   main = "MUD1 Sample 7\nRemoved Peaks: F2 2.5 ~ 4 & F1 17 ~ 20")
+#'   main = "MUD1 Sample 7\nRemoved Peaks: F2 2.5 ~ 4 & F1 45 ~ 55")
 #'
 removePeaks2D <- function(spectra, remF2 = NULL, remF1 = NULL) {
 
@@ -73,14 +71,14 @@ removePeaks2D <- function(spectra, remF2 = NULL, remF1 = NULL) {
 	# Set peaks to NA as requested
 	
 	if (!is.null(remF2)) { # F2 dimension: sorted F2 runs low...high
-		if (!is.formula(remF2)) stop("remF2 must be a formula")
+		if (!inherits(remF2, "formula")) stop("remF2 must be a formula")
 		limits <- .getLimits(spectra, "F2", remF2)
 		toss <- ((spectra$F2 >= limits[1]) & (spectra$F2 <= limits[2]))
 		for (i in 1:length(spectra$data)) spectra$data[[i]][,rev(toss)] <- NA	# rev needed since 0 in lr corner
 	}
 
 	if (!is.null(remF1)) { # F1 dimension: sorted F1  runs low...high
-		if (!is.formula(remF1)) stop("remF1 must be a formula")
+		if (!inherits(remF1, "formula")) stop("remF1 must be a formula")
 		limits <- .getLimits(spectra, "F1", remF1)
 		toss <- ((spectra$F1 >= limits[1]) & (spectra$F1 <= limits[2]))
 		for (i in 1:length(spectra$data)) spectra$data[[i]][toss, ] <- NA	

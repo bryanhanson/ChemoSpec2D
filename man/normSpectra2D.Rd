@@ -31,6 +31,9 @@ MUD1b <- removeFreq(MUD1, remF2 = 2.5 ~ 3.5)
 MUD1bn <- normSpectra2D(MUD1b)
 
 }
+\seealso{
+\code{link{centscaleSpectra2D}} for another means of scaling.
+}
 \author{
 Bryan A. Hanson, DePauw University.
 }

@@ -30,7 +30,7 @@
 #' @examples
 #'
 #' data(MUD1)
-#' plotSlice(MUD1, F1 = 25, main = "Slice @ F1 = 25 ppm")
+#' plotSlice(MUD1, F1 = 22, main = "Slice @ F1 = 22 ppm")
 #'
 plotSlice <- function(spectra, which = 1, F2 = NULL, F1 = NULL, showGrid = TRUE, ...) {
 	

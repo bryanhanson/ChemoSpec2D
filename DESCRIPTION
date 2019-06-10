@@ -1,29 +1,39 @@
 Package: ChemoSpec2D
 Type: Package
 Title: Exploratory Chemometrics for 2D Spectroscopy
-Version: 0.2.19
-Date: 2019-02-28
+Version: 0.3.166
+Date: 2019-06-09
 Authors@R: c(
     person("Bryan A.", "Hanson",
     role = c("aut", "cre"), email =
     "hanson@depauw.edu",
-    comment = c("ORCID 0000-0003-3536-8246")))
+    comment = c(ORCID = "0000-0003-3536-8246")))
 Description: A collection of functions for exploratory chemometrics of 2D spectroscopic data sets such as COSY (correlated spectroscopy) and HSQC (heteronuclear single quantum coherence) 2D NMR (nuclear magnetic resonance) spectra. 'ChemoSpec2D' deploys methods aimed primarily at classification of samples and the identification of spectral features which are important in distinguishing samples from each other. Each 2D spectrum (a matrix) is treated as the unit of observation, and thus the physical sample in the spectrometer corresponds to the  sample from a statistical perspective.  In addition to chemometric tools, a few tools are provided for plotting 2D spectra, but these are not intended to replace the functionality typically available on the spectrometer. 'ChemoSpec2D' takes many of its cues from 'ChemoSpec' and tries to create consistent graphical output and to be very user friendly.
 License: GPL-3
 Depends:
     R (>= 3.5),
-    ChemoSpecUtils (>= 0.2)
+    ChemoSpecUtils (>= 0.3)
 Imports:
-  R.utils,
   tools,
-  utils,
-  plyr,
-  ThreeWay,
-  multiway,
-  matrixStats
+  utils
 Suggests:
   knitr,
-  testthat
+  tinytest,
+  irlba,
+  ThreeWay,
+  multiway,
+  parallel,
+  matrixStats,
+  R.utils,
+  mlrMBO,
+  ParamHelpers,
+  smoof,
+  mlr,
+  lhs,
+  RcppRoll,
+  rmarkdown,
+  pinp,
+  robustbase
 URL: https://github.com/bryanhanson/ChemoSpec2D
 BugReports: https://github.com/bryanhanson/ChemoSpec2D/issues
 ByteCompile: TRUE

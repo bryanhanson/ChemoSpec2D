@@ -23,13 +23,13 @@ for preparing contour and image type plots.  The entire range of the data is
 used in the histogram so you can choose levels that are suitable for any
 particular spectrum.  However, loading matrices are excluded unless specified 
 as the input. Any of the arguments to \code{\link{calcLvls}} can be used
-to capture the computed levels, or you can choose by inspection.
+to compute the levels, or you can choose by inspection.
 }
 \examples{
 
 data(MUD1)
-inspectLvls(MUD1, ylim = c(0, 50), main = "All MUD1 Data, mode = even")
-inspectLvls(MUD1, ylim = c(0, 50), mode = "NMR",  main = "All MUD1 Data, mode = NMR")
+inspectLvls(MUD1, ylim = c(0, 300), main = "All MUD1 Data, mode = even")
+inspectLvls(MUD1, ylim = c(0, 300), mode = "NMR",  main = "All MUD1 Data, mode = NMR")
 
 }
 \seealso{

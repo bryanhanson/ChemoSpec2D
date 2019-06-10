@@ -1,4 +1,45 @@
 
+# ChemoSpec2D 0.3.166 2019-06-09
+
+## Bug Fixes
+* An issue with the setting of x and y limits in `plotScores` was fixed.  This was a long standing bug that somehow escaped notice, dating to the early days of `ChemoSpec`. Note that `plotScores` is actually in `ChemoSpecUtils` but is called from `ChemoSpec2D`, affecting the results here.
+* Scree plots for `class(mia)` were plotting the eigenvalues instead of the percent variance explained.
+* The computation of the loading pseudo-spectrum for `class(mia)` was incorrect and gave a rotated version of the correct result.
+
+## New Features
+* A function to align spectra, `hats_alignSpectra2D` was added, along with a number of supporting functions.
+* `conColScheme` has moved to `ChemoSpecUtils` and can now also handle `Spectra2D` objects.  It is also now more user friendly.
+* New function `shiftSpectra2D` added to permit manual shifting.
+* `centscaleSpectra2D` gains the ability to scale by log or log10.
+
+## Significant Changes
+* Data set `MUD1` was completely rebuilt.
+* New data set `MUD2` added, for purposes of testing alignment algorithms.
+
+## Possible Breaking Changes
+* `centscaleSpectra2D` defaults have changed.
+
+## Misc.
+* Documentation `colorSymbol` was moved to package `ChemoSpecUtils`.
+* Unit testing framework changed to `tinytest`.
+* `normSpectra2D` now checks the input method as a valid choice.
+
+# ChemoSpec2D 0.2.55 2019-04-30
+
+## New Features
+* New function `popSpectra2D` computes "plain old PCA" on a `Spectra2D` data set, using the IRLBA algorithm. The data is unstacked before PCA.
+
+## Improvements
+* `pfacSpectra2D` now has a `nfac` as an argument; previously the user was warned to provide it.  This is clearer, more user-friendly and more consistent with other functions.
+* Small changes to several functions to work more consistently with changes in `ChemoSpecUtils` and `ChemoSpec` which introduce more PCA variants.
+* `miaLoadings`, `popLoadings` (never publically released), and `pfacLoadings` were collapsed into `plotLoadings2D`.
+* Improved reporting in `chkSpectra`.
+* NAMESPACE cleaned up a bit.
+* `files2Spectra2DObject` is now careful to remove any dimnames of the imported matrices, to avoid causing a ruckus with `chkSpectra`.
+
+## Deprecated Functions
+* `toChemoSpec` was removed as `popSpectra2D` provides a complete workflow corresponding to unstacking, computing PCA and reassembling the loadings.
+
 # ChemoSpec2D 0.2.19 2019-02-28
 
 ## Bug Fixes
