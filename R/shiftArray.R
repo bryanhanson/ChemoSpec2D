@@ -1,5 +1,5 @@
 #'
-#' Utility function to shift an array and backfill with zeros or random numbers
+#' Shift an Array and Backfill with Zeros, Random Numbers or Noise
 #'
 #' \emph{The first dimension of the array is not affected.}  If using \code{rnorm} to fill
 #' the user should \code{set.seed()}. Shifts are defined as:
@@ -11,10 +11,20 @@
 #' }
 #'
 #' @param A An array.
+#'
 #' @param xshift An integer giving the amount to shift the array in the x-direction.
+#'
 #' @param yshift As for x-shift.
-#' @param fill Either \code{"zero"} in which case the matrix is filled with zeros,
-#'        or \code{rnorm} in which case the matrix is filled via \code{rnorm(x, 0.0, 0.1)}.
+#'
+#' @param NS An array of noise surfaces, produced by \code{.noiseSurface}.
+#'
+#' @param fill One of:
+#' \itemize{
+#'   \item \code{"zero"}: empty spaces are filled with zeros.
+#'   \item \code{"rnorm"}: empty spaces are filled via \code{rnorm(x, 0.0, 0.1)}.
+#'   \item \code{"noise"}: empty spaces are filled with noise from the original 2D spectra.
+#'     You must supply \code{NS}.
+#' }
 #'
 #' @importFrom stats rnorm
 #' @export
@@ -23,7 +33,7 @@
 
 .shiftArray <- function(A,
   xshift = 0, yshift = 0,
-  fill = "zero") {
+  fill = "zero", NS = NULL) {
   
   xshift <- as.integer(xshift)
   yshift <- as.integer(yshift)
@@ -33,12 +43,24 @@
   if (abs(xshift) >= (dim(A)[3]-2)) stop("Cannot shift matrix that far in x-direction")
   if (abs(yshift) >= (dim(A)[2]-2)) stop("Cannot shift matrix that far in y-direction")
   
-  # Step 1. Set up a new array to contain the shifted results
-  ns <- dim(A)[1]
-  nr <- dim(A)[2]
-  nc <- dim(A)[3]
-  if (fill == "zero") Ash <- array(0.0, dim = c(ns, nr, nc)) 
-  if (fill == "rnorm") Ash <- array(rnorm(ns*nr*nc, 0.0, 0.1), dim = c(ns, nr, nc))
+  # Step 1. Set up an array to contain the shifted results
+  
+  if ((fill == "zero") | (fill == "rnorm")) {
+    ns <- dim(A)[1]
+    nr <- dim(A)[2]
+    nc <- dim(A)[3]
+    if (fill == "zero") Ash <- array(0.0, dim = c(ns, nr, nc)) 
+    if (fill == "rnorm") Ash <- array(rnorm(ns*nr*nc, 0.0, 0.1), dim = c(ns, nr, nc))
+  }
+  
+  if (fill == "noise") {
+    if (is.null(NS)) stop("For fill = 'noise' you must provide a noise array")   
+    if (isFALSE(all.equal(dim(A), dim(NS)))) stop("Input array and noise array did not have the same dimensions")
+    ns <- dim(NS)[1]
+    nr <- dim(NS)[2]
+    nc <- dim(NS)[3]
+    Ash <- NS
+  }
   
   # Step 2. Trim the original array (trim = remove rows & cols from edges)
   

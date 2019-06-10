@@ -2,24 +2,27 @@
 % Please edit documentation in R/centscaleSpectra2D.R
 \name{centscaleSpectra2D}
 \alias{centscaleSpectra2D}
-\title{Center and Optionally Scale a Spectra2D Object Along the Samples Dimension}
+\title{Optionally Center and Optionally Scale a Spectra2D Object Along the Samples Dimension}
 \usage{
-centscaleSpectra2D(spectra, choice = "noscale")
+centscaleSpectra2D(spectra, center = FALSE, scale = "noscale")
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
 
-\item{choice}{A character string indicating the type of scaling to apply.  One of
-\code{c("autoscale", "Pareto")}.}
+\item{center}{Logical.  Should the spectra be centered before possibly scaling?  Will give an error
+if \code{center = TRUE} and a log function is requested for scaling.}
+
+\item{scale}{A character string indicating the type of scaling to apply.  One of
+\code{c("autoscale", "Pareto", "log", "log10")}. For the log functions, centering is not carried
+out since logarithm is not defined for negative values.}
 }
 \value{
 An object of S3 class \code{\link{Spectra2D}}.
 }
 \description{
-This function will center, and optionally scale, a \code{Spectra2D} object along the
+This function will optionally center, and optionally scale, a \code{Spectra2D} object along the
 samples dimension (i.e. this is pixel-wise scaling in the language of multivariate
 image analysis). Several scaling options are available.
-The data is centered before scaling is applied.
 }
 \examples{
 
@@ -30,6 +33,9 @@ tst <- centscaleSpectra2D(MUD1)
 \references{
 R. Bro and A. K. Smilde "Centering and Scaling in Component Analysis" J. Chemometrics
 vol. 17 pgs 16-33 (2003).
+}
+\seealso{
+\code{link{normSpectra2D}} for another means of scaling.
 }
 \author{
 Bryan A. Hanson, DePauw University.

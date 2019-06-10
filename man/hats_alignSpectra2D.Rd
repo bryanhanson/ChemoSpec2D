@@ -6,7 +6,7 @@
 \usage{
 hats_alignSpectra2D(spectra, maxF2 = NULL, maxF1 = NULL,
   thres = 0.99, no.it = 20L, restarts = 2L, method = "MBO",
-  trimZeros = TRUE, plot = FALSE, debug = 1)
+  fill = "noise", plot = FALSE, debug = 1)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
@@ -14,7 +14,7 @@ hats_alignSpectra2D(spectra, maxF2 = NULL, maxF1 = NULL,
 \item{maxF2}{Integer.  The most extreme positive \code{F2step} to allow during the
 alignment process (units are data points).  Search for the optimal alignment will
 cover the region \code{-maxColShift} \ldots \code{maxColShift} and \code{-maxRowShift}
-\ldots \code{maxRowShift}. Default is 10\% of the data points in the dimension.}
+\ldots \code{maxRowShift}.}
 
 \item{maxF1}{Integer.  As for \code{maxF2}, but for F1.}
 
@@ -29,13 +29,17 @@ between the unstacked spectra, so \code{thres} should be on [0 \ldots 1].}
 \item{restarts}{Integer. The maximum number of independent rounds of optimization.}
 
 \item{method}{Character. Currently only \code{method = "MBO"} is available which uses
-the HATS algorithm plus a model based optimization (aka Bayesian optimzation) method to
+the HATS algorithm plus model based optimization (aka Bayesian optimzation) method to
 align the spectra. Use \code{plot = TRUE} to see this in action.}
 
-\item{trimZeros}{Logical. Aligning spectra requires that at least some spectra be shifted left/right
-and up/down.  When a spectrum is shifted, spaces are opened that must be filled with something.
-Currently the spaces are filled with zeros.  If every spectrum ends up with all zeros in some
-columns or rows, these will be trimmed off, which reduces the overall size of the data set.}
+\item{fill}{Aligning spectra requires that at least some spectra be shifted left/right
+      and up/down.  When a spectrum is shifted, spaces are opened that must be filled with something:
+\itemize{
+  \item If \code{fill = "zeros"} the spaces are filled with zeros.
+  \item If \code{fill = "rnorm"} the spaces are filled with random noise.
+  \item If \code{fill = "noise"} the spaces are filled with an estimate of the noise from the
+    original spectrum.
+}}
 
 \item{plot}{Logical. Shall a plot of the alignment progress be made?  The plot is useful for
 diagnostic purposes.  Every step of the alignment has a corresponding plot so you should

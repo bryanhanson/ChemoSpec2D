@@ -35,7 +35,7 @@ Only one of \code{F2} or \code{F1} should be given.
 \examples{
 
 data(MUD1)
-plotSlice(MUD1, F1 = 25, main = "Slice @ F1 = 25 ppm")
+plotSlice(MUD1, F1 = 22, main = "Slice @ F1 = 22 ppm")
 
 }
 \author{

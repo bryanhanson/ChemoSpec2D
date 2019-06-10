@@ -6,14 +6,12 @@
 #' data, there is no underlying tri-linear structure and therefore one should NOT try to interpret
 #' the output of \code{miaSpectra2D} or \code{pfacSpectra2D} run on this data}.
 #' \itemize{
-#'
 #'   \item \code{MUD1} is intended to test and demonstrate data reduction functions.  The HSQC-like data
 #' is derived from the 1H and 13C spectra of 3-methyl-1-butanol and the corresponding ethyl ether,
 #' idealized slightly for simplicity. There are 10 spectra.  Sample 1 is the alcohol; samples 2-5 are
-#' the alcohol with local shifts (specifically, two peaks have been shifted \pm one data point).
+#' the alcohol with local shifts (specifically, two peaks have been shifted +/- one data point).
 #' Samples 6-10 are the ether, treated in a similar fashion. 
-#'
-#' \item \code{MUD2} is intended to test and demonstrate alignment algorithms.  The HSQC-like data
+#'   \item \code{MUD2} is intended to test and demonstrate alignment algorithms.  The HSQC-like data
 #' is derived from the 1H and 13C spectra of 3-methyl-1-butanol, idealized slightly for
 #' simplicity. There are 10 spectra.  The first one is "correct" and the other samples have global shifts on one
 #' or both dimensions.
@@ -32,7 +30,7 @@
 #'
 #' @keywords datasets
 #'
-#' @seeAlso These data sets are used in the examples of many functions.
+#' @seealso These data sets are used in the examples of many functions.
 #'
 NULL
 

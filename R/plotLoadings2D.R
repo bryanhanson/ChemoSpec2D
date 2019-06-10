@@ -3,7 +3,7 @@
 #' 
 #' Computes (if necessary) and plots loadings from a PARAFAC, MIA or POP analysis of a
 #' \code{\link{Spectra2D}} object. The loadings matrix has has dimensions
-#' F2 x F1 and is a 2D pseudo-spectrum.  A reference spectrum may also be drawn.
+#' F1 x F2 and is a 2D pseudo-spectrum.  A reference spectrum may also be drawn.
 #' 
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'

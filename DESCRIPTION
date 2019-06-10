@@ -1,8 +1,8 @@
 Package: ChemoSpec2D
 Type: Package
 Title: Exploratory Chemometrics for 2D Spectroscopy
-Version: 0.3.110
-Date: 2019-05-17
+Version: 0.3.166
+Date: 2019-06-09
 Authors@R: c(
     person("Bryan A.", "Hanson",
     role = c("aut", "cre"), email =
@@ -12,13 +12,13 @@ Description: A collection of functions for exploratory chemometrics of 2D spectr
 License: GPL-3
 Depends:
     R (>= 3.5),
-    ChemoSpecUtils (>= 0.2)
+    ChemoSpecUtils (>= 0.3)
 Imports:
   tools,
   utils
 Suggests:
   knitr,
-  testthat,
+  tinytest,
   irlba,
   ThreeWay,
   multiway,
@@ -29,7 +29,11 @@ Suggests:
   ParamHelpers,
   smoof,
   mlr,
-  lhs
+  lhs,
+  RcppRoll,
+  rmarkdown,
+  pinp,
+  robustbase
 URL: https://github.com/bryanhanson/ChemoSpec2D
 BugReports: https://github.com/bryanhanson/ChemoSpec2D/issues
 ByteCompile: TRUE

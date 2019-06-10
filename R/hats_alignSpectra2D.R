@@ -10,7 +10,7 @@
 #' @param maxF2 Integer.  The most extreme positive \code{F2step} to allow during the
 #'        alignment process (units are data points).  Search for the optimal alignment will
 #'        cover the region \code{-maxColShift} \ldots \code{maxColShift} and \code{-maxRowShift}
-#'        \ldots \code{maxRowShift}. Default is 10\% of the data points in the dimension.
+#'        \ldots \code{maxRowShift}.
 #'
 #' @param maxF1 Integer.  As for \code{maxF2}, but for F1.
 #'
@@ -35,17 +35,21 @@
 #' @param restarts Integer. The maximum number of independent rounds of optimization.
 #'
 #' @param method Character. Currently only \code{method = "MBO"} is available which uses
-#'        the HATS algorithm plus a model based optimization (aka Bayesian optimzation) method to
+#'        the HATS algorithm plus model based optimization (aka Bayesian optimzation) method to
 #'        align the spectra. Use \code{plot = TRUE} to see this in action.
 #'
 #' @param plot Logical. Shall a plot of the alignment progress be made?  The plot is useful for
 #'        diagnostic purposes.  Every step of the alignment has a corresponding plot so you should
 #'        probably direct the output to a pdf file.
 #'
-#' @param trimZeros Logical. Aligning spectra requires that at least some spectra be shifted left/right
-#'        and up/down.  When a spectrum is shifted, spaces are opened that must be filled with something.
-#'        Currently the spaces are filled with zeros.  If every spectrum ends up with all zeros in some
-#'        columns or rows, these will be trimmed off, which reduces the overall size of the data set.
+#' @param fill Aligning spectra requires that at least some spectra be shifted left/right
+#'        and up/down.  When a spectrum is shifted, spaces are opened that must be filled with something:
+#'  \itemize{
+#'    \item If \code{fill = "zeros"} the spaces are filled with zeros.
+#'    \item If \code{fill = "rnorm"} the spaces are filled with random noise.
+#'    \item If \code{fill = "noise"} the spaces are filled with an estimate of the noise from the
+#'      original spectrum.
+#'  }
 #'
 #' @return An object of S3 class \code{\link{Spectra2D}}.
 #'
@@ -78,7 +82,7 @@
 #' }
 #' 
 hats_alignSpectra2D <- function(spectra, maxF2 = NULL, maxF1 = NULL,
-  thres = 0.99, no.it = 20L, restarts = 2L, method = "MBO", trimZeros = TRUE,
+  thres = 0.99, no.it = 20L, restarts = 2L, method = "MBO", fill = "noise",
   plot = FALSE, debug = 1) {
 
   .chkArgs(mode = 21L)
@@ -117,16 +121,21 @@ hats_alignSpectra2D <- function(spectra, maxF2 = NULL, maxF1 = NULL,
   
   # Step 2. Get the correlation matrix and compute dendrogram
   
-  # hc <- hclust(as.dist(cor(t(M)))) # correlation is invariant to shift so it's probably not the best choice here
+  # correlation is invariant to shift so it's probably not the best choice here
   hc <- hclust(rowDist(M, "cosine")) # cosine sensitive to shift, also on [-1,1]
   if (debug >= 2L) print(hc$merge)
   if (plot == TRUE) plot(hc)
   
-  # Step 3.  Create a list giving the spectra to be aligned at each step,
+  # Step 3a.  Create a list giving the spectra to be aligned at each step,
   #          working from the lowest point on the dendrogram
   
   AO <- .getAlignOrder(hc)
   
+  # Step 3b. If fill = "noise" compute the noise surface (takes a bit of time, do it once)
+
+  if (fill == "noise") NS <- .noiseSurface(spectra)
+  if (fill != "noise") NS <- NULL
+    
   # Step 4.  Align and replace the Mask with the aligned mask
 
   if (debug >= 1L) DiagDF <- data.frame(
@@ -140,7 +149,7 @@ hats_alignSpectra2D <- function(spectra, maxF2 = NULL, maxF1 = NULL,
   	if (debug >= 1L) cat("[ChemoSpec2D] Processing row ", i, " of ", length(AO), " from the guide tree:\n")
   	r <- AO[[i]][["Ref"]]
   	m <- AO[[i]][["Mask"]]
-
+	
   	if (debug >= 1L) {
   		msg <- paste("[ChemoSpec2D] Starting alignment of sample(s)", paste(m, collapse = ", "),
   		  "\n\twith sample(s)", paste(r, collapse = ", "), "\n", sep = " ")
@@ -151,11 +160,13 @@ hats_alignSpectra2D <- function(spectra, maxF2 = NULL, maxF1 = NULL,
   	
   	Ref <- .makeArray2(spectra, r)
   	Mask <- .makeArray2(spectra, m)
-  	
+  	  	
+  	if (fill == "noise") NS2 <- NS[m,,, drop = FALSE]
+  	  	
   	if (method == "MBO") {
   	  mlr::configureMlr() # see github.com/mlr-org/mlr/issues/2141
   	  MBO <- .AlignArraysMBO(Ref, Mask, no.it = no.it, restarts = restarts,
-  	    maxColShift = maxF2, maxRowShift = maxF1,
+  	    maxColShift = maxF2, maxRowShift = maxF1, fill = fill, NS = NS2,
   	    plot = plot, debug = debug)
   	  if (debug >= 1L) {
   	  	DiagDF[i,"F2shift"] <- MBO$shift[1]
@@ -175,8 +186,6 @@ hats_alignSpectra2D <- function(spectra, maxF2 = NULL, maxF1 = NULL,
   	bad_at <- which(at != "dim") # otherwise chkSpectra.Spectra2D complains
   	if (length(bad_at) > 0) attributes(spectra$data[[j]])[bad_at] <- NULL
   } 
-
-  if (trimZeros) spectra <- .trimZeros(spectra) # SHOULD REPORT ON SOME LEVEL OF DEBUG
   
   if (debug >= 1L) {
   	cat("[ChemoSpec2D] Alignment steps and results:\n")

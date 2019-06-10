@@ -46,6 +46,14 @@
 #'        diagnostic purposes.  Every step of the alignment has a corresponding plot so you should
 #'        probably direct the output to a pdf file.
 #'
+#' @param fill Aligning spectra requires that at least some spectra be shifted left/right
+#'        and up/down.  When a spectrum is shifted, spaces are opened that must be filled with something:
+#'  \itemize{
+#'    \item If \code{fill = "zeros"} the spaces are filled with zeros.
+#'    \item If \code{fill = "noise"} the spaces are filled with an estimate of the noise from the
+#'      original spectrum.
+#'  }
+#'
 #' @return A list with two elements: 1. The aligned matrix, which is a shifted version of the mask (AA).
 #'         2. A length two integer vector containing the optimal x and y shifts (shift).
 #'
@@ -54,10 +62,10 @@
 #'
 
 .AlignArraysMBO <- function(Ref, Mask,
-	maxColShift = 40, maxRowShift = 40,
+	maxColShift = 40, maxRowShift = 40, fill = "noise", NS = NULL,
 	thres = 0.99, no.it = 20L, restarts = 2L,
 	plot = FALSE, debug = 0L) {
-
+  
   if (!all(dim(Ref)[2:3] == dim(Mask)[2:3])) stop("Arrays Ref and Mask must have the same dimensions")
      
   # Step 1. Check to see, if by chance, the matrices are perfectly aligned with no shifts.
@@ -127,7 +135,8 @@
   if ((bestX == 0L) & (bestY == 0L)) return(list(AA = Mask, shift = c(0L, 0L)))
   
   # Note negation in next step
-  Ash <- .shiftArray(Mask, xshift = -bestX, yshift = -bestY, fill = "zero")
+  dimnames(Mask) <- NULL
+  Ash <- .shiftArray(Mask, xshift = -bestX, yshift = -bestY, fill = fill, NS = NS)
   dimnames(Ash) <- NULL
   
   return(list(AA = Ash, shift = c(-bestX, -bestY)))

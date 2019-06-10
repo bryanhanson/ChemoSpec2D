@@ -1,5 +1,5 @@
 
-# ChemoSpec2D 0.3.xx 2019-xx-xx
+# ChemoSpec2D 0.3.166 2019-06-09
 
 ## Bug Fixes
 * An issue with the setting of x and y limits in `plotScores` was fixed.  This was a long standing bug that somehow escaped notice, dating to the early days of `ChemoSpec`. Note that `plotScores` is actually in `ChemoSpecUtils` but is called from `ChemoSpec2D`, affecting the results here.
@@ -7,16 +7,22 @@
 * The computation of the loading pseudo-spectrum for `class(mia)` was incorrect and gave a rotated version of the correct result.
 
 ## New Features
-* A function to align spectra, `hats_alignSpectra2D` was added, along with a number of supporting, non-exported functions.
+* A function to align spectra, `hats_alignSpectra2D` was added, along with a number of supporting functions.
 * `conColScheme` has moved to `ChemoSpecUtils` and can now also handle `Spectra2D` objects.  It is also now more user friendly.
 * New function `shiftSpectra2D` added to permit manual shifting.
+* `centscaleSpectra2D` gains the ability to scale by log or log10.
 
 ## Significant Changes
 * Data set `MUD1` was completely rebuilt.
 * New data set `MUD2` added, for purposes of testing alignment algorithms.
 
+## Possible Breaking Changes
+* `centscaleSpectra2D` defaults have changed.
+
 ## Misc.
 * Documentation `colorSymbol` was moved to package `ChemoSpecUtils`.
+* Unit testing framework changed to `tinytest`.
+* `normSpectra2D` now checks the input method as a valid choice.
 
 # ChemoSpec2D 0.2.55 2019-04-30
 

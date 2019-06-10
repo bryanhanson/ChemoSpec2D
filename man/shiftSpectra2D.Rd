@@ -5,7 +5,7 @@
 \title{Shift the Spectra in a Spectra2D Object}
 \usage{
 shiftSpectra2D(spectra, which = NULL, shiftF2 = 0L, shiftF1 = 0L,
-  fill = "zero")
+  fill = "noise")
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
@@ -16,9 +16,14 @@ shiftSpectra2D(spectra, which = NULL, shiftF2 = 0L, shiftF1 = 0L,
 
 \item{shiftF1}{As per \code{shiftF2}, but for the F1 dimension.}
 
-\item{fill}{Character.  One of \code{"zero"} or \code{"rnorm"} describing how to fill
-the empty rows or columns that are created during shifting.  If \code{rnorm}
-you may wish to set the seed.}
+\item{fill}{Aligning spectra requires that at least some spectra be shifted left/right
+      and up/down.  When a spectrum is shifted, spaces are opened that must be filled with something:
+\itemize{
+  \item If \code{fill = "zeros"} the spaces are filled with zeros.
+  \item If \code{fill = "rnorm"} the spaces are filled with random noise.
+  \item If \code{fill = "noise"} the spaces are filled with an estimate of the noise from the
+    original spectrum.
+}}
 }
 \value{
 An object of S3 class \code{\link{Spectra2D}}.
@@ -28,13 +33,29 @@ Shift the spectra in a \code{\link{Spectra2D}} object manually.  During shifting
 or columns are thrown away and new rows or columns are introduced.  These new entries may
 be filled with zeros, or random noise.
 \itemize{
-  \item (+) x-shift - shift right: trim right, fill left
-  \item (-) x-shift - shift left: trim left, fill right
-  \item (+) y-shift - shift up: trim top, fill bottom
-  \item (-) y-shift - shift down: trim bottom, fill top
+  \item (+) \code{shiftF2} - shift right: trim right, fill left
+  \item (-) \code{shiftF2} - shift left: trim left, fill right
+  \item (+) \code{shiftF1} - shift up: trim top, fill bottom
+  \item (-) \code{shiftF1} - shift down: trim bottom, fill top
 }
+}
+\examples{
+data(MUD2)
+# Show the first two spectra, overlaid
+
+mylvls <- seq(5, 35, 5)
+plotSpectra2D(MUD2, which = 1:2, lvls = list(mylvls, mylvls),
+  cols = list(rep("black", 7), rep("red", 7)),
+  main = "MUD2 Sample 1 (black) & Sample 2 (red)")
+
+MUD2s <- shiftSpectra2D(MUD2, which = 2, shiftF1 = -2)
+plotSpectra2D(MUD2s, which = 1:2, lvls = list(mylvls, mylvls),
+  cols = list(rep("black", 7), rep("red", 7)),
+  main = "MUD2 Sample 1 (black) & Sample 2 (red)\\n(samples aligned/overlap)")
+
+
 }
 \author{
 Bryan A. Hanson, DePauw University.
 }
-\keyword{multivariate}
+\keyword{utilities}
