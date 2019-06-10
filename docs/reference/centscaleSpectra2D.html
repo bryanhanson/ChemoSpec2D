@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Center and Optionally Scale a Spectra2D Object Along the Samples Dimension — centscaleSpectra2D • ChemoSpec2D</title>
+<title>Optionally Center and Optionally Scale a Spectra2D Object Along the Samples Dimension — centscaleSpectra2D • ChemoSpec2D</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,12 +30,11 @@
 
 
 
-<meta property="og:title" content="Center and Optionally Scale a Spectra2D Object Along the Samples Dimension — centscaleSpectra2D" />
+<meta property="og:title" content="Optionally Center and Optionally Scale a Spectra2D Object Along the Samples Dimension — centscaleSpectra2D" />
 
-<meta property="og:description" content="This function will center, and optionally scale, a Spectra2D object along the
+<meta property="og:description" content="This function will optionally center, and optionally scale, a Spectra2D object along the
 samples dimension (i.e. this is pixel-wise scaling in the language of multivariate
-image analysis). Several scaling options are available.
-The data is centered before scaling is applied." />
+image analysis). Several scaling options are available." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -66,7 +65,7 @@ The data is centered before scaling is applied." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ChemoSpec2D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.19</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.166</span>
       </span>
     </div>
 
@@ -108,21 +107,20 @@ The data is centered before scaling is applied." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Center and Optionally Scale a Spectra2D Object Along the Samples Dimension</h1>
+    <h1>Optionally Center and Optionally Scale a Spectra2D Object Along the Samples Dimension</h1>
     <small class="dont-index">Source: <a href='https://github.com/bryanhanson/ChemoSpec2D/blob/master/R/centscaleSpectra2D.R'><code>R/centscaleSpectra2D.R</code></a></small>
     <div class="hidden name"><code>centscaleSpectra2D.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This function will center, and optionally scale, a <code>Spectra2D</code> object along the
+    <p>This function will optionally center, and optionally scale, a <code>Spectra2D</code> object along the
 samples dimension (i.e. this is pixel-wise scaling in the language of multivariate
-image analysis). Several scaling options are available.
-The data is centered before scaling is applied.</p>
+image analysis). Several scaling options are available.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>centscaleSpectra2D</span>(<span class='no'>spectra</span>, <span class='kw'>choice</span> <span class='kw'>=</span> <span class='st'>"noscale"</span>)</pre>
+    <pre class="usage"><span class='fu'>centscaleSpectra2D</span>(<span class='no'>spectra</span>, <span class='kw'>center</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>scale</span> <span class='kw'>=</span> <span class='st'>"noscale"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -132,9 +130,15 @@ The data is centered before scaling is applied.</p>
       <td><p>An object of S3 class <code><a href='Spectra2D.html'>Spectra2D</a></code>.</p></td>
     </tr>
     <tr>
-      <th>choice</th>
+      <th>center</th>
+      <td><p>Logical.  Should the spectra be centered before possibly scaling?  Will give an error
+if <code>center = TRUE</code> and a log function is requested for scaling.</p></td>
+    </tr>
+    <tr>
+      <th>scale</th>
       <td><p>A character string indicating the type of scaling to apply.  One of
-<code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c("autoscale", "Pareto")</a></code>.</p></td>
+<code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c("autoscale", "Pareto", "log", "log10")</a></code>. For the log functions, centering is not carried
+out since logarithm is not defined for negative values.</p></td>
     </tr>
     </table>
     
@@ -146,6 +150,10 @@ The data is centered before scaling is applied.</p>
 
     <p>R. Bro and A. K. Smilde "Centering and Scaling in Component Analysis" J. Chemometrics
 vol. 17 pgs 16-33 (2003).</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>link{normSpectra2D}</code> for another means of scaling.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -161,6 +169,8 @@ vol. 17 pgs 16-33 (2003).</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

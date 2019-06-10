@@ -34,7 +34,8 @@
 
 <meta property="og:description" content="This function imports a single file (for instance, a csv) containing a 2D
 spectroscopic data set.  The current version handles various types of 
-ASCII text files.  This function is called by files2Spectra2DObject
+ASCII text files as well as a few other types.
+This function is called by files2Spectra2DObject
 and is exported and documented to assist in developing new format codes." />
 <meta name="twitter:card" content="summary" />
 
@@ -66,7 +67,7 @@ and is exported and documented to assist in developing new format codes." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ChemoSpec2D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.19</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.166</span>
       </span>
     </div>
 
@@ -117,7 +118,8 @@ and is exported and documented to assist in developing new format codes." />
     
     <p>This function imports a single file (for instance, a csv) containing a 2D
 spectroscopic data set.  The current version handles various types of 
-ASCII text files.  This function is called by <code>files2Spectra2DObject</code>
+ASCII text files as well as a few other types.
+This function is called by <code>files2Spectra2DObject</code>
 and is exported and documented to assist in developing new format codes.</p>
     
     </div>
@@ -174,7 +176,12 @@ left-to-right, and F1 increasing top-to-bottom. There are four possibilities:</p
     <h2 class="hasAnchor" id="other-format-codes"><a class="anchor" href="#other-format-codes"></a>Other Format Codes</h2>
 
     
-    <p>Coming soon, e.g. JDX</p>
+    <p>Here are some other format codes you can use:</p><ul>
+<li><p><code>SimpleM</code>.  Imports simple matrices composed of z values.  The F2 and F1 values
+        are taken from the dimension of the matrix.  After import, you will have to manually
+        fix the F2 and F1 values.  You may also have to transpose the matrices manually, or
+        perhaps invert the order of the rows or columns.</p></li>
+</ul>
     
 
   </div>

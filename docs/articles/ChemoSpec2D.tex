@@ -73,12 +73,12 @@ friendly.
 
 % If your first paragraph (i.e. with the \dropcap) contains a list environment (quote, quotation, theorem, definition, enumerate, itemize...), the line after the list may have some extra indentation. If this is the case, add \parshape=0 to the end of the list environment.
 
-\acknow{I'd like to thank Teddy Zartler for encouragement in developing this
-package, and for providing valuable test data sets.}
+\acknow{I'd like to thank Teddy Zartler and Patrick Giraudeau for providing
+valuable test data sets.}
 
 \newcommand\ubar[1]{\stackunder[1.2pt]{$#1$}{\rule{1.2ex}{.075ex}}}
 
-This vignette is based upon \texttt{ChemoSpec2D} version 0.2.19.
+This vignette is based upon \texttt{ChemoSpec2D} version 0.3.166.
 
 \hypertarget{background}{%
 \section{Background}\label{background}}
@@ -134,8 +134,8 @@ variables are collapsed.
 The literature on the topics of chemometric analysis of 3D data sets
 uses a wide variety of terminology to describe analysis options, and the
 same mathematical analysis can be found under different guises in
-different fields. Here are some of the more relevant and frequently
-encountered terms:
+different fields. Here are some of the terms relevant to
+\texttt{ChemoSpec2D}:
 
 \begin{itemize}
 \tightlist
@@ -148,26 +148,14 @@ encountered terms:
   essentially a photographic image. Classification using MIA methods
   involves a TUCKER1 analysis in which each image is the input, and the
   sample mode (only) is reduced to a requested number of components.
-  Scores are the output. \texttt{ChemoSpec2D} can carry out MIA.
+  \texttt{ChemoSpec2D} can carry out MIA.
 \item
-  TUCKER3. TUCKER3 is an operation in which all three dimensions of a 3D
-  data set are reduced, and each dimension can have a different number
-  of components. \texttt{ChemoSpec2D} does not carry out TUCKER3
-  analysis.
-\item
-  PARAFAC. PARAFAC, or parallel factor analysis, is very similar to
-  TUCKER3 except that each dimension is reduced to the \emph{same}
-  number of components. \texttt{ChemoSpec2D} can carry out PARAFAC and
-  it is discussed in greater detail below.
-\item
-  \(N\)-way Image Analysis. In the case of 2D NMR spectra \(N\) would be
-  three. This is a general term term which includes processes such as
-  the TUCKER variations and PARAFAC.
-\item
-  Principal Tensor Analysis (PTA). A tensor is just another term for an
-  array of any dimension, so in the case of a collection of 2D NMR the
-  data is a 3-way tensor. PTA is not a statistical method, but rather an
-  algorithmic option to carry out the statistical computations.
+  PARAFAC. PARAFAC, or parallel factor analysis, is similar to a method
+  called TUCKER3 in which data reduction occurs on all three dimensions
+  and each dimension can have a different number of factors. With
+  PARAFAC, each dimension is reduced to the \emph{same} number of
+  components. \texttt{ChemoSpec2D} can carry out PARAFAC and it is
+  discussed in greater detail below.
 \end{itemize}
 
 Keirs provides discussion and suggestions on terminology best practices
@@ -244,22 +232,6 @@ pseudo-spectrum) showing the contributions (loadings) of each peak to
 the component. \texttt{ChemoSpec2D} uses the \texttt{R} package
 \texttt{multiway} to carry out PARAFAC (\cite{Helwig2017}).
 
-PARAFAC is also known by other terms:
-
-\begin{itemize}
-\tightlist
-\item
-  Tensor rank decomposition.
-\item
-  Canonical polyadic decomposition.
-\item
-  CANDECOMP (canonical decomposition); PARAFAC and CANDECOMP are the
-  same mathematical process but were reported at about the same time and
-  given different names by their respective discoverers.
-\item
-  Tri-linear decomposition.
-\end{itemize}
-
 \hypertarget{functions}{%
 \section{Functions}\label{functions}}
 
@@ -279,7 +251,9 @@ functions are actually in a supporting package called
   \tightlist
   \item
     \textbf{files2Spectra2DObject} Imports 2D data sets. The format
-    options are currently rather limited and not completely vetted!
+    options are currently rather limited and not extensively tested. We
+    welcome additional data sets for testing and extension of the input
+    formats.
   \item
     \textbf{chkSpectra} Checks the integrity of a Spectra2D object. This
     can be used directly and is also called by nearly every other
@@ -303,7 +277,7 @@ functions are actually in a supporting package called
   \item
     \textbf{plotSpectra2D} Plots 2D spectra stored in a Spectra2D
     object, as a contour plot. Detailed data exploration is probably
-    better done on the spectrometer which is much more suited. This
+    better done on the spectrometer which is likely more suited. This
     function is for quick checks and also publication-quality plots.
   \item
     \textbf{plotSlice} Plots a slice of a 2D spectrum.
@@ -316,32 +290,39 @@ functions are actually in a supporting package called
   \item
     \textbf{centscaleSpectra2D} Centers and scales 2D spectra stored in
     a Spectra2D object.
+  \item
+    \textbf{hats\_alignSpectra2D} Aligns 2D spectra using a modification
+    of the HATS algorithm.
+  \item
+    \textbf{shiftSpectra2D} Manually shift/align spectra.
   \end{itemize}
 \item
-  Statistical Analysis Functions
+  Chemometric Functions
 
   \begin{itemize}
   \tightlist
   \item
-    \textbf{pfacSpectra2D} Carries out PARAFAC analysis of the Spectra2D
-    object.
-  \item
-    \textbf{pfacScores} Plots the scores from a PARAFAC analysis. Useful
-    for looking at how the samples cluster.
-  \item
-    \textbf{pfacLoadings} Plots a 2D pseudo-spectrum showing which peaks
-    contribute to each component.
-  \item
     \textbf{miaSpectra2D} Carries out MIA on a Spectra2D object,
     equivalent to a TUCKER1 analysis.
   \item
-    \textbf{miaScores} Plots the scores from MIA.
+    \textbf{pfacSpectra2D} Carries out PARAFAC analysis of the Spectra2D
+    object.
   \item
-    \textbf{miaLoadings} Plots the loadings from MIA.
+    \textbf{popSpectra2D} Carries out ``plain old PCA'' on a Spectra2D
+    object. The data is unstacked to a matrix before calculation.
   \item
-    \textbf{plotScree} Plots scree plots from MIA or PARAFAC.
+    \textbf{plotScree} Plots scree plots.
+  \item
+    \textbf{plotScores} Plots the scores. Useful for looking at how the
+    samples cluster.
+  \item
+    \textbf{plotLoadings2D} Plots a 2D pseudo-spectrum showing which
+    peaks contribute to each component.
   \end{itemize}
 \end{itemize}
+
+In addition, there are two data sets available for testing and
+demonstration. See \texttt{?MUD} for details.
 
 \renewcommand{\pnasbreak}{\begin{strip}\vskip0pt\end{strip}}
 

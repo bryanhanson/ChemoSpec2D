@@ -71,7 +71,7 @@ the data set without introducing NAs." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ChemoSpec2D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.19</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.166</span>
       </span>
     </div>
 
@@ -175,100 +175,96 @@ F2 are tolerated without notice and are handled <code>min</code> or <code>max</c
   <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"MUD1 Sample 7: Complete Data Set"</span>)</div><div class='img'><img src='removePeaks2D-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>MUD1a</span> <span class='kw'>&lt;-</span> <span class='fu'>removePeaks2D</span>(<span class='no'>MUD1</span>, <span class='kw'>remF2</span> <span class='kw'>=</span> <span class='fl'>2.5</span> ~ <span class='fl'>4</span>)
 <span class='fu'><a href='sumSpectra.html'>sumSpectra</a></span>(<span class='no'>MUD1a</span>)</div><div class='output co'>#&gt; 
-#&gt;  MUD1: HSQC-like data for ChemoSpec2D demo &amp; testing 
+#&gt;  MUD1: HSQC-like data for testing. See ?MUD1 
 #&gt; 
 #&gt; 	There are 10 spectra in this set.
 #&gt; 
-#&gt; 	The F2 dimension runs from 0 to 10 ppm
-#&gt; 	and there are 51 data points.
+#&gt; 	The F2 dimension runs from 0 to 5 ""^1 * H ~ ppm
+#&gt; 	and there are 100 data points.
 #&gt; 
-#&gt; 	The F1 dimension runs from 10 to 30 ppm
-#&gt; 	and there are 41 slices.
+#&gt; 	The F1 dimension runs from 10 to 80 ""^13 * C ~ ppm
+#&gt; 	and there are 50 slices.
 #&gt; 
 #&gt; 	NAs were found in the data matrices.  To see where, use plotSpectra2D.
 #&gt; 
 #&gt; 	The spectra are divided into 2 groups: 
 #&gt; 
-#&gt;    group no. color
-#&gt; 1 GroupA   5   red
-#&gt; 2 GroupB   5  blue
-#&gt; 
+#&gt;     group no. color
+#&gt; 1 Alcohol   5 black
+#&gt; 2   Ether   5   red
 #&gt; 
 #&gt; *** Note: this is an S3 object
 #&gt; of class 'Spectra2D'</div><div class='input'><span class='fu'><a href='plotSpectra2D.html'>plotSpectra2D</a></span>(<span class='no'>MUD1a</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>lvls</span> <span class='kw'>=</span> <span class='no'>mylvls</span>,
   <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"MUD1 Sample 7\nRemoved Peaks: F2 2.5 ~ 4"</span>)</div><div class='img'><img src='removePeaks2D-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>MUD1b</span> <span class='kw'>&lt;-</span> <span class='fu'>removePeaks2D</span>(<span class='no'>MUD1</span>, <span class='kw'>remF2</span> <span class='kw'>=</span> <span class='no'>low</span> ~ <span class='fl'>5</span>)
+<span class='no'>MUD1b</span> <span class='kw'>&lt;-</span> <span class='fu'>removePeaks2D</span>(<span class='no'>MUD1</span>, <span class='kw'>remF2</span> <span class='kw'>=</span> <span class='no'>low</span> ~ <span class='fl'>2</span>)
 <span class='fu'><a href='sumSpectra.html'>sumSpectra</a></span>(<span class='no'>MUD1b</span>)</div><div class='output co'>#&gt; 
-#&gt;  MUD1: HSQC-like data for ChemoSpec2D demo &amp; testing 
+#&gt;  MUD1: HSQC-like data for testing. See ?MUD1 
 #&gt; 
 #&gt; 	There are 10 spectra in this set.
 #&gt; 
-#&gt; 	The F2 dimension runs from 0 to 10 ppm
-#&gt; 	and there are 51 data points.
+#&gt; 	The F2 dimension runs from 0 to 5 ""^1 * H ~ ppm
+#&gt; 	and there are 100 data points.
 #&gt; 
-#&gt; 	The F1 dimension runs from 10 to 30 ppm
-#&gt; 	and there are 41 slices.
+#&gt; 	The F1 dimension runs from 10 to 80 ""^13 * C ~ ppm
+#&gt; 	and there are 50 slices.
 #&gt; 
 #&gt; 	NAs were found in the data matrices.  To see where, use plotSpectra2D.
 #&gt; 
 #&gt; 	The spectra are divided into 2 groups: 
 #&gt; 
-#&gt;    group no. color
-#&gt; 1 GroupA   5   red
-#&gt; 2 GroupB   5  blue
-#&gt; 
+#&gt;     group no. color
+#&gt; 1 Alcohol   5 black
+#&gt; 2   Ether   5   red
 #&gt; 
 #&gt; *** Note: this is an S3 object
 #&gt; of class 'Spectra2D'</div><div class='input'><span class='fu'><a href='plotSpectra2D.html'>plotSpectra2D</a></span>(<span class='no'>MUD1b</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>lvls</span> <span class='kw'>=</span> <span class='no'>mylvls</span>,
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"MUD1 Sample 7\nRemoved Peaks: F2 low ~ 5"</span>)</div><div class='img'><img src='removePeaks2D-3.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"MUD1 Sample 7\nRemoved Peaks: F2 low ~ 2"</span>)</div><div class='img'><img src='removePeaks2D-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='no'>MUD1c</span> <span class='kw'>&lt;-</span> <span class='fu'>removePeaks2D</span>(<span class='no'>MUD1</span>, <span class='kw'>remF1</span> <span class='kw'>=</span> <span class='no'>high</span> ~ <span class='fl'>23</span>)
 <span class='fu'><a href='sumSpectra.html'>sumSpectra</a></span>(<span class='no'>MUD1c</span>)</div><div class='output co'>#&gt; 
-#&gt;  MUD1: HSQC-like data for ChemoSpec2D demo &amp; testing 
+#&gt;  MUD1: HSQC-like data for testing. See ?MUD1 
 #&gt; 
 #&gt; 	There are 10 spectra in this set.
 #&gt; 
-#&gt; 	The F2 dimension runs from 0 to 10 ppm
-#&gt; 	and there are 51 data points.
+#&gt; 	The F2 dimension runs from 0 to 5 ""^1 * H ~ ppm
+#&gt; 	and there are 100 data points.
 #&gt; 
-#&gt; 	The F1 dimension runs from 10 to 30 ppm
-#&gt; 	and there are 41 slices.
+#&gt; 	The F1 dimension runs from 10 to 80 ""^13 * C ~ ppm
+#&gt; 	and there are 50 slices.
 #&gt; 
 #&gt; 	NAs were found in the data matrices.  To see where, use plotSpectra2D.
 #&gt; 
 #&gt; 	The spectra are divided into 2 groups: 
 #&gt; 
-#&gt;    group no. color
-#&gt; 1 GroupA   5   red
-#&gt; 2 GroupB   5  blue
-#&gt; 
+#&gt;     group no. color
+#&gt; 1 Alcohol   5 black
+#&gt; 2   Ether   5   red
 #&gt; 
 #&gt; *** Note: this is an S3 object
 #&gt; of class 'Spectra2D'</div><div class='input'><span class='fu'><a href='plotSpectra2D.html'>plotSpectra2D</a></span>(<span class='no'>MUD1c</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>lvls</span> <span class='kw'>=</span> <span class='no'>mylvls</span>,
   <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"MUD1 Sample 7\nRemoved Peaks: F1 high ~ 23"</span>)</div><div class='img'><img src='removePeaks2D-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='no'>MUD1d</span> <span class='kw'>&lt;-</span> <span class='fu'>removePeaks2D</span>(<span class='no'>MUD1</span>, <span class='kw'>remF2</span> <span class='kw'>=</span> <span class='fl'>2.5</span> ~ <span class='fl'>4</span>, <span class='kw'>remF1</span> <span class='kw'>=</span> <span class='fl'>17</span> ~ <span class='fl'>20</span>)
+<span class='no'>MUD1d</span> <span class='kw'>&lt;-</span> <span class='fu'>removePeaks2D</span>(<span class='no'>MUD1</span>, <span class='kw'>remF2</span> <span class='kw'>=</span> <span class='fl'>2.5</span> ~ <span class='fl'>4</span>, <span class='kw'>remF1</span> <span class='kw'>=</span> <span class='fl'>45</span> ~ <span class='fl'>55</span>)
 <span class='fu'><a href='sumSpectra.html'>sumSpectra</a></span>(<span class='no'>MUD1d</span>)</div><div class='output co'>#&gt; 
-#&gt;  MUD1: HSQC-like data for ChemoSpec2D demo &amp; testing 
+#&gt;  MUD1: HSQC-like data for testing. See ?MUD1 
 #&gt; 
 #&gt; 	There are 10 spectra in this set.
 #&gt; 
-#&gt; 	The F2 dimension runs from 0 to 10 ppm
-#&gt; 	and there are 51 data points.
+#&gt; 	The F2 dimension runs from 0 to 5 ""^1 * H ~ ppm
+#&gt; 	and there are 100 data points.
 #&gt; 
-#&gt; 	The F1 dimension runs from 10 to 30 ppm
-#&gt; 	and there are 41 slices.
+#&gt; 	The F1 dimension runs from 10 to 80 ""^13 * C ~ ppm
+#&gt; 	and there are 50 slices.
 #&gt; 
 #&gt; 	NAs were found in the data matrices.  To see where, use plotSpectra2D.
 #&gt; 
 #&gt; 	The spectra are divided into 2 groups: 
 #&gt; 
-#&gt;    group no. color
-#&gt; 1 GroupA   5   red
-#&gt; 2 GroupB   5  blue
-#&gt; 
+#&gt;     group no. color
+#&gt; 1 Alcohol   5 black
+#&gt; 2   Ether   5   red
 #&gt; 
 #&gt; *** Note: this is an S3 object
 #&gt; of class 'Spectra2D'</div><div class='input'><span class='fu'><a href='plotSpectra2D.html'>plotSpectra2D</a></span>(<span class='no'>MUD1d</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>lvls</span> <span class='kw'>=</span> <span class='no'>mylvls</span>,
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"MUD1 Sample 7\nRemoved Peaks: F2 2.5 ~ 4 &amp; F1 17 ~ 20"</span>)</div><div class='img'><img src='removePeaks2D-5.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"MUD1 Sample 7\nRemoved Peaks: F2 2.5 ~ 4 &amp; F1 45 ~ 55"</span>)</div><div class='img'><img src='removePeaks2D-5.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

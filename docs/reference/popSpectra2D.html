@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Multivariate Image Analysis (Tucker 1) of a Spectra2D Object — miaSpectra2D • ChemoSpec2D</title>
+<title>Plain Old PCA (POP) of Spectra2D Objects — popSpectra2D • ChemoSpec2D</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,16 @@
 
 
 
-<meta property="og:title" content="Multivariate Image Analysis (Tucker 1) of a Spectra2D Object — miaSpectra2D" />
+<meta property="og:title" content="Plain Old PCA (POP) of Spectra2D Objects — popSpectra2D" />
 
-<meta property="og:description" content="Carry out multivariate image analysis of a Spectra2D object
-(multivariate image analysis is the same as a Tucker1 analysis).
-Function pcasup1 from package ThreeWay is used." />
+<meta property="og:description" content="This function unstacks a Spectra2D object and conducts IRLBA
+PCA on it.
+To unstack, each F1 slice (parallel to F2) is concatenated one after the other
+so that each 2D spectrum becomes a 1D spectrum.  The length of this spectrum will be
+equal to the length of the F2 dimension times the length of the F1 dimension.
+PCA is performed on the collection of 1D spectra (one spectrum from each 2D spectrum).
+The IRLBA algorithm is used because the resulting matrix (n samples  in rows x F1 * F2 columns)
+can be very large, and other PCA algorithms can struggle." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -107,20 +112,25 @@ Function pcasup1 from package ThreeWay is used." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Multivariate Image Analysis (Tucker 1) of a Spectra2D Object</h1>
-    <small class="dont-index">Source: <a href='https://github.com/bryanhanson/ChemoSpec2D/blob/master/R/miaSpectra2D.R'><code>R/miaSpectra2D.R</code></a></small>
-    <div class="hidden name"><code>miaSpectra2D.Rd</code></div>
+    <h1>Plain Old PCA (POP) of Spectra2D Objects</h1>
+    <small class="dont-index">Source: <a href='https://github.com/bryanhanson/ChemoSpec2D/blob/master/R/popSpectra2D.R'><code>R/popSpectra2D.R</code></a></small>
+    <div class="hidden name"><code>popSpectra2D.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Carry out multivariate image analysis of a <code><a href='Spectra2D.html'>Spectra2D</a></code> object
-(multivariate image analysis is the same as a Tucker1 analysis).
-Function <code><a href='https://www.rdocumentation.org/packages/ThreeWay/topics/pcasup1'>pcasup1</a></code> from package <span class="pkg">ThreeWay</span> is used.</p>
+    <p>This function unstacks a <code>Spectra2D</code> object and conducts IRLBA
+PCA on it.
+To unstack, each F1 slice (parallel to F2) is concatenated one after the other
+so that each 2D spectrum becomes a 1D spectrum.  The length of this spectrum will be
+equal to the length of the F2 dimension times the length of the F1 dimension.
+PCA is performed on the collection of 1D spectra (one spectrum from each 2D spectrum).
+The IRLBA algorithm is used because the resulting matrix (n samples  in rows x F1 * F2 columns)
+can be very large, and other PCA algorithms can struggle.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>miaSpectra2D</span>(<span class='no'>spectra</span>)</pre>
+    <pre class="usage"><span class='fu'>popSpectra2D</span>(<span class='no'>spectra</span>, <span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>choice</span> <span class='kw'>=</span> <span class='st'>"noscale"</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -129,51 +139,51 @@ Function <code><a href='https://www.rdocumentation.org/packages/ThreeWay/topics/
       <th>spectra</th>
       <td><p>An object of S3 class <code><a href='Spectra2D.html'>Spectra2D</a></code>.</p></td>
     </tr>
+    <tr>
+      <th>n</th>
+      <td><p>Integer. The number of components desired.</p></td>
+    </tr>
+    <tr>
+      <th>choice</th>
+      <td><p>A character string indicating the choice of scaling.  One of
+<code>c("noscale"</code>, <code>"autoscale"</code>, <code>"Pareto")</code>.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Other parameters to be passed to <code><a href='https://www.rdocumentation.org/packages/irlba/topics/prcomp_irlba'>prcomp_irlba</a></code>.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A list per <code><a href='https://www.rdocumentation.org/packages/ThreeWay/topics/pcasup1'>pcasup1</a></code>.  Of particular interest are the
-  elements <code>C</code> containing the eigenvectors and <code>1c</code> containing the eigenvalues.
-  We add the class <code>mia</code> to the list for our use later, as well as a <code>method</code>
-  element for annotating plots.</p>
+    <p>An object of classes <code>prcomp</code>, <code>pop</code> and <code>computed_via_irlba</code> 
+modified to include a list element called <code>$method</code>, a character string describing the
+pre-processing carried out and the type of PCA performed (used to annotate
+plots).</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The scale choice <code>autoscale</code> scales the columns by their standard
+deviation.  <code>Pareto</code> scales by the square root of the standard
+deviation. <code>"autoscale"</code> is called "standard normal variate" or "correlation matrix PCA"
+in some literature.  This action is performed on the unstacked matrix, as will centering.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>A. Smilde, R. Bro and P. Geladi
-"Multi-way Analysis: Applications in the Chemical Sciences" Wiley (2004).
-See especially Example 4.5.</p>
-<p>P. Geladi and H. Grahn "Multivariate Image Analysis" Wiley (1996).  Note that
-in this text the meanings of scores and loadings are reversed from the usual
-spectroscopic uses of the terms.</p>
+    <p>J. Baglama and L. Reichel, "Augmented Implicitly Restarted Lanczos
+Bidiagonalization Methods"  <em>SIAM J. Sci. Comput.</em> (2005).</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>For other data reduction methods for <code>Spectra2D</code> objects, see
-<code><a href='pfacSpectra2D.html'>pfacSpectra2D</a></code> and <code><a href='popSpectra2D.html'>popSpectra2D</a></code>.</p></div>
+<code><a href='miaSpectra2D.html'>miaSpectra2D</a></code> and <code><a href='pfacSpectra2D.html'>pfacSpectra2D</a></code>.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>MUD1</span>)
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>miaSpectra2D</span>(<span class='no'>MUD1</span>)</div><div class='output co'>#&gt; PCASUP: eigenvalues mode C
-#&gt;         Eigenvalue Fit(%)
-#&gt; Comp.1    92964.50  79.89
-#&gt; Comp.2     6995.23  85.90
-#&gt; Comp.3     5744.79  90.84
-#&gt; Comp.4     4342.95  94.57
-#&gt; Comp.5     2282.62  96.53
-#&gt; Comp.6     1959.07  98.22
-#&gt; Comp.7     1132.67  99.19
-#&gt; Comp.8      528.56  99.65
-#&gt; Comp.9      263.81  99.87
-#&gt; Comp.10     148.99 100.00</div><div class='input'><span class='fu'><a href='plotScores.html'>plotScores</a></span>(<span class='no'>MUD1</span>, <span class='no'>res</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"MIA Scores"</span>, <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1.0</span>, <span class='kw'>ellipse</span> <span class='kw'>=</span> <span class='st'>"cls"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in "pop" %in% class(so): object 'res' not found</span></div><div class='input'><span class='fu'><a href='plotScree.html'>plotScree</a></span>(<span class='no'>res</span>)</div><div class='img'><img src='miaSpectra2D-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>MUD1a</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='plotLoadings2D.html'>plotLoadings2D</a></span>(<span class='no'>MUD1</span>, <span class='no'>res</span>, <span class='kw'>load_lvls</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>90</span>, <span class='fl'>0</span>, <span class='fl'>10</span>),
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"MIA Comp. 1 Loadings"</span>)</div><div class='img'><img src='miaSpectra2D-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Selection of loading matrix levels can be aided by the following</span>
-
-<span class='fu'><a href='inspectLvls.html'>inspectLvls</a></span>(<span class='no'>MUD1a</span>, <span class='kw'>loading</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Histogram of Loadings Matrix"</span>)</div><div class='img'><img src='miaSpectra2D-3.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>MUD1</span>)
+<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>popSpectra2D</span>(<span class='no'>MUD1</span>)
+<span class='fu'><a href='plotScores.html'>plotScores</a></span>(<span class='no'>MUD1</span>, <span class='no'>res</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"POP Scores"</span>, <span class='kw'>ellipse</span> <span class='kw'>=</span> <span class='st'>"cls"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in "pop" %in% class(so): object 'res' not found</span></div><div class='input'><span class='fu'><a href='plotScree.html'>plotScree</a></span>(<span class='no'>res</span>)</div><div class='img'><img src='popSpectra2D-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>MUD1a</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='plotLoadings2D.html'>plotLoadings2D</a></span>(<span class='no'>MUD1</span>, <span class='no'>res</span>, <span class='kw'>load_lvls</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>0.2</span>, -<span class='fl'>0.1</span>, <span class='fl'>0.1</span>, <span class='fl'>0.2</span>),
+  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"POP Comp. 1 Loadings"</span>)</div><div class='img'><img src='popSpectra2D-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -181,6 +191,8 @@ spectroscopic uses of the terms.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#references">References</a></li>
 

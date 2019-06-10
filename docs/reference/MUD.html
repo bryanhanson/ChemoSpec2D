@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Exploratory Chemometrics for 2D Spectroscopy — ChemoSpec2D-package • ChemoSpec2D</title>
+<title>Made Up 2D NMR-Like Data Sets — MUD • ChemoSpec2D</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,18 +30,22 @@
 
 
 
-<meta property="og:title" content="Exploratory Chemometrics for 2D Spectroscopy — ChemoSpec2D-package" />
+<meta property="og:title" content="Made Up 2D NMR-Like Data Sets — MUD" />
 
-<meta property="og:description" content="Description: A collection of functions for exploratory chemometrics of 2D
-spectroscopic data sets such as COSY and HSQC NMR spectra. ChemoSpec2D deploys
-methods aimed primarily at classification of samples and the identification of
-spectral features which are important in distinguishing samples from each other.
-Each 2D spectrum (a matrix) is treated as the unit of observation, and thus the
-physical sample in the spectrometer corresponds to the  sample from a statistical
-perspective.  In addition to chemometric tools, a few tools are provided for
-plotting 2D spectra, but these are not intended to replace the functionality
-typically available on the spectrometer. ChemoSpec2D takes many of its cues from
-ChemoSpec and tries to create consistent graphical output and to be very user friendly." />
+<meta property="og:description" content="Made Up Data that resemble simple, HSQC-like 2D NMR data sets.  Lean, low resolution 
+and designed primarily to check graphics and test functions. As this is made up
+data, there is no underlying tri-linear structure and therefore one should NOT try to interpret
+the output of miaSpectra2D or pfacSpectra2D run on this data.
+MUD1 is intended to test and demonstrate data reduction functions.  The HSQC-like data
+is derived from the 1H and 13C spectra of 3-methyl-1-butanol and the corresponding ethyl ether,
+idealized slightly for simplicity. There are 10 spectra.  Sample 1 is the alcohol; samples 2-5 are
+the alcohol with local shifts (specifically, two peaks have been shifted +/- one data point).
+Samples 6-10 are the ether, treated in a similar fashion.
+MUD2 is intended to test and demonstrate alignment algorithms.  The HSQC-like data
+is derived from the 1H and 13C spectra of 3-methyl-1-butanol, idealized slightly for
+simplicity. There are 10 spectra.  The first one is &quot;correct&quot; and the other samples have global shifts on one
+or both dimensions.
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -114,37 +118,58 @@ ChemoSpec and tries to create consistent graphical output and to be very user fr
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Exploratory Chemometrics for 2D Spectroscopy</h1>
-    <small class="dont-index">Source: <a href='https://github.com/bryanhanson/ChemoSpec2D/blob/master/R/ChemoSpec2D-package.R'><code>R/ChemoSpec2D-package.R</code></a></small>
-    <div class="hidden name"><code>ChemoSpec2D-package.Rd</code></div>
+    <h1>Made Up 2D NMR-Like Data Sets</h1>
+    <small class="dont-index">Source: <a href='https://github.com/bryanhanson/ChemoSpec2D/blob/master/R/MUD.R'><code>R/MUD.R</code></a></small>
+    <div class="hidden name"><code>MUD.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Description: A collection of functions for exploratory chemometrics of 2D
-spectroscopic data sets such as COSY and HSQC NMR spectra. ChemoSpec2D deploys
-methods aimed primarily at classification of samples and the identification of
-spectral features which are important in distinguishing samples from each other.
-Each 2D spectrum (a matrix) is treated as the unit of observation, and thus the
-physical sample in the spectrometer corresponds to the  sample from a statistical
-perspective.  In addition to chemometric tools, a few tools are provided for
-plotting 2D spectra, but these are not intended to replace the functionality
-typically available on the spectrometer. ChemoSpec2D takes many of its cues from
-ChemoSpec and tries to create consistent graphical output and to be very user friendly.</p>
+    <p>Made Up Data that resemble simple, HSQC-like 2D NMR data sets.  Lean, low resolution 
+and designed primarily to check graphics and test functions. <span class="pkg">As this is made up
+data, there is no underlying tri-linear structure and therefore one should NOT try to interpret
+the output of <code>miaSpectra2D</code> or <code>pfacSpectra2D</code> run on this data</span>.</p><ul>
+<li><p><code>MUD1</code> is intended to test and demonstrate data reduction functions.  The HSQC-like data
+is derived from the 1H and 13C spectra of 3-methyl-1-butanol and the corresponding ethyl ether,
+idealized slightly for simplicity. There are 10 spectra.  Sample 1 is the alcohol; samples 2-5 are
+the alcohol with local shifts (specifically, two peaks have been shifted +/- one data point).
+Samples 6-10 are the ether, treated in a similar fashion.</p></li>
+<li><p><code>MUD2</code> is intended to test and demonstrate alignment algorithms.  The HSQC-like data
+is derived from the 1H and 13C spectra of 3-methyl-1-butanol, idealized slightly for
+simplicity. There are 10 spectra.  The first one is "correct" and the other samples have global shifts on one
+or both dimensions.</p></li>
+</ul>
     
     </div>
 
         
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>The data are stored as a <code><a href='Spectra2D.html'>Spectra2D</a></code> object.</p>
+    
+    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+
+    <p>Created from scratch. Contact the author for a script if interested.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>These data sets are used in the examples of many functions.</p></div>
+    
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-                </ul>
+      
+      <li><a href="#format">Format</a></li>
+
+      <li><a href="#source">Source</a></li>
+
+      <li><a href="#see-also">See also</a></li>
+          </ul>
 
     <h2>Author</h2>
-    <p>Bryan A. Hanson.</p>
-<p>Maintainer: Bryan A. Hanson <a href='mailto:hanson@depauw.edu'>hanson@depauw.edu</a></p>
+    <p>Bryan A. Hanson, DePauw University.</p>
   </div>
 </div>
 

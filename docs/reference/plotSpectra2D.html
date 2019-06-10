@@ -66,7 +66,7 @@ to the spectrometer." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ChemoSpec2D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.19</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.166</span>
       </span>
     </div>
 
@@ -177,7 +177,7 @@ be shown?  If present, these are shown by a gray line at each frequency.</p></td
     <p>One cannot remove frequencies from the interior of a 2D NMR data set and expect to get a meaningful
 contour plot, because doing so puts unrelated peaks adjacent in the data set.
 This would lead to contours being drawn that don't exist in the original data set.
-This function will check for missing frequencies and stop if any are found.</p>
+This function will check for missing frequencies and stops if any are found.</p>
     
     <h2 class="hasAnchor" id="scale"><a class="anchor" href="#scale"></a>Scale</h2>
 
@@ -205,11 +205,11 @@ element for each spectrum to be plotted (if specified at all).  See the examples
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>MUD1</span>)
-<span class='no'>mylvls</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>0.3</span>, <span class='fl'>0.3</span>, <span class='fl'>0.1</span>)[-<span class='fl'>4</span>]
+<span class='no'>mylvls</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='fl'>5</span>, <span class='fl'>35</span>, <span class='fl'>5</span>)
 <span class='fu'>plotSpectra2D</span>(<span class='no'>MUD1</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>lvls</span> <span class='kw'>=</span> <span class='no'>mylvls</span>,
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"MUD1 Sample 7"</span>)</div><div class='img'><img src='plotSpectra2D-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotSpectra2D</span>(<span class='no'>MUD1</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>6</span>), <span class='kw'>lvls</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>mylvls</span>, <span class='no'>mylvls</span>),
-  <span class='kw'>cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>"black"</span>, <span class='fl'>6</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>"red"</span>, <span class='fl'>6</span>)),
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"MUD1 Sample 1 (black) &amp; Sample 6 (red)"</span>)</div><div class='img'><img src='plotSpectra2D-2.png' alt='' width='700' height='433' /></div><div class='input'>
+  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"MUD1 Sample 7"</span>)</div><div class='img'><img src='plotSpectra2D-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>plotSpectra2D</span>(<span class='no'>MUD1</span>, <span class='kw'>which</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>6</span>, <span class='fl'>1</span>), <span class='kw'>lvls</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>mylvls</span>, <span class='no'>mylvls</span>),
+  <span class='kw'>cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>"black"</span>, <span class='fl'>7</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>"red"</span>, <span class='fl'>7</span>)),
+  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"MUD1 Sample 1 (red) &amp; Sample 6 (black)\n(4 of 6 peaks overlap)"</span>)</div><div class='img'><img src='plotSpectra2D-2.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

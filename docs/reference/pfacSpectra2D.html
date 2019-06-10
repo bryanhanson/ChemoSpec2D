@@ -35,7 +35,7 @@
 <meta property="og:description" content="Carry out PARAFAC analysis of a Spectra2D object.
 Function parafac from multiway is used.
 For large data sets, computational time may be long enough that
-it might desirable to run in batch mode." />
+it might desirable to run in batch mode and possibly use parallel processing." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -66,7 +66,7 @@ it might desirable to run in batch mode." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ChemoSpec2D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.19</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.166</span>
       </span>
     </div>
 
@@ -118,11 +118,12 @@ it might desirable to run in batch mode." />
     <p>Carry out PARAFAC analysis of a <code><a href='Spectra2D.html'>Spectra2D</a></code> object.
 Function <code><a href='https://www.rdocumentation.org/packages/multiway/topics/parafac'>parafac</a></code> from <span class="pkg">multiway</span> is used.
 For large data sets, computational time may be long enough that
-it might desirable to run in batch mode.</p>
+it might desirable to run in batch mode and possibly use parallel processing.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>pfacSpectra2D</span>(<span class='no'>spectra</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>setup</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>pfacSpectra2D</span>(<span class='no'>spectra</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>setup</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>nfac</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+  <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -143,18 +144,23 @@ configured for you.  If <code>FALSE</code>, the user must configure the environm
 themselves (desirable for instance if working on Azure or AWS EC2).</p></td>
     </tr>
     <tr>
+      <th>nfac</th>
+      <td><p>Integer.  The number of factors/components to compute.</p></td>
+    </tr>
+    <tr>
       <th>&#8230;</th>
       <td><p>Additional parameters to be passed to function <code><a href='https://www.rdocumentation.org/packages/multiway/topics/parafac'>parafac</a></code>.
-At the minimum, you'll need to specify <code>nfac</code>.  You should also give thought to
-value of <code>const</code>, allowed options can be seen in <code><a href='https://www.rdocumentation.org/packages/CMLS/topics/const'>const</a></code>.
-The default is to compute an unconstrained solution.  However, in some cases one may
-wish to apply a non-negativity constraint.</p></td>
+You should give thought to value of <code>const</code>, allowed options can be seen in
+<code><a href='https://www.rdocumentation.org/packages/CMLS/topics/const'>const</a></code>. The default is to compute an unconstrained solution.
+However, in some cases one may wish to apply a non-negativity constraint.  Also,
+to suppress the progress bar, you can use <code>verbose = FALSE</code>.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of class <code>parafac</code>.</p>
+    <p>An object of class <code>pfac</code> and <code>parafac</code>, modified to include a list
+element called <code>$method</code> which is <code>parafac</code>.</p>
     
     <h2 class="hasAnchor" id="warning"><a class="anchor" href="#warning"></a>Warning</h2>
 
@@ -168,22 +174,27 @@ Laboratory Systems</em> vol. 38 pgs. 149-171 (1997).</p>
 <p>A. Smilde, R. Bro and P. Geladi
 "Multi-way Analysis: Applications in the Chemical Sciences" Wiley (2004).</p>
     
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>For other data reduction methods for <code>Spectra2D</code> objects, see
+<code><a href='miaSpectra2D.html'>miaSpectra2D</a></code> and <code><a href='popSpectra2D.html'>popSpectra2D</a></code>.</p></div>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>MUD1</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>123</span>)
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>pfacSpectra2D</span>(<span class='no'>MUD1</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>nfac</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |=======                                                               |  10%  |                                                                              |==============                                                        |  20%  |                                                                              |=====================                                                 |  30%  |                                                                              |============================                                          |  40%  |                                                                              |===================================                                   |  50%  |                                                                              |==========================================                            |  60%  |                                                                              |=================================================                     |  70%  |                                                                              |========================================================              |  80%  |                                                                              |===============================================================       |  90%  |                                                                              |======================================================================| 100%</div><div class='input'><span class='fu'><a href='plotScores.html'>plotScores</a></span>(<span class='no'>MUD1</span>, <span class='no'>res</span>, <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>leg.loc</span> <span class='kw'>=</span> <span class='st'>"topright"</span>,
-  <span class='kw'>ellipse</span> <span class='kw'>=</span> <span class='st'>"cls"</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"PARAFAC Score Plot"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in (function (spectra, so, pcs = c(1, 2), ellipse = "none", tol = "none",     use.sym = FALSE, leg.loc = "topright", ...) {    if (length(pcs) != 2)         stop("You must choose exactly two PC's to plot")    case &lt;- NULL    if ((class(so) == "prcomp") || (class(so) == "conPCA"))         case &lt;- "PCA"    if ((class(so) == "parafac") || (class(so) == "mia"))         case &lt;- "MIA"    if (is.null(case))         stop("Your score object has the wrong class! Double check that the Spectra object is the 1st argument and the score object is the 2nd argument.")    if ((case == "MIA") &amp;&amp; (use.sym))         stop("ChemoSpec2D does not support use.sym.")    chkSpectra(spectra)    if (case == "PCA")         DF &lt;- data.frame(so$x[, pcs], group = spectra$groups)    if (case == "MIA")         DF &lt;- data.frame(so$C[, pcs], group = spectra$groups)    GRPS &lt;- dlply(DF, "group", subset, select = c(1, 2))    if ((ellipse == "cls") || (ellipse == "rob") || (ellipse ==         "both")) {        gr &lt;- sumGroups(spectra)        for (n in 1:length(gr$group)) {            if (gr$no.[n] == 1)                 message("Group ", gr$group[n], "\n\thas only 1 member (no ellipse possible)")            if (gr$no.[n] == 2)                 message("Group ", gr$group[n], "\n\thas only 2 members (no ellipse possible)")            if (gr$no.[n] == 3)                 message("Group ", gr$group[n], "\n\thas only 3 members (ellipse not drawn)")        }        idx &lt;- which(gr$no. &gt; 3)        gr &lt;- gr[idx, ]        ELL &lt;- llply(GRPS[idx], .computeEllipses)        x.scores &lt;- range(llply(GRPS, subset, select = 1))        y.scores &lt;- range(llply(GRPS, subset, select = 2))        x.ell &lt;- range(llply(ELL, function(x) {            range(x[1])        }))        y.ell &lt;- range(llply(ELL, function(x) {            range(x[2])        }))        x.ell.r &lt;- range(llply(ELL, function(x) {            range(x[4])        }))        y.ell.r &lt;- range(llply(ELL, function(x) {            range(x[5])        }))        x.all &lt;- range(x.scores, x.ell, x.ell.r) * c(1, 1.15)        y.all &lt;- range(y.scores, y.ell, y.ell.r) * c(1, 1.15)    }    if (ellipse == "none") {        x.scores &lt;- range(llply(GRPS, subset, select = 1))        y.scores &lt;- range(llply(GRPS, subset, select = 2))        x.all &lt;- range(x.scores) * c(1, 1.15)        y.all &lt;- range(y.scores) * c(1, 1.15)    }    .drawPoints(DF[, 1:2], spectra, case = case, use.sym = use.sym,         xlim = x.all, ylim = y.all, ...)    if ((ellipse == "cls") | (ellipse == "rob") | (ellipse ==         "both"))         .drawEllipses(ELL, gr, ellipse, use.sym, ...)    if (case == "PCA") {        .addMethod(so)        if (leg.loc != "none")             .addLegend(spectra, leg.loc, use.sym, bty = "n")        .addEllipseInfo(ellipse)    }    if (case == "MIA") {        if (leg.loc != "none")             .addLegend(spectra, leg.loc, use.sym = FALSE, bty = "n")        .addEllipseInfo(ellipse)    }    if (tol != "none")         .labelExtremes(DF[, 1:2], spectra$names, tol)})(spectra = MUD1, so = res, ellipse = "cls", tol = 0.1, leg.loc = "topright",     main = "PARAFAC Score Plot", xlab = "Component 1", ylab = "Component 2",     use.sym = FALSE): object 'res' not found</span></div><div class='input'><span class='no'>res1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pfacLoadings.html'>pfacLoadings</a></span>(<span class='no'>MUD1</span>, <span class='no'>res</span>,
-  <span class='kw'>load_lvls</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>12</span>, -<span class='fl'>2</span>, <span class='fl'>2</span>),
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"PARAFAC Comp. 1 Loadings"</span>)</div><div class='img'><img src='pfacSpectra2D-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>res2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='pfacLoadings.html'>pfacLoadings</a></span>(<span class='no'>MUD1</span>, <span class='no'>res</span>, <span class='kw'>load_lvls</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>12</span>, -<span class='fl'>2</span>, <span class='fl'>2</span>),
-  <span class='kw'>ref</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ref_lvls</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>0.2</span>, -<span class='fl'>0.1</span>, <span class='fl'>0.1</span>, <span class='fl'>0.2</span>),
-  <span class='kw'>ref_cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"violet"</span>, <span class='st'>"violet"</span>, <span class='st'>"orange"</span>, <span class='st'>"orange"</span>),
+<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>pfacSpectra2D</span>(<span class='no'>MUD1</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>nfac</span> <span class='kw'>=</span> <span class='fl'>2</span>)</div><div class='output co'>#&gt;   |                                                                              |                                                                      |   0%  |                                                                              |=======                                                               |  10%  |                                                                              |==============                                                        |  20%  |                                                                              |=====================                                                 |  30%  |                                                                              |============================                                          |  40%  |                                                                              |===================================                                   |  50%  |                                                                              |==========================================                            |  60%  |                                                                              |=================================================                     |  70%  |                                                                              |========================================================              |  80%  |                                                                              |===============================================================       |  90%  |                                                                              |======================================================================| 100%</div><div class='input'><span class='fu'><a href='plotScores.html'>plotScores</a></span>(<span class='no'>MUD1</span>, <span class='no'>res</span>, <span class='kw'>leg.loc</span> <span class='kw'>=</span> <span class='st'>"topright"</span>,
+  <span class='kw'>ellipse</span> <span class='kw'>=</span> <span class='st'>"cls"</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"PARAFAC Score Plot"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in "pop" %in% class(so): object 'res' not found</span></div><div class='input'><span class='no'>res1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='plotLoadings2D.html'>plotLoadings2D</a></span>(<span class='no'>MUD1</span>, <span class='no'>res</span>,
+  <span class='kw'>load_lvls</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>15</span>, <span class='fl'>25</span>),
+  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"PARAFAC Comp. 1 Loadings"</span>)</div><div class='img'><img src='pfacSpectra2D-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>res2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='plotLoadings2D.html'>plotLoadings2D</a></span>(<span class='no'>MUD1</span>, <span class='no'>res</span>, <span class='kw'>load_lvls</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>15</span>, <span class='fl'>25</span>),
+  <span class='kw'>ref</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>ref_lvls</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='fl'>5</span>, <span class='fl'>35</span>, <span class='fl'>5</span>),
+  <span class='kw'>ref_cols</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>"black"</span>, <span class='fl'>7</span>),
   <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"PARAFAC Comp. 1 Loadings + Ref. Spectrum"</span>)</div><div class='img'><img src='pfacSpectra2D-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Selection of loading matrix levels can be aided by the following</span>
 
-<span class='fu'><a href='inspectLvls.html'>inspectLvls</a></span>(<span class='no'>res1</span>, <span class='kw'>loadings</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>50</span>),
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Histogram of Loadings Matrix"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: "loadings" is not a graphical parameter</span></div><div class='output co'>#&gt; <span class='warning'>Warning: "loadings" is not a graphical parameter</span></div><div class='output co'>#&gt; <span class='warning'>Warning: "loadings" is not a graphical parameter</span></div><div class='output co'>#&gt; <span class='warning'>Warning: "loadings" is not a graphical parameter</span></div><div class='img'><img src='pfacSpectra2D-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='inspectLvls.html'>inspectLvls</a></span>(<span class='no'>res1</span>, <span class='kw'>loading</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>50</span>),
+  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Histogram of Loadings Matrix"</span>)</div><div class='img'><img src='pfacSpectra2D-3.png' alt='' width='700' height='433' /></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -196,6 +207,8 @@ Laboratory Systems</em> vol. 38 pgs. 149-171 (1997).</p>
       <li><a href="#warning">Warning</a></li>
 
       <li><a href="#references">References</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

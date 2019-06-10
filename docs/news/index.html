@@ -60,7 +60,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ChemoSpec2D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.19</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.166</span>
       </span>
     </div>
 
@@ -106,21 +106,109 @@
       <small>Source: <a href='https://github.com/bryanhanson/ChemoSpec2D/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="chemospec2d-0219-2019-02-28" class="section level1">
+    <div id="chemospec2d-03166-2019-06-09" class="section level1">
 <h1 class="page-header">
-<a href="#chemospec2d-0219-2019-02-28" class="anchor"></a>ChemoSpec2D 0.2.19 2019-02-28</h1>
+<a href="#chemospec2d-03166-2019-06-09" class="anchor"></a>ChemoSpec2D 0.3.166 2019-06-09<small> 2019-06-09 </small>
+</h1>
 <div id="bug-fixes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bug-fixes" class="anchor"></a>Bug Fixes</h2>
+<ul>
+<li>An issue with the setting of x and y limits in <code>plotScores</code> was fixed. This was a long standing bug that somehow escaped notice, dating to the early days of <code>ChemoSpec</code>. Note that <code>plotScores</code> is actually in <code>ChemoSpecUtils</code> but is called from <code>ChemoSpec2D</code>, affecting the results here.</li>
+<li>Scree plots for <code><a href="https://www.rdocumentation.org/packages/base/topics/class">class(mia)</a></code> were plotting the eigenvalues instead of the percent variance explained.</li>
+<li>The computation of the loading pseudo-spectrum for <code><a href="https://www.rdocumentation.org/packages/base/topics/class">class(mia)</a></code> was incorrect and gave a rotated version of the correct result.</li>
+</ul>
+</div>
+<div id="new-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features" class="anchor"></a>New Features</h2>
+<ul>
+<li>A function to align spectra, <code>hats_alignSpectra2D</code> was added, along with a number of supporting functions.</li>
+<li>
+<code>conColScheme</code> has moved to <code>ChemoSpecUtils</code> and can now also handle <code>Spectra2D</code> objects. It is also now more user friendly.</li>
+<li>New function <code>shiftSpectra2D</code> added to permit manual shifting.</li>
+<li>
+<code>centscaleSpectra2D</code> gains the ability to scale by log or log10.</li>
+</ul>
+</div>
+<div id="significant-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#significant-changes" class="anchor"></a>Significant Changes</h2>
+<ul>
+<li>Data set <code>MUD1</code> was completely rebuilt.</li>
+<li>New data set <code>MUD2</code> added, for purposes of testing alignment algorithms.</li>
+</ul>
+</div>
+<div id="possible-breaking-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#possible-breaking-changes" class="anchor"></a>Possible Breaking Changes</h2>
+<ul>
+<li>
+<code>centscaleSpectra2D</code> defaults have changed.</li>
+</ul>
+</div>
+<div id="misc" class="section level2">
+<h2 class="hasAnchor">
+<a href="#misc" class="anchor"></a>Misc.</h2>
+<ul>
+<li>Documentation <code>colorSymbol</code> was moved to package <code>ChemoSpecUtils</code>.</li>
+<li>Unit testing framework changed to <code>tinytest</code>.</li>
+<li>
+<code>normSpectra2D</code> now checks the input method as a valid choice.</li>
+</ul>
+</div>
+</div>
+    <div id="chemospec2d-0255-2019-04-30" class="section level1">
+<h1 class="page-header">
+<a href="#chemospec2d-0255-2019-04-30" class="anchor"></a>ChemoSpec2D 0.2.55 2019-04-30<small> Unreleased </small>
+</h1>
+<div id="new-features-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features-1" class="anchor"></a>New Features</h2>
+<ul>
+<li>New function <code>popSpectra2D</code> computes “plain old PCA” on a <code>Spectra2D</code> data set, using the IRLBA algorithm. The data is unstacked before PCA.</li>
+</ul>
+</div>
+<div id="improvements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#improvements" class="anchor"></a>Improvements</h2>
+<ul>
+<li>
+<code>pfacSpectra2D</code> now has a <code>nfac</code> as an argument; previously the user was warned to provide it. This is clearer, more user-friendly and more consistent with other functions.</li>
+<li>Small changes to several functions to work more consistently with changes in <code>ChemoSpecUtils</code> and <code>ChemoSpec</code> which introduce more PCA variants.</li>
+<li>
+<code>miaLoadings</code>, <code>popLoadings</code> (never publically released), and <code>pfacLoadings</code> were collapsed into <code>plotLoadings2D</code>.</li>
+<li>Improved reporting in <code>chkSpectra</code>.</li>
+<li>NAMESPACE cleaned up a bit.</li>
+<li>
+<code>files2Spectra2DObject</code> is now careful to remove any dimnames of the imported matrices, to avoid causing a ruckus with <code>chkSpectra</code>.</li>
+</ul>
+</div>
+<div id="deprecated-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#deprecated-functions" class="anchor"></a>Deprecated Functions</h2>
+<ul>
+<li>
+<code>toChemoSpec</code> was removed as <code>popSpectra2D</code> provides a complete workflow corresponding to unstacking, computing PCA and reassembling the loadings.</li>
+</ul>
+</div>
+</div>
+    <div id="chemospec2d-0219-2019-02-28" class="section level1">
+<h1 class="page-header">
+<a href="#chemospec2d-0219-2019-02-28" class="anchor"></a>ChemoSpec2D 0.2.19 2019-02-28<small> 2019-03-01 </small>
+</h1>
+<div id="bug-fixes-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>Both <code>miaLoadings</code> and <code>pfacLoadings</code> were incorrectly reordering their matrices.</li>
 <li>
 <code>inspectLvls</code> was not excluding any loading matrices when <code>loading = NULL</code>.</li>
 </ul>
 </div>
-<div id="improvements" class="section level2">
+<div id="improvements-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements" class="anchor"></a>Improvements</h2>
+<a href="#improvements-1" class="anchor"></a>Improvements</h2>
 <ul>
 <li>
 <code>miaLoadings</code> and <code>pfacLoadings</code> now check to see if the requested loading has already been computed, and if so, it is not computed again. Loadings are named <code>Loading_x</code> in the <code>Spectra2D</code> object. These functions also gain a plot argument so that plots can be suppressed if desired. These changes were made for dealing with large data sets which can occupy a lot of memory and slow down the computation of the contours. Using <code>plot = FALSE</code> allows one to compute the loadings and then figure out desirable contour levels before running with <code>plot = TRUE</code>.</li>
@@ -131,17 +219,18 @@
 </div>
     <div id="chemospec2d-020-2018-11-30" class="section level1">
 <h1 class="page-header">
-<a href="#chemospec2d-020-2018-11-30" class="anchor"></a>ChemoSpec2D 0.2.0 2018-11-30</h1>
-<div id="new-features" class="section level2">
+<a href="#chemospec2d-020-2018-11-30" class="anchor"></a>ChemoSpec2D 0.2.0 2018-11-30<small> 2018-12-09 </small>
+</h1>
+<div id="new-features-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features" class="anchor"></a>New Features</h2>
+<a href="#new-features-2" class="anchor"></a>New Features</h2>
 <ul>
 <li>Function <code>plotSlice</code> added.</li>
 </ul>
 </div>
-<div id="improvements-1" class="section level2">
+<div id="improvements-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-1" class="anchor"></a>Improvements</h2>
+<a href="#improvements-2" class="anchor"></a>Improvements</h2>
 <ul>
 <li>Function <code>showScale</code> now opens a pdf document showing the scale used with <code>plotSpectra2D</code>.</li>
 <li>Improved error message from <code>inspectLvls</code>.</li>
@@ -150,16 +239,16 @@
 <li>Test and demo data set <code>MUD1</code> rebuilt.</li>
 </ul>
 </div>
-<div id="bug-fixes-1" class="section level2">
+<div id="bug-fixes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-1" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>Internal function .computeTicks was not detecting discontinuities in a robust manner.</li>
 </ul>
 </div>
-<div id="misc" class="section level2">
+<div id="misc-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#misc" class="anchor"></a>Misc.</h2>
+<a href="#misc-1" class="anchor"></a>Misc.</h2>
 <ul>
 <li>First release to CRAN!</li>
 </ul>
@@ -167,10 +256,11 @@
 </div>
     <div id="chemospec2d-01623-2018-11-09" class="section level1">
 <h1 class="page-header">
-<a href="#chemospec2d-01623-2018-11-09" class="anchor"></a>ChemoSpec2D 0.1.623 2018-11-09</h1>
-<div id="improvements-2" class="section level2">
+<a href="#chemospec2d-01623-2018-11-09" class="anchor"></a>ChemoSpec2D 0.1.623 2018-11-09<small> Unreleased </small>
+</h1>
+<div id="improvements-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-2" class="anchor"></a>Improvements</h2>
+<a href="#improvements-3" class="anchor"></a>Improvements</h2>
 <ul>
 <li>
 <code>plotSpectra2D</code> now accepts <code>xlim</code> and <code>ylim</code>.</li>
@@ -179,9 +269,9 @@
 <code>plotSpectra2D</code> gains an option for a grid aligned with the ticks.</li>
 </ul>
 </div>
-<div id="misc-1" class="section level2">
+<div id="misc-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#misc-1" class="anchor"></a>Misc.</h2>
+<a href="#misc-2" class="anchor"></a>Misc.</h2>
 <ul>
 <li>Consistent argument checking implemented via <code>ChemoSpecUtils::.chkArgs</code>.</li>
 </ul>
@@ -189,18 +279,19 @@
 </div>
     <div id="chemospec2d-01532-2018-10-28" class="section level1">
 <h1 class="page-header">
-<a href="#chemospec2d-01532-2018-10-28" class="anchor"></a>ChemoSpec2D 0.1.532 2018-10-28</h1>
-<div id="new-features-1" class="section level2">
+<a href="#chemospec2d-01532-2018-10-28" class="anchor"></a>ChemoSpec2D 0.1.532 2018-10-28<small> Unreleased </small>
+</h1>
+<div id="new-features-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-1" class="anchor"></a>New Features</h2>
+<a href="#new-features-3" class="anchor"></a>New Features</h2>
 <ul>
 <li>
 <code>hcaScores</code> added via <code>ChemoSpecUtils</code>.</li>
 </ul>
 </div>
-<div id="misc-2" class="section level2">
+<div id="misc-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#misc-2" class="anchor"></a>Misc.</h2>
+<a href="#misc-3" class="anchor"></a>Misc.</h2>
 <ul>
 <li>Checked against devel version of <code>ChemoSpecUtils</code>.</li>
 </ul>
@@ -208,10 +299,11 @@
 </div>
     <div id="chemospec2d-01505-2018-10-20" class="section level1">
 <h1 class="page-header">
-<a href="#chemospec2d-01505-2018-10-20" class="anchor"></a>ChemoSpec2D 0.1.505 2018-10-20</h1>
-<div id="misc-3" class="section level2">
+<a href="#chemospec2d-01505-2018-10-20" class="anchor"></a>ChemoSpec2D 0.1.505 2018-10-20<small> Unreleased </small>
+</h1>
+<div id="misc-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#misc-3" class="anchor"></a>Misc.</h2>
+<a href="#misc-4" class="anchor"></a>Misc.</h2>
 <ul>
 <li>Ellipses in score plots working.</li>
 </ul>
@@ -219,10 +311,11 @@
 </div>
     <div id="chemospec2d-01471-2018-10-03" class="section level1">
 <h1 class="page-header">
-<a href="#chemospec2d-01471-2018-10-03" class="anchor"></a>ChemoSpec2D 0.1.471 2018-10-03</h1>
-<div id="misc-4" class="section level2">
+<a href="#chemospec2d-01471-2018-10-03" class="anchor"></a>ChemoSpec2D 0.1.471 2018-10-03<small> Unreleased </small>
+</h1>
+<div id="misc-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#misc-4" class="anchor"></a>Misc.</h2>
+<a href="#misc-5" class="anchor"></a>Misc.</h2>
 <ul>
 <li>Improved documentation.</li>
 <li>Modifications to work with <code>ChemoSpecUtils</code>.</li>
@@ -231,10 +324,11 @@
 </div>
     <div id="chemospec2d-01458-2018-08-07" class="section level1">
 <h1 class="page-header">
-<a href="#chemospec2d-01458-2018-08-07" class="anchor"></a>ChemoSpec2D 0.1.458 2018-08-07</h1>
-<div id="new-features-2" class="section level2">
+<a href="#chemospec2d-01458-2018-08-07" class="anchor"></a>ChemoSpec2D 0.1.458 2018-08-07<small> Unreleased </small>
+</h1>
+<div id="new-features-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-2" class="anchor"></a>New Features</h2>
+<a href="#new-features-4" class="anchor"></a>New Features</h2>
 <ul>
 <li>Added function <code>plotScree</code>, which works with <code>miaSpectra2D</code>.</li>
 <li>Added <code>miaLoadings</code>.</li>
@@ -243,10 +337,11 @@
 </div>
     <div id="chemospec2d-01451-2018-08-30" class="section level1">
 <h1 class="page-header">
-<a href="#chemospec2d-01451-2018-08-30" class="anchor"></a>ChemoSpec2D 0.1.451 2018-08-30</h1>
-<div id="improvements-3" class="section level2">
+<a href="#chemospec2d-01451-2018-08-30" class="anchor"></a>ChemoSpec2D 0.1.451 2018-08-30<small> Unreleased </small>
+</h1>
+<div id="improvements-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-3" class="anchor"></a>Improvements</h2>
+<a href="#improvements-4" class="anchor"></a>Improvements</h2>
 <ul>
 <li>
 <code>groupNcolor</code> moved to non-exported functions, and re-named to <code>.groupNcolors</code>.</li>
@@ -260,10 +355,11 @@
 </div>
     <div id="chemospec2d-01434-2018-08-20" class="section level1">
 <h1 class="page-header">
-<a href="#chemospec2d-01434-2018-08-20" class="anchor"></a>ChemoSpec2D 0.1.434 2018-08-20</h1>
-<div id="misc-5" class="section level2">
+<a href="#chemospec2d-01434-2018-08-20" class="anchor"></a>ChemoSpec2D 0.1.434 2018-08-20<small> Unreleased </small>
+</h1>
+<div id="misc-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#misc-5" class="anchor"></a>Misc.</h2>
+<a href="#misc-6" class="anchor"></a>Misc.</h2>
 <ul>
 <li>Vignette updated.</li>
 </ul>
@@ -271,10 +367,11 @@
 </div>
     <div id="chemospec2d-01431-2018-08-19" class="section level1">
 <h1 class="page-header">
-<a href="#chemospec2d-01431-2018-08-19" class="anchor"></a>ChemoSpec2D 0.1.431 2018-08-19</h1>
-<div id="improvements-4" class="section level2">
+<a href="#chemospec2d-01431-2018-08-19" class="anchor"></a>ChemoSpec2D 0.1.431 2018-08-19<small> Unreleased </small>
+</h1>
+<div id="improvements-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-4" class="anchor"></a>Improvements</h2>
+<a href="#improvements-5" class="anchor"></a>Improvements</h2>
 <ul>
 <li>Modified <code>plotSpectra2D</code> so that it will plot more than one spectrum.</li>
 </ul>
@@ -282,10 +379,11 @@
 </div>
     <div id="chemospec2d-01419-2018-08-18" class="section level1">
 <h1 class="page-header">
-<a href="#chemospec2d-01419-2018-08-18" class="anchor"></a>ChemoSpec2D 0.1.419 2018-08-18</h1>
-<div id="misc-6" class="section level2">
+<a href="#chemospec2d-01419-2018-08-18" class="anchor"></a>ChemoSpec2D 0.1.419 2018-08-18<small> Unreleased </small>
+</h1>
+<div id="misc-7" class="section level2">
 <h2 class="hasAnchor">
-<a href="#misc-6" class="anchor"></a>Misc.</h2>
+<a href="#misc-7" class="anchor"></a>Misc.</h2>
 <ul>
 <li>Added unit tests for <code>.findNA</code>.</li>
 <li>Setting up unit tests for <code>.findNA</code> led to code clean up (better variable names and code notes).</li>
@@ -296,10 +394,11 @@
 </div>
     <div id="chemospec2d-01412-2018-08-17" class="section level1">
 <h1 class="page-header">
-<a href="#chemospec2d-01412-2018-08-17" class="anchor"></a>ChemoSpec2D 0.1.412 2018-08-17</h1>
-<div id="misc-7" class="section level2">
+<a href="#chemospec2d-01412-2018-08-17" class="anchor"></a>ChemoSpec2D 0.1.412 2018-08-17<small> Unreleased </small>
+</h1>
+<div id="misc-8" class="section level2">
 <h2 class="hasAnchor">
-<a href="#misc-7" class="anchor"></a>Misc.</h2>
+<a href="#misc-8" class="anchor"></a>Misc.</h2>
 <ul>
 <li>
 <code>pfacLoadings</code> now returns the modified <code>Spectra2D</code> object, not the loadings matrix.</li>
@@ -310,21 +409,22 @@
 </div>
     <div id="chemospec2d-01407-2018-08-16" class="section level1">
 <h1 class="page-header">
-<a href="#chemospec2d-01407-2018-08-16" class="anchor"></a>ChemoSpec2D 0.1.407 2018-08-16</h1>
-<div id="new-features-3" class="section level2">
+<a href="#chemospec2d-01407-2018-08-16" class="anchor"></a>ChemoSpec2D 0.1.407 2018-08-16<small> Unreleased </small>
+</h1>
+<div id="new-features-5" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-3" class="anchor"></a>New Features</h2>
+<a href="#new-features-5" class="anchor"></a>New Features</h2>
 <ul>
 <li>A simple means of drawing a separate scale/legend for the contour plots was added.</li>
 </ul>
 </div>
-<div id="bug-fixes-2" class="section level2">
+<div id="bug-fixes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-2" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-3" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>
 <p>An error in the construction of the data cube / array in <code>pfacSpectra2D</code> was fixed. This task is now handled by helper function <code>.makeArray</code> since it is also required by <code>centerSpectra2D</code>.</p>
-<h2 id="misc-8">Misc.</h2>
+<h2 id="misc-9">Misc.</h2>
 </li>
 <li><p><code>pfacLoadings</code> simplified, and some logical errors fixed.</p></li>
 </ul>
@@ -332,10 +432,11 @@
 </div>
     <div id="chemospec2d-01373-2018-08-15" class="section level1">
 <h1 class="page-header">
-<a href="#chemospec2d-01373-2018-08-15" class="anchor"></a>ChemoSpec2D 0.1.373 2018-08-15</h1>
-<div id="misc-9" class="section level2">
+<a href="#chemospec2d-01373-2018-08-15" class="anchor"></a>ChemoSpec2D 0.1.373 2018-08-15<small> Unreleased </small>
+</h1>
+<div id="misc-10" class="section level2">
 <h2 class="hasAnchor">
-<a href="#misc-9" class="anchor"></a>Misc.</h2>
+<a href="#misc-10" class="anchor"></a>Misc.</h2>
 <ul>
 <li>
 <code>MUD1</code> gains some negative peaks for more comprehensive graphical tests.</li>
@@ -351,17 +452,18 @@
 </div>
     <div id="chemospec2d-01328-2018-08-12" class="section level1">
 <h1 class="page-header">
-<a href="#chemospec2d-01328-2018-08-12" class="anchor"></a>ChemoSpec2D 0.1.328 2018-08-12</h1>
-<div id="new-features-4" class="section level2">
+<a href="#chemospec2d-01328-2018-08-12" class="anchor"></a>ChemoSpec2D 0.1.328 2018-08-12<small> Unreleased </small>
+</h1>
+<div id="new-features-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-features-4" class="anchor"></a>New Features</h2>
+<a href="#new-features-6" class="anchor"></a>New Features</h2>
 <ul>
 <li>Added <code>centerSpectra2D</code> function.</li>
 </ul>
 </div>
-<div id="misc-10" class="section level2">
+<div id="misc-11" class="section level2">
 <h2 class="hasAnchor">
-<a href="#misc-10" class="anchor"></a>Misc.</h2>
+<a href="#misc-11" class="anchor"></a>Misc.</h2>
 <ul>
 <li>Improved <code>MUD1</code> test data set.</li>
 </ul>
@@ -369,18 +471,19 @@
 </div>
     <div id="chemospec2d-01314-2018-08-07" class="section level1">
 <h1 class="page-header">
-<a href="#chemospec2d-01314-2018-08-07" class="anchor"></a>ChemoSpec2D 0.1.314 2018-08-07</h1>
-<div id="bug-fixes-3" class="section level2">
+<a href="#chemospec2d-01314-2018-08-07" class="anchor"></a>ChemoSpec2D 0.1.314 2018-08-07<small> Unreleased </small>
+</h1>
+<div id="bug-fixes-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes-3" class="anchor"></a>Bug Fixes</h2>
+<a href="#bug-fixes-4" class="anchor"></a>Bug Fixes</h2>
 <ul>
 <li>Fixed incorrectly reversed F1 frequency removal in <code>removePeaks2D</code>.</li>
 <li>Fixed a problem with where the gray “no data” lines were drawn in <code>removePeaks2D</code> (part of the problem was in <code>.findNA</code>).</li>
 </ul>
 </div>
-<div id="improvements-5" class="section level2">
+<div id="improvements-6" class="section level2">
 <h2 class="hasAnchor">
-<a href="#improvements-5" class="anchor"></a>Improvements</h2>
+<a href="#improvements-6" class="anchor"></a>Improvements</h2>
 <ul>
 <li>
 <code>sumSpectra2D</code> now reports the number of data points in F2 and the number of slices in F1.</li>
@@ -388,9 +491,9 @@
 <code>chkSpectra2D</code> does a better job of checking and reporting about extra data.</li>
 </ul>
 </div>
-<div id="misc-11" class="section level2">
+<div id="misc-12" class="section level2">
 <h2 class="hasAnchor">
-<a href="#misc-11" class="anchor"></a>Misc.</h2>
+<a href="#misc-12" class="anchor"></a>Misc.</h2>
 <ul>
 <li>Lots of documentation polishing.</li>
 </ul>
@@ -398,10 +501,11 @@
 </div>
     <div id="chemospec2d-01295-2018-08-06" class="section level1">
 <h1 class="page-header">
-<a href="#chemospec2d-01295-2018-08-06" class="anchor"></a>ChemoSpec2D 0.1.295 2018-08-06</h1>
-<div id="misc-12" class="section level2">
+<a href="#chemospec2d-01295-2018-08-06" class="anchor"></a>ChemoSpec2D 0.1.295 2018-08-06<small> Unreleased </small>
+</h1>
+<div id="misc-13" class="section level2">
 <h2 class="hasAnchor">
-<a href="#misc-12" class="anchor"></a>Misc.</h2>
+<a href="#misc-13" class="anchor"></a>Misc.</h2>
 <ul>
 <li>Rebuilt under latest R and updated packages.</li>
 </ul>
@@ -409,10 +513,11 @@
 </div>
     <div id="chemospec2d-000-2017-09-06" class="section level1">
 <h1 class="page-header">
-<a href="#chemospec2d-000-2017-09-06" class="anchor"></a>ChemoSpec2D 0.0.0 2017-09-06</h1>
-<div id="misc-13" class="section level2">
+<a href="#chemospec2d-000-2017-09-06" class="anchor"></a>ChemoSpec2D 0.0.0 2017-09-06<small> Unreleased </small>
+</h1>
+<div id="misc-14" class="section level2">
 <h2 class="hasAnchor">
-<a href="#misc-13" class="anchor"></a>Misc.</h2>
+<a href="#misc-14" class="anchor"></a>Misc.</h2>
 <ul>
 <li>Package development begins with a port of relevant <code>ChemoSpec</code> materials.</li>
 <li>No NEWS entries until we have an initial framework in decent shape.</li>
@@ -425,6 +530,8 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#chemospec2d-03166-2019-06-09">0.3.166</a></li>
+        <li><a href="#chemospec2d-0255-2019-04-30">0.2.55</a></li>
         <li><a href="#chemospec2d-0219-2019-02-28">0.2.19</a></li>
         <li><a href="#chemospec2d-020-2018-11-30">0.2.0</a></li>
         <li><a href="#chemospec2d-01623-2018-11-09">0.1.623</a></li>
