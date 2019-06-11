@@ -29,24 +29,27 @@ reference:
   - '`plotSlice`'
   - '`plotScores`'
   - '`plotScree`'
-  - '`miaLoadings`'
-  - '`pfacLoadings`'
+  - '`plotLoadings2D`'
+  - '`showScale`'
 
 - title: "Exploratory Data Analysis"
   contents:
   - '`miaSpectra2D`'
   - '`pfacSpectra2D`'
+  - '`popSpectra2D`'
 
 - title: "Data Sets"
   contents:
   - '`Spectra2D`'
   - '`MUD1`'
+  - '`MUD2`'
 
 - title: "Utilities & Reference"
   contents:
   - '`chkSpectra`'
+  - '`hats_alignSpectra2D`'
   - '`check4Gaps`'
   - '`showScale`'
-  - '`toChemoSpec`'
   - '`calcLvls`'
   - '`inspectLvls`'
+  - '`shiftSpectra2D`'
