@@ -1,3 +1,6 @@
+# ChemoSpec2D 0.x.xx 2019-xx-xx
+## Misc.
+* Documentation correction and improvement
 
 # ChemoSpec2D 0.3.166 2019-06-09
 

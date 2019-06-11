@@ -9,8 +9,8 @@
 #'
 #' @param maxF2 Integer.  The most extreme positive \code{F2step} to allow during the
 #'        alignment process (units are data points).  Search for the optimal alignment will
-#'        cover the region \code{-maxColShift} \ldots \code{maxColShift} and \code{-maxRowShift}
-#'        \ldots \code{maxRowShift}.
+#'        cover the region \code{-maxF2} \ldots \code{maxF2} and \code{-maxF1}
+#'        \ldots \code{maxF1}.
 #'
 #' @param maxF1 Integer.  As for \code{maxF2}, but for F1.
 #'
