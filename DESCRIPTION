@@ -1,7 +1,7 @@
 Package: ChemoSpec2D
 Type: Package
 Title: Exploratory Chemometrics for 2D Spectroscopy
-Version: 0.3.177
+Version: 0.3.180
 Date: 2019-06-17
 Authors@R: c(
     person("Bryan A.", "Hanson",
@@ -32,8 +32,7 @@ Suggests:
   lhs,
   RcppRoll,
   rmarkdown,
-  pinp,
-  robustbase
+  pinp
 URL: https://github.com/bryanhanson/ChemoSpec2D
 BugReports: https://github.com/bryanhanson/ChemoSpec2D/issues
 ByteCompile: TRUE

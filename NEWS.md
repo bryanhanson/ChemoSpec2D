@@ -3,6 +3,7 @@
 * Documentation updates and improvement.
 * Cleaned up some `roxygen2` warnings.
 * Unit test framework converted to `tinytest`.
+* Removed `robustbase` from suggests (not needed).
 
 # ChemoSpec2D 0.3.166 2019-06-09
 

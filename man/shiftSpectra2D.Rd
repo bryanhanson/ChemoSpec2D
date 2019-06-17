@@ -48,6 +48,7 @@ plotSpectra2D(MUD2, which = 1:2, lvls = list(mylvls, mylvls),
   cols = list(rep("black", 7), rep("red", 7)),
   main = "MUD2 Sample 1 (black) & Sample 2 (red)")
 
+# Now shift Sample 2
 MUD2s <- shiftSpectra2D(MUD2, which = 2, shiftF1 = -2)
 plotSpectra2D(MUD2s, which = 1:2, lvls = list(mylvls, mylvls),
   cols = list(rep("black", 7), rep("red", 7)),
