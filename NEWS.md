@@ -1,6 +1,8 @@
 # ChemoSpec2D 0.x.xx 2019-xx-xx
 ## Misc.
-* Documentation correction and improvement
+* Documentation updates and improvement.
+* Cleaned up some `roxygen2` warnings.
+* Unit test framework converted to `tinytest`.
 
 # ChemoSpec2D 0.3.166 2019-06-09
 

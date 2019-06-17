@@ -1,7 +1,5 @@
-### Make an Array/Data Cube from a Spectra2D Object
-
-# Stack frontal slabs with spectra$data entries
-
+#'
+#' Make an Array/Data Cube from a Spectra2D Object
 #'
 #' @export
 #' @noRd
@@ -18,12 +16,12 @@
 	return(A)
 }
 
-### Make an Array/Data Cube from a Spectra2D Object
-
-# Stack slabs horizontally (on top of each other) with *selected* spectra$data entries
-# Relative to our standard data cube diagram, rotate the cube around the horizontal (x)
-# axis upward, so that the front slab is on top.  1st spectrum on top.
-
+#'
+#' Make an Array/Data Cube from a Spectra2D Object
+#'
+#' Stack slabs horizontally (on top of each other) with *selected* spectra$data entries
+#' Relative to our standard data cube diagram, rotate the cube around the horizontal (x)
+#' axis upward, so that the front slab is on top.  1st spectrum on top.
 #'
 #' @export
 #' @noRd

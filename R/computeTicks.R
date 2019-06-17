@@ -1,6 +1,5 @@
-
-### computeTicks for contour plots
-
+#'
+#' Compute Ticks for Contour Plots
 #'
 #' @export
 #' @noRd

@@ -1,4 +1,5 @@
-
+#'
+#' Draw a Histogram Showing Proposed Contour Levels
 #'
 #' @export
 #' @noRd

@@ -1,7 +1,8 @@
-
-### Adjust values to be symmetric around zero so that scale is applied correctly
-# Find the most extreme of two values, and return it and its negative
-
+#'
+#' Symmetrize Values Around Zero
+#'
+#' Adjust values to be symmetric around zero so that scale is applied correctly.
+#' Find the most extreme of two values, and return it and its negative.
 #'
 #' @export
 #' @noRd

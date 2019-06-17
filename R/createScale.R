@@ -1,5 +1,5 @@
-### Construct default color scale
-
+#'
+#' Construct Default Color Scale
 #'
 #' @export
 #' @noRd

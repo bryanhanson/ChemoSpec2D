@@ -1,5 +1,5 @@
-### Draw the scale/legend
-
+#'
+#' Draw the Scale
 #'
 #' @export
 #' @noRd
