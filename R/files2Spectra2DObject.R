@@ -133,7 +133,7 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
 		}
 	
 	if (is.null(gr.crit)) stop("No group criteria provided to encode data")
-	if (is.null(nF2)) stop("You must provide nF2")
+	if ((fmt != "Btotxt") & (is.null(nF2))) stop("You must provide nF2 for this fmt")
 	if (is.null(fmt)) stop("You must provide fmt")
 
 	out <- tryCatch(

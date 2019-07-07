@@ -12,6 +12,7 @@
 #   unsetenv ESTOY_EN_CASA # csh
 #   export ESTOY_EN_CASA=TRUE # bash
 #   export -n ESTOY_EN_CASA # bash
+#   or set in the makefile
 
 if (identical(Sys.getenv("ESTOY_EN_CASA"), "TRUE")) {
   data(MUD2)

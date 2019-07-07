@@ -1,9 +1,12 @@
 # ChemoSpec2D 0.x.xx 2019-xx-xx
+## New Features
+* Format `Btotxt` added to `import2DSpectra`, allowing import of 2D data exported by the Bruker command "totxt".
 ## Misc.
 * Documentation updates and improvement.
 * Cleaned up some `roxygen2` warnings.
 * Unit test framework converted to `tinytest`.
 * Removed `robustbase` from suggests (not needed).
+* `.makeArray` gains a unit test.
 
 # ChemoSpec2D 0.3.166 2019-06-09
 

@@ -31,7 +31,7 @@ ASCII text files as well as a few other types.
 This function is called by \code{files2Spectra2DObject}
 and is exported and documented to assist in developing new format codes.
 }
-\section{ASCII Format Codes}{
+\section{ASCII Format Codes for Data in Three Columns}{
 
 ASCII format codes are constructed in two parts separated by a hyphen.  The first part gives
 the order of the columns in the file, e.g. F2F1Z means the first column has the F2 values,
@@ -39,7 +39,8 @@ the second column has the F1 values and the third the intensities.  The second p
 format code relates to the order of the rows, i.e. which column varies fastest and in what direction.
 These codes are best understood in relation to how the data is stored internally in a matrix.
 The internal matrix is organized exactly as the data appears on the screen, with F2 decreasing
-left-to-right, and F1 increasing top-to-bottom. There are four possibilities:
+left-to-right, and F1 increasing top-to-bottom. There are four possibilities (not all implemented,
+please e-mail for assistance):
 \itemize{
   \item Data in the file consists of F2 slices starting at the bottom (max F1).  Use \code{F2decF1}.
   \item Data in the file consists of F2 slices starting at the top (min F1).  Use \code{F2incF1}.
@@ -56,6 +57,9 @@ Here are some other format codes you can use:
         are taken from the dimension of the matrix.  After import, you will have to manually
         fix the F2 and F1 values.  You may also have to transpose the matrices manually, or
         perhaps invert the order of the rows or columns.
+  \item \code{Btotxt}.  This format imports Bruker data written to a file using the Bruker
+        "totxt" command.  Tested with TopSpin 4.0.7.  This format is read via \code{readLines}
+        and thus \ldots does not apply.
 }
 }
 
