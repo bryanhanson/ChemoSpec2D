@@ -1,6 +1,8 @@
 # ChemoSpec2D 0.x.xx 2019-xx-xx
 ## New Features
 * Format `Btotxt` added to `import2DSpectra`, allowing import of 2D data exported by the Bruker command "totxt".
+## Improvements
+* Tick positions for `plotSpectra2D` when user specifies `xlim` and/or `ylim` is improved.
 ## Misc.
 * Documentation updates and improvement.
 * Cleaned up some `roxygen2` warnings.
