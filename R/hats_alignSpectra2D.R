@@ -53,6 +53,16 @@
 #'
 #' @return An object of S3 class \code{\link{Spectra2D}}.
 #'
+#' @section Advice:
+#' \itemize{
+#'   \item I suggest that you plot your possibly mis-aligned spectra first, zooming in on a small region where
+#'         alignment might be an issue, and get an idea of the size of the alignment problem.  This will make
+#'         it easier to interpret the alignment results.
+#'   \item The algorithm uses random numbers to initialize the search, so set the seed for reproducible results.
+#'         Different seeds may give different results; you may find it useful to experiment a bit and see how
+#'         the alignment turns out, especially relative to the visual inspection suggested above.
+#' }
+#'
 #' @author Bryan A. Hanson, DePauw University.
 #'
 #' @keywords multivariate
@@ -91,6 +101,7 @@ hats_alignSpectra2D <- function(spectra, maxF2 = NULL, maxF1 = NULL,
   if (is.null(maxF1)) maxF1 <- floor(0.1*length(spectra$F1))
 
   msg <- "This is a beta version of hats_alignSpectra2D.
+    You should set the seed for reproducible results.
     Please check your results carefully, and consider sharing your data
     for additional testing.  Contact Bryan Hanson via hanson@depauw.edu"
   message(msg)

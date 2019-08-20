@@ -72,7 +72,10 @@
   # If so, we can skip the optimization process, and exit now.
 
   currOF <- .evalArrayOverlapMBO(c(0L, 0L))
-  if (currOF >= thres) return(list(AA = Mask, shift = c(0L, 0L)))
+  if (currOF >= thres) {
+    if (debug >= 1) cat("[ChemoSpec2D] No alignment necessary: spectral comparison exceeds threshold\n\n")
+    return(list(AA = Mask, shift = c(0L, 0L)))
+  }
   
   # Step 2.  Run MBO to find best overlap
 

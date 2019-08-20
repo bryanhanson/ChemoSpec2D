@@ -49,7 +49,8 @@
 #' @section Overlaying Spectra:
 #' If you specify more than one spectrum to plot, e.g. \code{which = c(1,2)}, then
 #' arguments \code{lvls} and \code{cols} must be lists of levels and colors, one list
-#' element for each spectrum to be plotted (if specified at all).  See the examples.
+#' element for each spectrum to be plotted (if specified at all).  Two convenience functions exist to
+#' make this process easier: \code{\link{LofL}} and \code{\link{LofC}}. See the examples.
 #'
 #' @return Side effect is a plot.
 #'
@@ -65,8 +66,11 @@
 #' mylvls <- seq(5, 35, 5)
 #' plotSpectra2D(MUD1, which = 7, lvls = mylvls,
 #'   main = "MUD1 Sample 7")
-#' plotSpectra2D(MUD1, which = c(6, 1), lvls = list(mylvls, mylvls),
-#'   cols = list(rep("black", 7), rep("red", 7)),
+#'
+#' # Overlay multiple spectra:
+#' 
+#' plotSpectra2D(MUD1, which = c(6, 1), lvls = LofL(mylvls, 2),
+#'   cols = LofC(c("red", "black"), 2, 2),
 #'   main = "MUD1 Sample 1 (red) & Sample 6 (black)\n(4 of 6 peaks overlap)")
 #'
 plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL,

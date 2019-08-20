@@ -77,9 +77,7 @@
 
       # Save the data ranges to assist with tick computations later
       # Initialize the requested range (to possibly be updated later)
-      F2fullRange <- range(spectra$F2)
       F2reqRange <- range(spectra$F2)
-      F1fullRange <- range(spectra$F1)
       F1reqRange <- range(spectra$F1)
       
   	  # Handle user-provided xlim and/or ylim, keeping in mind the different conventions

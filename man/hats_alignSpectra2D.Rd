@@ -63,6 +63,18 @@ Align the spectra in a \code{\link{Spectra2D}} object using an implementation
 of the HATS algorithm described by Robinette \emph{et al.}.  Currently, only
 global, not local, alignment is carried out.
 }
+\section{Advice}{
+
+\itemize{
+  \item I suggest that you plot your possibly mis-aligned spectra first, zooming in on a small region where
+        alignment might be an issue, and get an idea of the size of the alignment problem.  This will make
+        it easier to interpret the alignment results.
+  \item The algorithm uses random numbers to initialize the search, so set the seed for reproducible results.
+        Different seeds may give different results; you may find it useful to experiment a bit and see how
+        the alignment turns out, especially relative to the visual inspection suggested above.
+}
+}
+
 \examples{
 \dontrun{
 data(MUD2)

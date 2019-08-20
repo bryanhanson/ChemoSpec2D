@@ -44,14 +44,14 @@ data(MUD2)
 # Show the first two spectra, overlaid
 
 mylvls <- seq(5, 35, 5)
-plotSpectra2D(MUD2, which = 1:2, lvls = list(mylvls, mylvls),
-  cols = list(rep("black", 7), rep("red", 7)),
+plotSpectra2D(MUD2, which = 1:2, lvls = LofL(mylvls, 2),
+  cols = LofC(c("red", "black"), 2, 2),
   main = "MUD2 Sample 1 (black) & Sample 2 (red)")
 
 # Now shift Sample 2
 MUD2s <- shiftSpectra2D(MUD2, which = 2, shiftF1 = -2)
-plotSpectra2D(MUD2s, which = 1:2, lvls = list(mylvls, mylvls),
-  cols = list(rep("black", 7), rep("red", 7)),
+plotSpectra2D(MUD2s, which = 1:2, lvls = LofL(mylvls, 2),
+  cols = LofC(c("red", "black"), 2, 2),
   main = "MUD2 Sample 1 (black) & Sample 2 (red)\\n(samples aligned/overlap)")
 
 
