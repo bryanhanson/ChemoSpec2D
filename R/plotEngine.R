@@ -133,9 +133,10 @@
       #
       
       # Compute fraction of data to be shown (conveniently, we can use .rescale for this)
-      fracF2 <- diff(.rescale(F2reqRange, spectra$F2))
-      fracF1 <- diff(.rescale(F1reqRange, spectra$F1))
       
+      fracF2 <- abs(diff(.rescale(F2reqRange, spectra$F2)))
+      fracF1 <- abs(diff(.rescale(F1reqRange, spectra$F1)))
+
       # Compute number of ticks to request (10 is the minimum, but see .computeTicks re: discontinuous data)
       noTicksF2 <- floor(10/fracF2)
       noTicksF1 <- floor(10/fracF1)

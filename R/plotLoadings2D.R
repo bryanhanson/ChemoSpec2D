@@ -62,7 +62,7 @@
 #' If you specify more than one spectrum to plot, e.g. \code{which = c(1,2)}, then
 #' arguments \code{lvls} and \code{cols} must be lists of levels and colors, one list
 #' element for each spectrum to be plotted (if specified at all).  Two convenience functions exist to
-#' make this process easier: \code{\link{LofL}} and \code{\link{LofC}}. See the examples.
+#' make this process easier: \code{\link{LofL}} and \code{\link{LofC}}.
 #'
 #' @author Bryan A. Hanson, DePauw University.
 #'

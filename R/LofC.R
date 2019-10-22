@@ -5,45 +5,44 @@
 #' This is a convenience function which takes a vector of colors and copies it into a list, ready for
 #' use  with \code{\link{plotSpectra2D}}.
 #'
-#' @param cols Integer or Character.  If integer, \code{n} colors will be chosen from the standard color
-#'        scheme used by \code{ChemoSpec2D}.  Otherwise a character vector of color designations.
+#' @param cols Character. A vector of color designations.
 #'
-#' @param n Integer. The number of times to replicate the colors.
+#' @param n Integer. The number of times to replicate the colors.  Applies to \code{mode = 2 or 3}.
 #'
-#' @param mode Integer. If \code{mode = 1L}, the values in \code{cols} will be replicated in each list entry.
-#'        If \code{mode = 2L}, the length of \code{cols} must equal \code{n} and the first list entry will 
-#'        be \code{n} values of the first color, the second list entry will be \code{n} values of the second color etc.
-#'
+#' @param mode Integer. \emph{How} to replicate the colors:
+#'        \itemize{
+#'        \item If \code{mode = 1L}, a list of length \code{n}, where \code{n} is the number of spectra to
+#'              be plotted. Each element a copy of \code{cols}.  This mode is probably most useful when
+#'              \code{n = 1} (i.e. there is only one spectrum to be plotted, and you want to use custom colors).
+#'        \item If \code{mode = 2L}, a list of \code{length(cols)}, which should correspond to the number of spectra
+#'              to be plotted.  First list element is \code{n} replicates
+#'              of \code{cols[i]}, second list element is \code{n} replicates of \code{cols[2]} etc.
+#'              Use this mode when you want each spectrum to be plotted in its own color with \code{n} contours.
+#'        }
 #' @return A list of length \code{n}; each entry is a vector of colors.
-#'
-#' @seeAlso For examples, see \code{\link{LoL}}.
 #'
 #' @export
 #'
 #' @examples
-#' LofC(5, 1)
 #' mycols <- c("red", "green", "blue")
-#' LofC(mycols, 1)
-#' LofC(mycols, 3, 2)
-
+#' LofC(mycols, 1, 1)
+#' LofC(mycols, 5, 2)
+#'
 LofC <- function(cols, n = 1L, mode = 1L) {
 
   success <- FALSE
   ans <- list()
-  
-  # user requests a certain number of standard colors which will be used in the next blocks
-  if (is.numeric(cols)) cols <- .createScale(as.integer(cols))
-  
-  if (is.character(cols) & (mode == 1L)) { # each list element is cols
+    
+  if (mode == 1L) { # n list elements, each a copy of cols
   	for (i in 1:n) ans[[i]] <- cols
   	success <- TRUE
   }
-  
-  if (is.character(cols) & (mode == 2L) & (length(cols) == n)) { # list element 1 is cols[1] etc
-    for (i in 1:n) ans[[i]] <- rep(cols[i], n)
+    
+  if (mode == 2L) { # 1st list element is n reps of cols[1], 2nd n reps of cols[2] etc
+  	for (i in 1:length(cols)) ans[[i]] <- rep(cols[i], n)
   	success <- TRUE
   }
-  
+
   if (success) return(ans)
   if (!success) stop("Sorry, could not honor color request")
 }

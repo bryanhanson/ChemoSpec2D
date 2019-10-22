@@ -81,7 +81,7 @@ plotSpectra2D(MUD1, which = 7, lvls = mylvls,
 # Overlay multiple spectra:
 
 plotSpectra2D(MUD1, which = c(6, 1), lvls = LofL(mylvls, 2),
-  cols = LofC(c("red", "black"), 2, 2),
+  cols = LofC(c("red", "black"), 7, 2),
   main = "MUD1 Sample 1 (red) & Sample 6 (black)\\n(4 of 6 peaks overlap)")
 
 }

@@ -7,13 +7,14 @@
 #'
 #' @param lvls  Numeric.  A vector of the desired levels.
 #'
-#' @param n Integer.  The number of times to replicate the levels.
+#' @param n Integer.  The number of times to replicate the levels; corresponds to the number of spectra to
+#'        be plotted.
 #'
 #' @return A list of length \code{n}; each entry is a vector of \code{lvls}.
 #'
 #' @export
 #'
-#' @seeAlso \code{\link{plotSpectra2D}} for an example.
+#' @seealso \code{\link{plotSpectra2D}} for an example.
 #'
 LofL <- function(lvls, n) {
   ans <- list()
