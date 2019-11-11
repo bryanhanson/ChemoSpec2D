@@ -8,7 +8,7 @@ calcLvls(M, n = 10, mode = "even", lambda = 1, base = 2,
   showHist = FALSE, ...)
 }
 \arguments{
-\item{M}{A numeric matrix.}
+\item{M}{A numeric matrix or vector.}
 
 \item{n}{For all methods except \code{ecdf}, an integer giving the number of
 levels desired.  For most modes this is used interally as \code{floor(n/2)}
@@ -29,8 +29,7 @@ spaced levels.  \code{"log"} will create levels which are more closely
 spaced at the high values, while \code{"exp"} does the opposite.  The pos- or
 neg- versions select just the positive or negative values.  \code{"ecdf"}
 computes levels at the requested quantiles of the matrix. \code{NMR} uses
-\code{log} but removes the levels closest to zero, which in NMR work will
-typically be too low for a good contour plot.}
+\code{log}, \code{base = 1} and \code{n = 48}.}
 
 \item{lambda}{Numeric.  A non-zero exponent used with \code{method = "exp"}
 and relatives.}
@@ -47,7 +46,7 @@ the chosen levels?}
 A numeric vector giving the levels.
 }
 \description{
-Given a matrix, this function will assist in selecting levels for preparing
+Given a matrix or vector input, this function will assist in selecting levels for preparing
 contour and image type plots.  For instance, levels can be spaced evenly,
 logrithmically, exponentially or using a cumulative distribution function.
 \code{NA} values are ignored.

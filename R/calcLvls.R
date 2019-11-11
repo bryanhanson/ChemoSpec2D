@@ -1,12 +1,12 @@
 #'
 #' Calculate Levels for Contour and Image Type Plots
 #' 
-#' Given a matrix, this function will assist in selecting levels for preparing
+#' Given a matrix or vector input, this function will assist in selecting levels for preparing
 #' contour and image type plots.  For instance, levels can be spaced evenly,
 #' logrithmically, exponentially or using a cumulative distribution function.
 #' \code{NA} values are ignored.
 #' 
-#' @param M A numeric matrix.
+#' @param M A numeric matrix or vector.
 #'
 #' @param n For all methods except \code{ecdf}, an integer giving the number of
 #' levels desired.  For most modes this is used interally as \code{floor(n/2)}
@@ -15,7 +15,7 @@
 #' to actually get \code{n} levels most of the time (remember, you can always give
 #' your desired levels as a vector).  For \code{ecdf}, \code{n} should be one or
 #' more values in
-#' the interval (0...1).  For instance, a value of 0.6 corresponds to a single
+#' the interval [0...1].  For instance, a value of 0.6 corresponds to a single
 #' level in which 60 percent of the matrix values are below, and 40 percent
 #' above.
 #'
@@ -27,8 +27,7 @@
 #' spaced at the high values, while \code{"exp"} does the opposite.  The pos- or
 #' neg- versions select just the positive or negative values.  \code{"ecdf"}
 #' computes levels at the requested quantiles of the matrix. \code{NMR} uses
-#' \code{log} but removes the levels closest to zero, which in NMR work will
-#' typically be too low for a good contour plot.
+#' \code{log}, \code{base = 1} and \code{n = 48}.
 #'
 #' @param lambda Numeric.  A non-zero exponent used with \code{method = "exp"}
 #' and relatives.
@@ -92,6 +91,7 @@ calcLvls <- function(M, n = 10, mode = "even",
 				
 		ref <- .findExtreme(M)
 		lower <- 0.00001 # just above zero to avoid Inf
+		# lvs <- seq(log(lower), log(ref), length.out = floor(n/2))
 		lvs <- seq(log(lower), log(ref), length.out = floor(n/2))
 		lvs <- exp(lvs*lambda)
 		
@@ -179,10 +179,8 @@ calcLvls <- function(M, n = 10, mode = "even",
 		return(lvs)
 		}
 
-	if (mode == "NMR") { # Removes levels closest to zero if there is more than 1 level
-		lvs <- calcLvls(M = M, n = n, mode = "poslog", lambda = lambda, base = base, ...)
-		if (length(lvs) > 1) lvs <- lvs[-1] # remove lowest level if more than one present
-		lvs <- sort(c(-1*lvs, lvs)) # Reflect through zero
+	if (mode == "NMR") {
+		lvs <- calcLvls(M = M, n = 48, mode = "exp", lambda = 0.25, base = base, ...)
 		if (showHist) .sH(M, lvs, ...)
 		return(lvs)
 		}

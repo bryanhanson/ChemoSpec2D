@@ -9,7 +9,7 @@ LofC(cols, n = 1L, mode = 1L)
 \arguments{
 \item{cols}{Character. A vector of color designations.}
 
-\item{n}{Integer. The number of times to replicate the colors.  Applies to \code{mode = 2 or 3}.}
+\item{n}{Integer. The number of times to replicate the colors.}
 
 \item{mode}{Integer. \emph{How} to replicate the colors:
 \itemize{

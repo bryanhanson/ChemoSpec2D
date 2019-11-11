@@ -1,10 +1,13 @@
 # ChemoSpec2D 0.x.xx 2019-xx-xx
 ## New Features
 * Format `Btotxt` added to `import2DSpectra`, allowing import of 2D data exported by the Bruker command "totxt".
+* Format `dx` added to `import2DSpectra` for use with JCAMP-DX files, via package `readJDX`.
 * Two new convenience functions, `LofL` and `LofC`, added to assist with overlaying multiple spectra in `plotSpectra2D`.
 * New function `computeVolume` added to aid in normalizing spectra to particular chemical shift regions, which are volumes when the intensity is taken into account.
+* Function `normSpectra2D` gets a new method to scale spectra on [-1 ... 1].
 ## Significant Changes
 * The basic color scheme for contours was updated to use a perceptually consistent low/blue -> high/red scheme, based on the principles in the `colorspace` package.  The color-handling infrastructure was also changed to allow easy introduction of different color schemes in the future, though the user cannot yet make changes.
+* `inspectLvls` simplified and arguments changed.
 ## Improvements
 * Tick positions for `plotSpectra2D` when user specifies `xlim` and/or `ylim` is improved.
 ## Misc.

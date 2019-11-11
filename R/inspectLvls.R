@@ -2,18 +2,17 @@
 #' Inspect Levels for Contour Plots of Spectra2D Objects
 #' 
 #' Given a \code{Spectra2D} object, this function will assist in selecting levels
-#' for preparing contour and image type plots.  The entire range of the data is
-#' used in the histogram so you can choose levels that are suitable for any
-#' particular spectrum.  However, loading matrices are excluded unless specified 
-#' as the input. Any of the arguments to \code{\link{calcLvls}} can be used
-#' to compute the levels, or you can choose by inspection.
+#' for preparing contour and image type plots.
+#' Any of the arguments to \code{\link{calcLvls}} can be used
+#' to compute the levels, or you can choose your own by inspection.
 #' 
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'
-#' @param loading Integer.  If a loadings entry is present, draw the histogram for it.
-#'        For example, if \code{loading = 1} \code{Loading_1} is used.
+#' @param which Integer.  The spectrum/spectra to be analyzed.  If a vector,
+#'        the intensities are combined.
 #'
-#' @param \dots Arguments to be passed downstream.
+#' @param \dots Arguments to be passed downstream to \code{\link{calcLvls}} and/or
+#'        the plot function (e.g. \code{ylim}).
 #'
 #' @return A numeric vector giving the levels (invisibly).
 #'
@@ -28,28 +27,11 @@
 #' @examples
 #' 
 #' data(MUD1)
-#' inspectLvls(MUD1, ylim = c(0, 300), main = "All MUD1 Data, mode = even")
-#' inspectLvls(MUD1, ylim = c(0, 300), mode = "NMR",  main = "All MUD1 Data, mode = NMR")
+#' inspectLvls(MUD1, ylim = c(0, 300), main = "MUD1 Spectrum 1, mode = even")
+#' inspectLvls(MUD1, ylim = c(0, 300), mode = "NMR",  main = "MUD1 Spectrum 1, mode = NMR")
 #' 
-inspectLvls <- function(spectra, loading = NULL, ...) {
-
+inspectLvls <- function(spectra, which = 1, ...) {
   .chkArgs(mode = 21L)
-  
-  if (is.null(loading)) {
-  	pat <- "Loading_"
-  	toss <- grep(pat, spectra$names)
-  	if (length(toss) > 0L) spectra <- removeSample(spectra, toss)
-  	lvls <- calcLvls(unlist(spectra$data), showHist = TRUE, ...)
-  }
-  
-  if (!is.null(loading)) {
-  	pat <- paste("Loading", loading, sep = "_")
-  	Ldone <- grep(pat, spectra$names)
-  	if (length(Ldone) == 0) stop("This Spectra2D object did not contain loadings.
-  	  You need to run plotLoadings2D and save the results.")
-  	lvls <- calcLvls(spectra$data[[Ldone]], showHist = TRUE, ...)
-   }
-   
+  lvls <- calcLvls(unlist(spectra$data[[which]]), showHist = TRUE, ...)
   invisible(lvls)
-  
-} # end of inspectLvls
+}

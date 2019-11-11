@@ -7,7 +7,7 @@
 #'
 #' @param cols Character. A vector of color designations.
 #'
-#' @param n Integer. The number of times to replicate the colors.  Applies to \code{mode = 2 or 3}.
+#' @param n Integer. The number of times to replicate the colors.
 #'
 #' @param mode Integer. \emph{How} to replicate the colors:
 #'        \itemize{

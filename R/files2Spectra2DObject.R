@@ -33,6 +33,11 @@
 #' 
 #' @param fmt A character string giving the format of the data. Consult
 #' \code{\link{import2Dspectra}} for options.
+#' If \code{fileExt} is one of
+#' \code{dx, DX, jdx or JDX}, \code{fmt} will automatically be set to \code{"dx"}
+#' and package \code{readJDX} will be used for the import.  In this case
+#' check the values of F2 and F1 carefully.  The values are taken from the file,
+#' for some files the values might not be in ppm.
 #'
 #' @param nF2 Integer giving the number of data points in the F2 (x) dimension.
 #'
@@ -40,14 +45,18 @@
 #' processed. \code{regex} strings can be used.  For instance, the default
 #' finds files with either \code{".csv"} or \code{".CSV"} as the extension.
 #' Matching is done via a grep process, which is greedy.
+#' If \code{fileExt} is one of
+#' \code{dx, DX, jdx or JDX}, \code{fmt} will automatically be set to \code{"dx"}
+#' and package \code{readJDX} will be used for the import.
 #' 
 #' @param out.file A file name.  The
 #' completed object of S3 class \code{\link{Spectra2D}} will be written to this
 #' file.
 #' 
-#' @param debug Logical.
-#' Set to \code{TRUE} for troubleshooting when an error
-#' is thrown during import.
+#' @param debug Integer.  Set to 1 for basic reporting when there are problems.
+#' If importing JCAMP-DX files, values greater than 1 give additional and potentially
+#' huge output.  Once you know which file is the problem, you may wish to troubleshoot
+#' directly using package \code{readJDX}.
 #' 
 #' @param ...  Arguments to be passed to \code{\link[utils]{read.table}}.  \pkg{You
 #' MUST supply values for \code{sep}, \code{dec} and \code{header} consistent
@@ -126,15 +135,23 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
 	z.unit = "no intensity unit provided",
 	descrip = "no description provided",
 	fileExt = "\\.(csv|CSV)$",
-	out.file = "mydata", debug = FALSE, ...) {
+	out.file = "mydata", debug = 0, ...) {
 		
 	if (!requireNamespace("R.utils", quietly = TRUE)) {
 		stop("You need to install package R.utils to use this function")
 		}
 	
 	if (is.null(gr.crit)) stop("No group criteria provided to encode data")
-	if ((fmt != "Btotxt") & (is.null(nF2))) stop("You must provide nF2 for this fmt")
+	if (grepl("(dx|DX|jdx|JDX)", fileExt)) {
+	  fmt <- "dx"
+	  if (!requireNamespace("readJDX", quietly = TRUE)) {
+	    stop("You need to install package readJDX to import JCAMP-DX files")
+	  }
+	}
 	if (is.null(fmt)) stop("You must provide fmt")
+	if (is.null(nF2)) {
+		if (!fmt %in% c("Btotxt", "dx"))  stop("You must provide nF2 for this fmt")
+	}
 
 	out <- tryCatch(
 	{
@@ -155,15 +172,15 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
 	spectra$units <- c(x.unit, y.unit, z.unit)
 	spectra$desc <- descrip
 	class(spectra) <- "Spectra2D"
-	
+			
 	# Loop over all files
 
-	if (debug) message("\nfiles2Spectra2DObject will now import your files")
+	if (debug > 0L) message("\nfiles2Spectra2DObject will now import your files")
 	
 	for (i in 1:ns) {
-		if (debug) cat("Importing file: ", files[i], "\n")
+		if (debug > 0L) cat("Importing file: ", files[i], "\n")
 		
-		tmp <- import2Dspectra(files[i], fmt = fmt, nF2 = nF2, ...)
+		tmp <- import2Dspectra(files[i], fmt = fmt, nF2 = nF2, debug = debug, ...)
 		spectra$data[[i]] <- tmp[["M"]]
 		dimnames(spectra$data[[i]]) <- NULL # clean up to plain matrix
 		if (i == 1L) {
@@ -187,7 +204,7 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
 	},
 	
 	error = function(cond) {
-		errmess <- "There was a problem importing your files!\n\nAre you importing csv or similar files? Did you get a message such as 'undefined columns selected'? You probably need to specify sep, header and dec values. Please read ?files2Spectra2DObject for details.\n\nFor any trouble importing files set debug = TRUE.\n"
+		errmess <- "There was a problem importing your files!\n\nAre you importing csv or similar files? Did you get a message such as 'undefined columns selected'? You probably need to specify sep, header and dec values. Please read ?files2Spectra2DObject for details.\n\nFor any trouble importing files set debug > 0.\n"
 		message("\nError message from R: ", cond$message, "\n")
 		message(errmess)
 		return(NA)

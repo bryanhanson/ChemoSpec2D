@@ -4,7 +4,7 @@
 \alias{import2Dspectra}
 \title{Import 2D Spectroscopic Data}
 \usage{
-import2Dspectra(file, fmt, nF2, ...)
+import2Dspectra(file, fmt, nF2, debug = 0, ...)
 }
 \arguments{
 \item{file}{Character string giving the path to a file containing a 2D spectrum.}
@@ -12,6 +12,9 @@ import2Dspectra(file, fmt, nF2, ...)
 \item{fmt}{Character string giving the format code to use.}
 
 \item{nF2}{Integer giving the number of data points in the F2 (x) dimension.}
+
+\item{debug}{Integer.  Applies to \code{fmt = "dx"} only.  See \code{\link[readJDX]{readJDX}}
+for details.}
 
 \item{...}{Parameters to be passed to \code{\link{read.table}}.}
 }
@@ -60,6 +63,8 @@ Here are some other format codes you can use:
   \item \code{Btotxt}.  This format imports Bruker data written to a file using the Bruker
         "totxt" command.  Tested with TopSpin 4.0.7.  This format is read via \code{readLines}
         and thus \ldots does not apply.
+  \item \code{dx}.  This format imports files written in the JCAMP-DX format, via 
+        package \code{readJDX}.
 }
 }
 

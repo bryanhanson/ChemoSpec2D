@@ -15,6 +15,9 @@
 #'
 #' @param ... Parameters to be passed to \code{\link{read.table}}.
 #'
+#' @param debug Integer.  Applies to \code{fmt = "dx"} only.  See \code{\link[readJDX]{readJDX}}
+#' for details.
+#'
 #' @section ASCII Format Codes for Data in Three Columns:
 #' ASCII format codes are constructed in two parts separated by a hyphen.  The first part gives
 #' the order of the columns in the file, e.g. F2F1Z means the first column has the F2 values,
@@ -41,6 +44,8 @@
 #'   \item \code{Btotxt}.  This format imports Bruker data written to a file using the Bruker
 #'         "totxt" command.  Tested with TopSpin 4.0.7.  This format is read via \code{readLines}
 #'         and thus \ldots does not apply.
+#'   \item \code{dx}.  This format imports files written in the JCAMP-DX format, via 
+#'         package \code{readJDX}.
 #' }
 
 #'
@@ -60,7 +65,7 @@
 #'
 #' @importFrom utils read.table
 #'
-import2Dspectra <- function(file, fmt, nF2, ...) {
+import2Dspectra <- function(file, fmt, nF2, debug = 0, ...) {
 	
   valid <- FALSE
   
@@ -74,7 +79,17 @@ import2Dspectra <- function(file, fmt, nF2, ...) {
     return(ans) 
   } # end of fmt = "SimpleM"
 
-    if (fmt == "YXZ") {
+  if (fmt == "dx") {
+  	valid <- TRUE
+    raw <- readJDX::readJDX(file, debug = debug)
+    M <- raw$Matrix
+    F2 <- raw$F2
+    F1 <- raw$F1
+    ans <- list(M = M, F2 = F2, F1 = F1)
+    return(ans) 
+  } # end of fmt = "dx"
+
+  if (fmt == "XYZ") {
   	valid <- TRUE
     raw <- read.table(file, ...)
     M <- matrix(raw[,3], nrow = nF2, byrow = TRUE)
@@ -132,5 +147,5 @@ import2Dspectra <- function(file, fmt, nF2, ...) {
     return(ans) 
   } # end of fmt = "Btotxt"
 
-  if (!valid) stop("fmt not recognized. Contact hanson@depauw.edu for help.")
+  if (!valid) stop("fmt not recognized. Contact hanson@depauw.edu for options.")
 }

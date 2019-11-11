@@ -9,7 +9,7 @@ files2Spectra2DObject(gr.crit = NULL, gr.cols = "auto", fmt = NULL,
   y.unit = "no frequency unit provided",
   z.unit = "no intensity unit provided",
   descrip = "no description provided", fileExt = "\\\\.(csv|CSV)$",
-  out.file = "mydata", debug = FALSE, ...)
+  out.file = "mydata", debug = 0, ...)
 }
 \arguments{
 \item{gr.crit}{Group Criteria.  A vector of character strings which will be
@@ -23,7 +23,12 @@ names that don't match entries in \code{gr.crit} or there are entries in
 \item{gr.cols}{A character vector, giving one color per group.}
 
 \item{fmt}{A character string giving the format of the data. Consult
-\code{\link{import2Dspectra}} for options.}
+\code{\link{import2Dspectra}} for options.
+If \code{fileExt} is one of
+\code{dx, DX, jdx or JDX}, \code{fmt} will automatically be set to \code{"dx"}
+and package \code{readJDX} will be used for the import.  In this case
+check the values of F2 and F1 carefully.  The values are taken from the file,
+for some files the values might not be in ppm.}
 
 \item{nF2}{Integer giving the number of data points in the F2 (x) dimension.}
 
@@ -41,15 +46,19 @@ of intensity).}
 \item{fileExt}{A character string giving the extension of the files to be
 processed. \code{regex} strings can be used.  For instance, the default
 finds files with either \code{".csv"} or \code{".CSV"} as the extension.
-Matching is done via a grep process, which is greedy.}
+Matching is done via a grep process, which is greedy.
+If \code{fileExt} is one of
+\code{dx, DX, jdx or JDX}, \code{fmt} will automatically be set to \code{"dx"}
+and package \code{readJDX} will be used for the import.}
 
 \item{out.file}{A file name.  The
 completed object of S3 class \code{\link{Spectra2D}} will be written to this
 file.}
 
-\item{debug}{Logical.
-Set to \code{TRUE} for troubleshooting when an error
-is thrown during import.}
+\item{debug}{Integer.  Set to 1 for basic reporting when there are problems.
+If importing JCAMP-DX files, values greater than 1 give additional and potentially
+huge output.  Once you know which file is the problem, you may wish to troubleshoot
+directly using package \code{readJDX}.}
 
 \item{...}{Arguments to be passed to \code{\link[utils]{read.table}}.  \pkg{You
 MUST supply values for \code{sep}, \code{dec} and \code{header} consistent
