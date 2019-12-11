@@ -18,7 +18,17 @@
 #'        names that don't match entries in \code{gr.crit} or there are entries in
 #'        \code{gr.crit} that don't match any file names.
 #'
-#' @param gr.cols A character vector, giving one color per group.
+#' @param gr.cols Group Colors.  See \code{\link{colorSymbol}} for some options. One of the following:
+#'   \itemize{
+#'     \item Legacy behavior and the default: The word \code{"auto"}, in which case up to 8 colors will
+#'           be automatically assigned from package \code{RColorBrewer Set1}.
+#'     \item \code{"Col8"}. A unique set of up to 8 colors is used.  
+#'     \item \code{"Col12"}. A mostly paired set of up to 12 colors is used.
+#'     \item A vector of acceptable color designations with the same length as \code{gr.crit}. 
+#'   }
+#'       Colors will be assigned one for one, so the first element of
+#'       \code{gr.crit} is assigned the first element of \code{gr.col} and so forth.  For \code{Col12}
+#'       you should pay careful attention to the order of \code{gr.crit} in order to match up colors.
 #'
 #' @param x.unit A character string giving the units for the F2 dimension
 #'        (frequency or wavelength corresponding to the x dimension).
