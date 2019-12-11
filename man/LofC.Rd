@@ -4,35 +4,39 @@
 \alias{LofC}
 \title{Create a List of Colors}
 \usage{
-LofC(cols, n = 1L, mode = 1L)
+LofC(cols, nspec = 1L, ncon = 1L, mode = 1L)
 }
 \arguments{
 \item{cols}{Character. A vector of color designations.}
 
-\item{n}{Integer. The number of times to replicate the colors.}
+\item{nspec}{Integer. The number of spectra to be plotted.}
+
+\item{ncon}{Integer. The number of contour levels.}
 
 \item{mode}{Integer. \emph{How} to replicate the colors:
 \itemize{
-\item If \code{mode = 1L}, a list of length \code{n}, where \code{n} is the number of spectra to
-      be plotted. Each element a copy of \code{cols}.  This mode is probably most useful when
-      \code{n = 1} (i.e. there is only one spectrum to be plotted, and you want to use custom colors).
-\item If \code{mode = 2L}, a list of \code{length(cols)}, which should correspond to the number of spectra
-      to be plotted.  First list element is \code{n} replicates
-      of \code{cols[i]}, second list element is \code{n} replicates of \code{cols[2]} etc.
-      Use this mode when you want each spectrum to be plotted in its own color with \code{n} contours.
+  \item If \code{mode = 1L}, each list element in the return value is a copy of \code{cols}.               
+        Typically one would use this mode for \code{n = 1}, when there is only one spectrum
+        to be plotted, and you want to use varied colors for the contour levels. \code{length(cols)}
+        must be the same as the number of contour levels passed to \code{\link{plotSpectra2D}},
+        possibly via \code{\link{LofL}}.
+  \item If \code{mode = 2L}, each list element in the return value is composed of a single color.
+        The first list element is \code{n} replicates of \code{cols[i]}, the second list element is
+        \code{n} replicates of \code{cols[2]} etc. Use this mode when you want each spectrum to be
+        plotted in its own color.  \code{length(cols)} must equal \code{n} in this mode.
 }}
 }
 \value{
-A list of length \code{n}; each entry is a vector of colors.
+A list of length \code{n}, the number of spectra to be plotted; each entry is a vector of colors.
 }
 \description{
-When overlaying multiple 2D NMR spectra one needs to supply a vector of colors for each spectrum contour, as a list.
+When overlaying multiple 2D NMR spectra, one needs to supply a vector of colors for each spectrum contour, as a list.
 This is a convenience function which takes a vector of colors and copies it into a list, ready for
 use  with \code{\link{plotSpectra2D}}.
 }
 \examples{
 mycols <- c("red", "green", "blue")
-LofC(mycols, 1, 1)
-LofC(mycols, 5, 2)
+LofC(mycols, 1, 3, 1)
+LofC(mycols, 3, 3, 2)
 
 }

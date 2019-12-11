@@ -88,7 +88,7 @@
 	  if ("xlim" %in% names(args)) {
 	  	xlim <- eval(args$xlim)
 	  	F2reqRange <- xlim
-	  	limx <- sort(.rescale(xlim, spectra$F2, mode = 2L))
+	  	limx <- 1 - sort(.rescale(xlim, 0, 1, min(spectra$F2), max(spectra$F1)))
 		limx <- limx + diff(limx) * 0.05 * c(-1.0, 1.0) # expand slightly to mimick usual base R behavior
 	  	args$xlim <- NULL
 	  	args <- c(args, list(xlim = limx))
@@ -97,7 +97,7 @@
 	  if ("ylim" %in% names(args)) {
 	  	ylim <- eval(args$ylim)
 	  	F1reqRange <- ylim
-	  	limy <- sort(.rescale(ylim, spectra$F1, mode = 2L))
+	  	limy <- 1 - sort(.rescale(ylim, 0, 1, min(spectra$F1), max(spectra$F2)))
 		limy <- limy + diff(limy) * 0.05 * c(-1.0, 1.0) # expand slightly to mimick usual base R behavior
 	  	args$ylim <- NULL
 	  	args <- c(args, list(ylim = limy))
@@ -134,8 +134,8 @@
       
       # Compute fraction of data to be shown (conveniently, we can use .rescale for this)
       
-      fracF2 <- abs(diff(.rescale(F2reqRange, spectra$F2)))
-      fracF1 <- abs(diff(.rescale(F1reqRange, spectra$F1)))
+      fracF2 <- abs(diff(.rescale(F2reqRange, 0, 1, min(spectra$F2), max(spectra$F2))))
+      fracF1 <- abs(diff(.rescale(F1reqRange, 0, 1, min(spectra$F1), max(spectra$F1))))
 
       # Compute number of ticks to request (10 is the minimum, but see .computeTicks re: discontinuous data)
       noTicksF2 <- floor(10/fracF2)
@@ -143,9 +143,9 @@
       
       # Compute tick strings and positions
       F2ticks <- .computeTicks(spectra$F2, noTicksF2) # native coordinates
-      F2at <- .rescale(F2ticks, spectra$F2, mode = 1L) # internal coordinates [0...1]
+      F2at <- .rescale(F2ticks, 0, 1, min(spectra$F2), max(spectra$F2)) # internal coordinates [0...1]
       F1ticks <- .computeTicks(spectra$F1, noTicksF1)
-      F1at <- .rescale(F1ticks, spectra$F1, mode = 1L)     
+      F1at <- .rescale(F1ticks, 0, 1, min(spectra$F1), max(spectra$F1))     
      
       # Format labels depending upon range
       integerLabThresh <- 10.0

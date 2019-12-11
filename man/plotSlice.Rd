@@ -4,8 +4,7 @@
 \alias{plotSlice}
 \title{Plot a Slice of a Spectra2D Object}
 \usage{
-plotSlice(spectra, which = 1, F2 = NULL, F1 = NULL,
-  showGrid = TRUE, ...)
+plotSlice(spectra, which = 1, F2 = NULL, F1 = NULL, showGrid = TRUE, ...)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}

@@ -4,9 +4,18 @@
 \alias{plotLoadings2D}
 \title{Plot Loadings from a PARAFAC, MIA or POP Analysis of a Spectra2D Object}
 \usage{
-plotLoadings2D(spectra, so, load = 1, ref = NULL, load_lvls = NULL,
-  ref_lvls = NULL, load_cols = NULL, ref_cols = NULL, plot = TRUE,
-  ...)
+plotLoadings2D(
+  spectra,
+  so,
+  load = 1,
+  ref = NULL,
+  load_lvls = NULL,
+  ref_lvls = NULL,
+  load_cols = NULL,
+  ref_cols = NULL,
+  plot = TRUE,
+  ...
+)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}

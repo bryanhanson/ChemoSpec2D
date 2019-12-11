@@ -4,8 +4,13 @@
 \alias{shiftSpectra2D}
 \title{Shift the Spectra in a Spectra2D Object}
 \usage{
-shiftSpectra2D(spectra, which = NULL, shiftF2 = 0L, shiftF1 = 0L,
-  fill = "noise")
+shiftSpectra2D(
+  spectra,
+  which = NULL,
+  shiftF2 = 0L,
+  shiftF1 = 0L,
+  fill = "noise"
+)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
@@ -45,14 +50,14 @@ data(MUD2)
 
 mylvls <- seq(5, 35, 5)
 plotSpectra2D(MUD2, which = 1:2, lvls = LofL(mylvls, 2),
-  cols = LofC(c("red", "black"), 7, 2),
+  cols = LofC(c("red", "black"), 2, length(mylvls), 2),
   main = "MUD2 Sample 1 (black) & Sample 2 (red)")
 
 # Now shift Sample 2
 MUD2s <- shiftSpectra2D(MUD2, which = 2, shiftF1 = -2)
 plotSpectra2D(MUD2s, which = 1:2, lvls = LofL(mylvls, 2),
-  cols = LofC(c("red", "black"), 7, 2),
-  main = "MUD2 Sample 1 (black) & Sample 2 (red)\\n(samples aligned/overlap)")
+  cols = LofC(c("red", "black"), 2, length(mylvls), 2),
+  main = "MUD2 Sample 1 (black) & Sample 2 (red)\n(samples aligned/overlap)")
 
 
 }

@@ -8,29 +8,30 @@
 #' 
 #' @param M A numeric matrix or vector.
 #'
-#' @param n For all methods except \code{ecdf}, an integer giving the number of
-#' levels desired.  For most modes this is used interally as \code{floor(n/2)}
-#' and the result doubled.  In addition,
-#' only the positive or negative levels may be selected, so you are not likely
-#' to actually get \code{n} levels most of the time (remember, you can always give
-#' your desired levels as a vector).  For \code{ecdf}, \code{n} should be one or
-#' more values in
-#' the interval [0...1].  For instance, a value of 0.6 corresponds to a single
-#' level in which 60 percent of the matrix values are below, and 40 percent
-#' above.
+#' @param n An integer giving the number of levels desired:
+#' \itemize{
+#'   \item For \code{mode = "even"} \code{n} evenly spaced levels are returned.
+#'   \item For \code{mode = "ecdf"}, \code{n} should be one or more values in the interval [0...1].
+#'         For instance, a value of 0.6 corresponds to a single level in which 60 percent
+#'         of the matrix values are below, and 40 percent above.
+#'  \item For all other values of \code{mode}, \code{n} is used internally as \code{floor(n/2)}
+#'        and the result eventually doubled in order to give a symmetric set of levels. In addition,
+#'        only the positive or negative levels may be selected, leaving you with
+#'        \code{floor(n/2)/2} levels.
+#' }
 #'
 #' @param mode Character.  One of \code{"even"}, \code{"log"}, \code{"exp"},
 #' \code{"ecdf"}, \code{"posexp"}, \code{"negexp"}, \code{"poslog"}, \code{"neglog"}
-#' or \code{NMR}.
-#' \code{"even"} will create evenly
+#' or \code{NMR}. \code{"even"} will create evenly
 #' spaced levels.  \code{"log"} will create levels which are more closely
 #' spaced at the high values, while \code{"exp"} does the opposite.  The pos- or
 #' neg- versions select just the positive or negative values.  \code{"ecdf"}
 #' computes levels at the requested quantiles of the matrix. \code{NMR} uses
-#' \code{log}, \code{base = 1} and \code{n = 48}.
+#' \code{exp}, \code{lambda = 2.0} and \code{n = 32}.  It also removes the four
+#' values closest to zero, where the data may be primarily noise.
 #'
 #' @param lambda Numeric.  A non-zero exponent used with \code{method = "exp"}
-#' and relatives.
+#' and relatives.  Higher values push the levels toward zero.
 #'
 #' @param base Integer.  The base used with \code{method = "log"} and
 #' relatives.
@@ -58,7 +59,7 @@
 #' MM <- matrix(runif(100, -1, 1), nrow = 10) # test data
 #' tsts <- c("even", "log", "poslog", "exp", "posexp", "ecdf", "NMR")
 #' for (i in 1:length(tsts)) {
-#' 	nl <- 10
+#' 	nl <- 20
 #' 	if(tsts[i] == "ecdf")  nl <- seq(0.1, 0.9, 0.1)
 #' 	levels <- calcLvls(M = MM, n = nl, mode = tsts[i],
 #'    showHist = TRUE, main = tsts[i])
@@ -66,65 +67,47 @@
 #' 
 #' 
 calcLvls <- function(M, n = 10, mode = "even",
-	lambda = 1.0, base = 2,
+	lambda = 1.5, base = 2,
 	showHist = FALSE, ...) {
 
 	if (mode == "even") {
 		n <- as.integer(n)
-		mn <- min(M)
-		mx <- max(M)
-		lower <- mn * 0.95 # shrink in a bit at both ends
-		upper <- mx * 0.95
-		lvs <- seq(lower, upper, length.out = n)
+		lvs <- seq(min(M), max(M), length.out = n)
 		if (length(lvs) == 0) stop("Levels calculation returned no levels")
 		if (showHist) .sH(M, lvs, ...)
 		return(lvs)
 		}
 
-
-	if (mode == "exp") { # For use when the range is [-Inf...Inf]
-		n <- as.integer(n)
-		
+	if (mode == "exp") {
 		if (lambda == 0.0) stop("lambda cannot be zero")
-		
+	
 		# Compute levels based on the most extreme value
-				
+		n <- as.integer(n)			
 		ref <- .findExtreme(M)
-		lower <- 0.00001 # just above zero to avoid Inf
-		# lvs <- seq(log(lower), log(ref), length.out = floor(n/2))
-		lvs <- seq(log(lower), log(ref), length.out = floor(n/2))
-		lvs <- exp(lvs*lambda)
+		lower <- min(abs(M[M != 0.0])) # must avoid zero, handle only pos, only neg values
+		lvs <- seq(lower, ref, length.out = floor(n/2)) # equally spaced values
+		lvs <- exp(lvs*lambda) # exponentially spaced values, but new scale
 		
 		# Now scale back into the range of the data
-		# Shrink inward a bit, can't show a contour at max/min value (well, maybe one can...)
-		lvs2 <- lvs * ref*0.975/max(lvs)
-
-		# Reflect through zero
-		lvs <- sort(c(-1*lvs2, lvs2))
+		lvs <- .rescale(lvs, lower, ref)
+		lvs <- sort(c(-1*lvs, lvs)) # Reflect through zero
 		if (showHist) .sH(M, lvs, ...)
 		return(lvs)
 		}
 
 
-	if (mode == "log") { # For use when the range is [-Inf...Inf]
-		n <- as.integer(n)
+	if (mode == "log") {
 		if (base <= 0L) stop("base must be > 0")
 		
 		# Compute levels based on the most extreme value
-
+		n <- as.integer(n)
 		ref <- .findExtreme(M)				
-		X <- .getPN(M)
-		lower <- 0.001 # just above zero to avoid Inf
+		lower <- min(abs(M[M != 0.0])) # must avoid zero, handle only pos, only neg values
 		lvs <- seq(lower, ref, length.out = floor(n/2))
 		lvs <- log(lvs, base)
 		
 		# Now scale back into the range of the data
-		lvs <- abs(min(lvs)) + lvs
-		sf <- diff(range(X))/diff(range(lvs))
-		lvs <- lvs * sf
-		lvs[1] <- 0.1 * ref # a little fudge to stay off zero & near the mirror value
-		
-		# Reflect through zero
+		lvs <- .rescale(lvs, lower, ref)
 		lvs <- sort(c(-1*lvs, lvs))
 		if (showHist) .sH(M, lvs, ...)
 		return(lvs)
@@ -180,7 +163,8 @@ calcLvls <- function(M, n = 10, mode = "even",
 		}
 
 	if (mode == "NMR") {
-		lvs <- calcLvls(M = M, n = 48, mode = "exp", lambda = 0.25, base = base, ...)
+		lvs <- calcLvls(M = M, n = 32, mode = "exp", lambda = 2.0, base = base, ...)
+		lvs <- lvs[-c(15, 16, 17, 18)] # remove 4 lowest levels
 		if (showHist) .sH(M, lvs, ...)
 		return(lvs)
 		}

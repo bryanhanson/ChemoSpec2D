@@ -2,21 +2,20 @@
 % Please edit documentation in R/LofL.R
 \name{LofL}
 \alias{LofL}
-\title{Create a List of Levels}
+\title{Create a List of Contour Levels}
 \usage{
 LofL(lvls, n)
 }
 \arguments{
 \item{lvls}{Numeric.  A vector of the desired levels.}
 
-\item{n}{Integer.  The number of times to replicate the levels; corresponds to the number of spectra to
-be plotted.}
+\item{n}{Integer.  The number of spectra to be plotted, which is also the number of times to replicate the levels.}
 }
 \value{
-A list of length \code{n}; each entry is a vector of \code{lvls}.
+A list of length \code{n}; each entry is a copy of \code{lvls}.
 }
 \description{
-When overlaying multiple 2D NMR spectra one needs to supply a vector of contour levels for each spectrum, as a list.
+When overlaying multiple 2D NMR spectra, one needs to supply a vector of contour levels for each spectrum, as a list.
 This is a convenience function which takes a set of levels and copies it into a list, ready for
 use  with \code{\link{plotSpectra2D}}.
 }

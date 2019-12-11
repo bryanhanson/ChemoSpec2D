@@ -4,9 +4,18 @@
 \alias{hats_alignSpectra2D}
 \title{Align the Spectra in a Spectra2D Object using the HATS algorithm.}
 \usage{
-hats_alignSpectra2D(spectra, maxF2 = NULL, maxF1 = NULL,
-  thres = 0.99, no.it = 20L, restarts = 2L, method = "MBO",
-  fill = "noise", plot = FALSE, debug = 1)
+hats_alignSpectra2D(
+  spectra,
+  maxF2 = NULL,
+  maxF1 = NULL,
+  thres = 0.99,
+  no.it = 20L,
+  restarts = 2L,
+  method = "MBO",
+  fill = "noise",
+  plot = FALSE,
+  debug = 1
+)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}

@@ -1,45 +1,51 @@
 #'
 #' Create a List of Colors
 #'
-#' When overlaying multiple 2D NMR spectra one needs to supply a vector of colors for each spectrum contour, as a list.
+#' When overlaying multiple 2D NMR spectra, one needs to supply a vector of colors for each spectrum contour, as a list.
 #' This is a convenience function which takes a vector of colors and copies it into a list, ready for
 #' use  with \code{\link{plotSpectra2D}}.
 #'
 #' @param cols Character. A vector of color designations.
 #'
-#' @param n Integer. The number of times to replicate the colors.
+#' @param nspec Integer. The number of spectra to be plotted.
+#'
+#' @param ncon Integer. The number of contour levels.
 #'
 #' @param mode Integer. \emph{How} to replicate the colors:
 #'        \itemize{
-#'        \item If \code{mode = 1L}, a list of length \code{n}, where \code{n} is the number of spectra to
-#'              be plotted. Each element a copy of \code{cols}.  This mode is probably most useful when
-#'              \code{n = 1} (i.e. there is only one spectrum to be plotted, and you want to use custom colors).
-#'        \item If \code{mode = 2L}, a list of \code{length(cols)}, which should correspond to the number of spectra
-#'              to be plotted.  First list element is \code{n} replicates
-#'              of \code{cols[i]}, second list element is \code{n} replicates of \code{cols[2]} etc.
-#'              Use this mode when you want each spectrum to be plotted in its own color with \code{n} contours.
+#'          \item If \code{mode = 1L}, each list element in the return value is a copy of \code{cols}.               
+#'                Typically one would use this mode for \code{n = 1}, when there is only one spectrum
+#'                to be plotted, and you want to use varied colors for the contour levels. \code{length(cols)}
+#'                must be the same as the number of contour levels passed to \code{\link{plotSpectra2D}},
+#'                possibly via \code{\link{LofL}}.
+#'          \item If \code{mode = 2L}, each list element in the return value is composed of a single color.
+#'                The first list element is \code{n} replicates of \code{cols[i]}, the second list element is
+#'                \code{n} replicates of \code{cols[2]} etc. Use this mode when you want each spectrum to be
+#'                plotted in its own color.  \code{length(cols)} must equal \code{n} in this mode.
 #'        }
-#' @return A list of length \code{n}; each entry is a vector of colors.
+#' @return A list of length \code{n}, the number of spectra to be plotted; each entry is a vector of colors.
 #'
 #' @export
 #'
 #' @examples
 #' mycols <- c("red", "green", "blue")
-#' LofC(mycols, 1, 1)
-#' LofC(mycols, 5, 2)
+#' LofC(mycols, 1, 3, 1)
+#' LofC(mycols, 3, 3, 2)
 #'
-LofC <- function(cols, n = 1L, mode = 1L) {
+LofC <- function(cols, nspec = 1L, ncon = 1L, mode = 1L) {
 
   success <- FALSE
   ans <- list()
-    
+  
   if (mode == 1L) { # n list elements, each a copy of cols
-  	for (i in 1:n) ans[[i]] <- cols
+  	if (ncon != length(cols)) stop("LofC mode = 1 requires that length(cols) = ncon")
+  	for (i in 1:nspec) ans[[i]] <- cols
   	success <- TRUE
   }
     
-  if (mode == 2L) { # 1st list element is n reps of cols[1], 2nd n reps of cols[2] etc
-  	for (i in 1:length(cols)) ans[[i]] <- rep(cols[i], n)
+  if (mode == 2L) { # 1st list element is ncon reps of cols[1], 2nd ncon reps of cols[2] etc
+  	if (nspec != length(cols)) stop("LofC mode = 2 requires that length(cols) = nspec")
+  	for (i in 1:nspec) ans[[i]] <- rep(cols[i], ncon)
   	success <- TRUE
   }
 

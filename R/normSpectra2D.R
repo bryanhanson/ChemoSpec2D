@@ -42,28 +42,19 @@ normSpectra2D <- function(spectra, method = "zero2one") {
 # normalize each 2D spectrum to a [0 ... 1] range:
 
 	if (method == "zero2one") {
-		rescale <- function (x, nx1, nx2, minx, maxx) {
-			nx = nx1 + (nx2 - nx1) * (x - minx)/(maxx - minx)
-            return(nx)
-        }
 		for (i in 1:ns) {
 			rMin <- min(spectra$data[[i]], na.rm = TRUE)
 			rMax <- max(spectra$data[[i]], na.rm = TRUE)
-			spectra$data[[i]] <- rescale(spectra$data[[i]], 0.0, 1.0, rMin, rMax)
+			spectra$data[[i]] <- .rescale(spectra$data[[i]], 0.0, 1.0, rMin, rMax)
 			}
 		}
 
 # normalize each 2D spectrum to a [-1 ... 1] range:
 	if (method == "minusPlus") {
-		rescale <- function (x, nx1, nx2, minx, maxx) {
-			nx = nx1 + (nx2 - nx1) * (x - minx)/(maxx - minx)
-            return(nx)
-        }
-
 		for (i in 1:ns) {
 			rMin <- min(spectra$data[[i]], na.rm = TRUE)
 			rMax <- max(spectra$data[[i]], na.rm = TRUE)
-			spectra$data[[i]] <- rescale(spectra$data[[i]], -1.0, 1.0, rMin, rMax)
+			spectra$data[[i]] <- .rescale(spectra$data[[i]], -1.0, 1.0, rMin, rMax)
 			}
 		}
 

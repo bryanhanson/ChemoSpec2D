@@ -4,8 +4,7 @@
 \alias{pfacSpectra2D}
 \title{PARAFAC Analysis of a Spectra2D Object}
 \usage{
-pfacSpectra2D(spectra, parallel = FALSE, setup = FALSE, nfac = 2,
-  ...)
+pfacSpectra2D(spectra, parallel = FALSE, setup = FALSE, nfac = 2, ...)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
@@ -56,8 +55,9 @@ res2 <- plotLoadings2D(MUD1, res, load_lvls = c(1, 5, 10, 15, 25),
   main = "PARAFAC Comp. 1 Loadings + Ref. Spectrum")
 
 # Selection of loading matrix levels can be aided by the following
+# Use res1$names to find the index of the loadings
 
-inspectLvls(res1, loading = 1, ylim = c(0, 50),
+inspectLvls(res1, which = 11, ylim = c(0, 50),
   main = "Histogram of Loadings Matrix")
 
 }

@@ -102,7 +102,7 @@ plotLoadings2D <- function(spectra, so,
   # Loading was not found, compute it
   # In this block we do things differently for each class
       soOK <- FALSE
-	  if ("mia" %in% class(so)) {
+	  if (inherits(so, "mia")) {
 	  	  soOK <- TRUE
 	  	  if (load > ncol(so$C)) stop("Requested load does not exist")
 
@@ -122,7 +122,7 @@ plotLoadings2D <- function(spectra, so,
 		 
 	  } # end of mia
 	
-	  if ("pfac" %in% class(so)) {
+	  if (inherits(so, "pfac")) {
 	  	  soOK <- TRUE
 	      if (load > ncol(so$A)) stop("Requested load does not exist")
 	
@@ -131,7 +131,7 @@ plotLoadings2D <- function(spectra, so,
 		   
 	  } # end of pfac
 	
-	  if ("pop" %in% class(so)) {
+	  if (inherits(so, "pop")) {
 	  	  soOK <- TRUE
 	  	  if (load > ncol(so$rotation)) stop("Requested load does not exist")
 	  	

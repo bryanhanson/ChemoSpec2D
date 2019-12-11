@@ -63,8 +63,9 @@
 #'   main = "PARAFAC Comp. 1 Loadings + Ref. Spectrum")
 #'
 #' # Selection of loading matrix levels can be aided by the following
+#' # Use res1$names to find the index of the loadings
 #'
-#' inspectLvls(res1, loading = 1, ylim = c(0, 50),
+#' inspectLvls(res1, which = 11, ylim = c(0, 50),
 #'   main = "Histogram of Loadings Matrix")
 #'
 

@@ -9,9 +9,12 @@ import2Dspectra(file, fmt, nF2, debug = 0, ...)
 \arguments{
 \item{file}{Character string giving the path to a file containing a 2D spectrum.}
 
-\item{fmt}{Character string giving the format code to use.}
+\item{fmt}{Character string giving the format code to use.  Details below.}
 
-\item{nF2}{Integer giving the number of data points in the F2 (x) dimension.}
+\item{nF2}{Integer giving the number of data points in the F2 (x) dimension.
+Note: If \emph{any} dimension is zero-filled you may need to study
+the acquistion details to get the correct value for this argument.
+This may be vendor-dependent.}
 
 \item{debug}{Integer.  Applies to \code{fmt = "dx"} only.  See \code{\link[readJDX]{readJDX}}
 for details.}
@@ -29,26 +32,24 @@ A list with 3 elements:
 }
 \description{
 This function imports a single file (for instance, a csv) containing a 2D
-spectroscopic data set.  The current version handles various types of 
+spectroscopic data set.  The current version handles various types of
 ASCII text files as well as a few other types.
-This function is called by \code{files2Spectra2DObject}
+This function is called by \code{\link{files2Spectra2DObject}}
 and is exported and documented to assist in developing new format codes.
 }
-\section{ASCII Format Codes for Data in Three Columns}{
+\section{NA}{
 
-ASCII format codes are constructed in two parts separated by a hyphen.  The first part gives
-the order of the columns in the file, e.g. F2F1Z means the first column has the F2 values,
-the second column has the F1 values and the third the intensities.  The second part of the
-format code relates to the order of the rows, i.e. which column varies fastest and in what direction.
-These codes are best understood in relation to how the data is stored internally in a matrix.
-The internal matrix is organized exactly as the data appears on the screen, with F2 decreasing
-left-to-right, and F1 increasing top-to-bottom. There are four possibilities (not all implemented,
-please e-mail for assistance):
+Here are some other format codes you can use:
 \itemize{
-  \item Data in the file consists of F2 slices starting at the bottom (max F1).  Use \code{F2decF1}.
-  \item Data in the file consists of F2 slices starting at the top (min F1).  Use \code{F2incF1}.
-  \item Data in the file consists of F1 slices starting on the left (max F2).  Use \code{F1decF2}.
-  \item Data in the file consists of F1 slices starting on the right (max F1).  Use \code{F1incF2}.
+  \item \code{"SimpleM"}.  Imports matrices composed of z values.  The F2 and F1 values
+        are created from the dimension of the matrix.  After import, you will have to manually
+        convert the F2 and F1 values to ppm.  You may also have to transpose the matrices, or
+        perhaps invert the order of the rows or columns.  Read via \code{read.table}.
+  \item \code{"Btotxt"}.  This format imports Bruker data written to a file using the Bruker
+        "totxt" command.  Tested with TopSpin 4.0.7.  This format is read via \code{readLines}
+        and thus the \ldots argument does not apply.
+  \item \code{"dx"}.  This format imports files written in the JCAMP-DX format, via
+        package \code{\link[readJDX]{readJDX}}.
 }
 }
 
@@ -56,15 +57,15 @@ please e-mail for assistance):
 
 Here are some other format codes you can use:
 \itemize{
-  \item \code{SimpleM}.  Imports simple matrices composed of z values.  The F2 and F1 values
-        are taken from the dimension of the matrix.  After import, you will have to manually
-        fix the F2 and F1 values.  You may also have to transpose the matrices manually, or
-        perhaps invert the order of the rows or columns.
-  \item \code{Btotxt}.  This format imports Bruker data written to a file using the Bruker
+  \item \code{"SimpleM"}.  Imports matrices composed of z values.  The F2 and F1 values
+        are created from the dimension of the matrix.  After import, you will have to manually
+        convert the F2 and F1 values to ppm.  You may also have to transpose the matrices, or
+        perhaps invert the order of the rows or columns.  Read via \code{read.table}.
+  \item \code{"Btotxt"}.  This format imports Bruker data written to a file using the Bruker
         "totxt" command.  Tested with TopSpin 4.0.7.  This format is read via \code{readLines}
-        and thus \ldots does not apply.
-  \item \code{dx}.  This format imports files written in the JCAMP-DX format, via 
-        package \code{readJDX}.
+        and thus the \ldots argument does not apply.
+  \item \code{"dx"}.  This format imports files written in the JCAMP-DX format, via
+        package \code{\link[readJDX]{readJDX}}.
 }
 }
 

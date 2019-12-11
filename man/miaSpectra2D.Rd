@@ -30,8 +30,9 @@ MUD1a <- plotLoadings2D(MUD1, res, load_lvls = seq(-90, 0, 10),
   main = "MIA Comp. 1 Loadings")
 
 # Selection of loading matrix levels can be aided by the following
+# Use MUD1a$names to find the index of the loadings
 
-inspectLvls(MUD1a, loading = 1, ylim = c(0, 80),
+inspectLvls(MUD1a, which = 11, ylim = c(0, 80),
   main = "Histogram of Loadings Matrix")
 
 }

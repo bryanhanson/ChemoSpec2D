@@ -1,84 +1,84 @@
 #'
 #' Import Data into a Spectra2D Object
 #'
-#' This function imports data into a \code{\link{Spectra2D}} object.  It uses
+#' This function imports data into a \code{\link{Spectra2D}} object.  It primarily uses
 #' \code{\link[utils]{read.table}} to read files so it is
-#' very flexible in regard to file formatting.  \pkg{Be sure to see the \ldots 
+#' very flexible in regard to file formatting.  \pkg{Be sure to see the \ldots
 #' argument below for important details you need to provide.}
 #'
 #' \code{files2Spectra2DObject} acts on all files in the current working
 #' directory with the specified \code{fileExt} so there should be no
-#' extra files of that type.
+#' extraneous files of that type in the directory.
 #'
 #' @param gr.crit Group Criteria.  A vector of character strings which will be
-#' searched for among the file/sample names in order to assign an individual
-#' spectrum to group membership. This is done using grep, so characters
-#' like "." (period/dot) do not have their literal meaning (see below).
-#' Warnings are issued if there are file/sample
-#' names that don't match entries in \code{gr.crit} or there are entries in
-#' \code{gr.crit} that don't match any file names.
-#' 
+#'        searched for among the file/sample names in order to assign an individual
+#'        spectrum to group membership. This is done using grep, so characters
+#'        like "." (period/dot) do not have their literal meaning (see below).
+#'        Warnings are issued if there are file/sample
+#'        names that don't match entries in \code{gr.crit} or there are entries in
+#'        \code{gr.crit} that don't match any file names.
+#'
 #' @param gr.cols A character vector, giving one color per group.
-#' 
+#'
 #' @param x.unit A character string giving the units for the F2 dimension
-#' (frequency or wavelength corresponding to the x dimension).
-#' 
+#'        (frequency or wavelength corresponding to the x dimension).
+#'
 #' @param y.unit A character string giving the units for the F1 dimension
-#' (frequency or wavelength corresponding to the y dimension).
-#' 
+#'        (frequency or wavelength corresponding to the y dimension).
+#'
 #' @param z.unit A character string giving the units of the z-axis (some sort
-#' of intensity).
-#' 
+#'        of intensity).
+#'
 #' @param descrip A character string describing the data set.
-#' 
+#'
 #' @param fmt A character string giving the format of the data. Consult
-#' \code{\link{import2Dspectra}} for options.
-#' If \code{fileExt} is one of
-#' \code{dx, DX, jdx or JDX}, \code{fmt} will automatically be set to \code{"dx"}
-#' and package \code{readJDX} will be used for the import.  In this case
-#' check the values of F2 and F1 carefully.  The values are taken from the file,
-#' for some files the values might not be in ppm.
+#'        \code{\link{import2Dspectra}} for options.
+#'        If \code{fileExt} is one of \code{dx, DX, jdx or JDX}, \code{fmt} will automatically
+#'        be set to \code{"dx"} and package \code{readJDX} will be used for the import.  In this case
+#'        check the values of F2 and F1 carefully.  The values are taken from the file,
+#'        for some files/vendors the values might not be in ppm.
 #'
 #' @param nF2 Integer giving the number of data points in the F2 (x) dimension.
+#'        Note: If \emph{any} dimension is zero-filled you may need to study
+#'        the acquistion details to get the correct value for this argument.
+#'        This may be vendor-dependent.
 #'
 #' @param fileExt A character string giving the extension of the files to be
-#' processed. \code{regex} strings can be used.  For instance, the default
-#' finds files with either \code{".csv"} or \code{".CSV"} as the extension.
-#' Matching is done via a grep process, which is greedy.
-#' If \code{fileExt} is one of
-#' \code{dx, DX, jdx or JDX}, \code{fmt} will automatically be set to \code{"dx"}
-#' and package \code{readJDX} will be used for the import.
-#' 
-#' @param out.file A file name.  The
-#' completed object of S3 class \code{\link{Spectra2D}} will be written to this
-#' file.
-#' 
+#'        processed. \code{regex} strings can be used.  For instance, the default
+#'        finds files with either \code{".csv"} or \code{".CSV"} as the extension.
+#'        Matching is done via a grep process, which is greedy.
+#'        If \code{fileExt} is one of \code{dx, DX, jdx or JDX}, \code{fmt} will automatically be
+#'        set to \code{"dx"} and package \code{readJDX} will be used for the import.
+#'
+#' @param out.file A file name.  The completed object of S3 class \code{\link{Spectra2D}} will be written
+#'        to this file.
+#'
 #' @param debug Integer.  Set to 1 for basic reporting when there are problems.
-#' If importing JCAMP-DX files, values greater than 1 give additional and potentially
-#' huge output.  Once you know which file is the problem, you may wish to troubleshoot
-#' directly using package \code{readJDX}.
-#' 
+#'        If importing JCAMP-DX files, values greater than 1 give additional and potentially
+#'        huge output.  Once you know which file is the problem, you may wish to troubleshoot
+#'        directly using package \code{readJDX}.
+#'
+#' @param chk Logical. Should the \code{Spectra} object be checked for integrity?  If you are having
+#'        trouble importing your data, set this to \code{FALSE} and do \code{str(your object)} to investigate.
+#'
 #' @param ...  Arguments to be passed to \code{\link[utils]{read.table}}.  \pkg{You
-#' MUST supply values for \code{sep}, \code{dec} and \code{header} consistent
-#' with your file structure, unless they are the same as the defaults for
-#' \code{\link[utils]{read.table}}}.
-#' 
+#'        MUST supply values for \code{sep}, \code{dec} and \code{header} consistent
+#'        with your file structure, unless they are the same as the defaults for
+#'        \code{\link[utils]{read.table}}}.
+#'
 #' @return A object of class \code{\link{Spectra2D}}.  An \emph{unnamed} object
-#' of S3 class \code{\link{Spectra2D}} is also written to \code{out.file}.  To
-#' read it back into the workspace, use \code{new.name <- loadObject(out.file)}
-#' (\code{loadObject} is package \pkg{R.utils}).
-#' 
+#'         of S3 class \code{\link{Spectra2D}} is also written to \code{out.file}.  To
+#'         read it back into the workspace, use \code{new.name <- loadObject(out.file)}
+#'         (\code{loadObject} is package \pkg{R.utils}).
+#'
 #' @section gr.crit and Sample Name Gotchas:
 #'
-#' The matching of \code{gr.crit} against the sample file names
-#' (in \code{files2SpectraObject}) or column headers/sample names
-#' (in code{matrix2SpectraObject}) is done one at
+#' The matching of \code{gr.crit} against the sample file names is done one at
 #' a time, in order, using grep.  While powerful, this has the potential to lead
-#' to some "gotchas" in certain cases, noted below.  
+#' to some "gotchas" in certain cases, noted below.
 #'
 #' Your file system may allow file/sample names which \code{R} will not like, and will
-#' cause confusing behavior.  File/sample names become variables in \code{ChemoSpec},
-#' and \code{R}
+#' cause confusing behavior.  File/sample names become variables in \code{ChemoSpec}, and \code{R}
 #' does not like things like "-" (minus sign or hyphen) in file/sample names.  A hyphen
 #' is converted to a period (".") if found, which is fine for a variable name.
 #' However, a period in \code{gr.crit} is interpreted from the grep point of view,
@@ -118,9 +118,9 @@
 #' to any part of the file name if you know how to contruct the proper pattern.
 #'
 #' @author Bryan A. Hanson, DePauw University.
-#' 
+#'
 #' @keywords import
-#' 
+#'
 #' @export files2Spectra2DObject
 #'
 #' @importFrom utils read.table
@@ -128,90 +128,88 @@
 #' @importFrom ChemoSpecUtils .groupNcolor
 #'
 
-files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto", 
-	fmt = NULL, nF2 = NULL, 
-	x.unit = "no frequency unit provided",
-	y.unit = "no frequency unit provided",
-	z.unit = "no intensity unit provided",
-	descrip = "no description provided",
-	fileExt = "\\.(csv|CSV)$",
-	out.file = "mydata", debug = 0, ...) {
-		
-	if (!requireNamespace("R.utils", quietly = TRUE)) {
-		stop("You need to install package R.utils to use this function")
-		}
-	
-	if (is.null(gr.crit)) stop("No group criteria provided to encode data")
-	if (grepl("(dx|DX|jdx|JDX)", fileExt)) {
-	  fmt <- "dx"
-	  if (!requireNamespace("readJDX", quietly = TRUE)) {
-	    stop("You need to install package readJDX to import JCAMP-DX files")
-	  }
-	}
-	if (is.null(fmt)) stop("You must provide fmt")
-	if (is.null(nF2)) {
-		if (!fmt %in% c("Btotxt", "dx"))  stop("You must provide nF2 for this fmt")
-	}
+files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
+                                  fmt = NULL, nF2 = NULL,
+                                  x.unit = "no frequency unit provided",
+                                  y.unit = "no frequency unit provided",
+                                  z.unit = "no intensity unit provided",
+                                  descrip = "no description provided",
+                                  fileExt = "\\.(csv|CSV)$",
+                                  out.file = "mydata", debug = 0, chk = TRUE, ...) {
 
-	out <- tryCatch(
-	{
+  if (!requireNamespace("R.utils", quietly = TRUE)) {
+    stop("You need to install package R.utils to use this function")
+  }
 
-	# First set up some common stuff
-	
-	files <- list.files(pattern = fileExt)
-	files.noext <- tools::file_path_sans_ext(files)
-	ns <- length(files)
+  if (is.null(gr.crit)) stop("No group criteria provided to encode data")
+  
+  if (grepl("(dx|DX|jdx|JDX)", fileExt)) {
+    fmt <- "dx"
+    if (!requireNamespace("readJDX", quietly = TRUE)) {
+      stop("You need to install package readJDX to import JCAMP-DX files")
+    }
+  }
+  
+  if (is.null(fmt)) stop("You must provide fmt")
+  
+  if (is.null(nF2)) {
+    if (!fmt %in% c("Btotxt", "dx")) stop("You must provide nF2 for this fmt")
+  }
 
-	spectra <- list()
-	spectra$F2 <- NA_real_
-	spectra$F1 <- NA_real_
-	spectra$data <- vector("list", ns)
-	spectra$names <- files.noext
-	names(spectra$data) <- files.noext
-	spectra$groups <- NA_character_
-	spectra$units <- c(x.unit, y.unit, z.unit)
-	spectra$desc <- descrip
-	class(spectra) <- "Spectra2D"
-			
-	# Loop over all files
+  out <- tryCatch(
+    {
 
-	if (debug > 0L) message("\nfiles2Spectra2DObject will now import your files")
-	
-	for (i in 1:ns) {
-		if (debug > 0L) cat("Importing file: ", files[i], "\n")
-		
-		tmp <- import2Dspectra(files[i], fmt = fmt, nF2 = nF2, debug = debug, ...)
-		spectra$data[[i]] <- tmp[["M"]]
-		dimnames(spectra$data[[i]]) <- NULL # clean up to plain matrix
-		if (i == 1L) {
-			spectra$F2 <- tmp[["F2"]]
-			spectra$F1 <- tmp[["F1"]]	
-			}
-			
-		}
-	
-	# Assign groups & colors
+      # First set up some common stuff
 
-	spectra <- .groupNcolor(spectra, gr.crit, gr.cols, mode = "2D")
-	
-	# Wrap up
-	
-	chkSpectra(spectra)
-	
-	datafile <- paste(out.file, ".RData", sep = "")
-	R.utils::saveObject(spectra, file = datafile)
-	return(spectra)
-	},
-	
-	error = function(cond) {
-		errmess <- "There was a problem importing your files!\n\nAre you importing csv or similar files? Did you get a message such as 'undefined columns selected'? You probably need to specify sep, header and dec values. Please read ?files2Spectra2DObject for details.\n\nFor any trouble importing files set debug > 0.\n"
-		message("\nError message from R: ", cond$message, "\n")
-		message(errmess)
-		return(NA)
-		}
-	
-	) # end of tryCatch
-	
-	return(out)
-	}
+      files <- list.files(pattern = fileExt)
+      files.noext <- tools::file_path_sans_ext(files)
+      ns <- length(files)
 
+      spectra <- list()
+      spectra$F2 <- NA_real_
+      spectra$F1 <- NA_real_
+      spectra$data <- vector("list", ns)
+      spectra$names <- files.noext
+      names(spectra$data) <- files.noext
+      spectra$groups <- NA_character_
+      spectra$units <- c(x.unit, y.unit, z.unit)
+      spectra$desc <- descrip
+      class(spectra) <- "Spectra2D"
+
+      # Loop over all files
+
+      if (debug > 0L) message("\nfiles2Spectra2DObject will now import your files")
+
+      for (i in 1:ns) {
+        if (debug > 0L) cat("Importing file: ", files[i], "\n")
+        tmp <- import2Dspectra(files[i], fmt = fmt, nF2 = nF2, debug = debug, ...)
+        spectra$data[[i]] <- tmp[["M"]]
+        dimnames(spectra$data[[i]]) <- NULL # clean up to plain matrix
+        if (i == 1L) {
+          spectra$F2 <- tmp[["F2"]]
+          spectra$F1 <- tmp[["F1"]]
+        }
+      }
+
+      # Assign groups & colors
+
+      spectra <- .groupNcolor(spectra, gr.crit, gr.cols, mode = "2D")
+
+      # Wrap up
+
+      if (chk) chkSpectra(spectra)
+
+      datafile <- paste(out.file, ".RData", sep = "")
+      R.utils::saveObject(spectra, file = datafile)
+      return(spectra)
+    },
+    error = function(cond) {
+      errmess <- "There was a problem importing your files!\n\nAre you importing csv or similar files? Did you get a message such as 'undefined columns selected'? You probably need to specify sep, header and dec values. Please read ?files2Spectra2DObject for details.\n\nFor any trouble importing files set debug > 0.\n"
+      message("\nError message from R: ", cond$message, "\n")
+      message(errmess)
+      return(NA)
+    }
+  ) # end of tryCatch
+
+  return(out)
+}
