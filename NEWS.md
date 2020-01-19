@@ -5,15 +5,22 @@
 * Two new convenience functions, `LofL` and `LofC`, added to assist with overlaying multiple spectra in `plotSpectra2D`.
 * New function `computeVolume` added to aid in normalizing spectra to particular chemical shift regions, which are volumes when the intensity is taken into account.
 * Function `normSpectra2D` gets a new method to scale spectra on [-1 ... 1].
+
 ## Significant Changes
 * The basic color scheme for contours was updated to use a perceptually consistent low/blue -> high/red scheme, based on the principles in the `colorspace` package.  The color-handling infrastructure was also changed to allow easy introduction of different color schemes in the future, though the user cannot yet make changes on the fly.
 * `inspectLvls` simplified and arguments changed; one can now inspect just a single spectrum or a range of spectra.
 * Function `calcLvls` rebuilt to be more consistent and logical.  Values will change slightly from previous values.
+
 ## Improvements
 * Tick positions for `plotSpectra2D` when user specifies `xlim` and/or `ylim` is improved.
 * Format options in `import2Dspectra` cleaned up (documentation and code).
+
+## Changes in ChemoSpecUtils that affect ChemoSpec2D
+* New color and symbol schemes are now provided for using during the import process.
+
 ## Misc.
 * Documentation updates and improvement.
+* Added documentation for `updateGroups` which has been in `ChemoSpecUtils` for a while but effectively hidden from users of `ChemoSpec2D`.
 * Cleaned up some `roxygen2` warnings.
 * Unit test framework converted to `tinytest`.
 * Removed `robustbase` from suggests (not needed).
