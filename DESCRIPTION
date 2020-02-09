@@ -1,7 +1,7 @@
 Package: ChemoSpec2D
 Type: Package
 Title: Exploratory Chemometrics for 2D Spectroscopy
-Version: 0.4.12
+Version: 0.4.13
 Date: 2020-02-08
 Authors@R: c(
     person("Bryan A.", "Hanson",

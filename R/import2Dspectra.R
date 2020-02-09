@@ -141,7 +141,8 @@ import2Dspectra <- function(file, fmt, nF2, debug = 0, ...) {
     raw <- read.table(file, ...)
     M <- matrix(raw[, 3], nrow = nF1*2, ncol= nF2, byrow = TRUE)
     # We want only the 2nd half of the data for this format
-    keep <- (nF1 + 1):(nF1*2)
+    # keep <- (nF1 + 1):(nF1*2)
+    keep <- 1:nF1
     M <- M[keep,]
 
     # M <- t(M)

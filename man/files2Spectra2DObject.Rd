@@ -74,7 +74,7 @@ set to \code{"dx"} and package \code{readJDX} will be used for the import.}
 \item{out.file}{A file name.  The completed object of S3 class \code{\link{Spectra2D}} will be written
 to this file.}
 
-\item{debug}{Integer.  Set to 1 for basic reporting when there are problems.
+\item{debug}{Integer.  Set to 1 or \code{TRUE} for basic reporting when there are problems.
 If importing JCAMP-DX files, values greater than 1 give additional and potentially
 huge output.  Once you know which file is the problem, you may wish to troubleshoot
 directly using package \code{readJDX}.}
