@@ -44,7 +44,7 @@ Here are some other format codes you can use:
   \item \code{"SimpleM"}.  Imports matrices composed of z values.  The F2 and F1 values
         are created from the dimension of the matrix.  After import, you will have to manually
         convert the F2 and F1 values to ppm.  You may also have to transpose the matrices, or
-        perhaps invert the order of the rows or columns.  Read via \code{read.table}.
+        perhaps invert the order of the rows or columns.  Imported via \code{read.table}.
   \item \code{"Btotxt"}.  This format imports Bruker data written to a file using the Bruker
         "totxt" command.  Tested with TopSpin 4.0.7.  This format is read via \code{readLines}
         and thus the \ldots argument does not apply.
@@ -60,7 +60,7 @@ Here are some other format codes you can use:
   \item \code{"SimpleM"}.  Imports matrices composed of z values.  The F2 and F1 values
         are created from the dimension of the matrix.  After import, you will have to manually
         convert the F2 and F1 values to ppm.  You may also have to transpose the matrices, or
-        perhaps invert the order of the rows or columns.  Read via \code{read.table}.
+        perhaps invert the order of the rows or columns.  Imported via \code{read.table}.
   \item \code{"Btotxt"}.  This format imports Bruker data written to a file using the Bruker
         "totxt" command.  Tested with TopSpin 4.0.7.  This format is read via \code{readLines}
         and thus the \ldots argument does not apply.

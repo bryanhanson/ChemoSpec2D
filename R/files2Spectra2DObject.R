@@ -63,7 +63,7 @@
 #' @param out.file A file name.  The completed object of S3 class \code{\link{Spectra2D}} will be written
 #'        to this file.
 #'
-#' @param debug Integer.  Set to 1 for basic reporting when there are problems.
+#' @param debug Integer.  Set to 1 or \code{TRUE} for basic reporting when there are problems.
 #'        If importing JCAMP-DX files, values greater than 1 give additional and potentially
 #'        huge output.  Once you know which file is the problem, you may wish to troubleshoot
 #'        directly using package \code{readJDX}.
@@ -163,7 +163,7 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
   if (is.null(fmt)) stop("You must provide fmt")
   
   if (is.null(nF2)) {
-    if (!fmt %in% c("Btotxt", "dx")) stop("You must provide nF2 for this fmt")
+    if (!fmt %in% c("Btotxt", "dx", "F1F2RI-F1decF2dec2")) stop("You must provide nF2 for this fmt")
   }
 
   out <- tryCatch(

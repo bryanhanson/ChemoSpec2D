@@ -23,21 +23,27 @@
 #'
 #' @section ASCII Format Codes for Data in Three or More Columns:
 #' ASCII format codes are constructed in two parts separated by a hyphen.  The first part gives
-#' the order of the columns in the file, e.g. F2F1Z means the first column has the F2 values,
-#' the second column has the F1 values and the third the intensities.  The second part of the
+#' the order of the columns in the file, e.g. F1F1R means the first column has the F2 values,
+#' the second column has the F1 values and the third the real-valued intensities.  The second part of the
 #' format code relates to the order of the rows, i.e. which column varies fastest and in what direction.
 #' These codes are best understood in relation to how the data is stored internally in a matrix.
 #' The internal matrix is organized exactly as the data appears on the screen, with F2 decreasing
-#' left-to-right, and F1 increasing top-to-bottom. There are many possibilities (only those listed
+#' left-to-right, and F1 increasing top-to-bottom. There are many possible formats (only those listed
 #' are implemented, please e-mail for help creating additional combinations):
 #' \itemize{
-#'   \item Columns in the file are F2 (x), F1 (y), real.  Both F2 and F1 are decreasing.
+#'   \item \code{"F2F1R-F2decF1dec"} Columns in the file are F2 (x), F1 (y), real.  Both F2 and F1 are decreasing.
 #'         Last row is first in the file.  This format is used at least some of the time by
-#'         nmrPipe.  Use \code{"F2F1Z-F2decF1dec"}.
-#'   \item Columns in the file are F1 (y), F2 (x), real and imaginary (imaginary data will be skipped).  F1
-#'         is held at a fixed value while F2 decreases.  F1 starts high and decreases, so last row is
-#'         first in the file. This format is used by JEOL when exporting to
-#'         "generic ascii". Use \code{fmt = "F1F2Z-F1decF2dec"}.
+#'         nmrPipe.
+#'   \item \code{fmt = "F1F2RI-F1decF2dec2"} Columns in the file are F1 (y), F2 (x), real and imaginary
+#'         (imaginary data will be skipped).  F1 is held at a fixed value while F2 decreases.  F1 starts high
+#'         and decreases, so last row is first in the file. There are two sets of data in the file:
+#'         The data after FT'ing along F2 only, and the data after FT'ing along both dimensions.  The "2"
+#'         in the format name means we are taking the second data set.
+#'         This format is used by JEOL when exporting to "generic ascii".  Argument \code{nF2} is ignored
+#'         with this format as the value is sought from the corresponding \code{*.hdr} file.  Doing so
+#'         also allows one to import files with slightly different F1 and or F2, but for this to be successful
+#'         you will need to 1) set \code{check = FALSE} in the call to \code{files2Spectra2DObject} and
+#'         2) harmonize the dimensions after initial import.
 #'
 #' @section Other Format Codes:
 #' Here are some other format codes you can use:
@@ -45,7 +51,7 @@
 #'   \item \code{"SimpleM"}.  Imports matrices composed of z values.  The F2 and F1 values
 #'         are created from the dimension of the matrix.  After import, you will have to manually
 #'         convert the F2 and F1 values to ppm.  You may also have to transpose the matrices, or
-#'         perhaps invert the order of the rows or columns.  Read via \code{read.table}.
+#'         perhaps invert the order of the rows or columns.  Imported via \code{read.table}.
 #'   \item \code{"Btotxt"}.  This format imports Bruker data written to a file using the Bruker
 #'         "totxt" command.  Tested with TopSpin 4.0.7.  This format is read via \code{readLines}
 #'         and thus the \ldots argument does not apply.
@@ -98,31 +104,53 @@ import2Dspectra <- function(file, fmt, nF2, debug = 0, ...) {
     return(ans)
   } # end of fmt = "dx"
 
-  if (fmt == "F2F1Z-F2decF1dec") {
+  if (fmt == "F1F1R-F2decF1dec") {
     valid <- TRUE
     raw <- read.table(file, ...)
     nr <- nrow(raw) / nF2
-    if (!.isWholeNo(nr)) stop("Non-integer row count in F2F1Z-F2decF1dec")
+    if (!.isWholeNo(nr)) stop("Non-integer row count in F1F1R-F2decF1dec")
     M <- matrix(raw[, 3], nrow = nr, byrow = TRUE)
-    M <- M[nrow(M):1, ] # reflect around horizontal axis as last row was first in file
-    F2 <- sort(unique(raw[, 1]))
-    F1 <- sort(unique(raw[, 2]))
-    ans <- list(M = M, F2 = F2, F1 = F1)
-    return(ans)
-  } # end of fmt = "F2F1Z-F2decF1dec"
-
-  if (fmt == "F1F2Z-F1decF2dec") { # JEOL generic ascii export
-    valid <- TRUE
-    raw <- read.table(file, ...)
-    nr <- nrow(raw) / nF2
-    if (!.isWholeNo(nr)) stop("Non-integer row count in F1F2Z-F1decF2dec")
-    M <- matrix(raw[, 3], ncol= nr, byrow = TRUE)
     M <- M[nrow(M):1, ] # reflect around horizontal axis as last row was first in file
     F2 <- sort(unique(raw[, 2]))
     F1 <- sort(unique(raw[, 1]))
     ans <- list(M = M, F2 = F2, F1 = F1)
     return(ans)
-  } # end of fmt = "F1F2Z-F1decF2dec"
+  } # end of fmt = "F1F1R-F2decF1dec"
+
+  if (fmt == "F1F2RI-F1decF2dec2") { # JEOL generic ascii export
+    valid <- TRUE
+
+    # For this format we will need both the *.asc and *.hdr files
+    # This approach will allow the imported spectra to differ in dimensions
+    # provided check = FALSE.  They will need to be cleaned up later.
+    # Argument nF2 is ignored hear and read from *.hdr instead
+ 
+    # Process *.hdr file
+    file2 <- gsub("\\.asc", ".hdr", file)
+    if (!file.exists(file2)) {
+      msg <- paste("I need file", file2, "but can't find it", sep = " ")
+      stop(msg)
+    }
+    hdr <- readLines(file2)
+    x_pts <- grep("x_curr_points", hdr)
+    nF2 <- as.integer(gsub(".*[[:space:]]+([[:digit:]]+)$", "\\1", hdr[x_pts]))
+    y_pts <- grep("y_curr_points", hdr)
+    nF1 <- as.integer(gsub(".*[[:space:]]+([[:digit:]]+)$", "\\1", hdr[y_pts]))
+
+    # Process *.asc file
+    raw <- read.table(file, ...)
+    M <- matrix(raw[, 3], nrow = nF1*2, ncol= nF2, byrow = TRUE)
+    # We want only the 2nd half of the data for this format
+    keep <- (nF1 + 1):(nF1*2)
+    M <- M[keep,]
+
+    # M <- t(M)
+    # M <- M[nrow(M):1, ] # reflect around horizontal axis as last row was first in file
+    F2 <- sort(unique(raw[, 2]))
+    F1 <- sort(unique(raw[, 1]))
+    ans <- list(M = M, F2 = F2, F1 = F1)
+    return(ans)
+  } # end of fmt = "F1F2RI-F1decF2dec2" JEOL ascii import
 
   if (fmt == "Btotxt") {
     # intensities (z values) are stored in rows; brief header present
@@ -161,5 +189,5 @@ import2Dspectra <- function(file, fmt, nF2, debug = 0, ...) {
     return(ans)
   } # end of fmt = "Btotxt"
 
-  if (!valid) stop("fmt not recognized. Contact hanson@depauw.edu for options.")
+  if (!valid) stop("fmt not recognized. If you need a new format added, contact hanson@depauw.edu.")
 }

@@ -10,6 +10,11 @@
 #'
 #' @param parallel Logical.  Should parallel processing be used?
 #'        Unless you love waiting, you should use parallel processing for larger data sets.
+#'        If you are working on a shared machine and/or another process (possibly spawned by
+#'        your request downstream) might also try to access all or some of the cores in your CPU,
+#'        you should be careful to avoid hogging the cores.
+#'        \code{parallel::detectCores()} will tell you how many cores are available to everyone.
+#'        You can run \code{options(mc.cores = 2)} to set the number of cores this function will use.
 #'
 #' @param setup Logical.  If \code{TRUE} the parallel environment will be automatically
 #'        configured for you.  If \code{FALSE}, the user must configure the environment
@@ -89,7 +94,8 @@ pfacSpectra2D <- function(spectra, parallel = FALSE, setup = FALSE, nfac = 2, ..
       stop("You must install package parallel to use the parallel option")
     }
     if (setup) {
-      cl <- makeCluster(detectCores())
+      # getOption strategy per H. Bengtsson to avoid hogging all cores (on twitter)
+      cl <- makeCluster(getOption("mc.cores", max(detectCores(), na.rm = TRUE)))
       ce <- clusterEvalQ(cl, library(multiway))
       clusterSetRNGStream(cl, 123)
     }

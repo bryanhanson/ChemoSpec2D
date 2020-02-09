@@ -1,7 +1,8 @@
-# ChemoSpec2D 0.x.xx 2019-xx-xx
+# ChemoSpec2D 0.4.xx 2020-01-19
 ## New Features
 * Format `Btotxt` added to `import2DSpectra`, allowing import of 2D data exported by the Bruker command "totxt".
 * Format `dx` added to `import2DSpectra` for use with JCAMP-DX files, via package `readJDX`.
+* Format `F1F2RI-F1decF2dec2` added to `import2dSpectra` which handles the import of JEOL spectra exported as "generic ascii".
 * Two new convenience functions, `LofL` and `LofC`, added to assist with overlaying multiple spectra in `plotSpectra2D`.
 * New function `computeVolume` added to aid in normalizing spectra to particular chemical shift regions, which are volumes when the intensity is taken into account.
 * Function `normSpectra2D` gets a new method to scale spectra on [-1 ... 1].
@@ -14,6 +15,9 @@
 ## Improvements
 * Tick positions for `plotSpectra2D` when user specifies `xlim` and/or `ylim` is improved.
 * Format options in `import2Dspectra` cleaned up (documentation and code).
+
+## Bugs avoided
+* `pfacSpectra2D` now allows control of the number of cores in use when using parallel processing.  This is to avoid multiple processes on the same machine each trying to use all the cores for themselves.  Per suggestion by Henrik Bengtsson on Twitter.
 
 ## Changes in ChemoSpecUtils that affect ChemoSpec2D
 * New color and symbol schemes are now provided for using during the import process.
