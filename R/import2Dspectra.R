@@ -123,7 +123,7 @@ import2Dspectra <- function(file, fmt, nF2, debug = 0, ...) {
     # For this format we will need both the *.asc and *.hdr files
     # This approach will allow the imported spectra to differ in dimensions
     # provided check = FALSE.  They will need to be cleaned up later.
-    # Argument nF2 is ignored hear and read from *.hdr instead
+    # Argument nF2 is ignored here and read from *.hdr instead
  
     # Process *.hdr file
     file2 <- gsub("\\.asc", ".hdr", file)
@@ -140,13 +140,15 @@ import2Dspectra <- function(file, fmt, nF2, debug = 0, ...) {
     # Process *.asc file
     raw <- read.table(file, ...)
     M <- matrix(raw[, 3], nrow = nF1*2, ncol= nF2, byrow = TRUE)
+<<<<<<< HEAD
     # We want only the 2nd half of the data for this format
     # keep <- (nF1 + 1):(nF1*2)
+=======
+    # We want only the 1st half of the data as it is hyper complex
+>>>>>>> sloppy
     keep <- 1:nF1
     M <- M[keep,]
-
-    # M <- t(M)
-    # M <- M[nrow(M):1, ] # reflect around horizontal axis as last row was first in file
+    M <- M[nrow(M):1, ] # reflect around horizontal axis as last row was first in file
     F2 <- sort(unique(raw[, 2]))
     F1 <- sort(unique(raw[, 1]))
     ans <- list(M = M, F2 = F2, F1 = F1)

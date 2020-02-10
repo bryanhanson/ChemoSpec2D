@@ -1,9 +1,10 @@
 # ChemoSpec2D 0.4.xx 2020-01-19
 ## New Features
 * Format `Btotxt` added to `import2DSpectra`, allowing import of 2D data exported by the Bruker command "totxt".
-* Format `dx` added to `import2DSpectra` for use with JCAMP-DX files, via package `readJDX`.
-* Format `F1F2RI-F1decF2dec2` added to `import2dSpectra` which handles the import of JEOL spectra exported as "generic ascii".
-* Two new convenience functions, `LofL` and `LofC`, added to assist with overlaying multiple spectra in `plotSpectra2D`.
+* Format `dx` added to `import2DSpectra` for use with JCAMP-DX files, via package `readJDX` which has recently learned how to import 2D NMR data sets.
+* Format `F1F2RI-F1decF2dec2` added to `import2DSpectra` which handles the import of JEOL spectra exported as "generic ascii".
+* `files2Spectra2DObject` gains a new argument `allowSloppy`.  This will allow one to import data sets that do not have the same dimensions.  The intent here is to deal with data sets where the number of points in each dimension is similar but not identical.  This is an experimental feature, and additional functions will be needed to handle this kind of data.  See the documentation for details.
+* Two new convenience functions, `LofL` and `LofC`, added to assist with overlaying multiple spectra in `plotSpectra2D`.  `LofL` = "List of Levels" and `LofC` = "List of Colors."
 * New function `computeVolume` added to aid in normalizing spectra to particular chemical shift regions, which are volumes when the intensity is taken into account.
 * Function `normSpectra2D` gets a new method to scale spectra on [-1 ... 1].
 
@@ -13,14 +14,17 @@
 * Function `calcLvls` rebuilt to be more consistent and logical.  Values will change slightly from previous values.
 
 ## Improvements
-* Tick positions for `plotSpectra2D` when user specifies `xlim` and/or `ylim` is improved.
+* Tick positions for `plotSpectra2D` when user specifies `xlim` and/or `ylim` is improved.  Probably still needs more work however.  If you have badly behaving data sets please file an issue.
 * Format options in `import2Dspectra` cleaned up (documentation and code).
 
-## Bugs avoided
-* `pfacSpectra2D` now allows control of the number of cores in use when using parallel processing.  This is to avoid multiple processes on the same machine each trying to use all the cores for themselves.  Per suggestion by Henrik Bengtsson on Twitter.
+## Issues avoided
+* `pfacSpectra2D` now allows control of the number of cores in use when using parallel processing.  This is to avoid multiple processes on the same shared machine each trying to use all the cores for themselves.  Per suggestion by Henrik Bengtsson on Twitter.
+
+## Bugs
+* `inspectLvls` was not playing nice when argument `which` was a vector.
 
 ## Changes in ChemoSpecUtils that affect ChemoSpec2D
-* New color and symbol schemes are now provided for using during the import process.
+* New color and symbol schemes for the groups are now provided for use during the import process.
 
 ## Misc.
 * Documentation updates and improvement.

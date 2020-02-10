@@ -71,15 +71,31 @@
 #' @param chk Logical. Should the \code{Spectra} object be checked for integrity?  If you are having
 #'        trouble importing your data, set this to \code{FALSE} and do \code{str(your object)} to investigate.
 #'
+#' @param allowSloppy Logical. \pkg{Experimental Feature} If \code{TRUE}, disable checking of the data set, and
+#'        return all pieces of the raw import from \code{import2Dspectra} in the \code{spectra$data} object.
+#'        The resulting object currently cannot be used by any other functions in this package!  The
+#'        intent is allow importing of spectra that differ slightly in the number of points in each dimension.
+#'        With this option one can use \code{str} on the resulting object to inspect the differences.
+#'        Future functions will allow one to clean up the data.
+#'
 #' @param ...  Arguments to be passed to \code{\link[utils]{read.table}}.  \pkg{You
 #'        MUST supply values for \code{sep}, \code{dec} and \code{header} consistent
 #'        with your file structure, unless they are the same as the defaults for
 #'        \code{\link[utils]{read.table}}}.
 #'
-#' @return A object of class \code{\link{Spectra2D}}.  An \emph{unnamed} object
-#'         of S3 class \code{\link{Spectra2D}} is also written to \code{out.file}.  To
-#'         read it back into the workspace, use \code{new.name <- loadObject(out.file)}
-#'         (\code{loadObject} is package \pkg{R.utils}).
+#' @return One of these objects:
+#'         \itemize{
+#'           \item If \code{allowSloppy = FALSE}, the default, an object of class \code{\link{Spectra2D}}.
+#'           \item If \code{allowSloppy = TRUE}, an object of undocumented class \code{SloppySpectra2D}.
+#'                 These objects are \pkg{experimental} and are not checked by \code{chkSpectra}.
+#'                 For these objects \code{spectra$F1} and \code{spectra$F2} are \code{NA}, and each
+#'                 \code{spectra$data} entry is a list with elements F1, F2 and M, which is the matrix
+#'                 of imported data (basically, the object returned by \code{import2Dspectra}).
+#'           \item In either case, 
+#'                 An \emph{unnamed} object of S3 class \code{\link{Spectra2D}} is also written to \code{out.file}.
+#'                 To read it back into the workspace, use \code{new.name <- loadObject(out.file)}
+#'                 (\code{loadObject} is package \pkg{R.utils}).
+#'         }
 #'
 #' @section gr.crit and Sample Name Gotchas:
 #'
@@ -145,7 +161,8 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
                                   z.unit = "no intensity unit provided",
                                   descrip = "no description provided",
                                   fileExt = "\\.(csv|CSV)$",
-                                  out.file = "mydata", debug = 0, chk = TRUE, ...) {
+                                  out.file = "mydata", debug = 0, chk = TRUE,
+                                  allowSloppy = FALSE, ...) {
 
   if (!requireNamespace("R.utils", quietly = TRUE)) {
     stop("You need to install package R.utils to use this function")
@@ -193,17 +210,31 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
       for (i in 1:ns) {
         if (debug > 0L) cat("Importing file: ", files[i], "\n")
         tmp <- import2Dspectra(files[i], fmt = fmt, nF2 = nF2, debug = debug, ...)
-        spectra$data[[i]] <- tmp[["M"]]
-        dimnames(spectra$data[[i]]) <- NULL # clean up to plain matrix
-        if (i == 1L) {
-          spectra$F2 <- tmp[["F2"]]
-          spectra$F1 <- tmp[["F1"]]
+
+        if (!allowSloppy) {
+          spectra$data[[i]] <- tmp[["M"]]
+          dimnames(spectra$data[[i]]) <- NULL # clean up to plain matrix
+          if (i == 1L) {
+            spectra$F2 <- tmp[["F2"]]
+            spectra$F1 <- tmp[["F1"]]
+          }
         }
+
+        if (allowSloppy) {
+          spectra$data[[i]] <- tmp
+          dimnames(spectra$data[[i]][["M"]]) <- NULL # clean up to plain matrix
+          chk <- FALSE
+        }
+
       }
 
       # Assign groups & colors
 
       spectra <- .groupNcolor(spectra, gr.crit, gr.cols, mode = "2D")
+      if (allowSloppy) {
+        class(spectra) <- "SloppySpectra2D"
+        message("You have set allowSloppy = TRUE.  Use str(your_object) to inspect your creation!")
+      }
 
       # Wrap up
 
