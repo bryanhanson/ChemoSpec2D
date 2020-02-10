@@ -17,6 +17,7 @@ files2Spectra2DObject(
   out.file = "mydata",
   debug = 0,
   chk = TRUE,
+  allowSloppy = FALSE,
   ...
 )
 }
@@ -74,7 +75,7 @@ set to \code{"dx"} and package \code{readJDX} will be used for the import.}
 \item{out.file}{A file name.  The completed object of S3 class \code{\link{Spectra2D}} will be written
 to this file.}
 
-\item{debug}{Integer.  Set to 1 for basic reporting when there are problems.
+\item{debug}{Integer.  Set to 1 or \code{TRUE} for basic reporting when there are problems.
 If importing JCAMP-DX files, values greater than 1 give additional and potentially
 huge output.  Once you know which file is the problem, you may wish to troubleshoot
 directly using package \code{readJDX}.}
@@ -82,16 +83,32 @@ directly using package \code{readJDX}.}
 \item{chk}{Logical. Should the \code{Spectra} object be checked for integrity?  If you are having
 trouble importing your data, set this to \code{FALSE} and do \code{str(your object)} to investigate.}
 
+\item{allowSloppy}{Logical. \pkg{Experimental Feature} If \code{TRUE}, disable checking of the data set, and
+return all pieces of the raw import from \code{import2Dspectra} in the \code{spectra$data} object.
+The resulting object currently cannot be used by any other functions in this package!  The
+intent is allow importing of spectra that differ slightly in the number of points in each dimension.
+With this option one can use \code{str} on the resulting object to inspect the differences.
+Future functions will allow one to clean up the data.}
+
 \item{...}{Arguments to be passed to \code{\link[utils]{read.table}}.  \pkg{You
 MUST supply values for \code{sep}, \code{dec} and \code{header} consistent
 with your file structure, unless they are the same as the defaults for
 \code{\link[utils]{read.table}}}.}
 }
 \value{
-A object of class \code{\link{Spectra2D}}.  An \emph{unnamed} object
-        of S3 class \code{\link{Spectra2D}} is also written to \code{out.file}.  To
-        read it back into the workspace, use \code{new.name <- loadObject(out.file)}
-        (\code{loadObject} is package \pkg{R.utils}).
+One of these objects:
+        \itemize{
+          \item If \code{allowSloppy = FALSE}, the default, an object of class \code{\link{Spectra2D}}.
+          \item If \code{allowSloppy = TRUE}, an object of undocumented class \code{SloppySpectra2D}.
+                These objects are \pkg{experimental} and are not checked by \code{chkSpectra}.
+                For these objects \code{spectra$F1} and \code{spectra$F2} are \code{NA}, and each
+                \code{spectra$data} entry is a list with elements F1, F2 and M, which is the matrix
+                of imported data (basically, the object returned by \code{import2Dspectra}).
+          \item In either case, 
+                An \emph{unnamed} object of S3 class \code{\link{Spectra2D}} is also written to \code{out.file}.
+                To read it back into the workspace, use \code{new.name <- loadObject(out.file)}
+                (\code{loadObject} is package \pkg{R.utils}).
+        }
 }
 \description{
 This function imports data into a \code{\link{Spectra2D}} object.  It primarily uses

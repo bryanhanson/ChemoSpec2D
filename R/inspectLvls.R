@@ -32,6 +32,6 @@
 #' 
 inspectLvls <- function(spectra, which = 1, ...) {
   .chkArgs(mode = 21L)
-  lvls <- calcLvls(unlist(spectra$data[[which]]), showHist = TRUE, ...)
+  lvls <- calcLvls(unlist(spectra$data[which]), showHist = TRUE, ...)
   invisible(lvls)
 }
