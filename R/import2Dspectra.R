@@ -140,12 +140,7 @@ import2Dspectra <- function(file, fmt, nF2, debug = 0, ...) {
     # Process *.asc file
     raw <- read.table(file, ...)
     M <- matrix(raw[, 3], nrow = nF1*2, ncol= nF2, byrow = TRUE)
-<<<<<<< HEAD
-    # We want only the 2nd half of the data for this format
-    # keep <- (nF1 + 1):(nF1*2)
-=======
-    # We want only the 1st half of the data as it is hyper complex
->>>>>>> sloppy
+    # We want only the 1st half of the data as it is hypercomplex
     keep <- 1:nF1
     M <- M[keep,]
     M <- M[nrow(M):1, ] # reflect around horizontal axis as last row was first in file

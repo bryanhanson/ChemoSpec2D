@@ -76,31 +76,25 @@
 	  # to the differing origin conventions mentioned just above.
 
       # Save the data ranges to assist with tick computations later
-      # Initialize the requested range (to possibly be updated later)
-      F2reqRange <- range(spectra$F2)
-      F1reqRange <- range(spectra$F1)
+      xlim2 <- range(spectra$F2)
+      ylim2 <- range(spectra$F1)
       
   	  # Handle user-provided xlim and/or ylim, keeping in mind the different conventions
   	  # for 2D NMR plotting vs those of the contour function. xlim/ylim on [0...1]
+      # AND origins as described just above.
 	
 	  args <- as.list(match.call())[-1] # a COPY of the args for use with do.call
 	  
 	  if ("xlim" %in% names(args)) {
 	  	xlim <- eval(args$xlim)
-	  	F2reqRange <- xlim
-	  	limx <- 1 - sort(.rescale(xlim, 0, 1, min(spectra$F2), max(spectra$F1)))
-		limx <- limx + diff(limx) * 0.05 * c(-1.0, 1.0) # expand slightly to mimick usual base R behavior
-	  	args$xlim <- NULL
-	  	args <- c(args, list(xlim = limx))
+	  	xlim2 <- xlim
+	  	args$xlim <- sort(.rescale(xlim, 1, 0, min(spectra$F2), max(spectra$F2)))
 	  }
 	  
 	  if ("ylim" %in% names(args)) {
 	  	ylim <- eval(args$ylim)
-	  	F1reqRange <- ylim
-	  	limy <- 1 - sort(.rescale(ylim, 0, 1, min(spectra$F1), max(spectra$F2)))
-		limy <- limy + diff(limy) * 0.05 * c(-1.0, 1.0) # expand slightly to mimick usual base R behavior
-	  	args$ylim <- NULL
-	  	args <- c(args, list(ylim = limy))
+	  	ylim2 <- ylim
+	  	args$ylim <- sort(.rescale(ylim, 1, 0, min(spectra$F1), max(spectra$F1)))
 	  }
 	  
 	  # clean up args (remove unneeded formals)
@@ -115,43 +109,16 @@
   	  do.call(contour, args)
   	  box()
   	  
-      # Compute tick positions and labels, then draw them.
-      # Final tick positions are on [0...1], the internal contour coordinates,
-      # but .computeTicks works using native coords of the data
-      # .computeTicks also takes into account any gaps
-      #
-      # Two interacting issues to consider here:
-      # 1. For a large ppm range nucleus like 13C we are going to use integer labels and space ticks more widely.
-      #    The opposite for 1H and similar nuclei.
-      # 2. If xlim or ylim is specified and relatively narrow, we need to increase the number of ticks
-      #    because otherwise one gets oddly spaced ticks and the system appears to not respect the
-      #    requested limits.
-      #
-      # Figure out what fraction of the entire plot range has been requested, and make sure that the requested
-      # range has 10 ticks (if the requested range is small, the full range will have a lot of ticks, but these
-      # will not be drawn).
-      #
-      
-      # Compute fraction of data to be shown (conveniently, we can use .rescale for this)
-      
-      fracF2 <- abs(diff(.rescale(F2reqRange, 0, 1, min(spectra$F2), max(spectra$F2))))
-      fracF1 <- abs(diff(.rescale(F1reqRange, 0, 1, min(spectra$F1), max(spectra$F1))))
+      # Set up ticks
 
-      # Compute number of ticks to request (10 is the minimum, but see .computeTicks re: discontinuous data)
-      noTicksF2 <- floor(10/fracF2)
-      noTicksF1 <- floor(10/fracF1)
-      
-      # Compute tick strings and positions
-      F2ticks <- .computeTicks(spectra$F2, noTicksF2) # native coordinates
-      F2at <- .rescale(F2ticks, 0, 1, min(spectra$F2), max(spectra$F2)) # internal coordinates [0...1]
-      F1ticks <- .computeTicks(spectra$F1, noTicksF1)
-      F1at <- .rescale(F1ticks, 0, 1, min(spectra$F1), max(spectra$F1))     
-     
+      F2ticks <- seq(xlim2[1], xlim2[2], length.out = length(axTicks(1)))
+      F1ticks <- seq(ylim2[1], ylim2[2], length.out = length(axTicks(4)))
+
       # Format labels depending upon range
       integerLabThresh <- 10.0
       F2intLab <- F1intLab <- FALSE
-      if (diff(range(F2reqRange)) > integerLabThresh) F2intLab <- TRUE
-      if (diff(range(F1reqRange)) > integerLabThresh) F1intLab <- TRUE
+      if (diff(range(xlim2)) > integerLabThresh) F2intLab <- TRUE
+      if (diff(range(ylim2)) > integerLabThresh) F1intLab <- TRUE
 
       if (F2intLab) F2lab <- rev(formatC(F2ticks, digits = 0, format = "f"))
       if (!F2intLab) F2lab <- rev(formatC(F2ticks, digits = 2, format = "f"))
@@ -160,8 +127,8 @@
       if (!F1intLab) F1lab <- rev(formatC(F1ticks, digits = 2, format = "f"))
       
       # Now draw ticks, xlab, ylab
-  	  axis(side = 1, at = F2at, labels = F2lab, cex.axis = 0.75)
-  	  axis(side = 4, at = F1at, labels = F1lab, cex.axis = 0.75)
+  	  F2at <- axis(side = 1, at = axTicks(1), labels = F2lab, cex.axis = 0.75)
+  	  F1at <- axis(side = 4, at = axTicks(4), labels = F1lab, cex.axis = 0.75)
   	  mtext(spectra$unit[1], 1, line = 3)
   	  mtext(spectra$unit[2], 4, line = 3)
         	  

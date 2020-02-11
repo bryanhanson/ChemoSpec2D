@@ -14,7 +14,7 @@
 * Function `calcLvls` rebuilt to be more consistent and logical.  Values will change slightly from previous values.
 
 ## Improvements
-* Tick positions for `plotSpectra2D` when user specifies `xlim` and/or `ylim` is improved.  Probably still needs more work however.  If you have badly behaving data sets please file an issue.
+* Tick positions for `plotSpectra2D` when user specifies `xlim` and/or `ylim` is improved.  May need more work however.  If you have badly behaving data sets please file an issue.
 * Format options in `import2Dspectra` cleaned up (documentation and code).
 
 ## Issues avoided
