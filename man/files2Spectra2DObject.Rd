@@ -34,20 +34,21 @@ names that don't match entries in \code{gr.crit} or there are entries in
 \itemize{
   \item Legacy behavior and the default: The word \code{"auto"}, in which case up to 8 colors will
         be automatically assigned from package \code{RColorBrewer Set1}.
-  \item \code{"Col8"}. A unique set of up to 8 colors is used.  
+  \item \code{"Col8"}. A unique set of up to 8 colors is used.
   \item \code{"Col12"}. A mostly paired set of up to 12 colors is used.
-  \item A vector of acceptable color designations with the same length as \code{gr.crit}. 
+  \item A vector of acceptable color designations with the same length as \code{gr.crit}.
 }
     Colors will be assigned one for one, so the first element of
     \code{gr.crit} is assigned the first element of \code{gr.col} and so forth.  For \code{Col12}
-    you should pay careful attention to the order of \code{gr.crit} in order to match up colors.}
+    you should pay careful attention to the order of \code{gr.crit} in order to match up colors.
+    See \code{\link[ChemoSpecUtils]{colorSymbol}} for further details.}
 
 \item{fmt}{A character string giving the format of the data. Consult
 \code{\link{import2Dspectra}} for options.
 If \code{fileExt} is one of \code{dx, DX, jdx or JDX}, \code{fmt} will automatically
 be set to \code{"dx"} and package \code{readJDX} will be used for the import.  In this case
 check the values of F2 and F1 carefully.  The values are taken from the file,
-for some files/vendors the values might not be in ppm.}
+for some files/vendors the values might be in Hz rather than ppm.}
 
 \item{nF2}{Integer giving the number of data points in the F2 (x) dimension.
 Note: If \emph{any} dimension is zero-filled you may need to study
@@ -104,8 +105,9 @@ One of these objects:
                 For these objects \code{spectra$F1} and \code{spectra$F2} are \code{NA}, and each
                 \code{spectra$data} entry is a list with elements F1, F2 and M, which is the matrix
                 of imported data (basically, the object returned by \code{import2Dspectra}).
-          \item In either case, 
-                An \emph{unnamed} object of S3 class \code{\link{Spectra2D}} is also written to \code{out.file}.
+          \item In each case,
+                an \emph{unnamed} object of S3 class \code{\link{Spectra2D}} or \code{SloppySpectra2D}
+                is also written to \code{out.file}.
                 To read it back into the workspace, use \code{new.name <- loadObject(out.file)}
                 (\code{loadObject} is package \pkg{R.utils}).
         }
@@ -119,7 +121,7 @@ argument below for important details you need to provide.}
 \details{
 \code{files2Spectra2DObject} acts on all files in the current working
 directory with the specified \code{fileExt} so there should be no
-extraneous files of that type in the directory.
+extraneous files with that extension in the directory.
 }
 \section{gr.crit and Sample Name Gotchas}{
 

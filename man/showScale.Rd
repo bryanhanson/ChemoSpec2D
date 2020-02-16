@@ -7,10 +7,12 @@
 showScale()
 }
 \description{
-This function opens the file scale.pdf in an appropriate viewer.
+This function opens the files containing the contour scale in an appropriate viewer.
+One file has a white background and the other a black background.
 }
 \examples{
 \dontrun{
 showScale()
 }
+
 }

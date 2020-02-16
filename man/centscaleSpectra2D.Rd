@@ -2,7 +2,7 @@
 % Please edit documentation in R/centscaleSpectra2D.R
 \name{centscaleSpectra2D}
 \alias{centscaleSpectra2D}
-\title{Optionally Center and Optionally Scale a Spectra2D Object Along the Samples Dimension}
+\title{Center and Scale a Spectra2D Object Along the Samples Dimension}
 \usage{
 centscaleSpectra2D(spectra, center = FALSE, scale = "noscale")
 }
@@ -28,14 +28,13 @@ image analysis). Several scaling options are available.
 
 data(MUD1)
 tst <- centscaleSpectra2D(MUD1)
-
 }
 \references{
 R. Bro and A. K. Smilde "Centering and Scaling in Component Analysis" J. Chemometrics
 vol. 17 pgs 16-33 (2003).
 }
 \seealso{
-\code{link{normSpectra2D}} for another means of scaling.
+\code{\link{normSpectra2D}} for another means of scaling.
 }
 \author{
 Bryan A. Hanson, DePauw University.

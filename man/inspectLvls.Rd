@@ -28,8 +28,7 @@ to compute the levels, or you can choose your own by inspection.
 
 data(MUD1)
 inspectLvls(MUD1, ylim = c(0, 300), main = "MUD1 Spectrum 1, mode = even")
-inspectLvls(MUD1, ylim = c(0, 300), mode = "NMR",  main = "MUD1 Spectrum 1, mode = NMR")
-
+inspectLvls(MUD1, ylim = c(0, 300), mode = "NMR", main = "MUD1 Spectrum 1, mode = NMR")
 }
 \seealso{
 See \code{\link{pfacSpectra2D}} for further examples.

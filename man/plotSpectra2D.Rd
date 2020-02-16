@@ -81,16 +81,28 @@ make this process easier: \code{\link{LofL}} and \code{\link{LofC}}. See the exa
 \examples{
 
 data(MUD1)
-mylvls <- seq(5, 35, 5)
-plotSpectra2D(MUD1, which = 7, lvls = mylvls,
-  main = "MUD1 Sample 7")
+mylvls <- seq(5, 30, 5)
+plotSpectra2D(MUD1,
+  which = 7, lvls = mylvls,
+  main = "MUD1 Sample 7"
+)
+
+# Invert the screen which makes the colors pop!
+op <- par(no.readonly = TRUE)
+par(bg = "black", fg = "white", col.axis = "white", col.main = "white")
+plotSpectra2D(MUD1,
+  which = 7, lvls = mylvls,
+  main = "MUD1 Sample 7"
+)
+par(op)
 
 # Overlay multiple spectra:
 
-plotSpectra2D(MUD1, which = c(6, 1), lvls = LofL(mylvls, 2),
+plotSpectra2D(MUD1,
+  which = c(6, 1), lvls = LofL(mylvls, 2),
   cols = LofC(c("red", "black"), 2, length(mylvls), 2),
-  main = "MUD1 Sample 1 (red) & Sample 6 (black)\n(4 of 6 peaks overlap)")
-
+  main = "MUD1 Sample 1 (red) & Sample 6 (black)\n(4 of 6 peaks overlap)"
+)
 }
 \author{
 Bryan A. Hanson, DePauw University.

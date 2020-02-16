@@ -5,15 +5,16 @@
 #' @noRd
 #'
 
-.makeArray <- function(spectra) { 
-	nF1 <- length(spectra$F1)
-	nF2 <- length(spectra$F2)
-	nS <- length(spectra$names)
-	A <- array(NA_real_,
-		dim = c(nF1, nF2, nS),
-		dimnames = list(rep("I", nF1), rep("J", nF2), rep("K", nS))) # rows x cols x samples
-	for (k in 1:nS) A[,,k] <- spectra$data[[k]]
-	return(A)
+.makeArray <- function(spectra) {
+  nF1 <- length(spectra$F1)
+  nF2 <- length(spectra$F2)
+  nS <- length(spectra$names)
+  A <- array(NA_real_,
+    dim = c(nF1, nF2, nS),
+    dimnames = list(rep("I", nF1), rep("J", nF2), rep("K", nS))
+  ) # rows x cols x samples
+  for (k in 1:nS) A[, , k] <- spectra$data[[k]]
+  return(A)
 }
 
 #'
@@ -28,12 +29,13 @@
 #'
 
 .makeArray2 <- function(spectra, which = 1:3) {
-	nF1 <- length(spectra$F1)
-	nF2 <- length(spectra$F2)
-	nS <- length(which)
-	A <- array(NA_real_,
-		dim = c(nS, nF1, nF2),
-		dimnames = list(rep("K", nS), rep("I", nF1), rep("J", nF2))) # samples x cols x rows
-	for (k in 1:nS) A[k,,] <- spectra$data[[which[k]]]
-	return(A)
+  nF1 <- length(spectra$F1)
+  nF2 <- length(spectra$F2)
+  nS <- length(which)
+  A <- array(NA_real_,
+    dim = c(nS, nF1, nF2),
+    dimnames = list(rep("K", nS), rep("I", nF1), rep("J", nF2))
+  ) # samples x cols x rows
+  for (k in 1:nS) A[k, , ] <- spectra$data[[which[k]]]
+  return(A)
 }

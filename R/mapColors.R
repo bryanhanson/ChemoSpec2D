@@ -13,13 +13,13 @@
 #' @noRd
 #'
 .mapColors <- function(spectra, lvls) {
-
   .chkArgs(mode = 21L)
-  
+
   cscale <- .createScale()
   drange <- range(spectra$data, na.rm = TRUE) # some data sets have NAs
   drange <- .symAroundZero(drange)
-  refscale <- seq(drange[1], drange[2], length.out = 10) # Not 9, surprisingly (need 9 intervals)
-  myc <- cscale[findInterval(lvls, refscale, all.inside = TRUE)]
+  if ((max(lvls) > drange[2]) | (min(lvls) < drange[1])) warning("Some levels are outside the range of the data")
+  refscale <- seq(drange[1], drange[2], length.out = length(cscale) + 2)
+  myc <- na.omit(cscale[findInterval(lvls, refscale, all.inside = TRUE)])
   return(myc)
 }

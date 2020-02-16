@@ -1,11 +1,11 @@
 #'
 #' Calculate Levels for Contour and Image Type Plots
-#' 
+#'
 #' Given a matrix or vector input, this function will assist in selecting levels for preparing
 #' contour and image type plots.  For instance, levels can be spaced evenly,
 #' logrithmically, exponentially or using a cumulative distribution function.
 #' \code{NA} values are ignored.
-#' 
+#'
 #' @param M A numeric matrix or vector.
 #'
 #' @param n An integer giving the number of levels desired:
@@ -54,119 +54,117 @@
 #' @keywords utilities
 #'
 #' @examples
-#' 
+#'
 #' set.seed(9)
 #' MM <- matrix(runif(100, -1, 1), nrow = 10) # test data
 #' tsts <- c("even", "log", "poslog", "exp", "posexp", "ecdf", "NMR")
 #' for (i in 1:length(tsts)) {
-#' 	nl <- 20
-#' 	if(tsts[i] == "ecdf")  nl <- seq(0.1, 0.9, 0.1)
-#' 	levels <- calcLvls(M = MM, n = nl, mode = tsts[i],
-#'    showHist = TRUE, main = tsts[i])
-#' 	}
-#' 
-#' 
+#'   nl <- 20
+#'   if (tsts[i] == "ecdf") nl <- seq(0.1, 0.9, 0.1)
+#'   levels <- calcLvls(
+#'     M = MM, n = nl, mode = tsts[i],
+#'     showHist = TRUE, main = tsts[i]
+#'   )
+#' }
 calcLvls <- function(M, n = 10, mode = "even",
-	lambda = 1.5, base = 2,
-	showHist = FALSE, ...) {
+                     lambda = 1.5, base = 2,
+                     showHist = FALSE, ...) {
+  if (mode == "even") {
+    n <- as.integer(n)
+    lvs <- seq(min(M), max(M), length.out = n)
+    if (length(lvs) == 0) stop("Levels calculation returned no levels")
+    if (showHist) .sH(M, lvs, ...)
+    return(lvs)
+  }
 
-	if (mode == "even") {
-		n <- as.integer(n)
-		lvs <- seq(min(M), max(M), length.out = n)
-		if (length(lvs) == 0) stop("Levels calculation returned no levels")
-		if (showHist) .sH(M, lvs, ...)
-		return(lvs)
-		}
+  if (mode == "exp") {
+    if (lambda == 0.0) stop("lambda cannot be zero")
 
-	if (mode == "exp") {
-		if (lambda == 0.0) stop("lambda cannot be zero")
-	
-		# Compute levels based on the most extreme value
-		n <- as.integer(n)			
-		ref <- .findExtreme(M)
-		lower <- min(abs(M[M != 0.0])) # must avoid zero, handle only pos, only neg values
-		lvs <- seq(lower, ref, length.out = floor(n/2)) # equally spaced values
-		lvs <- exp(lvs*lambda) # exponentially spaced values, but new scale
-		
-		# Now scale back into the range of the data
-		lvs <- .rescale(lvs, lower, ref)
-		lvs <- sort(c(-1*lvs, lvs)) # Reflect through zero
-		if (showHist) .sH(M, lvs, ...)
-		return(lvs)
-		}
+    # Compute levels based on the most extreme value
+    n <- as.integer(n)
+    ref <- .findExtreme(M)
+    lower <- min(abs(M[M != 0.0])) # must avoid zero, handle only pos, only neg values
+    lvs <- seq(lower, ref, length.out = floor(n / 2)) # equally spaced values
+    lvs <- exp(lvs * lambda) # exponentially spaced values, but new scale
 
-
-	if (mode == "log") {
-		if (base <= 0L) stop("base must be > 0")
-		
-		# Compute levels based on the most extreme value
-		n <- as.integer(n)
-		ref <- .findExtreme(M)				
-		lower <- min(abs(M[M != 0.0])) # must avoid zero, handle only pos, only neg values
-		lvs <- seq(lower, ref, length.out = floor(n/2))
-		lvs <- log(lvs, base)
-		
-		# Now scale back into the range of the data
-		lvs <- .rescale(lvs, lower, ref)
-		lvs <- sort(c(-1*lvs, lvs))
-		if (showHist) .sH(M, lvs, ...)
-		return(lvs)
-		}
+    # Now scale back into the range of the data
+    lvs <- .rescale(lvs, lower, ref)
+    lvs <- sort(c(-1 * lvs, lvs)) # Reflect through zero
+    if (showHist) .sH(M, lvs, ...)
+    return(lvs)
+  }
 
 
-	if (mode == "ecdf") {
-		if ((any(n > 1)) | (any(n < 0))) stop("For ecdf mode, n must be a vector of values on [0...1]")
-		Fn <- ecdf(sort(M))
-		P <- Fn(sort(M))
-		lv <- c()
-		for (i in 1:length(n)) {
-			tmp <- max(grep(n[i], P))
-			lv <- c(lv, tmp)	
-			}
-		lvs <- sort(M)[lv]
-		if (showHist) .sH(M, lvs, ...)
-		return(lvs)
-		}
+  if (mode == "log") {
+    if (base <= 0L) stop("base must be > 0")
 
-	if (mode == "posexp") { # For use when you just want (+)-ive
-		lvs <- calcLvls(M = M, n = n, mode = "exp", lambda = lambda, base = base, ...)
-		lvs <- lvs[lvs > 0]
-		if (length(lvs) == 0) stop("Levels calculation returned no levels")
-		if (showHist) .sH(M, lvs, ...)
-		return(lvs)
-		}
+    # Compute levels based on the most extreme value
+    n <- as.integer(n)
+    ref <- .findExtreme(M)
+    lower <- min(abs(M[M != 0.0])) # must avoid zero, handle only pos, only neg values
+    lvs <- seq(lower, ref, length.out = floor(n / 2))
+    lvs <- log(lvs, base)
+
+    # Now scale back into the range of the data
+    lvs <- .rescale(lvs, lower, ref)
+    lvs <- sort(c(-1 * lvs, lvs))
+    if (showHist) .sH(M, lvs, ...)
+    return(lvs)
+  }
 
 
-	if (mode == "negexp") { # For use when you just want (-)-ive
-		lvs <- calcLvls(M = M, n = n, mode = "exp", lambda = lambda, base = base, ...)
-		lvs <- lvs[lvs < 0]
-		if (length(lvs) == 0) stop("Levels calculation returned no levels")
-		if (showHist) .sH(M, lvs, ...)
-		return(lvs)
-		}
+  if (mode == "ecdf") {
+    if ((any(n > 1)) | (any(n < 0))) stop("For ecdf mode, n must be a vector of values on [0...1]")
+    Fn <- ecdf(sort(M))
+    P <- Fn(sort(M))
+    lv <- c()
+    for (i in 1:length(n)) {
+      tmp <- max(grep(n[i], P))
+      lv <- c(lv, tmp)
+    }
+    lvs <- sort(M)[lv]
+    if (showHist) .sH(M, lvs, ...)
+    return(lvs)
+  }
 
-	if (mode == "poslog") { # For use when you just want (+)-ive
-		lvs <- calcLvls(M = M, n = n, mode = "log", lambda = lambda, base = base, ...)
-		lvs <- lvs[lvs > 0]
-		if (length(lvs) == 0) stop("Levels calculation returned no levels")
-		if (showHist) .sH(M, lvs, ...)
-		return(lvs)
-		}
+  if (mode == "posexp") { # For use when you just want (+)-ive
+    lvs <- calcLvls(M = M, n = n, mode = "exp", lambda = lambda, base = base, ...)
+    lvs <- lvs[lvs > 0]
+    if (length(lvs) == 0) stop("Levels calculation returned no levels")
+    if (showHist) .sH(M, lvs, ...)
+    return(lvs)
+  }
 
 
-	if (mode == "neglog") { # For use when you just want (-)-ive
-		lvs <- calcLvls(M = M, n = n, mode = "log", lambda = lambda, base = base, ...)
-		lvs <- lvs[lvs < 0]
-		if (length(lvs) == 0) stop("Levels calculation returned no levels")
-		if (showHist) .sH(M, lvs, ...)
-		return(lvs)
-		}
+  if (mode == "negexp") { # For use when you just want (-)-ive
+    lvs <- calcLvls(M = M, n = n, mode = "exp", lambda = lambda, base = base, ...)
+    lvs <- lvs[lvs < 0]
+    if (length(lvs) == 0) stop("Levels calculation returned no levels")
+    if (showHist) .sH(M, lvs, ...)
+    return(lvs)
+  }
 
-	if (mode == "NMR") {
-		lvs <- calcLvls(M = M, n = 32, mode = "exp", lambda = 2.0, base = base, ...)
-		lvs <- lvs[-c(15, 16, 17, 18)] # remove 4 lowest levels
-		if (showHist) .sH(M, lvs, ...)
-		return(lvs)
-		}
+  if (mode == "poslog") { # For use when you just want (+)-ive
+    lvs <- calcLvls(M = M, n = n, mode = "log", lambda = lambda, base = base, ...)
+    lvs <- lvs[lvs > 0]
+    if (length(lvs) == 0) stop("Levels calculation returned no levels")
+    if (showHist) .sH(M, lvs, ...)
+    return(lvs)
+  }
 
-	} # end of calcLvls
+
+  if (mode == "neglog") { # For use when you just want (-)-ive
+    lvs <- calcLvls(M = M, n = n, mode = "log", lambda = lambda, base = base, ...)
+    lvs <- lvs[lvs < 0]
+    if (length(lvs) == 0) stop("Levels calculation returned no levels")
+    if (showHist) .sH(M, lvs, ...)
+    return(lvs)
+  }
+
+  if (mode == "NMR") {
+    lvs <- calcLvls(M = M, n = 32, mode = "exp", lambda = 2.0, base = base, ...)
+    lvs <- lvs[-c(15, 16, 17, 18)] # remove 4 lowest levels
+    if (showHist) .sH(M, lvs, ...)
+    return(lvs)
+  }
+} # end of calcLvls

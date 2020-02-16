@@ -14,9 +14,7 @@
 #' @importFrom colorspace sequential_hcl deutan protan tritan
 #' @examples
 #' pie(rep(1, 8), col = .createScale())
-#'
-
-.createScale <- function(n = 5, palette = "redblue", mode = "normal") {
+.createScale <- function(n = 10, palette = "redblue", mode = "normal") {
   # Original version:
   # blue/low -> red/high, anchored at zero (index 5, a shade of green)
   # view with:
@@ -24,7 +22,7 @@
   # col1 <- rev(rainbow(5, start = 0.0, end = 0.25))
   # col2 <- rev(rainbow(4, start = 0.45, end = 0.66))
   # cscale <- c(col2, col1)
-  
+
   if (palette == "redblue") {
     ch <- 110 # chroma
     ll <- 30 # lower limit of luminance
@@ -38,8 +36,6 @@
     if (mode == "protan") myc <- protan(myc)
     if (mode == "tritan") myc <- tritan(myc)
   }
-  
+
   myc
 } # end of .createScale
-
-

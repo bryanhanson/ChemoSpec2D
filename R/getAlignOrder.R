@@ -13,15 +13,13 @@
 #' @noRd
 #'
 #' @examples
-#' demo <- hclust(dist(iris[1:10,1:4]))
+#' demo <- hclust(dist(iris[1:10, 1:4]))
 #' plot(demo)
 #' guide <- .getAlignOrder(demo)
 #' guide
-#' 
 .getAlignOrder <- function(hc) {
-  
   hcm <- hc$merge
-  
+
   # Create a list to hold the results
   nn <- nrow(hcm) # number of nodes
   leafList <- vector("list", 2)
@@ -31,34 +29,32 @@
   nodeList <- vector("list", nn)
   for (i in 1:length(nodeList)) nodeList[[i]] <- leafList
   names(nodeList) <- paste("Node", 1:nn, sep = "_")
-  
-  for (i in 1:nn) { # work through the matix of nodes
-  	aRef <- hcm[i,1]
-  	aMask <- hcm[i,2]
-  	idx <- 0L
-  	
-  	while(any(aRef > 0)) { # process aRef
-  	  idx <- idx + 1
-  	  pos <- which(aRef > 0)
-  	  chk <- aRef[pos] # chk contains the earlier rows we need to incorporate
-  	  aRef <- aRef[-pos] # remove the (+) values which are references to earlier rows
-  	  aRef <- c(aRef, hcm[chk,]) # append the earlier rows
-  	  } # end of while loop for aRef
-  
-    nodeList[[i]][["Ref"]] <- sort(abs(aRef))
-  	  
-  	while(any(aMask > 0)) { # process aMask
-  	  idx <- idx + 1
-  	  pos <- which(aMask > 0)
-  	  chk <- aMask[pos] # chk contains the earlier rows we need to incorporate
-  	  aMask <- aMask[-pos] # remove the (+) values which are references to earlier rows
-  	  aMask <- c(aMask, hcm[chk,]) # append the earlier rows
-  	  } # end of while loop for aMask
-  
-    nodeList[[i]][["Mask"]] <- sort(abs(aMask))
 
-  	} # end of for loop
-  	
+  for (i in 1:nn) { # work through the matix of nodes
+    aRef <- hcm[i, 1]
+    aMask <- hcm[i, 2]
+    idx <- 0L
+
+    while (any(aRef > 0)) { # process aRef
+      idx <- idx + 1
+      pos <- which(aRef > 0)
+      chk <- aRef[pos] # chk contains the earlier rows we need to incorporate
+      aRef <- aRef[-pos] # remove the (+) values which are references to earlier rows
+      aRef <- c(aRef, hcm[chk, ]) # append the earlier rows
+    } # end of while loop for aRef
+
+    nodeList[[i]][["Ref"]] <- sort(abs(aRef))
+
+    while (any(aMask > 0)) { # process aMask
+      idx <- idx + 1
+      pos <- which(aMask > 0)
+      chk <- aMask[pos] # chk contains the earlier rows we need to incorporate
+      aMask <- aMask[-pos] # remove the (+) values which are references to earlier rows
+      aMask <- c(aMask, hcm[chk, ]) # append the earlier rows
+    } # end of while loop for aMask
+
+    nodeList[[i]][["Mask"]] <- sort(abs(aMask))
+  } # end of for loop
+
   nodeList
 }
-

@@ -25,7 +25,6 @@ shiftSpectra2D(
       and up/down.  When a spectrum is shifted, spaces are opened that must be filled with something:
 \itemize{
   \item If \code{fill = "zeros"} the spaces are filled with zeros.
-  \item If \code{fill = "rnorm"} the spaces are filled with random noise.
   \item If \code{fill = "noise"} the spaces are filled with an estimate of the noise from the
     original spectrum.
 }}
@@ -36,7 +35,7 @@ An object of S3 class \code{\link{Spectra2D}}.
 \description{
 Shift the spectra in a \code{\link{Spectra2D}} object manually.  During shifting, some rows
 or columns are thrown away and new rows or columns are introduced.  These new entries may
-be filled with zeros, or random noise.
+be filled with zeros, or noise from the original spectra.
 \itemize{
   \item (+) \code{shiftF2} - shift right: trim right, fill left
   \item (-) \code{shiftF2} - shift left: trim left, fill right
@@ -49,17 +48,19 @@ data(MUD2)
 # Show the first two spectra, overlaid
 
 mylvls <- seq(5, 35, 5)
-plotSpectra2D(MUD2, which = 1:2, lvls = LofL(mylvls, 2),
+plotSpectra2D(MUD2,
+  which = 1:2, lvls = LofL(mylvls, 2),
   cols = LofC(c("red", "black"), 2, length(mylvls), 2),
-  main = "MUD2 Sample 1 (black) & Sample 2 (red)")
+  main = "MUD2 Sample 1 (black) & Sample 2 (red)"
+)
 
 # Now shift Sample 2
 MUD2s <- shiftSpectra2D(MUD2, which = 2, shiftF1 = -2)
-plotSpectra2D(MUD2s, which = 1:2, lvls = LofL(mylvls, 2),
+plotSpectra2D(MUD2s,
+  which = 1:2, lvls = LofL(mylvls, 2),
   cols = LofC(c("red", "black"), 2, length(mylvls), 2),
-  main = "MUD2 Sample 1 (black) & Sample 2 (red)\n(samples aligned/overlap)")
-
-
+  main = "MUD2 Sample 1 (black) & Sample 2 (red)\n(samples now aligned/overlap)"
+)
 }
 \author{
 Bryan A. Hanson, DePauw University.

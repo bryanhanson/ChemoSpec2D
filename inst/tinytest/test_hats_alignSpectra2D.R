@@ -16,6 +16,6 @@
 
 if (identical(Sys.getenv("ESTOY_EN_CASA"), "TRUE")) {
   data(MUD2)
-  expect_silent(MUD2a <- hats_alignSpectra2D(MUD2, method = "MBO", debug = 0, plot = FALSE))
+  expect_silent(MUD2a <- hats_alignSpectra2D(MUD2, method = "MBO", dist_method = "euclidean", debug = 0, plot = FALSE))
 }
 

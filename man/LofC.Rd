@@ -15,22 +15,22 @@ LofC(cols, nspec = 1L, ncon = 1L, mode = 1L)
 
 \item{mode}{Integer. \emph{How} to replicate the colors:
 \itemize{
-  \item If \code{mode = 1L}, each list element in the return value is a copy of \code{cols}.               
-        Typically one would use this mode for \code{n = 1}, when there is only one spectrum
-        to be plotted, and you want to use varied colors for the contour levels. \code{length(cols)}
+  \item If \code{mode = 1L}, each list element in the return value is a copy of \code{cols}.
+        Use this mode when you want to use varied colors for the contour levels. \code{length(cols)}
         must be the same as the number of contour levels passed to \code{\link{plotSpectra2D}},
         possibly via \code{\link{LofL}}.
   \item If \code{mode = 2L}, each list element in the return value is composed of a single color.
-        The first list element is \code{n} replicates of \code{cols[i]}, the second list element is
-        \code{n} replicates of \code{cols[2]} etc. Use this mode when you want each spectrum to be
-        plotted in its own color.  \code{length(cols)} must equal \code{n} in this mode.
+        Use this mode when you want each spectrum to be plotted in its own color. The first list element
+        is \code{ncon} replicates of \code{cols[1]}, the second list element is
+        \code{n} replicates of \code{cols[2]} etc. \code{length(cols)} must equal \code{nspec} in this mode.
 }}
 }
 \value{
-A list of length \code{n}, the number of spectra to be plotted; each entry is a vector of colors.
+A list of length \code{nspec}, the number of spectra to be plotted; each entry is a vector of colors.
 }
 \description{
-When overlaying multiple 2D NMR spectra, one needs to supply a vector of colors for each spectrum contour, as a list.
+When overlaying multiple 2D NMR spectra, one needs to supply a vector of colors for each spectrum contour,
+as a list with length equal to the number of spectra to be plotted.
 This is a convenience function which takes a vector of colors and copies it into a list, ready for
 use  with \code{\link{plotSpectra2D}}.
 }
@@ -38,5 +38,4 @@ use  with \code{\link{plotSpectra2D}}.
 mycols <- c("red", "green", "blue")
 LofC(mycols, 1, 3, 1)
 LofC(mycols, 3, 3, 2)
-
 }

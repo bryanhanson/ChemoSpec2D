@@ -19,11 +19,20 @@
 #' @param ... Parameters to be passed to \code{\link{read.table}}.
 #'
 #' @param debug Integer.  Applies to \code{fmt = "dx"} only.  See \code{\link[readJDX]{readJDX}}
-#' for details.
+#'        for details.
 #'
-#' @section ASCII Format Codes for Data in Three or More Columns:
-#' ASCII format codes are constructed in two parts separated by a hyphen.  The first part gives
-#' the order of the columns in the file, e.g. F1F1R means the first column has the F2 values,
+#' @return A list with 3 elements:
+#'         \itemize{
+#'           \item A matrix of the z values.  The no. of columns = \code{nF2} and the no. of rows
+#'                 follows from the size of the imported data.
+#'           \item A vector giving the F2 (x) values.
+#'           \item A vector giving the F1 (y) values.
+#'         }
+#'
+#' @section Format Codes for Plain-Text ASCII Files:
+#' ASCII format codes are constructed in two parts separated by a hyphen.
+#' Three or more columns are expected. The first part gives
+#' the order of the columns in the file, e.g. F2F1R means the first column has the F2 values,
 #' the second column has the F1 values and the third the real-valued intensities.  The second part of the
 #' format code relates to the order of the rows, i.e. which column varies fastest and in what direction.
 #' These codes are best understood in relation to how the data is stored internally in a matrix.
@@ -42,8 +51,9 @@
 #'         This format is used by JEOL when exporting to "generic ascii".  Argument \code{nF2} is ignored
 #'         with this format as the value is sought from the corresponding \code{*.hdr} file.  Doing so
 #'         also allows one to import files with slightly different F1 and or F2, but for this to be successful
-#'         you will need to 1) set \code{check = FALSE} in the call to \code{files2Spectra2DObject} and
-#'         2) harmonize the dimensions after initial import.
+#'         you will need to 1) set \code{allowSloppy = TRUE} in the call to \code{files2Spectra2DObject} and
+#'         2) harmonize the dimensions manually after initial import.
+#' }
 #'
 #' @section Other Format Codes:
 #' Here are some other format codes you can use:
@@ -60,14 +70,6 @@
 #' }
 #'
 #'
-#' @return A list with 3 elements:
-#' \itemize{
-#'   \item A matrix of the z values.  The no. of rows = \code{nF2} and the no. of columns
-#'         follows from the size of the imported data.
-#'   \item A vector giving the F2 (x) values.
-#'   \item A vector giving the F1 (y) values.
-#'  }
-#'
 #' @author Bryan A. Hanson, DePauw University.
 #'
 #' @keywords import
@@ -80,10 +82,10 @@ import2Dspectra <- function(file, fmt, nF2, debug = 0, ...) {
   valid <- FALSE # flag for valid format found
 
   # Helper function, from help file of is.integer
-  .isWholeNo <- function(x, tol = .Machine$double.eps^0.5)  {	
-	abs(x - round(x)) < tol
+  .isWholeNo <- function(x, tol = .Machine$double.eps^0.5) {
+    abs(x - round(x)) < tol
   }
-  
+
   if (fmt == "SimpleM") {
     valid <- TRUE
     raw <- read.table(file, ...)
@@ -124,7 +126,7 @@ import2Dspectra <- function(file, fmt, nF2, debug = 0, ...) {
     # This approach will allow the imported spectra to differ in dimensions
     # provided check = FALSE.  They will need to be cleaned up later.
     # Argument nF2 is ignored here and read from *.hdr instead
- 
+
     # Process *.hdr file
     file2 <- gsub("\\.asc", ".hdr", file)
     if (!file.exists(file2)) {
@@ -139,10 +141,10 @@ import2Dspectra <- function(file, fmt, nF2, debug = 0, ...) {
 
     # Process *.asc file
     raw <- read.table(file, ...)
-    M <- matrix(raw[, 3], nrow = nF1*2, ncol= nF2, byrow = TRUE)
+    M <- matrix(raw[, 3], nrow = nF1 * 2, ncol = nF2, byrow = TRUE)
     # We want only the 1st half of the data as it is hypercomplex
     keep <- 1:nF1
-    M <- M[keep,]
+    M <- M[keep, ]
     M <- M[nrow(M):1, ] # reflect around horizontal axis as last row was first in file
     F2 <- sort(unique(raw[, 2]))
     F1 <- sort(unique(raw[, 1]))

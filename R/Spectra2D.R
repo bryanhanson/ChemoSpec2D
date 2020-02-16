@@ -1,11 +1,11 @@
 #'
 #' Spectra2D Objects
-#' 
+#'
 #' In \code{ChemoSpec2D}, spectral data sets are stored in an S3 class called
 #' \code{Spectra2D}, which contains a variety of information in addition to the
 #' spectra themselves.  \code{Spectra2D} objects are created by
 #' \code{\link{files2Spectra2DObject}}.
-#' 
+#'
 #' @section Structure: The structure of a \code{Spectra2D} object is a list of eight
 #' elements and an attribute as follows:
 #' w
@@ -23,13 +23,13 @@
 #'   $data \tab num \tab A list of matrices.  Each matrix contains a 2D spectrum.\cr
 #'         \tab \tab Each matrix should have \code{length(F1)} rows and \cr
 #'         \tab \tab \code{length(F2)} columns. The matrix must not have dimnames.\cr
-#'         \tab \tab The low end of the F2\ dimension is last column of the last row\cr
+#'         \tab \tab The low end of the F2 dimension is last column of the last row\cr
 #'         \tab \tab (lower right hand corner as typically displayed).  The low end of\cr
 #'         \tab \tab the F1 dimension is the last column of the first row (upper right hand corner).\cr
 #'         \tab \tab In other words, the spectrum is stored as typically displayed.\cr
 #'         \tab \tab The list of matrices, if named, should have the same names as\cr
 #'         \tab \tab \code{names}.  However, this is not currently enforced.\cr
-#' 
+#'
 #'   $names \tab chr \tab The sample names for the spectra; length must be no. samples.\cr
 #'
 #'   $groups \tab factor \tab The group classification of the samples; length must be no. samples.\cr
@@ -42,7 +42,7 @@
 #'         \tab \tab usually some kind of intensity.\cr
 #'
 #'   $desc \tab chr \tab A character string describing the data set.\cr
-#' 
+#'
 #'   - attr \tab chr \tab "Spectra2D" The S3 class designation.\cr
 #' }
 #'
@@ -62,6 +62,4 @@
 #' data(MUD1)
 #' str(MUD1)
 #' sumSpectra(MUD1)
-#'
-
 NULL
