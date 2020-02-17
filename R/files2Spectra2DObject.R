@@ -151,7 +151,7 @@
 #'
 #' @export files2Spectra2DObject
 #'
-#' @importFrom utils read.table
+#' @importFrom utils read.table setTxtProgressBar txtProgressBar
 #' @importFrom tools file_path_sans_ext
 #' @importFrom ChemoSpecUtils .groupNcolor
 #'
@@ -208,6 +208,15 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
 
       if (debug > 0L) message("\nfiles2Spectra2DObject will now import your files")
 
+      if (!debug) {
+        # Code for progress bar contributed by Reinhard Kerschner
+        env <- environment() # NEW set environment for progress bar
+        pb_Max <- length(files)
+        counter <- 0
+        message("\nReading ", pb_Max, " files...\n")
+        pb <- txtProgressBar(min = 0, max = pb_Max, style = 3)
+      }
+
       for (i in 1:ns) {
         if (debug > 0L) cat("Importing file: ", files[i], "\n")
         tmp <- import2Dspectra(files[i], fmt = fmt, nF2 = nF2, debug = debug, ...)
@@ -226,9 +235,21 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
           dimnames(spectra$data[[i]][["M"]]) <- NULL # clean up to plain matrix
           chk <- FALSE
         }
+
+        if (!debug) {
+          curVal <- get("counter", envir = env)
+          assign("counter", curVal + 1, envir = env)
+          setTxtProgressBar(get("pb", envir = env), curVal + 1)
+        }
+
       }
 
       # Assign groups & colors
+
+      if (!debug) {
+        close(pb)
+        message("\nAssigning ", pb_Max, " spectra to ", length(gr.crit), " groups...\n")
+      }
 
       spectra <- .groupNcolor(spectra, gr.crit, gr.cols, mode = "2D")
       if (allowSloppy) {
