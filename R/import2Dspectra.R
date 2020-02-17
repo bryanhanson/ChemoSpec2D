@@ -16,7 +16,9 @@
 #'        the acquistion details to get the correct value for this argument.
 #'        This may be vendor-dependent.
 #'
-#' @param ... Parameters to be passed to \code{\link{read.table}}.
+#' @param ...  Arguments to be passed to \code{\link[utils]{read.table}}, or \code{readJDX}.
+#'        For \code{read.table}, \pkg{You MUST supply values for \code{sep}, \code{dec} and \code{header} consistent
+#'        with your file structure, unless they are the same as the defaults for \code{\link[utils]{read.table}}}.
 #'
 #' @param debug Integer.  Applies to \code{fmt = "dx"} only.  See \code{\link[readJDX]{readJDX}}
 #'        for details.
@@ -86,9 +88,14 @@ import2Dspectra <- function(file, fmt, nF2, debug = 0, ...) {
     abs(x - round(x)) < tol
   }
 
+  # Clean up args found in ... for further use
+  argsRT <- argsDX <- as.list(match.call())[-1] # TWO copies to be used momentarily
+  argsRT <- .cleanArgs(argsRT, "read.table") # further update below
+  if (fmt == "dx") argsDX <- .cleanArgs(argsDX, "readJDX")
+
   if (fmt == "SimpleM") {
     valid <- TRUE
-    raw <- read.table(file, ...)
+    raw <- do.call(utils::read.table, args = c(argsRT, list(file = file)))
     M <- as.matrix(raw)
     F2 <- as.numeric(1:ncol(M))
     F1 <- as.numeric(1:nrow(M))
@@ -98,7 +105,7 @@ import2Dspectra <- function(file, fmt, nF2, debug = 0, ...) {
 
   if (fmt == "dx") {
     valid <- TRUE
-    raw <- readJDX::readJDX(file, debug = debug)
+    raw <- do.call(readJDX::readJDX, args = c(argsDX, list(file = file, debug = debug)))
     M <- raw$Matrix
     F2 <- raw$F2
     F1 <- raw$F1
@@ -108,7 +115,7 @@ import2Dspectra <- function(file, fmt, nF2, debug = 0, ...) {
 
   if (fmt == "F1F1R-F2decF1dec") {
     valid <- TRUE
-    raw <- read.table(file, ...)
+    raw <- do.call(utils::read.table, args = c(argsRT, list(file = file)))
     nr <- nrow(raw) / nF2
     if (!.isWholeNo(nr)) stop("Non-integer row count in F1F1R-F2decF1dec")
     M <- matrix(raw[, 3], nrow = nr, byrow = TRUE)
@@ -140,7 +147,7 @@ import2Dspectra <- function(file, fmt, nF2, debug = 0, ...) {
     nF1 <- as.integer(gsub(".*[[:space:]]+([[:digit:]]+)$", "\\1", hdr[y_pts]))
 
     # Process *.asc file
-    raw <- read.table(file, ...)
+    raw <- do.call(utils::read.table, args = c(argsRT, list(file = file)))
     M <- matrix(raw[, 3], nrow = nF1 * 2, ncol = nF2, byrow = TRUE)
     # We want only the 1st half of the data as it is hypercomplex
     keep <- 1:nF1

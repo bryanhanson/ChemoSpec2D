@@ -91,10 +91,10 @@ intent is allow importing of spectra that differ slightly in the number of point
 With this option one can use \code{str} on the resulting object to inspect the differences.
 Future functions will allow one to clean up the data.}
 
-\item{...}{Arguments to be passed to \code{\link[utils]{read.table}}.  \pkg{You
-MUST supply values for \code{sep}, \code{dec} and \code{header} consistent
-with your file structure, unless they are the same as the defaults for
-\code{\link[utils]{read.table}}}.}
+\item{...}{Arguments to be passed to \code{\link[utils]{read.table}},
+\code{\link{list.files}} or \code{readJDX}; see the "Advanced Tricks" section.
+For \code{read.table}, \pkg{You MUST supply values for \code{sep}, \code{dec} and \code{header} consistent
+with your file structure, unless they are the same as the defaults for \code{\link[utils]{read.table}}}.}
 }
 \value{
 One of these objects:
@@ -168,9 +168,19 @@ once the data is imported.
 
 \section{Advanced Tricks}{
 
-While argument \code{fileExt} appears to be a file extension (from its
+
+The ... argument can be used to pass any argument to \code{read.table} or \code{list.files}.
+This includes the possibility of passing arguments that will cause trouble later, for instance
+\code{na.strings} in \code{read.table}.  While one might successfully read in data with \code{NA},
+it will eventually cause problems.  The intent of this feature is to allow one to recurse
+a directory tree containing the data, and/or to specify a starting point other than the current
+working directory.  So for instance if the current working directory is not the directory containing
+the data files, you can use \code{path = "my_path"} to point to the desired top-level
+directory, and \code{recursive = TRUE} to work your way through a set of subdirectories.  In addition,
+if you are reading in JCAMP-DX files, you can pass arguments to \code{readJDX} via ..., e.g. \code{SOFC = FALSE}.
+Finally, while argument \code{fileExt} appears to be a file extension (from its
 name and the description elsewhere), it's actually just a grep pattern that you can apply
-to any part of the file name if you know how to contruct the proper pattern.
+to any part of the file name if you know how to construct the proper pattern.
 }
 
 \author{

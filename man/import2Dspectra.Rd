@@ -19,7 +19,9 @@ This may be vendor-dependent.}
 \item{debug}{Integer.  Applies to \code{fmt = "dx"} only.  See \code{\link[readJDX]{readJDX}}
 for details.}
 
-\item{...}{Parameters to be passed to \code{\link{read.table}}.}
+\item{...}{Arguments to be passed to \code{\link[utils]{read.table}}, or \code{readJDX}.
+For \code{read.table}, \pkg{You MUST supply values for \code{sep}, \code{dec} and \code{header} consistent
+with your file structure, unless they are the same as the defaults for \code{\link[utils]{read.table}}}.}
 }
 \value{
 A list with 3 elements:
