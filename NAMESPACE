@@ -3,7 +3,7 @@
 export(.AlignArraysMBO)
 export(.addLegend)
 export(.chkArgs)
-export(.cleanArgs)
+export(.cleanArgs2D)
 export(.createScale)
 export(.drawScale)
 export(.evalArrayOverlapMBO)

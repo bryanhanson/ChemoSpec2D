@@ -201,10 +201,11 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
 
       # Clean up args found in ... for further use
       argsLF <- as.list(match.call())[-1]
-      argsLF <- .cleanArgs(argsLF, "list.files")
+      argsLF <- .cleanArgs2D(argsLF, "list.files")
       argsLF <- c(argsLF, list(pattern = fileExt, full.names = TRUE))
 
       files <- do.call(list.files, argsLF)
+      if (length(files) == 0L) stop("No files found. Is the extension wrong, or are we in the wrong directory?")
       files.noext <- tools::file_path_sans_ext(basename(files))
 
       ns <- length(files)

@@ -90,8 +90,8 @@ import2Dspectra <- function(file, fmt, nF2, debug = 0, ...) {
 
   # Clean up args found in ... for further use
   argsRT <- argsDX <- as.list(match.call())[-1] # TWO copies to be used momentarily
-  argsRT <- .cleanArgs(argsRT, "read.table") # further update below
-  if (fmt == "dx") argsDX <- .cleanArgs(argsDX, "readJDX")
+  argsRT <- .cleanArgs2D(argsRT, "read.table") # further update below
+  if (fmt == "dx") argsDX <- .cleanArgs2D(argsDX, "readJDX")
 
   if (fmt == "SimpleM") {
     valid <- TRUE
@@ -113,18 +113,18 @@ import2Dspectra <- function(file, fmt, nF2, debug = 0, ...) {
     return(ans)
   } # end of fmt = "dx"
 
-  if (fmt == "F1F1R-F2decF1dec") {
+  if (fmt == "F2F1R-F2decF1dec") { # at least some nmrPipe
     valid <- TRUE
     raw <- do.call(utils::read.table, args = c(argsRT, list(file = file)))
     nr <- nrow(raw) / nF2
-    if (!.isWholeNo(nr)) stop("Non-integer row count in F1F1R-F2decF1dec")
+    if (!.isWholeNo(nr)) stop("Non-integer row count in F2F1R-F2decF1dec")
     M <- matrix(raw[, 3], nrow = nr, byrow = TRUE)
     M <- M[nrow(M):1, ] # reflect around horizontal axis as last row was first in file
-    F2 <- sort(unique(raw[, 2]))
-    F1 <- sort(unique(raw[, 1]))
+    F1 <- sort(unique(raw[, 2]))
+    F2 <- sort(unique(raw[, 1]))
     ans <- list(M = M, F2 = F2, F1 = F1)
     return(ans)
-  } # end of fmt = "F1F1R-F2decF1dec"
+  } # end of fmt = "F2F1R-F2decF1dec"
 
   if (fmt == "F1F2RI-F1decF2dec2") { # JEOL generic ascii export
     valid <- TRUE

@@ -11,11 +11,13 @@
 #'
 #' @noRd
 #'
-.cleanArgs <- function(args, func = NULL) {
+.cleanArgs2D <- function(args, func = NULL) {
   if (is.null(func)) stop("You must supply a reference function")
 
-  f2S2DOformals <- names(formals(files2Spectra2DObject))
-  funcFormals <- names(formals(func))
+  if (func == "readJDX") require("readJDX", quietly = TRUE)
+
+  f2S2DOformals <- formalArgs(files2Spectra2DObject)
+  funcFormals <- formalArgs(func)
 
   # Basic procedure is to
   #   1. Remove the files2Spectra2DObject arguments
