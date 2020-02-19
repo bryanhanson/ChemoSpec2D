@@ -1,10 +1,10 @@
-# ChemoSpec2D 0.4.xx 2020-01-19
+# ChemoSpec2D 0.4.147 2020-02-18
 ## New Features: Importing Spectra
 * Format `Btotxt` added to `import2DSpectra`, allowing import of 2D data exported by the Bruker command "totxt".
 * Format `dx` added to `import2DSpectra` for use with JCAMP-DX files, via package `readJDX` which has recently learned how to import 2D NMR data sets.
 * Format `F1F2RI-F1decF2dec2` added to `import2DSpectra` which handles the import of JEOL spectra exported as "generic ascii".
 * `files2Spectra2DObject` gains a new argument `allowSloppy`.  This will allow one to import data sets that do not have the same dimensions.  The intent here is to deal with data sets where the number of points in each dimension is similar but not identical.  This is an experimental feature, and additional functions will be needed to handle this kind of data.  See the documentation for details.
-* `files2Spectra2DObject` gains a progress bar and the ability to specify a path and other arguments to `list.files`, bringing it in line with `ChemoSpec::files2SpectraObject`.
+* `files2Spectra2DObject` gains a progress bar and will now accept a path and other arguments to `list.files`, bringing it in line with `ChemoSpec::files2SpectraObject`.
 
 ## New Features: Miscellaneous
 * Function `normSpectra2D` gets a new method to scale spectra on [-1 ... 1].

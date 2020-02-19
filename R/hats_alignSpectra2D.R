@@ -66,7 +66,7 @@
 #'         Different seeds may give different results; you may find it useful to experiment a bit and see how
 #'         the alignment turns out.
 #'   \item Be sure that your choice of \code{thres}, \code{minimize} and \code{dist_method} are self-consistent.
-#'         Some \dist_method} choices are bounded, others unbounded, and some should be minimized, others maximized.
+#'         Some \code{dist_method} choices are bounded, others unbounded, and some should be minimized, others maximized.
 #'   \item You should use \code{\link{sampleDist}} to visualize the distances ahead of time.  The method
 #'         chosen should return a wide numerical range between samples or it won't give a good alignment result.
 #' }

@@ -78,8 +78,20 @@ Align the spectra in a \code{\link{Spectra2D}} object using an implementation
 of the HATS algorithm described by Robinette \emph{et al.}.  Currently, only
 global, not local, alignment is carried out.
 }
-\section{}{
-NA
+\section{Advice}{
+
+\itemize{
+  \item I suggest that you plot your possibly mis-aligned spectra first, zooming in on a small region where
+        alignment might be an issue, and get an idea of the size of the alignment problem.  This will help
+        you choose good values for \code{maxF1} and \code{maxF2} which will speed up the search.
+  \item The algorithm uses random numbers to initialize the search, so set the seed for reproducible results.
+        Different seeds may give different results; you may find it useful to experiment a bit and see how
+        the alignment turns out.
+  \item Be sure that your choice of \code{thres}, \code{minimize} and \code{dist_method} are self-consistent.
+        Some \code{dist_method} choices are bounded, others unbounded, and some should be minimized, others maximized.
+  \item You should use \code{\link{sampleDist}} to visualize the distances ahead of time.  The method
+        chosen should return a wide numerical range between samples or it won't give a good alignment result.
+}
 }
 
 \examples{
