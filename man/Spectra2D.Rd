@@ -27,7 +27,7 @@ w
   $data \tab num \tab A list of matrices.  Each matrix contains a 2D spectrum.\cr
         \tab \tab Each matrix should have \code{length(F1)} rows and \cr
         \tab \tab \code{length(F2)} columns. The matrix must not have dimnames.\cr
-        \tab \tab The low end of the F2\ dimension is last column of the last row\cr
+        \tab \tab The low end of the F2 dimension is last column of the last row\cr
         \tab \tab (lower right hand corner as typically displayed).  The low end of\cr
         \tab \tab the F1 dimension is the last column of the first row (upper right hand corner).\cr
         \tab \tab In other words, the spectrum is stored as typically displayed.\cr
@@ -56,7 +56,6 @@ w
 data(MUD1)
 str(MUD1)
 sumSpectra(MUD1)
-
 }
 \seealso{
 \code{\link[ChemoSpecUtils]{sumSpectra}} to summarize a \code{Spectra2D} object.

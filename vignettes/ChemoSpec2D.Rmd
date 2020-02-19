@@ -102,7 +102,7 @@ where F2 and F1 are NMR-speak for the x- and y-axes/dimensions.  We will refer t
 \end{center}
 \end{figure}
 
-`ChemoSpec2D` treats each spectrum/matrix as the unit of observation, and thus the physical sample that went into the spectrometer corresponds to the sample from a statistical perspective.  Keeping this natural unit intact during analysis is referred to as a *strong* multi-way analysis. In a weak analysis, the 3D data set is unfolded into a series of contiguous 2D matrices and analyzed using methods suitable for any 2D data set (such methods are fundamentally bilinear) (\cite{Huang2003}). In the weak approach, each slice of a 2D spectrum becomes just another 1D spectrum, and the relationship between the slices in a single 2D spectrum is lost.  Oddly enough, the trilinear/strong analysis has fewer parameters to estimate so it is simpler, but computationally more demanding.  The interpretation is also more straight-forward.  These techniques are akin to PCA, and seek to *reduce the data to a limited number components represented by scores and loadings*.  Noise in the data set is reduced, and correlating variables are collapsed.
+`ChemoSpec2D` treats each spectrum/matrix as the unit of observation, and thus the physical sample that went into the spectrometer corresponds to the sample from a statistical perspective.  Keeping this natural unit intact during analysis is referred to as a *strong* multi-way analysis. In a weak analysis, the 3D data set is unfolded into a series of contiguous 2D matrices and analyzed using methods suitable for any 2D data set (such methods are fundamentally bilinear) (\cite{Huang2003}). In the weak approach, each slice of a 2D spectrum becomes just another 1D spectrum, and the relationship between the slices in a single 2D spectrum is lost.  Oddly enough, the trilinear/strong analysis has fewer parameters to estimate so it is simpler, but computationally more demanding.  The interpretation is also more straight-forward.  These techniques are akin to PCA, and seek to *reduce the data to a limited number components represented by scores and loadings*.  As with PCA, noise in the data set is reduced, and correlating variables are collapsed.
 
 The literature on the topics of chemometric analysis of 3D data sets uses a wide variety of terminology to describe analysis options, and the same mathematical analysis can be found under different guises in different fields.  Here are some of the terms relevant to `ChemoSpec2D`:
 
@@ -131,13 +131,13 @@ x_{ijk} = \sum_{r = 1}^{R} a_{ir}b_{jr}c_{kr} + \epsilon_{ijk}
 
 Where $x_{ijk}$ is an element of the 3D data array $\ubar{\mathbf{X}}$. $a_{ir}$ is an element of the matrix $\mathbf{A}$, and so forth for $b$/$\mathbf{B}$ and $c$/$\mathbf{C}$.  $\epsilon$ is the error term.
 
-If $\ubar{\mathbf{X}}$ is flattened by taking the $Kth$-dimension slices and concatenating them left-to-right to give a matrix $\mathbf{X}$, then 2D matrix operations *can* provide a solution:
+If $\ubar{\mathbf{X}}$ is flattened by taking the $K$-dimension slices and concatenating them left-to-right to give a matrix $\mathbf{X}$, then 2D matrix operations *can* provide a solution:
 
 \[
 \mathbf{X} = \mathbf{A}(\mathbf{C} \odot \mathbf{B})^T + \mathbf{E}
 \]
 
-Here, $\odot$ represents the Khatri-Rao product, a matrix multiplication variant needed in this situation.  $\mathbf{A}$, $\mathbf{B}$ and $\mathbf{C}$ are the component matrices as above (\cite{Bro2003b, Smilde2004} Appendix 4.A presents a number of alternative notations for PARAFAC).
+Here, $\odot$ represents the Khatri-Rao product, a matrix multiplication variant needed in this situation.  $\mathbf{A}$, $\mathbf{B}$ and $\mathbf{C}$ are the component matrices as above (\cite{Bro2003b, Smilde2004} Appendix 4.A presents a number of alternative notations for PARAFAC).  If you want to dig into the math, Kolda and Bader is the go-to source (\cite{Kolda2009}).
 
 ## Interpretation
 
@@ -148,7 +148,7 @@ Regardless of the mathematical representation or algorithmic solution, the resul
 The list below gives each user-facing function and a brief description of what it does.  Full information is of course available via the help function, e.g. `?sumSpectra2D`.  Note that a number of the utility functions are actually in a supporting package called `ChemoSpecUtils` but are loaded automatically when activating `ChemoSpec2D`.
 
 * Utility Functions
-    * **files2Spectra2DObject** Imports 2D data sets.  The format options are currently rather limited and not extensively tested.  We welcome additional data sets for testing and extension of the input formats.
+    * **files2Spectra2DObject** Imports 2D data sets.  The format options are currently a bit limited.  We welcome additional data sets for testing and extension of the input formats.
     * **chkSpectra** Checks the integrity of a Spectra2D object.  This can be used directly and is also called by nearly every other function to ensure data integrity.
     * **sumSpectra** Prints a short summary of the Spectra2D object.
     * **sumGroups** Prints a short summary of the group membership of the spectra in a Spectra2D object.
@@ -156,13 +156,14 @@ The list below gives each user-facing function and a brief description of what i
     * **removeSample** Remove one or more samples from a Spectra2D object.
     * **removeFreq** Delete selected frequencies (on either dimension).
     * **removePeaks2D** Set selected peaks to NA (on either dimension).
-    * **plotSpectra2D** Plots 2D spectra stored in a Spectra2D object, as a contour plot.  Detailed data exploration is probably better done on the spectrometer which is likely more suited.  This function is for quick checks and also publication-quality plots.
+    * **plotSpectra2D** Plots 2D spectra stored in a Spectra2D object, as a contour plot.  Detailed data exploration is probably better done on the spectrometer.  This function is for quick checks and also publication-quality plots.
     * **plotSlice** Plots a slice of a 2D spectrum.
     * **inspectLvls** An easy way to inspect the data in order to choose appropriate contour levels.
     * **normSpectra2D** Normalizes the 2D spectra stored in a Spectra2D object.
     * **centscaleSpectra2D** Centers and scales 2D spectra stored in a Spectra2D object.
     * **hats_alignSpectra2D** Aligns 2D spectra using a modification of the HATS algorithm.
     * **shiftSpectra2D** Manually shift/align spectra.
+    * **sampleDist** Plots the distance between samples using any of several standard distance measures.
 
 * Chemometric Functions
     * **miaSpectra2D** Carries out MIA on a Spectra2D object, equivalent to a TUCKER1 analysis.

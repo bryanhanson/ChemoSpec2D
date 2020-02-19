@@ -17,7 +17,7 @@ popSpectra2D(spectra, n = 3, choice = "noscale", ...)
 \item{...}{Other parameters to be passed to \code{\link[irlba]{prcomp_irlba}}.}
 }
 \value{
-An object of classes \code{prcomp}, \code{pop} and \code{computed_via_irlba} 
+An object of classes \code{prcomp}, \code{pop} and \code{computed_via_irlba}
 modified to include a list element called \code{$method}, a character string describing the
 pre-processing carried out and the type of PCA performed (used to annotate
 plots).
@@ -36,15 +36,17 @@ can be very large, and other PCA algorithms can struggle.
 The scale choice \code{autoscale} scales the columns by their standard
 deviation.  \code{Pareto} scales by the square root of the standard
 deviation. \code{"autoscale"} is called "standard normal variate" or "correlation matrix PCA"
-in some literature.  This action is performed on the unstacked matrix, as will centering.
+in some literature.  This action is performed on the unstacked matrix, as is centering.
 }
 \examples{
 data(MUD1)
 res <- popSpectra2D(MUD1)
 plotScores(MUD1, res, main = "POP Scores", ellipse = "cls")
 plotScree(res)
-MUD1a <- plotLoadings2D(MUD1, res, load_lvls = c(-0.2, -0.1, 0.1, 0.2),
-  main = "POP Comp. 1 Loadings")
+MUD1a <- plotLoadings2D(MUD1, res,
+  load_lvls = c(-0.2, -0.1, 0.1, 0.2),
+  load_cols = rep("black", 4), main = "POP Comp. 1 Loadings"
+)
 }
 \references{
 J. Baglama and L. Reichel, "Augmented Implicitly Restarted Lanczos

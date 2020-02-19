@@ -18,8 +18,8 @@ library("ChemoSpec2D")
 
 ```r
 chooseCRANmirror() # choose a CRAN mirror
-install.packages("devtools")
-library("devtools")
+install.packages("remotes")
+library("remotes")
 install_github(repo = "bryanhanson/ChemoSpec2D@master")
 library("ChemoSpec2D")
 ```

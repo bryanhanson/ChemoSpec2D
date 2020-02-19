@@ -4,12 +4,22 @@
 \alias{files2Spectra2DObject}
 \title{Import Data into a Spectra2D Object}
 \usage{
-files2Spectra2DObject(gr.crit = NULL, gr.cols = "auto", fmt = NULL,
-  nF2 = NULL, x.unit = "no frequency unit provided",
+files2Spectra2DObject(
+  gr.crit = NULL,
+  gr.cols = "auto",
+  fmt = NULL,
+  nF2 = NULL,
+  x.unit = "no frequency unit provided",
   y.unit = "no frequency unit provided",
   z.unit = "no intensity unit provided",
-  descrip = "no description provided", fileExt = "\\\\.(csv|CSV)$",
-  out.file = "mydata", debug = FALSE, ...)
+  descrip = "no description provided",
+  fileExt = "\\\\.(csv|CSV)$",
+  out.file = "mydata",
+  debug = 0,
+  chk = TRUE,
+  allowSloppy = FALSE,
+  ...
+)
 }
 \arguments{
 \item{gr.crit}{Group Criteria.  A vector of character strings which will be
@@ -20,12 +30,30 @@ Warnings are issued if there are file/sample
 names that don't match entries in \code{gr.crit} or there are entries in
 \code{gr.crit} that don't match any file names.}
 
-\item{gr.cols}{A character vector, giving one color per group.}
+\item{gr.cols}{Group Colors.  See \code{\link{colorSymbol}} for some options. One of the following:
+\itemize{
+  \item Legacy behavior and the default: The word \code{"auto"}, in which case up to 8 colors will
+        be automatically assigned from package \code{RColorBrewer Set1}.
+  \item \code{"Col8"}. A unique set of up to 8 colors is used.
+  \item \code{"Col12"}. A mostly paired set of up to 12 colors is used.
+  \item A vector of acceptable color designations with the same length as \code{gr.crit}.
+}
+    Colors will be assigned one for one, so the first element of
+    \code{gr.crit} is assigned the first element of \code{gr.col} and so forth.  For \code{Col12}
+    you should pay careful attention to the order of \code{gr.crit} in order to match up colors.
+    See \code{\link[ChemoSpecUtils]{colorSymbol}} for further details.}
 
 \item{fmt}{A character string giving the format of the data. Consult
-\code{\link{import2Dspectra}} for options.}
+\code{\link{import2Dspectra}} for options.
+If \code{fileExt} is one of \code{dx, DX, jdx or JDX}, \code{fmt} will automatically
+be set to \code{"dx"} and package \code{readJDX} will be used for the import.  In this case
+check the values of F2 and F1 carefully.  The values are taken from the file,
+for some files/vendors the values might be in Hz rather than ppm.}
 
-\item{nF2}{Integer giving the number of data points in the F2 (x) dimension.}
+\item{nF2}{Integer giving the number of data points in the F2 (x) dimension.
+Note: If \emph{any} dimension is zero-filled you may need to study
+the acquistion details to get the correct value for this argument.
+This may be vendor-dependent.}
 
 \item{x.unit}{A character string giving the units for the F2 dimension
 (frequency or wavelength corresponding to the x dimension).}
@@ -41,50 +69,69 @@ of intensity).}
 \item{fileExt}{A character string giving the extension of the files to be
 processed. \code{regex} strings can be used.  For instance, the default
 finds files with either \code{".csv"} or \code{".CSV"} as the extension.
-Matching is done via a grep process, which is greedy.}
+Matching is done via a grep process, which is greedy.
+If \code{fileExt} is one of \code{dx, DX, jdx or JDX}, \code{fmt} will automatically be
+set to \code{"dx"} and package \code{readJDX} will be used for the import.}
 
-\item{out.file}{A file name.  The
-completed object of S3 class \code{\link{Spectra2D}} will be written to this
-file.}
+\item{out.file}{A file name.  The completed object of S3 class \code{\link{Spectra2D}} will be written
+to this file.}
 
-\item{debug}{Logical.
-Set to \code{TRUE} for troubleshooting when an error
-is thrown during import.}
+\item{debug}{Integer.  Set to 1 or \code{TRUE} for basic reporting when there are problems.
+If importing JCAMP-DX files, values greater than 1 give additional and potentially
+huge output.  Once you know which file is the problem, you may wish to troubleshoot
+directly using package \code{readJDX}.}
 
-\item{...}{Arguments to be passed to \code{\link[utils]{read.table}}.  \pkg{You
-MUST supply values for \code{sep}, \code{dec} and \code{header} consistent
-with your file structure, unless they are the same as the defaults for
-\code{\link[utils]{read.table}}}.}
+\item{chk}{Logical. Should the \code{Spectra} object be checked for integrity?  If you are having
+trouble importing your data, set this to \code{FALSE} and do \code{str(your object)} to investigate.}
+
+\item{allowSloppy}{Logical. \pkg{Experimental Feature} If \code{TRUE}, disable checking of the data set, and
+return all pieces of the raw import from \code{import2Dspectra} in the \code{spectra$data} object.
+The resulting object currently cannot be used by any other functions in this package!  The
+intent is allow importing of spectra that differ slightly in the number of points in each dimension.
+With this option one can use \code{str} on the resulting object to inspect the differences.
+Future functions will allow one to clean up the data.}
+
+\item{...}{Arguments to be passed to \code{\link[utils]{read.table}},
+\code{\link{list.files}} or \code{readJDX}; see the "Advanced Tricks" section.
+For \code{read.table}, \pkg{You MUST supply values for \code{sep}, \code{dec} and \code{header} consistent
+with your file structure, unless they are the same as the defaults for \code{\link[utils]{read.table}}}.}
 }
 \value{
-A object of class \code{\link{Spectra2D}}.  An \emph{unnamed} object
-of S3 class \code{\link{Spectra2D}} is also written to \code{out.file}.  To
-read it back into the workspace, use \code{new.name <- loadObject(out.file)}
-(\code{loadObject} is package \pkg{R.utils}).
+One of these objects:
+        \itemize{
+          \item If \code{allowSloppy = FALSE}, the default, an object of class \code{\link{Spectra2D}}.
+          \item If \code{allowSloppy = TRUE}, an object of undocumented class \code{SloppySpectra2D}.
+                These objects are \pkg{experimental} and are not checked by \code{chkSpectra}.
+                For these objects \code{spectra$F1} and \code{spectra$F2} are \code{NA}, and each
+                \code{spectra$data} entry is a list with elements F1, F2 and M, which is the matrix
+                of imported data (basically, the object returned by \code{import2Dspectra}).
+          \item In each case,
+                an \emph{unnamed} object of S3 class \code{\link{Spectra2D}} or \code{SloppySpectra2D}
+                is also written to \code{out.file}.
+                To read it back into the workspace, use \code{new.name <- loadObject(out.file)}
+                (\code{loadObject} is package \pkg{R.utils}).
+        }
 }
 \description{
-This function imports data into a \code{\link{Spectra2D}} object.  It uses
+This function imports data into a \code{\link{Spectra2D}} object.  It primarily uses
 \code{\link[utils]{read.table}} to read files so it is
-very flexible in regard to file formatting.  \pkg{Be sure to see the \ldots 
+very flexible in regard to file formatting.  \pkg{Be sure to see the \ldots
 argument below for important details you need to provide.}
 }
 \details{
 \code{files2Spectra2DObject} acts on all files in the current working
 directory with the specified \code{fileExt} so there should be no
-extra files of that type.
+extraneous files with that extension in the directory.
 }
 \section{gr.crit and Sample Name Gotchas}{
 
 
-The matching of \code{gr.crit} against the sample file names
-(in \code{files2SpectraObject}) or column headers/sample names
-(in code{matrix2SpectraObject}) is done one at
+The matching of \code{gr.crit} against the sample file names is done one at
 a time, in order, using grep.  While powerful, this has the potential to lead
-to some "gotchas" in certain cases, noted below.  
+to some "gotchas" in certain cases, noted below.
 
 Your file system may allow file/sample names which \code{R} will not like, and will
-cause confusing behavior.  File/sample names become variables in \code{ChemoSpec},
-and \code{R}
+cause confusing behavior.  File/sample names become variables in \code{ChemoSpec}, and \code{R}
 does not like things like "-" (minus sign or hyphen) in file/sample names.  A hyphen
 is converted to a period (".") if found, which is fine for a variable name.
 However, a period in \code{gr.crit} is interpreted from the grep point of view,
@@ -121,9 +168,19 @@ once the data is imported.
 
 \section{Advanced Tricks}{
 
-While argument \code{fileExt} appears to be a file extension (from its
+
+The ... argument can be used to pass any argument to \code{read.table} or \code{list.files}.
+This includes the possibility of passing arguments that will cause trouble later, for instance
+\code{na.strings} in \code{read.table}.  While one might successfully read in data with \code{NA},
+it will eventually cause problems.  The intent of this feature is to allow one to recurse
+a directory tree containing the data, and/or to specify a starting point other than the current
+working directory.  So for instance if the current working directory is not the directory containing
+the data files, you can use \code{path = "my_path"} to point to the desired top-level
+directory, and \code{recursive = TRUE} to work your way through a set of subdirectories.  In addition,
+if you are reading in JCAMP-DX files, you can pass arguments to \code{readJDX} via ..., e.g. \code{SOFC = FALSE}.
+Finally, while argument \code{fileExt} appears to be a file extension (from its
 name and the description elsewhere), it's actually just a grep pattern that you can apply
-to any part of the file name if you know how to contruct the proper pattern.
+to any part of the file name if you know how to construct the proper pattern.
 }
 
 \author{

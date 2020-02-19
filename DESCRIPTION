@@ -1,8 +1,8 @@
 Package: ChemoSpec2D
 Type: Package
 Title: Exploratory Chemometrics for 2D Spectroscopy
-Version: 0.3.166
-Date: 2019-06-09
+Version: 0.4.147
+Date: 2020-02-18
 Authors@R: c(
     person("Bryan A.", "Hanson",
     role = c("aut", "cre"), email =
@@ -15,7 +15,9 @@ Depends:
     ChemoSpecUtils (>= 0.3)
 Imports:
   tools,
-  utils
+  utils,
+  colorspace,
+  readJDX
 Suggests:
   knitr,
   tinytest,
@@ -38,4 +40,4 @@ URL: https://github.com/bryanhanson/ChemoSpec2D
 BugReports: https://github.com/bryanhanson/ChemoSpec2D/issues
 ByteCompile: TRUE
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2

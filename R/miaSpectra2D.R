@@ -1,6 +1,6 @@
 #'
 #' Multivariate Image Analysis (Tucker 1) of a Spectra2D Object
-#' 
+#'
 #' Carry out multivariate image analysis of a \code{\link{Spectra2D}} object
 #' (multivariate image analysis is the same as a Tucker1 analysis).
 #' Function \code{\link[ThreeWay]{pcasup1}} from package \pkg{ThreeWay} is used.
@@ -37,41 +37,42 @@
 #' res <- miaSpectra2D(MUD1)
 #' plotScores(MUD1, res, main = "MIA Scores", tol = 1.0, ellipse = "cls")
 #' plotScree(res)
-#' MUD1a <- plotLoadings2D(MUD1, res, load_lvls = seq(-90, 0, 10),
-#'   main = "MIA Comp. 1 Loadings")
+#' MUD1a <- plotLoadings2D(MUD1, res,
+#'   load_lvls = seq(-90, 0, 10),
+#'   main = "MIA Comp. 1 Loadings"
+#' )
 #'
 #' # Selection of loading matrix levels can be aided by the following
+#' # Use MUD1a$names to find the index of the loadings
 #'
-#' inspectLvls(MUD1a, loading = 1, ylim = c(0, 80),
-#'   main = "Histogram of Loadings Matrix")
-#'
-
+#' inspectLvls(MUD1a,
+#'   which = 11, ylim = c(0, 80),
+#'   main = "Histogram of Loadings Matrix"
+#' )
 miaSpectra2D <- function(spectra) {
-
   .chkArgs(mode = 21L)
   chkSpectra(spectra)
-  
+
   if (!requireNamespace("ThreeWay", quietly = TRUE)) {
     stop("You must install package ThreeWay to use this function")
   }
-  
+
   # Matricize: Frontal slices are concatenated left-to-right horizontally
   # Variables named as per ThreeWay::pcasup1
   n <- length(spectra$F1) # A-mode entries (I/rows)
   m <- length(spectra$F2) # B-mode entries (J/columns)
   p <- length(spectra$names) # C-mode entries (K/tubes)
-  X <- matrix(NA_real_, nrow = n, ncol = m*p)
+  X <- matrix(NA_real_, nrow = n, ncol = m * p)
 
   for (i in 1:p) {
-   st <- 1 + (i - 1) * m
-   end <- i * m
-   X[,st:end] <- spectra$data[[i]]
+    st <- 1 + (i - 1) * m
+    end <- i * m
+    X[, st:end] <- spectra$data[[i]]
   }
 
   t1 <- ThreeWay::pcasup1(X, n, m, p, 3)
   t1$method <- "MIA"
   class(t1) <- "mia"
-  
+
   return(t1)
 }
-

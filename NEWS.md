@@ -1,3 +1,47 @@
+# ChemoSpec2D 0.4.147 2020-02-18
+## New Features: Importing Spectra
+* Format `Btotxt` added to `import2DSpectra`, allowing import of 2D data exported by the Bruker command "totxt".
+* Format `dx` added to `import2DSpectra` for use with JCAMP-DX files, via package `readJDX` which has recently learned how to import 2D NMR data sets.
+* Format `F1F2RI-F1decF2dec2` added to `import2DSpectra` which handles the import of JEOL spectra exported as "generic ascii".
+* `files2Spectra2DObject` gains a new argument `allowSloppy`.  This will allow one to import data sets that do not have the same dimensions.  The intent here is to deal with data sets where the number of points in each dimension is similar but not identical.  This is an experimental feature, and additional functions will be needed to handle this kind of data.  See the documentation for details.
+* `files2Spectra2DObject` gains a progress bar and will now accept a path and other arguments to `list.files`, bringing it in line with `ChemoSpec::files2SpectraObject`.
+
+## New Features: Miscellaneous
+* Function `normSpectra2D` gets a new method to scale spectra on [-1 ... 1].
+* Function `hats_alignSpectra2D` gains new arguments `dist_method` and `maximize` which allows the user to pass their choice of distance measure through to the objective function used to evaluate the overlap of the spectra.  This greatly improves the quality of the alignment.  See the documentation for additional details.
+
+## New Functions
+* New function `computeVolume` added to aid in normalizing spectra to particular chemical shift regions, which are volumes when the intensity is taken into account.
+* Two new convenience functions, `LofL` and `LofC`, added to assist with overlaying multiple spectra in `plotSpectra2D`.  `LofL` = "List of Levels" and `LofC` = "List of Colors."
+
+## Significant Changes
+* The basic color scheme for contours was updated to use a perceptually consistent low/blue -> high/red scheme, based on the principles in the `colorspace` package.  The color-handling infrastructure was also changed to allow easy introduction of different color schemes in the future, though the user cannot yet make changes on the fly.
+* `inspectLvls` simplified and arguments changed; one can now inspect just a single spectrum or a range of spectra.
+* Function `calcLvls` rebuilt to be more consistent and logical.  Values will change slightly from previous values.
+
+## Improvements
+* Tick positions for `plotSpectra2D` when user specifies `xlim` and/or `ylim` is much more robust.  Function `.computeTicks` was removed as it was no longer needed.
+* Tick positions for `plotSlice` similarly made more robust.
+* Format options in `import2Dspectra` cleaned up (documentation and code).
+
+## Bugs avoided
+* `pfacSpectra2D` now allows control of the number of cores in use when using parallel processing.  This is to avoid multiple processes on the same shared machine each trying to use all the cores for themselves.  Per suggestion by Henrik Bengtsson on Twitter.
+
+## Bugs fixed
+* `inspectLvls` was not playing nice when argument `which` was a vector.
+* Fixed a problem with `.mapColors` in which `NA` could be returned as a color, which results in an unexpected black contour.  Now removes `NA` and gives a warning that the requested levels are beyond the range of the data.
+
+## Changes in ChemoSpecUtils that affect ChemoSpec2D
+* New color and symbol schemes for the groups are now provided for use during the import process.
+
+## Misc.
+* Documentation updates and improvement.
+* Added documentation for `updateGroups` which has been in `ChemoSpecUtils` for a while but effectively hidden from users of `ChemoSpec2D`.
+* Cleaned up some `roxygen2` warnings.
+* Unit test framework converted to `tinytest`.
+* Removed `robustbase` from suggests (not needed).
+* `.makeArray` gains a unit test.
+* Function `.rescale` rebuilt to be more flexible.
 
 # ChemoSpec2D 0.3.166 2019-06-09
 

@@ -4,9 +4,18 @@
 \alias{plotLoadings2D}
 \title{Plot Loadings from a PARAFAC, MIA or POP Analysis of a Spectra2D Object}
 \usage{
-plotLoadings2D(spectra, so, load = 1, ref = NULL, load_lvls = NULL,
-  ref_lvls = NULL, load_cols = NULL, ref_cols = NULL, plot = TRUE,
-  ...)
+plotLoadings2D(
+  spectra,
+  so,
+  load = 1,
+  ref = NULL,
+  load_lvls = NULL,
+  ref_lvls = NULL,
+  load_cols = NULL,
+  ref_cols = NULL,
+  plot = TRUE,
+  ...
+)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
@@ -72,6 +81,14 @@ a number of levels other than \code{n}, in which case the function will override
 assign new colors for the number of levels it computed (with a message).  To get
 exactly what you want, specify both levels and colors in equal numbers.  Function
 \code{\link{inspectLvls}} can help you choose appropriate levels.
+}
+
+\section{Overlaying Spectra}{
+
+If you specify more than one spectrum to plot, e.g. \code{which = c(1,2)}, then
+arguments \code{lvls} and \code{cols} must be lists of levels and colors, one list
+element for each spectrum to be plotted (if specified at all).  Two convenience functions exist to
+make this process easier: \code{\link{LofL}} and \code{\link{LofC}}. See the examples.
 }
 
 \seealso{

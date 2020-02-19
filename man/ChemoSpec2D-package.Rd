@@ -16,6 +16,7 @@ perspective.  In addition to chemometric tools, a few tools are provided for
 plotting 2D spectra, but these are not intended to replace the functionality
 typically available on the spectrometer. ChemoSpec2D takes many of its cues from
 ChemoSpec and tries to create consistent graphical output and to be very user friendly.
+A vignette is available.
 }
 \author{
 Bryan A. Hanson.

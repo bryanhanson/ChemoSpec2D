@@ -4,36 +4,43 @@
 \alias{calcLvls}
 \title{Calculate Levels for Contour and Image Type Plots}
 \usage{
-calcLvls(M, n = 10, mode = "even", lambda = 1, base = 2,
-  showHist = FALSE, ...)
+calcLvls(
+  M,
+  n = 10,
+  mode = "even",
+  lambda = 1.5,
+  base = 2,
+  showHist = FALSE,
+  ...
+)
 }
 \arguments{
-\item{M}{A numeric matrix.}
+\item{M}{A numeric matrix or vector.}
 
-\item{n}{For all methods except \code{ecdf}, an integer giving the number of
-levels desired.  For most modes this is used interally as \code{floor(n/2)}
-and the result doubled.  In addition,
-only the positive or negative levels may be selected, so you are not likely
-to actually get \code{n} levels most of the time (remember, you can always give
-your desired levels as a vector).  For \code{ecdf}, \code{n} should be one or
-more values in
-the interval (0...1).  For instance, a value of 0.6 corresponds to a single
-level in which 60 percent of the matrix values are below, and 40 percent
-above.}
+\item{n}{An integer giving the number of levels desired:
+\itemize{
+  \item For \code{mode = "even"} \code{n} evenly spaced levels are returned.
+  \item For \code{mode = "ecdf"}, \code{n} should be one or more values in the interval [0...1].
+        For instance, a value of 0.6 corresponds to a single level in which 60 percent
+        of the matrix values are below, and 40 percent above.
+ \item For all other values of \code{mode}, \code{n} is used internally as \code{floor(n/2)}
+       and the result eventually doubled in order to give a symmetric set of levels. In addition,
+       only the positive or negative levels may be selected, leaving you with
+       \code{floor(n/2)/2} levels.
+}}
 
 \item{mode}{Character.  One of \code{"even"}, \code{"log"}, \code{"exp"},
 \code{"ecdf"}, \code{"posexp"}, \code{"negexp"}, \code{"poslog"}, \code{"neglog"}
-or \code{NMR}.
-\code{"even"} will create evenly
+or \code{NMR}. \code{"even"} will create evenly
 spaced levels.  \code{"log"} will create levels which are more closely
 spaced at the high values, while \code{"exp"} does the opposite.  The pos- or
 neg- versions select just the positive or negative values.  \code{"ecdf"}
 computes levels at the requested quantiles of the matrix. \code{NMR} uses
-\code{log} but removes the levels closest to zero, which in NMR work will
-typically be too low for a good contour plot.}
+\code{exp}, \code{lambda = 2.0} and \code{n = 32}.  It also removes the four
+values closest to zero, where the data may be primarily noise.}
 
 \item{lambda}{Numeric.  A non-zero exponent used with \code{method = "exp"}
-and relatives.}
+and relatives.  Higher values push the levels toward zero.}
 
 \item{base}{Integer.  The base used with \code{method = "log"} and
 relatives.}
@@ -47,7 +54,7 @@ the chosen levels?}
 A numeric vector giving the levels.
 }
 \description{
-Given a matrix, this function will assist in selecting levels for preparing
+Given a matrix or vector input, this function will assist in selecting levels for preparing
 contour and image type plots.  For instance, levels can be spaced evenly,
 logrithmically, exponentially or using a cumulative distribution function.
 \code{NA} values are ignored.
@@ -58,13 +65,13 @@ set.seed(9)
 MM <- matrix(runif(100, -1, 1), nrow = 10) # test data
 tsts <- c("even", "log", "poslog", "exp", "posexp", "ecdf", "NMR")
 for (i in 1:length(tsts)) {
-	nl <- 10
-	if(tsts[i] == "ecdf")  nl <- seq(0.1, 0.9, 0.1)
-	levels <- calcLvls(M = MM, n = nl, mode = tsts[i],
-   showHist = TRUE, main = tsts[i])
-	}
-
-
+  nl <- 20
+  if (tsts[i] == "ecdf") nl <- seq(0.1, 0.9, 0.1)
+  levels <- calcLvls(
+    M = MM, n = nl, mode = tsts[i],
+    showHist = TRUE, main = tsts[i]
+  )
+}
 }
 \author{
 Bryan A. Hanson, DePauw University. \email{hanson@depauw.edu}

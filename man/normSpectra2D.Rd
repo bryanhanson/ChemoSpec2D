@@ -9,17 +9,17 @@ normSpectra2D(spectra, method = "zero2one")
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}} to be normalized.}
 
-\item{method}{One of \code{"TotInt"} or \code{"zero2one"} giving
-the method for normalization.  Other methods may be added in the future.}
+\item{method}{Character string giving the method for normalization.}
 }
 \value{
 An object of S3 class \code{\link{Spectra2D}}.
 }
 \description{
 This function carries out normalization of the spectra in a
-\code{\link{Spectra2D}} object.  There are currently two options:
+\code{\link{Spectra2D}} object.  The current options are:
 \itemize{
   \item \code{"zero2one"} normalizes each 2D spectrum to a [0 \ldots{} 1] scale.
+  \item \code{"minusPlus"} normalizes each 2D spectrum to a [-1 \ldots{} 1] scale.
   \item \code{"TotInt"} normalizes each 2D spectrum so that the total area is one.
 }
 }
@@ -29,10 +29,9 @@ data(MUD1)
 MUD1n <- normSpectra2D(MUD1)
 MUD1b <- removeFreq(MUD1, remF2 = 2.5 ~ 3.5)
 MUD1bn <- normSpectra2D(MUD1b)
-
 }
 \seealso{
-\code{link{centscaleSpectra2D}} for another means of scaling.
+\code{\link{centscaleSpectra2D}} for another means of scaling.
 }
 \author{
 Bryan A. Hanson, DePauw University.

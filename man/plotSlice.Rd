@@ -4,8 +4,7 @@
 \alias{plotSlice}
 \title{Plot a Slice of a Spectra2D Object}
 \usage{
-plotSlice(spectra, which = 1, F2 = NULL, F1 = NULL,
-  showGrid = TRUE, ...)
+plotSlice(spectra, which = 1, F2 = NULL, F1 = NULL, showGrid = TRUE, ...)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
@@ -13,9 +12,9 @@ plotSlice(spectra, which = 1, F2 = NULL, F1 = NULL,
 \item{which}{A single integer specifying which 2D spectrum from which to
 plot the slice.}
 
-\item{F2}{A single frequency to plot.}
+\item{F2}{A single frequency to plot.  Matched to the nearest value.}
 
-\item{F1}{A single frequency to plot.}
+\item{F1}{As for \code{F2}.}
 
 \item{showGrid}{Logical. If TRUE, show a dotted gray line at each x axis tick mark.}
 
@@ -36,7 +35,6 @@ Only one of \code{F2} or \code{F1} should be given.
 
 data(MUD1)
 plotSlice(MUD1, F1 = 22, main = "Slice @ F1 = 22 ppm")
-
 }
 \author{
 Bryan A. Hanson, DePauw University.

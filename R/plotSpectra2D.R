@@ -1,11 +1,11 @@
 #'
 #' Plot a Spectra2D Object
-#' 
+#'
 #' Plots a 2D spectrum stored in a \code{\link{Spectra2D}} object.
 #' This is primarily for inspection and for preparation of final plots.
 #' If you need to do extensive exploration, you should probably go back
 #' to the spectrometer.
-#' 
+#'
 #' @param spectra An object of S3 class \code{\link{Spectra2D}}.
 #'
 #' @param which An integer specifying which spectrum to plot.  May be a vector.
@@ -49,7 +49,8 @@
 #' @section Overlaying Spectra:
 #' If you specify more than one spectrum to plot, e.g. \code{which = c(1,2)}, then
 #' arguments \code{lvls} and \code{cols} must be lists of levels and colors, one list
-#' element for each spectrum to be plotted (if specified at all).  See the examples.
+#' element for each spectrum to be plotted (if specified at all).  Two convenience functions exist to
+#' make this process easier: \code{\link{LofL}} and \code{\link{LofC}}. See the examples.
 #'
 #' @return Side effect is a plot.
 #'
@@ -62,34 +63,48 @@
 #' @examples
 #'
 #' data(MUD1)
-#' mylvls <- seq(5, 35, 5)
-#' plotSpectra2D(MUD1, which = 7, lvls = mylvls,
-#'   main = "MUD1 Sample 7")
-#' plotSpectra2D(MUD1, which = c(6, 1), lvls = list(mylvls, mylvls),
-#'   cols = list(rep("black", 7), rep("red", 7)),
-#'   main = "MUD1 Sample 1 (red) & Sample 6 (black)\n(4 of 6 peaks overlap)")
+#' mylvls <- seq(5, 30, 5)
+#' plotSpectra2D(MUD1,
+#'   which = 7, lvls = mylvls,
+#'   main = "MUD1 Sample 7"
+#' )
 #'
+#' # Invert the screen which makes the colors pop!
+#' op <- par(no.readonly = TRUE)
+#' par(bg = "black", fg = "white", col.axis = "white", col.main = "white")
+#' plotSpectra2D(MUD1,
+#'   which = 7, lvls = mylvls,
+#'   main = "MUD1 Sample 7"
+#' )
+#' par(op)
+#'
+#' # Overlay multiple spectra:
+#'
+#' plotSpectra2D(MUD1,
+#'   which = c(6, 1), lvls = LofL(mylvls, 2),
+#'   cols = LofC(c("red", "black"), 2, length(mylvls), 2),
+#'   main = "MUD1 Sample 1 (red) & Sample 6 (black)\n(4 of 6 peaks overlap)"
+#' )
 plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL,
-  showNA = TRUE, showGrid = FALSE, ...) {
-	
+                          showNA = TRUE, showGrid = FALSE, ...) {
   .chkArgs(mode = 21L)
   chkSpectra(spectra)
-  
+
   # Stop if there are frequencies missing from the interior, this is misleading
   dF1 <- spectra$F1[2] - spectra$F1[1]
   diffF1 <- diff(spectra$F1)
   for (i in 1:length(diffF1)) {
-  	if (!isTRUE(all.equal(diffF1[i], dF1, scale = 1.0))) { # detects discontinuity
-  		stop("Cannot plot: missing frequencies along F1")
-  	}
+    if (!isTRUE(all.equal(diffF1[i], dF1, scale = 1.0))) { # detects discontinuity
+      stop("Cannot plot: missing frequencies along F1")
+    }
   }
 
   dF2 <- spectra$F2[2] - spectra$F2[1]
   diffF2 <- diff(spectra$F2)
   for (i in 1:length(diffF2)) {
-  	if (!isTRUE(all.equal(diffF2[i], dF2, scale = 1.0))) { # detects discontinuity
-  		stop("Cannot plot: missing frequencies along F2")
-  	}
+    if (!isTRUE(all.equal(diffF2[i], dF2, scale = 1.0))) { # detects discontinuity
+      stop("Cannot plot: missing frequencies along F2")
+    }
   }
 
   # Figure out how many spectra will be plotted and fix up levels and colors
@@ -97,43 +112,43 @@ plotSpectra2D <- function(spectra, which = 1, lvls = NULL, cols = NULL,
   # .plotEngine expects a list for each
   # .plotEngine will compute defaults if NULL is passed
 
-  
+
   if (length(which) == 1L) {
     lvls <- list(lvls) # list(NULL) works here
-    cols <- list(cols)  	
+    cols <- list(cols)
   }
 
   if (length(which) > 1L) {
-  	if (is.null(lvls)) lvls <- vector("list", length(which))
-  	if (is.null(cols)) cols <- vector("list", length(which))  	
+    if (is.null(lvls)) lvls <- vector("list", length(which))
+    if (is.null(cols)) cols <- vector("list", length(which))
   }
-  
+
   # Go plot
   op <- par(no.readonly = TRUE) # save to restore later
   par(mai = c(1.0, 0.5, 1.0, 1.0))
-  .plotEngine(spectra = spectra, which = which,
-    lvls = lvls, cols = cols, showGrid = showGrid, ...)
-  
+  .plotEngine(
+    spectra = spectra, which = which,
+    lvls = lvls, cols = cols, showGrid = showGrid, ...
+  )
+
   # Show NAs if requested
   if (showNA) {
-  	 	
-  	NAs <- .findNA(spectra)
-  	rNA <- NAs[[1]] # row NAs will be drawn as a horizontal line
-  	cNA <- NAs[[2]] # col NAs will be drawn as a vertical line
-  	
-  	if (length(cNA) != 0) {
-  		V <- cNA/length(spectra$F2)
-  		abline(v = V, col = "gray98", lwd = 2)
-  	}
-  	  	
-  	if (length(rNA) != 0) {
-  		H <- 1 - rNA/length(spectra$F1)
-  		abline(h = H, col = "gray98", lwd = 2)
-  	}
+    NAs <- .findNA(spectra)
+    rNA <- NAs[[1]] # row NAs will be drawn as a horizontal line
+    cNA <- NAs[[2]] # col NAs will be drawn as a vertical line
 
+    if (length(cNA) != 0) {
+      V <- cNA / length(spectra$F2)
+      abline(v = V, col = "gray98", lwd = 2)
+    }
+
+    if (length(rNA) != 0) {
+      H <- 1 - rNA / length(spectra$F1)
+      abline(h = H, col = "gray98", lwd = 2)
+    }
   } # end of showNA
-  
+
   # Add showScale = TRUE code?
-    
+
   on.exit(par(op)) # restore original values
 }

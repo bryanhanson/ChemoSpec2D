@@ -1,8 +1,6 @@
 
 ### Unit tests for centscaleSpectra2D
 
-library("ChemoSpec2D")
-
 # A tiny Spectra2D object for testing 
 tiny <- vector("list")
 tiny$F2 <- as.numeric(1:10)

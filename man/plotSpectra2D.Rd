@@ -4,8 +4,15 @@
 \alias{plotSpectra2D}
 \title{Plot a Spectra2D Object}
 \usage{
-plotSpectra2D(spectra, which = 1, lvls = NULL, cols = NULL,
-  showNA = TRUE, showGrid = FALSE, ...)
+plotSpectra2D(
+  spectra,
+  which = 1,
+  lvls = NULL,
+  cols = NULL,
+  showNA = TRUE,
+  showGrid = FALSE,
+  ...
+)
 }
 \arguments{
 \item{spectra}{An object of S3 class \code{\link{Spectra2D}}.}
@@ -67,19 +74,35 @@ exactly what you want, specify both levels and colors in equal numbers.  Functio
 
 If you specify more than one spectrum to plot, e.g. \code{which = c(1,2)}, then
 arguments \code{lvls} and \code{cols} must be lists of levels and colors, one list
-element for each spectrum to be plotted (if specified at all).  See the examples.
+element for each spectrum to be plotted (if specified at all).  Two convenience functions exist to
+make this process easier: \code{\link{LofL}} and \code{\link{LofC}}. See the examples.
 }
 
 \examples{
 
 data(MUD1)
-mylvls <- seq(5, 35, 5)
-plotSpectra2D(MUD1, which = 7, lvls = mylvls,
-  main = "MUD1 Sample 7")
-plotSpectra2D(MUD1, which = c(6, 1), lvls = list(mylvls, mylvls),
-  cols = list(rep("black", 7), rep("red", 7)),
-  main = "MUD1 Sample 1 (red) & Sample 6 (black)\\n(4 of 6 peaks overlap)")
+mylvls <- seq(5, 30, 5)
+plotSpectra2D(MUD1,
+  which = 7, lvls = mylvls,
+  main = "MUD1 Sample 7"
+)
 
+# Invert the screen which makes the colors pop!
+op <- par(no.readonly = TRUE)
+par(bg = "black", fg = "white", col.axis = "white", col.main = "white")
+plotSpectra2D(MUD1,
+  which = 7, lvls = mylvls,
+  main = "MUD1 Sample 7"
+)
+par(op)
+
+# Overlay multiple spectra:
+
+plotSpectra2D(MUD1,
+  which = c(6, 1), lvls = LofL(mylvls, 2),
+  cols = LofC(c("red", "black"), 2, length(mylvls), 2),
+  main = "MUD1 Sample 1 (red) & Sample 6 (black)\n(4 of 6 peaks overlap)"
+)
 }
 \author{
 Bryan A. Hanson, DePauw University.
