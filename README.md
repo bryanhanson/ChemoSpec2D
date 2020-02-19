@@ -1,4 +1,4 @@
-![](Banner.png)
+![](man/figures/Banner.png)
 
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![Downloads](https://cranlogs.r-pkg.org/badges/ChemoSpec2D)](https://cran.r-project.org/package=ChemoSpec2D) [![status](https://tinyverse.netlify.com/badge/ChemoSpec2D)](https://CRAN.R-project.org/package=ChemoSpec2D)
 
