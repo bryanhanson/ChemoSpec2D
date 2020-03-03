@@ -206,8 +206,9 @@ hats_alignSpectra2D <- function(spectra, maxF2 = NULL, maxF1 = NULL,
         plot = plot, debug = debug
       )
       if (debug >= 1L) {
-        DiagDF[i, "F2shift"] <- MBO$shift[1]
-        DiagDF[i, "F1shift"] <- MBO$shift[2]
+        # Values are negated here to correspond to plots
+        DiagDF[i, "F2shift"] <- -MBO$shift[1]
+        DiagDF[i, "F1shift"] <- -MBO$shift[2]
       }
     }
 
