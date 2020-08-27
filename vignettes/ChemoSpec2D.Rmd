@@ -22,7 +22,6 @@ output:
 link-citations: yes
 bibliography:
   - ChemoSpec2D.bib
-  - manuals.bib
 header-includes:
   - \usepackage{stackengine}
 ---
@@ -60,7 +59,7 @@ or
 
 where F2 and F1 are NMR-speak for the x- and y-axes/dimensions.  We will refer to this array as $\ubar{\mathbf{X}}$.  See Figure @ref(fig:3Darray).
 
-```{r 3Darray, out.width = "80%", echo = FALSE, fig.cap = "Configuration of data array $\ubar{\mathbf{X}}$. $I$, $J$ and $K$ are array indices; F2 and F1 are standard terms for NMR dimensions. The mode terminology is typically used in the PARAFAC literature.  This structure is also sometimes referred to as a data cube."}
+```{r 3Darray, out.width = "80%", echo = FALSE, fig.cap = "test"}
 knitr::include_graphics("3Darray.pdf")
 ```
 
