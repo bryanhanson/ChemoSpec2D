@@ -1,62 +1,28 @@
 ---
-title: An Introduction to ChemoSpec2D
-
-# Force pkgdown to use the pdf vignette and not override format/output
-pkgdown:
-  as_is: true
-  extension: pdf
-
-# Use letters for affiliations
+title:  "An Introduction to ChemoSpec2D"
 author:
-  - name: Bryan A. Hanson
-    affiliation: a
-
-address:
-  - code: a
-    address: Dept. of Chemistry \& Biochemistry, DePauw University; \url{hanson@depauw.edu}
-
-# Place DOI URL or CRAN Package URL here
-doi: "https://github.com/bryanhanson/ChemoSpec2D"
-
-# Abstract
-abstract: A collection of functions for exploratory chemometrics of 2D spectroscopic data sets such as COSY and HSQC NMR spectra. `ChemoSpec2D` deploys methods aimed primarily at classification of samples and the identification of spectral features which are important in distinguishing samples from each other. Each 2D spectrum (a matrix) is treated as the unit of observation, and thus the physical sample in the spectrometer corresponds to the  sample from a statistical perspective.  In addition to chemometric tools, a few tools are provided for plotting 2D spectra, but these are not intended to replace the functionality typically available on the spectrometer. `ChemoSpec2D` takes many of its cues from `ChemoSpec` and tries to create consistent graphical output and to be very user friendly.
-
-acknowledgements: I'd like to thank Teddy Zartler and Patrick Giraudeau for providing valuable test data sets.
-
-# Font size of the document, values of 9pt (default), 10pt, 11pt and 12pt
-fontsize: 10pt
-
-# Optional: Force one-column layout, default is two-column
-#one_column: true
-
-# Optional: Enable one-sided layout, default is two-sided
-#one_sided: true
-
-# Optional: Enable section numbering, default is unnumbered
-#numbersections: true
-
-# Optional: Specify the depth of section number, default is 5
-#secnumdepth: 5
-
-# Optional: Bibliography
-bibliography: ChemoSpec2D
-
-# Optional: Enable a 'Draft' watermark on the document
-watermark: false
-
-# Customize footer, eg by referencing the vignette
-footer_contents: "ChemoSpec2D"
-
-# Produce a pinp document
-output: pinp::pinp
-
-# Required: Vignette metadata for inclusion in a package.
-vignette: >
-  %\VignetteIndexEntry{ChemoSpec2D: Exploratory Chemometrics for 2D Spectroscopy}
-  %\VignetteKeywords{ChemoSpec2D,vignette, NMR, HSQC, COSY}
-  %\VignettePackage{ChemoSpec2D}
-  %\VignetteEngine{knitr::rmarkdown}
-
+  - name: Bryan A. Hanson^1^
+    email: hanson@depauw.edu
+    affiliation: |
+        1. Professor Emeritus of Chemistry & Biochemistry, DePauw University, Greencastle IN USA.
+date:  "`r Sys.Date()`"
+output:
+    bookdown::html_document2: # use for pkgdown site
+#    bookdown::pdf_document2: # use for CRAN to keep size down
+    toc: yes
+    toc_depth: 2
+    fig_caption: yes
+    number_sections: true # needed for section cross-refs to work
+    vignette: >
+      %\VignetteIndexEntry{ChemoSpec2D: Exploratory Chemometrics for 2D Spectroscopy}
+      %\VignetteKeywords{ChemoSpec2D,vignette, NMR, HSQC, COSY}
+      %\VignettePackage{ChemoSpec2D}
+      %\VignetteEngine{knitr::rmarkdown}
+      %\VignetteEncoding{UTF-8}
+link-citations: yes
+bibliography:
+  - ChemoSpec2D.bib
+  - manuals.bib
 header-includes:
   - \usepackage{stackengine}
 ---
