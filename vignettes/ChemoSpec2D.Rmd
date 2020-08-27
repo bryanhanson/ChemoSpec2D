@@ -8,6 +8,8 @@ author:
 date:  "`r Sys.Date()`"
 output:
     bookdown::html_document2: # use for pkgdown site
+      mathjax: local
+      self_contained: false
 #    bookdown::pdf_document2: # use for CRAN to keep size down
     toc: yes
     toc_depth: 2
