@@ -103,35 +103,3 @@ Here, $\odot$ represents the Khatri-Rao product, a matrix multiplication variant
 ## Interpretation
 
 Regardless of the mathematical representation or algorithmic solution, the results provide $\mathbf{A}$, $\mathbf{B}$ and $\mathbf{C}$.  Interpretation of the component matrices depends upon how $\ubar{\mathbf{X}}$ was constructed (i.e. which dimension represents the samples).  In the case of `ChemoSpec2D` $\mathbf{C}$ contains values analogous to scores in that they can be used to see how samples cluster (this is because the samples are the third dimension of $\ubar{\mathbf{X}}$).  Standard matrix multiplication of $\mathbf{A} \ \times \ \mathbf{B^T}$ for a particular column (component) gives a 2D loading plot (a pseudo-spectrum) showing the contributions (loadings) of each peak to the component. `ChemoSpec2D` uses the `R` package `multiway` to carry out PARAFAC (@Helwig2019).
-
-# Functions
-
-The list below gives each user-facing function and a brief description of what it does.  Full information is of course available via the help function, e.g. `?sumSpectra2D`.  Note that a number of the utility functions are actually in a supporting package called `ChemoSpecUtils` but are loaded automatically when activating `ChemoSpec2D`.
-
-* Utility Functions
-    * **files2Spectra2DObject** Imports 2D data sets.  The format options are currently a bit limited.  We welcome additional data sets for testing and extension of the input formats.
-    * **chkSpectra** Checks the integrity of a Spectra2D object.  This can be used directly and is also called by nearly every other function to ensure data integrity.
-    * **sumSpectra** Prints a short summary of the Spectra2D object.
-    * **sumGroups** Prints a short summary of the group membership of the spectra in a Spectra2D object.
-    * **removeGroup** Remove an entire group from a Spectra2D object.
-    * **removeSample** Remove one or more samples from a Spectra2D object.
-    * **removeFreq** Delete selected frequencies (on either dimension).
-    * **removePeaks2D** Set selected peaks to NA (on either dimension).
-    * **plotSpectra2D** Plots 2D spectra stored in a Spectra2D object, as a contour plot.  Detailed data exploration is probably better done on the spectrometer.  This function is for quick checks and also publication-quality plots.
-    * **plotSlice** Plots a slice of a 2D spectrum.
-    * **inspectLvls** An easy way to inspect the data in order to choose appropriate contour levels.
-    * **normSpectra2D** Normalizes the 2D spectra stored in a Spectra2D object.
-    * **centscaleSpectra2D** Centers and scales 2D spectra stored in a Spectra2D object.
-    * **hats_alignSpectra2D** Aligns 2D spectra using a modification of the HATS algorithm.
-    * **shiftSpectra2D** Manually shift/align spectra.
-    * **sampleDist** Plots the distance between samples using any of several standard distance measures.
-
-* Chemometric Functions
-    * **miaSpectra2D** Carries out MIA on a Spectra2D object, equivalent to a TUCKER1 analysis.
-    * **pfacSpectra2D** Carries out PARAFAC analysis of the Spectra2D object.
-    * **popSpectra2D** Carries out "plain old PCA" on a Spectra2D object.  The data is unstacked to a matrix before calculation.
-    * **plotScree** Plots scree plots.
-    * **plotScores**  Plots the scores. Useful for looking at how the samples cluster.
-    * **plotLoadings2D** Plots a 2D pseudo-spectrum showing which peaks contribute to each component.
-
-In addition, there are two data sets available for testing and demonstration.  See `?MUD` for details.
