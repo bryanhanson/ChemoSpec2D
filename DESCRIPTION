@@ -35,7 +35,8 @@ Suggests:
   RcppRoll,
   rmarkdown,
   pinp,
-  robustbase
+  robustbase,
+  bookdown
 URL: https://github.com/bryanhanson/ChemoSpec2D
 BugReports: https://github.com/bryanhanson/ChemoSpec2D/issues
 ByteCompile: TRUE
