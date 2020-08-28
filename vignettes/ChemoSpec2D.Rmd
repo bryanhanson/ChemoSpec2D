@@ -22,9 +22,6 @@ output:
 link-citations: yes
 bibliography:
   - ChemoSpec2D.bib
-header-includes:
-  - \usepackage{stackengine}
-  - \newcommand\ubar[1]{\stackunder[1.2pt]{$#1$}{\rule{1.2ex}{.075ex}}}
 ---
 
 <!-- Run a few things in the background for use later -->
@@ -56,7 +53,7 @@ or
 \mathrm{2D \ Spectrum} \times \mathrm{no. \ samples}
 \]
 
-where F2 and F1 are NMR-speak for the x- and y-axes/dimensions.  We will refer to this array as $\ubar{\mathbf{X}}$.  See Figure \@ref(fig:array3D).
+where F2 and F1 are NMR-speak for the x- and y-axes/dimensions.  We will refer to this array as $\underline{\mathbf{X}}$.  See Figure \@ref(fig:array3D).
 
 ```{r array3D, out.width = "60%", echo = FALSE, fig.cap = "Configuration of the data array. $I$, $J$ and $K$ are array indices; F2 and F1 are standard terms for NMR dimensions. The mode terminology is typically used in the PARAFAC literature.  This structure is also sometimes referred to as a data cube."}
 knitr::include_graphics("3Darray.png")
@@ -90,9 +87,9 @@ In comparison, PARAFAC decomposes a 3D data set into three matrices, and is tril
 x_{ijk} = \sum_{r = 1}^{R} a_{ir}b_{jr}c_{kr} + \epsilon_{ijk}
 \]
 
-Where $x_{ijk}$ is an element of the 3D data array $\ubar{\mathbf{X}}$. $a_{ir}$ is an element of the matrix $\mathbf{A}$, and so forth for $b$/$\mathbf{B}$ and $c$/$\mathbf{C}$.  $\epsilon$ is the error term.
+Where $x_{ijk}$ is an element of the 3D data array $\underline{\mathbf{X}}$. $a_{ir}$ is an element of the matrix $\mathbf{A}$, and so forth for $b$/$\mathbf{B}$ and $c$/$\mathbf{C}$.  $\epsilon$ is the error term.
 
-If $\ubar{\mathbf{X}}$ is flattened by taking the $K$-dimension slices and concatenating them left-to-right to give a matrix $\mathbf{X}$, then 2D matrix operations *can* provide a solution:
+If $\underline{\mathbf{X}}$ is flattened by taking the $K$-dimension slices and concatenating them left-to-right to give a matrix $\mathbf{X}$, then 2D matrix operations *can* provide a solution:
 
 \[
 \mathbf{X} = \mathbf{A}(\mathbf{C} \odot \mathbf{B})^T + \mathbf{E}
@@ -102,4 +99,6 @@ Here, $\odot$ represents the Khatri-Rao product, a matrix multiplication variant
 
 ## Interpretation
 
-Regardless of the mathematical representation or algorithmic solution, the results provide $\mathbf{A}$, $\mathbf{B}$ and $\mathbf{C}$.  Interpretation of the component matrices depends upon how $\ubar{\mathbf{X}}$ was constructed (i.e. which dimension represents the samples).  In the case of `ChemoSpec2D` $\mathbf{C}$ contains values analogous to scores in that they can be used to see how samples cluster (this is because the samples are the third dimension of $\ubar{\mathbf{X}}$).  Standard matrix multiplication of $\mathbf{A} \ \times \ \mathbf{B^T}$ for a particular column (component) gives a 2D loading plot (a pseudo-spectrum) showing the contributions (loadings) of each peak to the component. `ChemoSpec2D` uses the `R` package `multiway` to carry out PARAFAC (@Helwig2019).
+Regardless of the mathematical representation or algorithmic solution, the results provide $\mathbf{A}$, $\mathbf{B}$ and $\mathbf{C}$.  Interpretation of the component matrices depends upon how $\underline{\mathbf{X}}$ was constructed (i.e. which dimension represents the samples).  In the case of `ChemoSpec2D` $\mathbf{C}$ contains values analogous to scores in that they can be used to see how samples cluster (this is because the samples are the third dimension of $\underline{\mathbf{X}}$).  Standard matrix multiplication of $\mathbf{A} \ \times \ \mathbf{B^T}$ for a particular column (component) gives a 2D loading plot (a pseudo-spectrum) showing the contributions (loadings) of each peak to the component. `ChemoSpec2D` uses the `R` package `multiway` to carry out PARAFAC (@Helwig2019).
+
+# References
