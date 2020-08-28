@@ -22,6 +22,8 @@ output:
 link-citations: yes
 bibliography:
   - ChemoSpec2D.bib
+pkgdown:
+  as_is: true
 ---
 
 <!-- Run a few things in the background for use later -->
