@@ -96,7 +96,7 @@
 <p>This vignette is based upon <code>ChemoSpec2D</code> version 0.4.174.</p>
 <div id="background" class="section level1">
 <h1 class="hasAnchor">
-<a href="#background" class="anchor"></a>Background</h1>
+<a href="#background" class="anchor"></a><span class="header-section-number">1</span> Background</h1>
 <p><code>ChemoSpec2D</code> is designed to analyze 2D spectroscopic data such as COSY and HSQC NMR spectra using appropriate chemometric techniques. It deploys methods aimed primarily at classification of samples and the identification of spectral features which are important in distinguishing samples from each other. <code>ChemoSpec2D</code> stores and manipulates each spectrum as a matrix of data, and hence a data set is a collection of 2D spectra. Thus the entire data set is naturally visualized as a 3D array with dimensions:</p>
 <p><span class="math display">\[
 \mathrm{F2} \times \mathrm{F1} \times \mathrm{no. \ samples}
@@ -105,10 +105,11 @@
 <p><span class="math display">\[
 \mathrm{2D \ Spectrum} \times \mathrm{no. \ samples}
 \]</span></p>
-<p>where F2 and F1 are NMR-speak for the x- and y-axes/dimensions. We will refer to this array as <span class="math inline">\(\underline{\mathbf{X}}\)</span>. See Figure @ref(fig:array).</p>
+<p>where F2 and F1 are NMR-speak for the x- and y-axes/dimensions. We will refer to this array as <span class="math inline">\(\underline{\mathbf{X}}\)</span>. See Figure <a href="#fig:array">1.1</a>.</p>
 <div class="figure">
+<span id="fig:array"></span>
 <img src="3Darray.png" alt="Configuration of the data array. $I$, $J$ and $K$ are array indices; F2 and F1 are standard terms for NMR dimensions. The mode terminology is typically used in the PARAFAC literature.  This structure is also sometimes referred to as a data cube." width="60%"><p class="caption">
-Configuration of the data array. <span class="math inline">\(I\)</span>, <span class="math inline">\(J\)</span> and <span class="math inline">\(K\)</span> are array indices; F2 and F1 are standard terms for NMR dimensions. The mode terminology is typically used in the PARAFAC literature. This structure is also sometimes referred to as a data cube.
+Figure 1.1: Configuration of the data array. <span class="math inline">\(I\)</span>, <span class="math inline">\(J\)</span> and <span class="math inline">\(K\)</span> are array indices; F2 and F1 are standard terms for NMR dimensions. The mode terminology is typically used in the PARAFAC literature. This structure is also sometimes referred to as a data cube.
 </p>
 </div>
 <p><code>ChemoSpec2D</code> treats each spectrum/matrix as the unit of observation, and thus the physical sample that went into the spectrometer corresponds to the sample from a statistical perspective. Keeping this natural unit intact during analysis is referred to as a <em>strong</em> multi-way analysis. In a weak analysis, the 3D data set is unfolded into a series of contiguous 2D matrices and analyzed using methods suitable for any 2D data set (such methods are fundamentally bilinear) (<span class="citation">Huang et al. (<a href="#ref-Huang2003" role="doc-biblioref">2003</a>)</span>). In the weak approach, each slice of a 2D spectrum becomes just another 1D spectrum, and the relationship between the slices in a single 2D spectrum is lost. Oddly enough, the trilinear/strong analysis has fewer parameters to estimate so it is simpler, but computationally more demanding. The interpretation is also more straight-forward. These techniques are akin to PCA, and seek to <em>reduce the data to a limited number components represented by scores and loadings</em>. As with PCA, noise in the data set is reduced, and correlating variables are collapsed.</p>
@@ -121,10 +122,10 @@ Configuration of the data array. <span class="math inline">\(I\)</span>, <span c
 </div>
 <div id="parafac" class="section level1">
 <h1 class="hasAnchor">
-<a href="#parafac" class="anchor"></a>PARAFAC</h1>
+<a href="#parafac" class="anchor"></a><span class="header-section-number">2</span> PARAFAC</h1>
 <div id="theory-light" class="section level2">
 <h2 class="hasAnchor">
-<a href="#theory-light" class="anchor"></a>Theory (Light)</h2>
+<a href="#theory-light" class="anchor"></a><span class="header-section-number">2.1</span> Theory (Light)</h2>
 <p>PARAFAC is “parallel factor analysis.” This is a statistical technique that is somewhat analogous to PCA. Recall that PCA decomposes a 2D data set into scores and loadings, and is bilinear:</p>
 <p><span class="math display">\[
 \mathbf{X}^{(n \ \times \ p)} = \mathbf{C}^{(n \ \times \ R)} \times \mathbf{S}^{(R \ \times \ p)} + \mathbf{E}
@@ -143,7 +144,7 @@ x_{ijk} = \sum_{r = 1}^{R} a_{ir}b_{jr}c_{kr} + \epsilon_{ijk}
 </div>
 <div id="interpretation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#interpretation" class="anchor"></a>Interpretation</h2>
+<a href="#interpretation" class="anchor"></a><span class="header-section-number">2.2</span> Interpretation</h2>
 <p>Regardless of the mathematical representation or algorithmic solution, the results provide <span class="math inline">\(\mathbf{A}\)</span>, <span class="math inline">\(\mathbf{B}\)</span> and <span class="math inline">\(\mathbf{C}\)</span>. Interpretation of the component matrices depends upon how <span class="math inline">\(\underline{\mathbf{X}}\)</span> was constructed (i.e. which dimension represents the samples). In the case of <code>ChemoSpec2D</code> <span class="math inline">\(\mathbf{C}\)</span> contains values analogous to scores in that they can be used to see how samples cluster (this is because the samples are the third dimension of <span class="math inline">\(\underline{\mathbf{X}}\)</span>). Standard matrix multiplication of <span class="math inline">\(\mathbf{A} \ \times \ \mathbf{B^T}\)</span> for a particular column (component) gives a 2D loading plot (a pseudo-spectrum) showing the contributions (loadings) of each peak to the component. <code>ChemoSpec2D</code> uses the <code>R</code> package <code>multiway</code> to carry out PARAFAC (<span class="citation">Helwig (<a href="#ref-Helwig2019" role="doc-biblioref">2019</a>)</span>).</p>
 </div>
 </div>
@@ -175,9 +176,7 @@ x_{ijk} = \sum_{r = 1}^{R} a_{ir}b_{jr}c_{kr} + \epsilon_{ijk}
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
-</div>
+      </div>
 
 </div>
 
