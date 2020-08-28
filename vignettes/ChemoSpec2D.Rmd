@@ -8,8 +8,6 @@ author:
 date:  "`r Sys.Date()`"
 output:
     bookdown::html_document2: # use for pkgdown site
-      mathjax: local
-      self_contained: false
 #    bookdown::pdf_document2: # use for CRAN to keep size down
     toc: yes
     toc_depth: 2
@@ -26,9 +24,8 @@ bibliography:
   - ChemoSpec2D.bib
 header-includes:
   - \usepackage{stackengine}
+  - \newcommand\ubar[1]{\stackunder[1.2pt]{$#1$}{\rule{1.2ex}{.075ex}}}
 ---
-
-\newcommand\ubar[1]{\stackunder[1.2pt]{$#1$}{\rule{1.2ex}{.075ex}}}
 
 <!-- Run a few things in the background for use later -->
 ```{r SetUp, echo = FALSE, eval = TRUE, results = "hide"}
@@ -59,10 +56,10 @@ or
 \mathrm{2D \ Spectrum} \times \mathrm{no. \ samples}
 \]
 
-where F2 and F1 are NMR-speak for the x- and y-axes/dimensions.  We will refer to this array as $\ubar{\mathbf{X}}$.  See Figure @ref(fig:3Darray).
+where F2 and F1 are NMR-speak for the x- and y-axes/dimensions.  We will refer to this array as $\ubar{\mathbf{X}}$.  See Figure \@ref(fig:array3D).
 
-```{r 3Darray, out.width = "80%", echo = FALSE, fig.cap = "test"}
-knitr::include_graphics("3Darray.pdf")
+```{r array3D, out.width = "60%", echo = FALSE, fig.cap = "Configuration of the data array. $I$, $J$ and $K$ are array indices; F2 and F1 are standard terms for NMR dimensions. The mode terminology is typically used in the PARAFAC literature.  This structure is also sometimes referred to as a data cube."}
+knitr::include_graphics("3Darray.png")
 ```
 
 
@@ -105,7 +102,7 @@ Here, $\odot$ represents the Khatri-Rao product, a matrix multiplication variant
 
 ## Interpretation
 
-Regardless of the mathematical representation or algorithmic solution, the results provide $\mathbf{A}$, $\mathbf{B}$ and $\mathbf{C}$.  Interpretation of the component matrices depends upon how $\ubar{\mathbf{X}}$ was constructed (i.e. which dimension represents the samples).  In the case of `ChemoSpec2D` $\mathbf{C}$ contains values analogous to scores in that they can be used to see how samples cluster (this is because the samples are the third dimension of $\ubar{\mathbf{X}}$).  Standard matrix multiplication of $\mathbf{A} \ \times \ \mathbf{B^T}$ for a particular column (component) gives a 2D loading plot (a pseudo-spectrum) showing the contributions (loadings) of each peak to the component. `ChemoSpec2D` uses the `R` package `multiway` to carry out PARAFAC (@Helwig2017).
+Regardless of the mathematical representation or algorithmic solution, the results provide $\mathbf{A}$, $\mathbf{B}$ and $\mathbf{C}$.  Interpretation of the component matrices depends upon how $\ubar{\mathbf{X}}$ was constructed (i.e. which dimension represents the samples).  In the case of `ChemoSpec2D` $\mathbf{C}$ contains values analogous to scores in that they can be used to see how samples cluster (this is because the samples are the third dimension of $\ubar{\mathbf{X}}$).  Standard matrix multiplication of $\mathbf{A} \ \times \ \mathbf{B^T}$ for a particular column (component) gives a 2D loading plot (a pseudo-spectrum) showing the contributions (loadings) of each peak to the component. `ChemoSpec2D` uses the `R` package `multiway` to carry out PARAFAC (@Helwig2019).
 
 # Functions
 
