@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ChemoSpec2D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.167</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.174</span>
       </span>
     </div>
 
@@ -93,7 +93,7 @@
     
     
 <!-- Run a few things in the background for use later -->
-<p>This vignette is based upon <code>ChemoSpec2D</code> version 0.4.167.</p>
+<p>This vignette is based upon <code>ChemoSpec2D</code> version 0.4.174.</p>
 <div id="background" class="section level1">
 <h1 class="hasAnchor">
 <a href="#background" class="anchor"></a>Background</h1>
@@ -105,7 +105,7 @@
 <p><span class="math display">\[
 \mathrm{2D \ Spectrum} \times \mathrm{no. \ samples}
 \]</span></p>
-<p>where F2 and F1 are NMR-speak for the x- and y-axes/dimensions. We will refer to this array as <span class="math inline">\(\stackunder[1.2pt]{$\mathbf{X}$}{\rule{1.2ex}{.075ex}}\)</span>. See Figure @ref(fig:array3D).</p>
+<p>where F2 and F1 are NMR-speak for the x- and y-axes/dimensions. We will refer to this array as <span class="math inline">\(\underline{\mathbf{X}}\)</span>. See Figure @ref(fig:array3D).</p>
 <div class="figure">
 <img src="3Darray.png" alt="Configuration of the data array. $I$, $J$ and $K$ are array indices; F2 and F1 are standard terms for NMR dimensions. The mode terminology is typically used in the PARAFAC literature.  This structure is also sometimes referred to as a data cube." width="60%"><p class="caption">
 Configuration of the data array. <span class="math inline">\(I\)</span>, <span class="math inline">\(J\)</span> and <span class="math inline">\(K\)</span> are array indices; F2 and F1 are standard terms for NMR dimensions. The mode terminology is typically used in the PARAFAC literature. This structure is also sometimes referred to as a data cube.
@@ -134,8 +134,8 @@ Configuration of the data array. <span class="math inline">\(I\)</span>, <span c
 <p><span class="math display">\[
 x_{ijk} = \sum_{r = 1}^{R} a_{ir}b_{jr}c_{kr} + \epsilon_{ijk}
 \]</span></p>
-<p>Where <span class="math inline">\(x_{ijk}\)</span> is an element of the 3D data array <span class="math inline">\(\stackunder[1.2pt]{$\mathbf{X}$}{\rule{1.2ex}{.075ex}}\)</span>. <span class="math inline">\(a_{ir}\)</span> is an element of the matrix <span class="math inline">\(\mathbf{A}\)</span>, and so forth for <span class="math inline">\(b\)</span>/<span class="math inline">\(\mathbf{B}\)</span> and <span class="math inline">\(c\)</span>/<span class="math inline">\(\mathbf{C}\)</span>. <span class="math inline">\(\epsilon\)</span> is the error term.</p>
-<p>If <span class="math inline">\(\stackunder[1.2pt]{$\mathbf{X}$}{\rule{1.2ex}{.075ex}}\)</span> is flattened by taking the <span class="math inline">\(K\)</span>-dimension slices and concatenating them left-to-right to give a matrix <span class="math inline">\(\mathbf{X}\)</span>, then 2D matrix operations <em>can</em> provide a solution:</p>
+<p>Where <span class="math inline">\(x_{ijk}\)</span> is an element of the 3D data array <span class="math inline">\(\underline{\mathbf{X}}\)</span>. <span class="math inline">\(a_{ir}\)</span> is an element of the matrix <span class="math inline">\(\mathbf{A}\)</span>, and so forth for <span class="math inline">\(b\)</span>/<span class="math inline">\(\mathbf{B}\)</span> and <span class="math inline">\(c\)</span>/<span class="math inline">\(\mathbf{C}\)</span>. <span class="math inline">\(\epsilon\)</span> is the error term.</p>
+<p>If <span class="math inline">\(\underline{\mathbf{X}}\)</span> is flattened by taking the <span class="math inline">\(K\)</span>-dimension slices and concatenating them left-to-right to give a matrix <span class="math inline">\(\mathbf{X}\)</span>, then 2D matrix operations <em>can</em> provide a solution:</p>
 <p><span class="math display">\[
 \mathbf{X} = \mathbf{A}(\mathbf{C} \odot \mathbf{B})^T + \mathbf{E}
 \]</span></p>
@@ -144,68 +144,12 @@ x_{ijk} = \sum_{r = 1}^{R} a_{ir}b_{jr}c_{kr} + \epsilon_{ijk}
 <div id="interpretation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#interpretation" class="anchor"></a>Interpretation</h2>
-<p>Regardless of the mathematical representation or algorithmic solution, the results provide <span class="math inline">\(\mathbf{A}\)</span>, <span class="math inline">\(\mathbf{B}\)</span> and <span class="math inline">\(\mathbf{C}\)</span>. Interpretation of the component matrices depends upon how <span class="math inline">\(\stackunder[1.2pt]{$\mathbf{X}$}{\rule{1.2ex}{.075ex}}\)</span> was constructed (i.e. which dimension represents the samples). In the case of <code>ChemoSpec2D</code> <span class="math inline">\(\mathbf{C}\)</span> contains values analogous to scores in that they can be used to see how samples cluster (this is because the samples are the third dimension of <span class="math inline">\(\stackunder[1.2pt]{$\mathbf{X}$}{\rule{1.2ex}{.075ex}}\)</span>). Standard matrix multiplication of <span class="math inline">\(\mathbf{A} \ \times \ \mathbf{B^T}\)</span> for a particular column (component) gives a 2D loading plot (a pseudo-spectrum) showing the contributions (loadings) of each peak to the component. <code>ChemoSpec2D</code> uses the <code>R</code> package <code>multiway</code> to carry out PARAFAC (<span class="citation">Helwig (<a href="#ref-Helwig2019" role="doc-biblioref">2019</a>)</span>).</p>
+<p>Regardless of the mathematical representation or algorithmic solution, the results provide <span class="math inline">\(\mathbf{A}\)</span>, <span class="math inline">\(\mathbf{B}\)</span> and <span class="math inline">\(\mathbf{C}\)</span>. Interpretation of the component matrices depends upon how <span class="math inline">\(\underline{\mathbf{X}}\)</span> was constructed (i.e. which dimension represents the samples). In the case of <code>ChemoSpec2D</code> <span class="math inline">\(\mathbf{C}\)</span> contains values analogous to scores in that they can be used to see how samples cluster (this is because the samples are the third dimension of <span class="math inline">\(\underline{\mathbf{X}}\)</span>). Standard matrix multiplication of <span class="math inline">\(\mathbf{A} \ \times \ \mathbf{B^T}\)</span> for a particular column (component) gives a 2D loading plot (a pseudo-spectrum) showing the contributions (loadings) of each peak to the component. <code>ChemoSpec2D</code> uses the <code>R</code> package <code>multiway</code> to carry out PARAFAC (<span class="citation">Helwig (<a href="#ref-Helwig2019" role="doc-biblioref">2019</a>)</span>).</p>
 </div>
 </div>
-<div id="functions" class="section level1">
+<div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
-<a href="#functions" class="anchor"></a>Functions</h1>
-<p>The list below gives each user-facing function and a brief description of what it does. Full information is of course available via the help function, e.g. <code>?sumSpectra2D</code>. Note that a number of the utility functions are actually in a supporting package called <code>ChemoSpecUtils</code> but are loaded automatically when activating <code>ChemoSpec2D</code>.</p>
-<ul>
-<li>Utility Functions
-<ul>
-<li>
-<strong>files2Spectra2DObject</strong> Imports 2D data sets. The format options are currently a bit limited. We welcome additional data sets for testing and extension of the input formats.</li>
-<li>
-<strong>chkSpectra</strong> Checks the integrity of a Spectra2D object. This can be used directly and is also called by nearly every other function to ensure data integrity.</li>
-<li>
-<strong>sumSpectra</strong> Prints a short summary of the Spectra2D object.</li>
-<li>
-<strong>sumGroups</strong> Prints a short summary of the group membership of the spectra in a Spectra2D object.</li>
-<li>
-<strong>removeGroup</strong> Remove an entire group from a Spectra2D object.</li>
-<li>
-<strong>removeSample</strong> Remove one or more samples from a Spectra2D object.</li>
-<li>
-<strong>removeFreq</strong> Delete selected frequencies (on either dimension).</li>
-<li>
-<strong>removePeaks2D</strong> Set selected peaks to NA (on either dimension).</li>
-<li>
-<strong>plotSpectra2D</strong> Plots 2D spectra stored in a Spectra2D object, as a contour plot. Detailed data exploration is probably better done on the spectrometer. This function is for quick checks and also publication-quality plots.</li>
-<li>
-<strong>plotSlice</strong> Plots a slice of a 2D spectrum.</li>
-<li>
-<strong>inspectLvls</strong> An easy way to inspect the data in order to choose appropriate contour levels.</li>
-<li>
-<strong>normSpectra2D</strong> Normalizes the 2D spectra stored in a Spectra2D object.</li>
-<li>
-<strong>centscaleSpectra2D</strong> Centers and scales 2D spectra stored in a Spectra2D object.</li>
-<li>
-<strong>hats_alignSpectra2D</strong> Aligns 2D spectra using a modification of the HATS algorithm.</li>
-<li>
-<strong>shiftSpectra2D</strong> Manually shift/align spectra.</li>
-<li>
-<strong>sampleDist</strong> Plots the distance between samples using any of several standard distance measures.</li>
-</ul>
-</li>
-<li>Chemometric Functions
-<ul>
-<li>
-<strong>miaSpectra2D</strong> Carries out MIA on a Spectra2D object, equivalent to a TUCKER1 analysis.</li>
-<li>
-<strong>pfacSpectra2D</strong> Carries out PARAFAC analysis of the Spectra2D object.</li>
-<li>
-<strong>popSpectra2D</strong> Carries out “plain old PCA” on a Spectra2D object. The data is unstacked to a matrix before calculation.</li>
-<li>
-<strong>plotScree</strong> Plots scree plots.</li>
-<li>
-<strong>plotScores</strong> Plots the scores. Useful for looking at how the samples cluster.</li>
-<li>
-<strong>plotLoadings2D</strong> Plots a 2D pseudo-spectrum showing which peaks contribute to each component.</li>
-</ul>
-</li>
-</ul>
-<p>In addition, there are two data sets available for testing and demonstration. See <code><a href="../reference/MUD.html">?MUD</a></code> for details.</p>
+<a href="#references" class="anchor"></a>References</h1>
 <div id="refs" class="references">
 <div id="ref-Bro2003b">
 <p>Bro, R, and AK Smilde. 2003. “Centering and Scaling in Component Analysis.” <em>Journal of Chemometrics</em> 17 (1): 16–33. <a href="https://doi.org/10.1002/cem.773">https://doi.org/10.1002/cem.773</a>.</p>
