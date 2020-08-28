@@ -73,7 +73,7 @@ jobs:
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning",
+        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran", "--resave-data"), error_on = "error",
             check_dir = "check")
         shell: Rscript {0}
 
