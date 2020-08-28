@@ -53,9 +53,9 @@ or
 \mathrm{2D \ Spectrum} \times \mathrm{no. \ samples}
 \]
 
-where F2 and F1 are NMR-speak for the x- and y-axes/dimensions.  We will refer to this array as $\underline{\mathbf{X}}$.  See Figure \@ref(fig:array3D).
+where F2 and F1 are NMR-speak for the x- and y-axes/dimensions.  We will refer to this array as $\underline{\mathbf{X}}$.  See Figure \@ref(fig:array).
 
-```{r array3D, out.width = "60%", echo = FALSE, fig.cap = "Configuration of the data array. $I$, $J$ and $K$ are array indices; F2 and F1 are standard terms for NMR dimensions. The mode terminology is typically used in the PARAFAC literature.  This structure is also sometimes referred to as a data cube."}
+```{r array, out.width = "60%", echo = FALSE, fig.cap = "Configuration of the data array. $I$, $J$ and $K$ are array indices; F2 and F1 are standard terms for NMR dimensions. The mode terminology is typically used in the PARAFAC literature.  This structure is also sometimes referred to as a data cube."}
 knitr::include_graphics("3Darray.png")
 ```
 
