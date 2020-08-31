@@ -23,7 +23,7 @@ link-citations: yes
 bibliography:
   - ChemoSpec2D.bib
 pkgdown:
-  as_is: true
+  as_is: true # needed for proper figure referencing
 ---
 
 <!-- Run a few things in the background for use later -->

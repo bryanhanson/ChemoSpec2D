@@ -175,7 +175,6 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
                                   fileExt = "\\.(csv|CSV)$",
                                   out.file = "mydata", debug = 0, chk = TRUE,
                                   allowSloppy = FALSE, ...) {
-
   if (!requireNamespace("R.utils", quietly = TRUE)) {
     stop("You need to install package R.utils to use this function")
   }
@@ -259,7 +258,6 @@ files2Spectra2DObject <- function(gr.crit = NULL, gr.cols = "auto",
           assign("counter", curVal + 1, envir = env)
           setTxtProgressBar(get("pb", envir = env), curVal + 1)
         }
-
       }
 
       # Assign groups & colors

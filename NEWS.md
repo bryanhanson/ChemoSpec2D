@@ -1,3 +1,8 @@
+# ChemoSpec2D 0.4.176 2020-08-30
+## Misc.
+* Documentation (`pkgdown` site) is now automated via CI.
+* Build & check via CI now active.
+
 # ChemoSpec2D 0.4.156 2020-03-02
 ## Bugs Fixed
 * Reporting of shifts from `hats_alignSpectra2D` has been corrected.  Only the reporting was foobar'ed.  The alignment worked fine.  Defaults for plots also improved.

@@ -148,7 +148,7 @@
   }
 
   if (plot) plot(res, alpha = FALSE, marked = "best")
-  
+
   bestY <- res$x$x[1] # Note that the returned value of x1 corresponds to rows and hence y values
   bestX <- res$x$x[2]
 
