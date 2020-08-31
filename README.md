@@ -1,6 +1,11 @@
-![](man/figures/Banner.png)
+<img src="man/figures/Banner.png"/>
 
-[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)](http://www.repostatus.org/#active) [![Downloads](https://cranlogs.r-pkg.org/badges/ChemoSpec2D)](https://cran.r-project.org/package=ChemoSpec2D) [![status](https://tinyverse.netlify.com/badge/ChemoSpec2D)](https://CRAN.R-project.org/package=ChemoSpec2D)
+<!-- Each image below is embedded in an empty link which gives space around each badge -->
+
+
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)]() [![Build & Check](https://github.com/bryanhanson/ChemoSpec2D/workflows/Build-Check/badge.svg)]() [![Docs Current](https://github.com/bryanhanson/ChemoSpec2D/workflows/Update-Docs/badge.svg)]()
+
+[![CRAN status](https://www.r-pkg.org/badges/version-last-release/ChemoSpec2D)]() [![metacran downloads](https://cranlogs.r-pkg.org/badges/grand-total/ChemoSpec2D)]() [![Downloads](https://cranlogs.r-pkg.org/badges/ChemoSpec2D)]() [![status](https://tinyverse.netlify.com/badge/ChemoSpec2D)]()
 
 ## What is ChemoSpec2D?
 

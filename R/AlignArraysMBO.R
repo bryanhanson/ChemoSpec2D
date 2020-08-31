@@ -130,7 +130,7 @@
     predict.type = "se",
     covtype = "matern3_2"
   )
-  ctrl <- mlrMBO::makeMBOControl()
+  ctrl <- mlrMBO::makeMBOControl(y.name = "distance")
   ctrl <- mlrMBO::setMBOControlTermination(ctrl, iters = no.it)
   ctrl <- mlrMBO::setMBOControlInfill(ctrl,
     crit = mlrMBO::makeMBOInfillCritEI(),
@@ -147,12 +147,12 @@
     suppressWarnings(res <- mlrMBO::mbo(objF, des, surrogate, ctrl, show.info = FALSE))
   }
 
-  if (plot) plot(res)
+  if (plot) plot(res, alpha = FALSE, marked = "best")
 
   bestY <- res$x$x[1] # Note that the returned value of x1 corresponds to rows and hence y values
   bestX <- res$x$x[2]
 
-  if (debug >= 1) cat("[ChemoSpec2D] Best alignment is to shift F2 by ", -bestX, " and F1 by ", -bestY, "\n\n")
+  if (debug >= 1) cat("[ChemoSpec2D] Best alignment is to shift F2 by ", bestX, " and F1 by ", bestY, "\n\n")
 
   # Step 3. Create the modified mask
   # The mask (Mask) is "moved", not the reference

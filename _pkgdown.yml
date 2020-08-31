@@ -1,6 +1,10 @@
 template:
   params:
+<<<<<<< HEAD
     bootswatch: cerulean
+=======
+    bootswatch: united
+>>>>>>> devel
 
 reference:
 - title: "Importing Data"

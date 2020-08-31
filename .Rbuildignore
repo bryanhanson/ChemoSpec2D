@@ -2,4 +2,5 @@ README.md
 Rbuildignore.txt
 gitignore.txt
 .Rhistory
-Banner.png
+_pkgdown.yml
+.github
