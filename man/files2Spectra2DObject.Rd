@@ -34,6 +34,7 @@ names that don't match entries in \code{gr.crit} or there are entries in
 \itemize{
   \item Legacy behavior and the default: The word \code{"auto"}, in which case up to 8 colors will
         be automatically assigned from package \code{RColorBrewer Set1}.
+  \item \code{"Col7"}. A unique set of up to 7 colorblind-friendly colors is used.
   \item \code{"Col8"}. A unique set of up to 8 colors is used.
   \item \code{"Col12"}. A mostly paired set of up to 12 colors is used.
   \item A vector of acceptable color designations with the same length as \code{gr.crit}.
