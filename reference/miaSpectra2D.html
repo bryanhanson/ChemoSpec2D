@@ -74,7 +74,7 @@ Function pcasup1 from package ThreeWay is used." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ChemoSpec2D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.176</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.180</span>
       </span>
     </div>
 
@@ -82,7 +82,7 @@ Function pcasup1 from package ThreeWay is used." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -99,7 +99,7 @@ Function pcasup1 from package ThreeWay is used." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/bryanhanson/ChemoSpec2D/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -127,7 +127,7 @@ Function pcasup1 from package ThreeWay is used." />
 Function <code><a href='https://rdrr.io/pkg/ThreeWay/man/pcasup1.html'>pcasup1</a></code> from package <span class="pkg">ThreeWay</span> is used.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>miaSpectra2D</span>(<span class='no'>spectra</span>)</pre>
+    <pre class="usage"><span class='fu'>miaSpectra2D</span><span class='op'>(</span><span class='va'>spectra</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -156,11 +156,15 @@ spectroscopic uses of the terms.</p>
 
     <div class='dont-index'><p>For other data reduction methods for <code>Spectra2D</code> objects, see
 <code><a href='pfacSpectra2D.html'>pfacSpectra2D</a></code> and <code><a href='popSpectra2D.html'>popSpectra2D</a></code>.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Bryan A. Hanson, DePauw University.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>MUD1</span>)
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>miaSpectra2D</span>(<span class='no'>MUD1</span>)</div><div class='output co'>#&gt; PCASUP: eigenvalues mode C
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>MUD1</span><span class='op'>)</span>
+<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>miaSpectra2D</span><span class='op'>(</span><span class='va'>MUD1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; PCASUP: eigenvalues mode C
 #&gt;         Eigenvalue Fit(%)
 #&gt; Comp.1    92964.50  79.89
 #&gt; Comp.2     6995.23  85.90
@@ -171,17 +175,21 @@ spectroscopic uses of the terms.</p>
 #&gt; Comp.7     1132.67  99.19
 #&gt; Comp.8      528.56  99.65
 #&gt; Comp.9      263.81  99.87
-#&gt; Comp.10     148.99 100.00</div><div class='input'><span class='fu'><a href='plotScores.html'>plotScores</a></span>(<span class='no'>MUD1</span>, <span class='no'>res</span>, <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"MIA Scores"</span>, <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>1.0</span>, <span class='kw'>ellipse</span> <span class='kw'>=</span> <span class='st'>"cls"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in (function (spectra, so, pcs = c(1, 2), ellipse = "none", tol = "none",     use.sym = FALSE, leg.loc = "topright", ...) {    args &lt;- as.list(match.call())[-1]    if (length(pcs) != 2)         stop("You must choose exactly two PC's to plot")    case &lt;- NULL    if (inherits(spectra, "Spectra"))         case &lt;- "PCA"    if (inherits(spectra, "Spectra2D"))         case &lt;- "MIA"    if (inherits(so, "pop"))         case &lt;- "PCA"    if (is.null(case))         stop("Could not reconcile data object and scores object.")    if ((case == "MIA") &amp;&amp; (use.sym))         stop("ChemoSpec2D does not support use.sym")    chkSpectra(spectra)    if (case == "PCA")         DF &lt;- data.frame(so$x[, pcs], group = spectra$groups)    if (case == "MIA")         DF &lt;- data.frame(so$C[, pcs], group = spectra$groups)    GRPS &lt;- dlply(DF, "group", subset, select = c(1, 2))    if ((ellipse == "cls") || (ellipse == "rob") || (ellipse ==         "both")) {        gr &lt;- sumGroups(spectra)        for (n in 1:length(gr$group)) {            if (gr$no.[n] == 1)                 message("Group ", gr$group[n], "\n\thas only 1 member (no ellipse possible)")            if (gr$no.[n] == 2)                 message("Group ", gr$group[n], "\n\thas only 2 members (no ellipse possible)")            if (gr$no.[n] == 3)                 message("Group ", gr$group[n], "\n\thas only 3 members (ellipse not drawn)")        }        idx &lt;- which(gr$no. &gt; 3)        gr &lt;- gr[idx, ]        ELL &lt;- llply(GRPS[idx], .computeEllipses)        x.scores &lt;- range(llply(GRPS, subset, select = 1))        y.scores &lt;- range(llply(GRPS, subset, select = 2))        x.ell &lt;- range(llply(ELL, function(x) {            range(x[1])        }))        y.ell &lt;- range(llply(ELL, function(x) {            range(x[2])        }))        x.ell.r &lt;- range(llply(ELL, function(x) {            range(x[4])        }))        y.ell.r &lt;- range(llply(ELL, function(x) {            range(x[5])        }))        x.all &lt;- range(x.scores, x.ell, x.ell.r)        x.all &lt;- x.all + diff(x.all) * 0.05 * c(-1, 1.15)        y.all &lt;- range(y.scores, y.ell, y.ell.r)        y.all &lt;- y.all + diff(x.all) * 0.05 * c(-1, 1.15)    }    if (ellipse == "none") {        x.scores &lt;- range(llply(GRPS, subset, select = 1))        y.scores &lt;- range(llply(GRPS, subset, select = 2))        x.all &lt;- range(x.scores) + diff(range(x.scores)) * 0.05 *             c(-1, 1.15)        y.all &lt;- range(y.scores) + diff(range(y.scores)) * 0.05 *             c(-1, 1.15)    }    dPargs &lt;- list(PCs = DF[, 1:2], spectra = spectra, case = case,         use.sym = use.sym, ... = ...)    if (!"xlim" %in% names(args))         dPargs &lt;- c(dPargs, list(xlim = x.all))    if (!"ylim" %in% names(args))         dPargs &lt;- c(dPargs, list(ylim = y.all))    do.call(.drawPoints, dPargs)    if ((ellipse == "cls") | (ellipse == "rob") | (ellipse ==         "both"))         .drawEllipses(ELL, gr, ellipse, use.sym, ...)    if (case == "PCA") {        .addMethod(so)        if (leg.loc != "none")             .addLegend(spectra, leg.loc, use.sym, bty = "n")        .addEllipseInfo(ellipse)    }    if (case == "MIA") {        if (leg.loc != "none")             .addLegend(spectra, leg.loc, use.sym = FALSE, bty = "n")        .addEllipseInfo(ellipse)    }    if (tol != "none")         .labelExtremes(DF[, 1:2], spectra$names, tol)})(spectra = MUD1, so = res, ellipse = "cls", tol = 1, main = "MIA Scores",     xlab = "Component 1 (79.89%)", ylab = "Component 2 (6.01%)",     use.sym = FALSE): object 'res' not found</span></div><div class='input'><span class='fu'><a href='plotScree.html'>plotScree</a></span>(<span class='no'>res</span>)</div><div class='img'><img src='miaSpectra2D-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>MUD1a</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='plotLoadings2D.html'>plotLoadings2D</a></span>(<span class='no'>MUD1</span>, <span class='no'>res</span>,
-  <span class='kw'>load_lvls</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(-<span class='fl'>90</span>, <span class='fl'>0</span>, <span class='fl'>10</span>),
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"MIA Comp. 1 Loadings"</span>
-)</div><div class='img'><img src='miaSpectra2D-2.png' alt='' width='700' height='433' /></div><div class='input'>
+#&gt; Comp.10     148.99 100.00</div><div class='input'><span class='fu'><a href='plotScores.html'>plotScores</a></span><span class='op'>(</span><span class='va'>MUD1</span>, <span class='va'>res</span>, main <span class='op'>=</span> <span class='st'>"MIA Scores"</span>, tol <span class='op'>=</span> <span class='fl'>1.0</span>, ellipse <span class='op'>=</span> <span class='st'>"cls"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in (function (spectra, so, pcs = c(1, 2), ellipse = "none", tol = "none",     use.sym = FALSE, leg.loc = "topright", ...) {    args &lt;- as.list(match.call())[-1]    if (length(pcs) != 2)         stop("You must choose exactly two PC's to plot")    case &lt;- NULL    if (inherits(spectra, "Spectra"))         case &lt;- "PCA"    if (inherits(spectra, "Spectra2D"))         case &lt;- "MIA"    if (inherits(so, "pop"))         case &lt;- "PCA"    if (is.null(case))         stop("Could not reconcile data object and scores object.")    if ((case == "MIA") &amp;&amp; (use.sym))         stop("ChemoSpec2D does not support use.sym")    chkSpectra(spectra)    if (case == "PCA")         DF &lt;- data.frame(so$x[, pcs], group = spectra$groups)    if (case == "MIA")         DF &lt;- data.frame(so$C[, pcs], group = spectra$groups)    GRPS &lt;- dlply(DF, "group", subset, select = c(1, 2))    if ((ellipse == "cls") || (ellipse == "rob") || (ellipse ==         "both")) {        gr &lt;- sumGroups(spectra)        for (n in 1:length(gr$group)) {            if (gr$no.[n] == 1)                 message("Group ", gr$group[n], "\n\thas only 1 member (no ellipse possible)")            if (gr$no.[n] == 2)                 message("Group ", gr$group[n], "\n\thas only 2 members (no ellipse possible)")            if (gr$no.[n] == 3)                 message("Group ", gr$group[n], "\n\thas only 3 members (ellipse not drawn)")        }        idx &lt;- which(gr$no. &gt; 3)        gr &lt;- gr[idx, ]        ELL &lt;- llply(GRPS[idx], .computeEllipses)        x.scores &lt;- range(llply(GRPS, subset, select = 1))        y.scores &lt;- range(llply(GRPS, subset, select = 2))        x.ell &lt;- range(llply(ELL, function(x) {            range(x[1])        }))        y.ell &lt;- range(llply(ELL, function(x) {            range(x[2])        }))        x.ell.r &lt;- range(llply(ELL, function(x) {            range(x[4])        }))        y.ell.r &lt;- range(llply(ELL, function(x) {            range(x[5])        }))        x.all &lt;- range(x.scores, x.ell, x.ell.r)        x.all &lt;- x.all + diff(x.all) * 0.05 * c(-1, 1.15)        y.all &lt;- range(y.scores, y.ell, y.ell.r)        y.all &lt;- y.all + diff(x.all) * 0.05 * c(-1, 1.15)    }    if (ellipse == "none") {        x.scores &lt;- range(llply(GRPS, subset, select = 1))        y.scores &lt;- range(llply(GRPS, subset, select = 2))        x.all &lt;- range(x.scores) + diff(range(x.scores)) * 0.05 *             c(-1, 1.15)        y.all &lt;- range(y.scores) + diff(range(y.scores)) * 0.05 *             c(-1, 1.15)    }    dPargs &lt;- list(PCs = DF[, 1:2], spectra = spectra, case = case,         use.sym = use.sym, ... = ...)    if (!"xlim" %in% names(args))         dPargs &lt;- c(dPargs, list(xlim = x.all))    if (!"ylim" %in% names(args))         dPargs &lt;- c(dPargs, list(ylim = y.all))    do.call(.drawPoints, dPargs)    if ((ellipse == "cls") | (ellipse == "rob") | (ellipse ==         "both"))         .drawEllipses(ELL, gr, ellipse, use.sym, ...)    if (case == "PCA") {        .addMethod(so)        if (leg.loc != "none")             .addLegend(spectra, leg.loc, use.sym, bty = "n")        .addEllipseInfo(ellipse)    }    if (case == "MIA") {        if (leg.loc != "none")             .addLegend(spectra, leg.loc, use.sym = FALSE, bty = "n")        .addEllipseInfo(ellipse)    }    if (tol != "none")         .labelExtremes(DF[, 1:2], spectra$names, tol)})(spectra = MUD1, so = res, ellipse = "cls", tol = 1, main = "MIA Scores",     xlab = "Component 1 (79.89%)", ylab = "Component 2 (6.01%)",     use.sym = FALSE): object 'res' not found</span></div><div class='input'><span class='fu'><a href='plotScree.html'>plotScree</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>
+</div><div class='img'><img src='miaSpectra2D-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>MUD1a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='plotLoadings2D.html'>plotLoadings2D</a></span><span class='op'>(</span><span class='va'>MUD1</span>, <span class='va'>res</span>,
+  load_lvls <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>90</span>, <span class='fl'>0</span>, <span class='fl'>10</span><span class='op'>)</span>,
+  main <span class='op'>=</span> <span class='st'>"MIA Comp. 1 Loadings"</span>
+<span class='op'>)</span>
+</div><div class='img'><img src='miaSpectra2D-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Selection of loading matrix levels can be aided by the following</span>
 <span class='co'># Use MUD1a$names to find the index of the loadings</span>
 
-<span class='fu'><a href='inspectLvls.html'>inspectLvls</a></span>(<span class='no'>MUD1a</span>,
-  <span class='kw'>which</span> <span class='kw'>=</span> <span class='fl'>11</span>, <span class='kw'>ylim</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>80</span>),
-  <span class='kw'>main</span> <span class='kw'>=</span> <span class='st'>"Histogram of Loadings Matrix"</span>
-)</div><div class='img'><img src='miaSpectra2D-3.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='inspectLvls.html'>inspectLvls</a></span><span class='op'>(</span><span class='va'>MUD1a</span>,
+  which <span class='op'>=</span> <span class='fl'>11</span>, ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>80</span><span class='op'>)</span>,
+  main <span class='op'>=</span> <span class='st'>"Histogram of Loadings Matrix"</span>
+<span class='op'>)</span>
+</div><div class='img'><img src='miaSpectra2D-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -197,7 +205,7 @@ spectroscopic uses of the terms.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

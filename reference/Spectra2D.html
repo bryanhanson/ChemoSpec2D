@@ -75,7 +75,7 @@ files2Spectra2DObject." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ChemoSpec2D</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.176</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4.180</span>
       </span>
     </div>
 
@@ -83,7 +83,7 @@ files2Spectra2DObject." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,7 +100,7 @@ files2Spectra2DObject." />
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/bryanhanson/ChemoSpec2D/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -170,11 +170,15 @@ w</p><table class='table'>
 <code><a href='https://rdrr.io/pkg/ChemoSpecUtils/man/sumGroups.html'>sumGroups</a></code> to summarize group membership of a <code>Spectra2D</code>
 object. <code><a href='https://rdrr.io/pkg/ChemoSpecUtils/man/chkSpectra.html'>chkSpectra</a></code> to verify the integrity of a
 <code>Spectra2D</code> object.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Bryan A. Hanson, DePauw University.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>MUD1</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='no'>MUD1</span>)</div><div class='output co'>#&gt; List of 8
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>MUD1</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>MUD1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; List of 8
 #&gt;  $ F2    : num [1:100] 0 0.0505 0.101 0.1515 0.202 ...
 #&gt;  $ F1    : num [1:50] 10 11.4 12.9 14.3 15.7 ...
 #&gt;  $ data  :List of 10
@@ -193,7 +197,8 @@ object. <code><a href='https://rdrr.io/pkg/ChemoSpecUtils/man/chkSpectra.html'>c
 #&gt;  $ colors: chr [1:10] "black" "black" "black" "black" ...
 #&gt;  $ units :  expression(""^1 * H ~ ppm, ""^13 * C ~ ppm, "intensity")
 #&gt;  $ desc  : chr "MUD1: HSQC-like data for testing. See ?MUD1"
-#&gt;  - attr(*, "class")= chr "Spectra2D"</div><div class='input'><span class='fu'><a href='sumSpectra.html'>sumSpectra</a></span>(<span class='no'>MUD1</span>)</div><div class='output co'>#&gt; 
+#&gt;  - attr(*, "class")= chr "Spectra2D"</div><div class='input'><span class='fu'><a href='sumSpectra.html'>sumSpectra</a></span><span class='op'>(</span><span class='va'>MUD1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt;  MUD1: HSQC-like data for testing. See ?MUD1 
 #&gt; 
 #&gt; 	There are 10 spectra in this set.
@@ -227,7 +232,7 @@ object. <code><a href='https://rdrr.io/pkg/ChemoSpecUtils/man/chkSpectra.html'>c
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
