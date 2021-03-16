@@ -2,7 +2,7 @@ on:
   push:
     branches:
       - master
-      - devel
+
 
 name: Update-Docs
 
