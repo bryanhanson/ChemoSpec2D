@@ -36,7 +36,8 @@ Suggests:
   rmarkdown,
   pinp,
   robustbase,
-  bookdown
+  bookdown,
+  CMLS
 URL: https://github.com/bryanhanson/ChemoSpec2D
 BugReports: https://github.com/bryanhanson/ChemoSpec2D/issues
 ByteCompile: TRUE
