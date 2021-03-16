@@ -1,10 +1,10 @@
-# ChemoSpec2D 0.4.xxxxx
+# ChemoSpec2D 0.4.180 2020-03-15
 ## Changes in ChemoSpecUtils that affect ChemoSpec2D
 * Documentation of `...` in `sumSpectra` corrected to show how to pass `tol` to `check4Gaps`.
 * Option to use `Col7` a palette of 7 colorblind-friendly colors added to `files2Spectra2DObject` documentation.
 
 ## Misc.
-* Checked against `R` 4.04 RC
+* Checked against `R` 4.1 RC
 
 # ChemoSpec2D 0.4.176 2020-08-30
 ## Misc.
