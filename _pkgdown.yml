@@ -1,7 +1,7 @@
 template:
   params:
     bootswatch: united
-    
+
 reference:
 - title: "Importing Data"
   contents:
@@ -31,6 +31,9 @@ reference:
   - '`plotScree`'
   - '`plotLoadings2D`'
   - '`showScale`'
+  - '`LofC`'
+  - '`LofL`'
+  - '`colorSymbol`'
 
 - title: "Exploratory Data Analysis"
   contents:
@@ -54,3 +57,6 @@ reference:
   - '`inspectLvls`'
   - '`shiftSpectra2D`'
   - '`sampleDist`'
+  - '`computeVolume`'
+  - '`updateGroups`'
+  - '`ChemoSpec2D-package`'
