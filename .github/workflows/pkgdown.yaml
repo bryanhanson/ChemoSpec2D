@@ -40,7 +40,7 @@ jobs:
           # Install pkgs needed for this script
           remotes::install_cran("rcmdcheck")
           remotes::install_cran("roxygen2")
-          remotes::install_cran("pkgdown")
+          install.packages("pkgdown")
         shell: Rscript {0}
 
       - name: Roxygenize
