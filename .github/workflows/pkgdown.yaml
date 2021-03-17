@@ -41,6 +41,7 @@ jobs:
           remotes::install_cran("rcmdcheck")
           remotes::install_cran("roxygen2")
           install.packages("pkgdown")
+          install.packages("textshaping") # temp fix?
         shell: Rscript {0}
 
       - name: Roxygenize
