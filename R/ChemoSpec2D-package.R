@@ -35,8 +35,8 @@
 #' @importFrom ChemoSpecUtils removeFreq removeGroup removeSample
 #' @export removeFreq removeGroup removeSample
 #'
-#' @importFrom ChemoSpecUtils plotScree plotScores
-#' @export  plotScree plotScores
+#' @importFrom ChemoSpecUtils plotScree plotScores chkReqGraphicsPkgs
+#' @export  plotScree plotScores chkReqGraphicsPkgs
 #'
 #' @importFrom ChemoSpecUtils .findNA .getLimits check4Gaps .chkArgs .addLegend
 #' @export  .findNA .getLimits check4Gaps .chkArgs .addLegend
