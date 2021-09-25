@@ -39,10 +39,14 @@ deviation. \code{"autoscale"} is called "standard normal variate" or "correlatio
 in some literature.  This action is performed on the unstacked matrix, as is centering.
 }
 \examples{
+library("ggplot2")
 data(MUD1)
 res <- popSpectra2D(MUD1)
-plotScores(MUD1, res, main = "POP Scores", ellipse = "cls")
-plotScree(res)
+p1 <- plotScores(MUD1, res, ellipse = "cls")
+p1 <- p1 + ggtitle("POP Scores")
+p1
+p2 <- plotScree(res)
+p2
 MUD1a <- plotLoadings2D(MUD1, res,
   load_lvls = c(-0.2, -0.1, 0.1, 0.2),
   load_cols = rep("black", 4), main = "POP Comp. 1 Loadings"

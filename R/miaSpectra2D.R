@@ -30,13 +30,17 @@
 #' spectroscopic uses of the terms.
 #'
 #' @export
+#' @importFrom ggplot2 ggtitle
 #'
 #' @examples
-#'
+#' library("ggplot2")
 #' data(MUD1)
 #' res <- miaSpectra2D(MUD1)
-#' plotScores(MUD1, res, main = "MIA Scores", tol = 1.0, ellipse = "cls")
-#' plotScree(res)
+#' p1 <- plotScores(MUD1, res, tol = 1.0, ellipse = "cls")
+#' p1 <- p1 + ggtitle("MIA Scores")
+#' p1
+#' p2 <- plotScree(res)
+#' p2
 #' MUD1a <- plotLoadings2D(MUD1, res,
 #'   load_lvls = seq(-90, 0, 10),
 #'   main = "MIA Comp. 1 Loadings"

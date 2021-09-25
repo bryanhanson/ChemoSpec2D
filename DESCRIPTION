@@ -17,7 +17,8 @@ Imports:
   tools,
   utils,
   colorspace,
-  readJDX
+  readJDX,
+  ggplot2
 Suggests:
   knitr,
   tinytest,

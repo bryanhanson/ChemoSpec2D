@@ -53,14 +53,14 @@
 #' @importFrom parallel makeCluster clusterEvalQ stopCluster detectCores clusterSetRNGStream
 #'
 #' @examples
-#'
+#' library("ggplot2")
 #' data(MUD1)
 #' set.seed(123)
 #' res <- pfacSpectra2D(MUD1, parallel = FALSE, nfac = 2)
-#' plotScores(MUD1, res,
-#'   leg.loc = "topright",
-#'   ellipse = "cls", main = "PARAFAC Score Plot"
-#' )
+#' p1 <- plotScores(MUD1, res, leg.loc = "topright", ellipse = "cls")
+#' p1 <- p1 + ggtitle("PARAFAC Score Plot")
+#' p1
+#'
 #' res1 <- plotLoadings2D(MUD1, res,
 #'   load_lvls = c(1, 5, 10, 15, 25),
 #'   main = "PARAFAC Comp. 1 Loadings"
