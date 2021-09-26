@@ -35,7 +35,6 @@ Suggests:
   lhs,
   RcppRoll,
   rmarkdown,
-  pinp,
   robustbase,
   bookdown,
   CMLS
