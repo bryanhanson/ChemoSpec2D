@@ -47,7 +47,6 @@
 #'  A. Smilde, R. Bro and P. Geladi
 #' "Multi-way Analysis: Applications in the Chemical Sciences" Wiley (2004).
 #'
-#'
 #' @export
 #'
 #' @importFrom parallel makeCluster clusterEvalQ stopCluster detectCores clusterSetRNGStream
@@ -57,28 +56,31 @@
 #' data(MUD1)
 #' set.seed(123)
 #' res <- pfacSpectra2D(MUD1, parallel = FALSE, nfac = 2)
+#'
+#' # plotScores uses ggplot2 graphics
+#'
 #' p1 <- plotScores(MUD1, res, leg.loc = "topright", ellipse = "cls")
 #' p1 <- p1 + ggtitle("PARAFAC Score Plot")
 #' p1
 #'
+#' # plotLoadings2D uses base graphics
+#'
 #' res1 <- plotLoadings2D(MUD1, res,
 #'   load_lvls = c(1, 5, 10, 15, 25),
-#'   main = "PARAFAC Comp. 1 Loadings"
-#' )
+#'   main = "PARAFAC Comp. 1 Loadings")
 #' res2 <- plotLoadings2D(MUD1, res,
 #'   load_lvls = c(1, 5, 10, 15, 25),
 #'   ref = 2, ref_lvls = seq(5, 35, 5),
 #'   ref_cols = rep("black", 7),
-#'   main = "PARAFAC Comp. 1 Loadings + Ref. Spectrum"
-#' )
+#'   main = "PARAFAC Comp. 1 Loadings + Ref. Spectrum")
 #'
 #' # Selection of loading matrix levels can be aided by the following
 #' # Use res1$names to find the index of the loadings
 #'
 #' inspectLvls(res1,
 #'   which = 11, ylim = c(0, 50),
-#'   main = "Histogram of Loadings Matrix"
-#' )
+#'   main = "Histogram of Loadings Matrix")
+#'
 pfacSpectra2D <- function(spectra, parallel = FALSE, setup = FALSE, nfac = 2, ...) {
   .chkArgs(mode = 21L)
   chkSpectra(spectra)
