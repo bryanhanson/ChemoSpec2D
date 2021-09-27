@@ -1,3 +1,19 @@
+# ChemoSpec2D 0.5.0 2020-09-26
+## Significant Changes to Graphics Output
+* Courtesy GSOC and Tejasvi Gupta, the following plotting functions gain the ability to produce either `base` graphics, `ggplot2` or `plotly` graphics:
+  - `plotScores`
+  - `plotScree`
+
+Both of these functions are actually in `ChemoSpecUtils` and called on behalf of the user when needed.
+
+* The `ggplot2` graphics output are generally similar in layout and spirit to the `base` graphics output, but significant improvements have been made in labeling data points using the `ggrepel` package.  And of course the `ggplot2` graphics can be modified after creation through the usual mechanisms.
+* The `plotly` graphics output are interactive plots which can be used for better understanding the data. `plotly` provides tools such as zoom, interactive labels and custom positioning which are very useful.
+* The graphics output options can be chosen by `options(ChemoSpecGraphics = "option")`.
+* See the details in new help file `?GraphicsOptions`.
+
+## Misc.
+* Functions with the `leg.loc` argument now allow much more flexibility with regard to how the legend is positioned.  See the documentation.
+
 # ChemoSpec2D 0.4.187 2020-03-15
 ## Changes in ChemoSpecUtils that affect ChemoSpec2D
 * Documentation of `...` in `sumSpectra` corrected to show how to pass `tol` to `check4Gaps`.
