@@ -1,4 +1,4 @@
-# ChemoSpec2D 0.5.0 2020-09-26
+# ChemoSpec2D 0.5.0 2020-10-09
 ## Significant Changes to Graphics Output
 * Courtesy GSOC and Tejasvi Gupta, the following plotting functions gain the ability to produce either `base` graphics, `ggplot2` or `plotly` graphics:
   - `plotScores`
