@@ -1,8 +1,8 @@
 Package: ChemoSpec2D
 Type: Package
 Title: Exploratory Chemometrics for 2D Spectroscopy
-Version: 0.4.187
-Date: 2021-03-15
+Version: 0.5.0
+Date: 2021-10-09
 Authors@R: c(
     person("Bryan A.", "Hanson",
     role = c("aut", "cre"), email =
@@ -12,12 +12,13 @@ Description: A collection of functions for exploratory chemometrics of 2D spectr
 License: GPL-3
 Depends:
     R (>= 3.5),
-    ChemoSpecUtils (>= 0.3)
+    ChemoSpecUtils (>= 1.0)
 Imports:
   tools,
   utils,
   colorspace,
-  readJDX
+  readJDX,
+  ggplot2
 Suggests:
   knitr,
   tinytest,
@@ -34,7 +35,6 @@ Suggests:
   lhs,
   RcppRoll,
   rmarkdown,
-  pinp,
   robustbase,
   bookdown,
   CMLS
@@ -43,4 +43,5 @@ BugReports: https://github.com/bryanhanson/ChemoSpec2D/issues
 ByteCompile: TRUE
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
+Remotes: bryanhanson/ChemoSpecUtils

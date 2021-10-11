@@ -85,6 +85,7 @@
 #' @examples
 #' \dontrun{
 #' set.seed(123)
+#' library("ggally") # for diagnostic plots
 #' data(MUD2)
 #' sumSpectra(MUD2)
 #' mylvls <- seq(3, 30, 3)

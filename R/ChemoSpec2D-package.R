@@ -30,15 +30,15 @@
 #  The following import/export business based on stackoverflow.com/a/35118850/633251
 #'
 #' @importFrom ChemoSpecUtils chkSpectra sumSpectra sumGroups
-#' @export  chkSpectra sumSpectra sumGroups
+#' @export                    chkSpectra sumSpectra sumGroups
 #'
 #' @importFrom ChemoSpecUtils removeFreq removeGroup removeSample
-#' @export removeFreq removeGroup removeSample
+#' @export                    removeFreq removeGroup removeSample
 #'
-#' @importFrom ChemoSpecUtils plotScree plotScores
-#' @export  plotScree plotScores
+#' @importFrom ChemoSpecUtils plotScree plotScores .chkReqGraphicsPkgs
+#' @export                    plotScree plotScores .chkReqGraphicsPkgs
 #'
 #' @importFrom ChemoSpecUtils .findNA .getLimits check4Gaps .chkArgs .addLegend
-#' @export  .findNA .getLimits check4Gaps .chkArgs .addLegend
+#' @export                    .findNA .getLimits check4Gaps .chkArgs .addLegend
 #'
 NULL
