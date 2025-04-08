@@ -1,7 +1,8 @@
-# ChemoSpec2D 0.5.1 2025-04-07
+# ChemoSpec2D 0.5.1 2025-04-08
 ## Misc.
 * Branch `master` renamed to `main` with updates to `README.md` etc
 * Fix a few broken links for CRAN and general compliance as needed.
+* No user-facing changes.
 
 # ChemoSpec2D 0.5.0 2020-10-09
 ## Significant Changes to Graphics Output
