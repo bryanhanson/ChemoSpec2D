@@ -1,3 +1,8 @@
+# ChemoSpec2D 0.5.1 2025-04-07
+## Misc.
+* Branch `master` renamed to `main` with updates to `README.md` etc
+* Fix a few broken links for CRAN and general compliance as needed.
+
 # ChemoSpec2D 0.5.0 2020-10-09
 ## Significant Changes to Graphics Output
 * Courtesy GSOC and Tejasvi Gupta, the following plotting functions gain the ability to produce either `base` graphics, `ggplot2` or `plotly` graphics:

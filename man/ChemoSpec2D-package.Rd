@@ -18,6 +18,14 @@ typically available on the spectrometer. ChemoSpec2D takes many of its cues from
 ChemoSpec and tries to create consistent graphical output and to be very user friendly.
 A vignette is available.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/bryanhanson/ChemoSpec2D}
+  \item Report bugs at \url{https://github.com/bryanhanson/ChemoSpec2D/issues}
+}
+
+}
 \author{
 Bryan A. Hanson.
 

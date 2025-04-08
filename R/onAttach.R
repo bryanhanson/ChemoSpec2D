@@ -5,7 +5,7 @@
   options(ChemoSpecGraphics = "ggplot2")
   .chkReqGraphicsPkgs("ggplot2")
 
-  packageStartupMessage("\nAs of version 6, ChemoSpec2D offers new graphics output options")
+  packageStartupMessage("\nAs of version 6 of ChemoSpec, ChemoSpec2D offers new graphics output options")
   packageStartupMessage("\nFunctions plotScores and plotScree will work with the new options")
   packageStartupMessage("For details, please see ?GraphicsOptions")
   packageStartupMessage("\nThe ChemoSpec graphics option is set to 'ggplot2'")

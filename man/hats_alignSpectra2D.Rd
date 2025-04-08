@@ -30,7 +30,7 @@ cover the region \code{-maxF2} \ldots \code{maxF2} and \code{-maxF1}
 \item{maxF1}{Integer.  As for \code{maxF2}, but for F1.}
 
 \item{dist_method}{Character. The distance method to use in the objective function.
-See \code{\link{rowDist}} for options.}
+See \code{\link[ChemoSpecUtils]{rowDist}} for options.}
 
 \item{minimize}{Logical. Is the goal to minimize the objective function?  If so, use \code{TRUE}.}
 

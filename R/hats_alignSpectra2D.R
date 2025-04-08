@@ -39,7 +39,7 @@
 #'        align the spectra. Use \code{plot = TRUE} to see this in action.
 #'
 #' @param dist_method Character. The distance method to use in the objective function.
-#'        See \code{\link{rowDist}} for options.
+#'        See \code{\link[ChemoSpecUtils]{rowDist}} for options.
 #'
 #' @param plot Logical. Shall a plot of the alignment progress be made?  The plot is useful for
 #'        diagnostic purposes.  Every step of the alignment has a corresponding plot so you should

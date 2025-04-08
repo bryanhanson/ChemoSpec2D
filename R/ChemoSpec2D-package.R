@@ -19,8 +19,6 @@
 #'
 #' @aliases ChemoSpec2D-package ChemoSpec2D
 #'
-#' @docType package
-#'
 #' @author Bryan A. Hanson.
 #'
 #' Maintainer: Bryan A. Hanson \email{hanson@@depauw.edu}
@@ -41,4 +39,4 @@
 #' @importFrom ChemoSpecUtils .findNA .getLimits check4Gaps .chkArgs .addLegend
 #' @export                    .findNA .getLimits check4Gaps .chkArgs .addLegend
 #'
-NULL
+"_PACKAGE"
