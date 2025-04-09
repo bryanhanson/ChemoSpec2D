@@ -191,15 +191,15 @@ hats_alignSpectra2D <- function(spectra, maxF2 = NULL, maxF1 = NULL,
       DiagDF[i, "Mask"] <- paste(m, collapse = ", ")
     }
 
-    Ref <- .makeArray2(spectra, r)
-    Mask <- .makeArray2(spectra, m)
+    Ref <- ChemoSpec2D:::.makeArray2(spectra, r)
+    Mask <- ChemoSpec2D:::.makeArray2(spectra, m)
 
     # If fill != noise the zeros will be added later in .shiftArray
     if (fill == "noise") NS2 <- NS[m, , , drop = FALSE] else NS2 <- NULL
 
     if (method == "MBO") {
       mlr::configureMlr() # see github.com/mlr-org/mlr/issues/2141
-      MBO <- .AlignArraysMBO(Ref, Mask,
+      MBO <- ChemoSpec2D:::.AlignArraysMBO(Ref, Mask,
         maxColShift = maxF2, maxRowShift = maxF1,
         dist_method = dist_method, minimize = minimize, thres = thres,
         no.it = no.it, restarts = restarts,
