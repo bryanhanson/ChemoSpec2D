@@ -1,4 +1,4 @@
-# ChemoSpec2D 0.5.1 2025-04-08
+# ChemoSpec2D 0.5.1 2025-04-09
 ## Misc.
 * Branch `master` renamed to `main` with updates to `README.md` etc
 * Fix a few broken links for CRAN and general compliance as needed.
