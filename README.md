@@ -3,7 +3,7 @@
 <!-- Each image below is embedded in an empty link which gives space around each badge -->
 
 
-[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)]() [![Build & Check](https://github.com/bryanhanson/ChemoSpec2D/workflows/build_check.yaml/badge.svg)]() [![Docs Current](https://github.com/bryanhanson/ChemoSpec2D/workflows/pkgdown.yaml/badge.svg)]()
+[![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](http://www.repostatus.org/badges/latest/active.svg)]() [![Build & Check](https://github.com/bryanhanson/ChemoSpec2D/workflows/Build-Check.yaml/badge.svg)]() [![Docs Current](https://github.com/bryanhanson/ChemoSpec2D/workflows/Documentation.yaml/badge.svg)]()
 
 [![CRAN status](https://www.r-pkg.org/badges/version-last-release/ChemoSpec2D)]() [![metacran downloads](https://cranlogs.r-pkg.org/badges/grand-total/ChemoSpec2D)]() [![Downloads](https://cranlogs.r-pkg.org/badges/ChemoSpec2D)]()
 
