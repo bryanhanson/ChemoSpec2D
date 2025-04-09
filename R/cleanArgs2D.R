@@ -7,8 +7,6 @@
 #'
 #' @return A modified list of arguments.
 #'
-#'
-# The following is needed because sometimes func = "readJDX"
 #' @importFrom readJDX readJDX
 #'
 #' @noRd
