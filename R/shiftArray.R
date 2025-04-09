@@ -27,7 +27,6 @@
 #' }
 #'
 #' @importFrom stats rnorm
-#' @export
 #' @noRd
 #'
 

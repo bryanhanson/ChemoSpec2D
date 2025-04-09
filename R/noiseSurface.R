@@ -17,7 +17,6 @@
 #'
 #'
 #' @noRd
-#' @export
 #'
 
 .noiseSurface <- function(spectra) {

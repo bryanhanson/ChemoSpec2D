@@ -66,7 +66,6 @@
 #' @return A list with two elements: 1. The aligned matrix, which is a shifted version of the mask (AA).
 #'         2. A length two integer vector containing the optimal x and y shifts (shift).
 #'
-#' @export
 #' @noRd
 #'
 

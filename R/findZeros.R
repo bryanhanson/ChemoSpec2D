@@ -12,7 +12,6 @@
 #'
 #' @importFrom stats na.omit
 #' @noRd
-#' @export
 #'
 
 .findZeros <- function(spectra) {

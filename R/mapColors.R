@@ -9,7 +9,6 @@
 #' Note that if one is plotting a loading, then the computation of range may be greatly
 #' skewed by the loadings entry.  For now, live with it, levels can always be provided.
 #'
-#' @export
 #' @noRd
 #'
 .mapColors <- function(spectra, lvls) {

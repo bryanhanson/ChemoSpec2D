@@ -1,7 +1,6 @@
 #' Evaluate Array Overlap Using MBO
 #'
 #' @importFrom ChemoSpecUtils rowDist
-#' @export
 #' @noRd
 #'
 

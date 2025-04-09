@@ -32,7 +32,6 @@
 #' @keywords hplot
 #'
 #' @importFrom graphics axis box mtext abline contour text axTicks
-#' @export
 #' @noRd
 #'
 

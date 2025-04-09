@@ -1,7 +1,6 @@
 #'
 #' Make an Array/Data Cube from a Spectra2D Object
 #'
-#' @export
 #' @noRd
 #'
 
@@ -24,7 +23,6 @@
 #' Relative to our standard data cube diagram, rotate the cube around the horizontal (x)
 #' axis upward, so that the front slab is on top.  1st spectrum on top.
 #'
-#' @export
 #' @noRd
 #'
 

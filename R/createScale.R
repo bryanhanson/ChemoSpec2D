@@ -9,7 +9,6 @@
 #'
 #' @return A vector of colors.
 #'
-#' @export
 #' @noRd
 #' @importFrom colorspace sequential_hcl deutan protan tritan
 #' @examples

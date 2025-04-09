@@ -1,7 +1,6 @@
 #'
 #' Draw the Scale
 #'
-#' @export
 #' @noRd
 #' @importFrom graphics plot.new mtext rect
 #'

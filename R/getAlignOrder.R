@@ -9,7 +9,6 @@
 #' for \code{Mask}.  Each leaf list is a vector integers giving the leaf numbers that
 #' were combined at that particular node. This amounts to a Guide Tree.  See the example.
 #'
-#' @export
 #' @noRd
 #'
 #' @examples

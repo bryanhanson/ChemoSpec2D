@@ -12,7 +12,6 @@
 #' @param old.max Numeric.  The maximum value in the old scale.
 #' @return A numeric vector with the rescaled values.
 #'
-#' @export
 #' @noRd
 #'
 #' @examples

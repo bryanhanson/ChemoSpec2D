@@ -1,7 +1,6 @@
 #'
 #' Find Extreme Values in a Matrix
 #'
-#' @export
 #' @noRd
 #'
 

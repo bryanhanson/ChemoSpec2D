@@ -1,7 +1,6 @@
 #'
 #' Get the Positive or Negative Values in a Matrix
 #'
-#' @export
 #' @noRd
 #'
 

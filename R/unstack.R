@@ -1,7 +1,6 @@
 #'
 #' Unstack a Spectra2D Object into a n x F1*F2 matrix
 #'
-#' @export
 #' @noRd
 #'
 
