@@ -7,7 +7,6 @@
 #'
 #' @return A modified list of arguments.
 #'
-#' @export
 #'
 # The following is needed because sometimes func = "readJDX"
 #' @importFrom readJDX readJDX
